@@ -185,3 +185,4 @@ class ThreatTrackingLedger:
         self._entries.clear()
         self._save_ledger()
         return {"success": True, "cleared_count": count, "message": "Threat tracking ledger successfully cleared."}
+

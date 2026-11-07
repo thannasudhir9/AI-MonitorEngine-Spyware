@@ -153,3 +153,4 @@ class DriveAnalyzerEngine:
             "errors": errors,
             "message": f"Successfully cleaned {cleaned_count} files ({freed_mb} MB freed)."
         }
+

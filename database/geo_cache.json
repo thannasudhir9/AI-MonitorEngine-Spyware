@@ -735,5 +735,60 @@
     "is_genuine": true,
     "is_private": false,
     "confidence": 95
+  },
+  "2a02:26f0:3500:985::4213": {
+    "ip": "2a02:26f0:3500:985::4213",
+    "hostname": "g2a02-26f0-3500-0985-0000-0000-0000-4213.deploy.static.akamaitechnologies.com",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "Akamai",
+    "verdict": "GENUINE CLOUD / CDN",
+    "is_genuine": true,
+    "is_private": false,
+    "confidence": 95
+  },
+  "2606:4700::6812:2e": {
+    "ip": "2606:4700::6812:2e",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "2606:4700:20::681a:28f": {
+    "ip": "2606:4700:20::681a:28f",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "2606:4700:10::ac42:91ef": {
+    "ip": "2606:4700:10::ac42:91ef",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "4.150.223.100": {
+    "ip": "4.150.223.100",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
   }
 }
