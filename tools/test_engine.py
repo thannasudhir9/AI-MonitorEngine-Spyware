@@ -205,7 +205,7 @@ def run_all_tests():
     # ==============================================================
     # Test Suite 9: Screenshot Capture Verification
     # ==============================================================
-    print(f"\n{BOLD}[9/9] Testing UI Screenshot Captures...{RESET}")
+    print(f"\n{BOLD}[9/10] Testing UI Screenshot Captures...{RESET}")
     screenshots_dir = APP_ROOT / "screenshots"
     expected_shots = [
         "01_active_threats_remediation.png",
@@ -217,10 +217,35 @@ def run_all_tests():
         "07_persistence_startup.png",
         "08_threat_simulation_lab.png",
         "09_email_alerts_config.png",
-        "10_incident_audit_trail.png"
+        "10_incident_audit_trail.png",
+        "11_private_mode_stealth.png",
+        "12_light_mode_clean_soc.png"
     ]
     all_shots_exist = all((screenshots_dir / shot).is_file() and (screenshots_dir / shot).stat().st_size > 10000 for shot in expected_shots)
     runner.record("Screenshots Generated & Verified", all_shots_exist, f"{len(expected_shots)}/{len(expected_shots)} images present in {screenshots_dir}")
+
+    # ==============================================================
+    # Test Suite 10: Private Stealth Mode & Zero-Disk Footprint
+    # ==============================================================
+    print(f"\n{BOLD}[10/10] Testing Private Stealth Mode & Zero-Disk Footprint...{RESET}")
+    logger.set_private_mode(True)
+    runner.record("Activate Private Stealth Mode", logger.is_private_mode() is True, "Zero-disk logging active")
+
+    priv_entry = logger.log_request(
+        domain="private-stealth-test.com",
+        method="CONNECT",
+        port=443,
+        is_blocked=False,
+        category="PRIVATE / STEALTH",
+        reason="Testing volatile RAM only buffer",
+        bytes_transferred=2048
+    )
+    runner.record("Volatile Memory Only Logging", priv_entry.get("is_private") is True, f"Volatile count: {len(logger.volatile_private_logs)}")
+
+    # Test Panic Wipe
+    wipe_res = logger.panic_wipe()
+    runner.record("Stealth Panic Wipe", wipe_res["success"] and len(logger.volatile_private_logs) == 0, wipe_res["message"])
+    logger.set_private_mode(False)
 
     # ==============================================================
     # Final Executive Summary

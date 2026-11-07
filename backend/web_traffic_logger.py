@@ -32,8 +32,23 @@ class WebTrafficLogger:
 
     def _init_logger(self):
         self.logs: List[Dict[str, Any]] = self._load_logs()
+        self.private_mode: bool = False
+        self.volatile_private_logs: List[Dict[str, Any]] = []
         self._flush_lock = threading.Lock()
         self._pending_writes = 0
+
+    def set_private_mode(self, enabled: bool) -> bool:
+        """Toggle zero-disk footprint Private Mode."""
+        with self._flush_lock:
+            self.private_mode = enabled
+            if not enabled:
+                # Wiping volatile session memory on exit
+                self.volatile_private_logs.clear()
+        return self.private_mode
+
+    def is_private_mode(self) -> bool:
+        """Check if Private Mode is active."""
+        return self.private_mode
 
     def _load_logs(self) -> List[Dict[str, Any]]:
         """Load traffic logs from disk."""
@@ -64,24 +79,36 @@ class WebTrafficLogger:
         bytes_transferred: int = 0,
         client_ip: str = "127.0.0.1"
     ) -> Dict[str, Any]:
-        """Record an intercepted web browsing event."""
+        """Record an intercepted web browsing event with Private Mode zero-footprint enforcement."""
         now = datetime.now()
+        is_private = self.private_mode
+        clean_domain = domain.lower().split(":")[0].strip()
+
         entry = {
             "id": f"req_{int(time.time() * 1000)}_{len(self.logs)}",
             "timestamp": now.isoformat(),
             "date_time": now.strftime("%Y-%m-%d %H:%M:%S"),
-            "domain": domain.lower().split(":")[0].strip(),
+            "domain": clean_domain if not is_private else f"🔒 [PRIVATE] {clean_domain}",
             "method": method.upper(),
             "port": port,
             "status": "BLOCKED" if is_blocked else "ALLOWED",
             "is_blocked": is_blocked,
-            "category": category,
+            "category": category if not is_private else "PRIVATE / STEALTH",
             "reason": reason,
             "bytes_transferred": bytes_transferred,
-            "client_ip": client_ip
+            "client_ip": "127.0.0.1 (STEALTH)" if is_private else client_ip,
+            "is_private": is_private
         }
 
         with self._flush_lock:
+            if is_private:
+                # ZERO DISK FOOTPRINT: Store only in temporary volatile RAM buffer
+                self.volatile_private_logs.insert(0, entry)
+                if len(self.volatile_private_logs) > 100:
+                    self.volatile_private_logs = self.volatile_private_logs[:100]
+                return entry
+
+            # Normal Mode: Persist to database
             self.logs.insert(0, entry)
             if len(self.logs) > 3000:
                 self.logs = self.logs[:3000]
@@ -93,6 +120,17 @@ class WebTrafficLogger:
                 self._pending_writes = 0
 
         return entry
+
+    def panic_wipe(self) -> Dict[str, Any]:
+        """Emergency panic purge: instantly erase all browsing history from disk and volatile memory."""
+        with self._flush_lock:
+            self.logs.clear()
+            self.volatile_private_logs.clear()
+            self._save_logs()
+        return {
+            "success": True,
+            "message": "Stealth Panic Wipe complete: All browsing traces and volatile caches purged."
+        }
 
     def get_logs(
         self,

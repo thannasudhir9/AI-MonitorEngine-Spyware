@@ -119,6 +119,10 @@ class ProxyToggleRequest(BaseModel):
     enable: bool
 
 
+class PrivacyToggleRequest(BaseModel):
+    enable: bool
+
+
 # ==============================================================
 # REST API Endpoints
 # ==============================================================
@@ -216,6 +220,33 @@ def kill_process(req: KillRequest):
     """Terminate a single process by PID."""
     result = remediator.kill_process(req.pid, force=req.force, reason=req.reason)
     return result
+
+
+@app.post("/api/admin/elevate-kill/{pid}")
+def elevate_kill_process(pid: int):
+    """Trigger Windows Administrator UAC elevation dialog to terminate a protected/SYSTEM process."""
+    cmd = f"Start-Process taskkill -ArgumentList '/F /PID {pid}' -Verb RunAs -WindowStyle Hidden"
+    subprocess.run(["powershell", "-NoProfile", "-Command", cmd], capture_output=True, text=True)
+    time.sleep(1.2)
+    is_dead = not psutil.pid_exists(pid)
+    remediator.log_event(
+        "ELEVATED_KILL_ATTEMPT",
+        str(pid),
+        pid,
+        f"Admin UAC kill triggered for PID {pid}. Dead: {is_dead}",
+        "SUCCESS" if is_dead else "PENDING_UAC"
+    )
+    return {
+        "success": is_dead,
+        "pid": pid,
+        "message": f"UAC Administrator elevation triggered for PID {pid}." if not is_dead else f"PID {pid} successfully eradicated via Administrator UAC."
+    }
+
+
+@app.get("/api/blocked-history")
+def get_blocked_history(limit: int = 150):
+    """Retrieve full persistent tracking history of all previously blocked threats, killed processes, and quarantined files."""
+    return remediator.get_blocked_history(limit=limit)
 
 
 @app.post("/api/kill-tree")
@@ -415,11 +446,63 @@ def get_adblock_status():
         "proxy_running": adblock_proxy.is_running(),
         "proxy_port": adblock_proxy.port,
         "system_proxy_enabled": proxy_controller.is_proxy_enabled(),
+        "private_mode": web_traffic_logger.is_private_mode(),
         "total_requests": analytics["total_requests"],
         "total_blocked": analytics["total_blocked"],
         "total_allowed": analytics["total_allowed"],
         "block_rate_percent": analytics["block_rate_percent"],
         "estimated_mb_saved": analytics["estimated_mb_saved"]
+    }
+
+
+# ==============================================================
+# Stealth & Private Browsing Endpoints
+# ==============================================================
+
+@app.get("/api/privacy/status")
+def get_privacy_status():
+    """Retrieve Private Stealth Mode configuration and volatile buffer telemetry."""
+    is_private = web_traffic_logger.is_private_mode()
+    return {
+        "private_mode": is_private,
+        "zero_disk_footprint": is_private,
+        "anti_tracking_headers": is_private,
+        "anonymize_client_ip": is_private,
+        "volatile_entries_count": len(web_traffic_logger.volatile_private_logs)
+    }
+
+
+@app.post("/api/privacy/toggle")
+def toggle_privacy_mode(req: PrivacyToggleRequest):
+    """Enable or disable zero-disk footprint Private Mode."""
+    is_active = web_traffic_logger.set_private_mode(req.enable)
+    remediator.log_event(
+        "PRIVATE_MODE_TOGGLED",
+        "PrivacyEngine",
+        None,
+        f"Private Stealth Mode {'ACTIVATED (Zero Disk Logging)' if is_active else 'DEACTIVATED'}"
+    )
+    return {
+        "success": True,
+        "private_mode": is_active,
+        "message": f"Private Stealth Mode successfully {'enabled' if is_active else 'disabled'}."
+    }
+
+
+@app.post("/api/privacy/panic-wipe")
+def panic_wipe():
+    """Emergency panic wipe: immediately purges all browsing logs, volatile memory, and DNS caches."""
+    wipe_res = web_traffic_logger.panic_wipe()
+    network_tracer.clear_cache()
+    remediator.log_event(
+        "PANIC_WIPE_EXECUTED",
+        "PrivacyEngine",
+        None,
+        "Zero-footprint purge executed: cleared browsing history, memory buffers, and DNS cache."
+    )
+    return {
+        "success": True,
+        "message": "Stealth Panic Wipe complete: All web history, volatile memory, and DNS caches purged."
     }
 
 
@@ -478,7 +561,8 @@ async def websocket_telemetry(websocket: WebSocket):
                 "time_display": datetime.now().strftime("%H:%M:%S"),
                 "cpu_percent": cpu,
                 "memory_percent": mem.percent,
-                "process_count": pids_count
+                "process_count": pids_count,
+                "private_mode": web_traffic_logger.is_private_mode()
             }
             await websocket.send_json(data)
             await asyncio.sleep(2.0)

@@ -19,6 +19,7 @@ const state = {
     adblockFilter: 'all',
     adblockSearchQuery: '',
     systemProxyEnabled: false,
+    privateMode: false,
     lastAdblockData: null,
     soundEnabled: true,
     isScanning: false,
@@ -113,8 +114,10 @@ function showToast(title, message, type = 'info') {
 // Initialize Application
 document.addEventListener('DOMContentLoaded', () => {
     initClock();
+    initTheme();
     initTabs();
     initWebSocket();
+    checkPrivacyStatus();
     runScan(true);
 
     // Auto-refresh interval (every 6 seconds)
@@ -165,6 +168,10 @@ function updateTelemetryDisplay(data) {
     if (cpuEl) cpuEl.textContent = `${Math.round(data.cpu_percent)}%`;
     if (memEl) memEl.textContent = `${Math.round(data.memory_percent)}%`;
     if (procEl) procEl.textContent = data.process_count;
+
+    if (data.private_mode !== undefined && data.private_mode !== state.privateMode) {
+        updatePrivacyUI(data.private_mode);
+    }
 }
 
 // Tab Switching
@@ -204,6 +211,110 @@ function switchTab(tabName) {
     if (tabName === 'email') loadEmailConfig();
     if (tabName === 'audit') loadAuditLog();
     if (window.lucide) lucide.createIcons();
+}
+
+function navigateToTab(tabName) {
+    switchTab(tabName);
+    const view = document.getElementById(`view-${tabName}`);
+    if (view) {
+        view.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+function navigateToThreatsTab(subView = 'active') {
+    navigateToTab('threats');
+    switchThreatsSubView(subView);
+}
+
+function switchThreatsSubView(subView) {
+    const grid = document.getElementById('threats-grid');
+    const historyView = document.getElementById('threats-history-view');
+    const btnActive = document.getElementById('btn-threats-active');
+    const btnHistory = document.getElementById('btn-threats-history');
+    const badge = document.getElementById('threats-mode-badge');
+
+    if (subView === 'blocked_history') {
+        if (grid) grid.classList.add('hidden');
+        if (historyView) historyView.classList.remove('hidden');
+        if (btnActive) {
+            btnActive.classList.remove('bg-red-600', 'text-white');
+            btnActive.classList.add('text-slate-400');
+        }
+        if (btnHistory) {
+            btnHistory.classList.add('bg-red-600', 'text-white');
+            btnHistory.classList.remove('text-slate-400');
+        }
+        if (badge) {
+            badge.innerText = 'Blocked & Eradicated Tracking';
+            badge.className = 'px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-600/30 text-cyan-300 border border-cyan-500/40';
+        }
+        loadBlockedHistory();
+    } else {
+        if (grid) grid.classList.remove('hidden');
+        if (historyView) historyView.classList.add('hidden');
+        if (btnActive) {
+            btnActive.classList.add('bg-red-600', 'text-white');
+            btnActive.classList.remove('text-slate-400');
+        }
+        if (btnHistory) {
+            btnHistory.classList.remove('bg-red-600', 'text-white');
+            btnHistory.classList.add('text-slate-400');
+        }
+        if (badge) {
+            badge.innerText = 'Active Detections';
+            badge.className = 'px-2 py-0.5 rounded text-[10px] font-mono bg-red-600/30 text-red-300 border border-red-500/40';
+        }
+    }
+    if (window.lucide) lucide.createIcons();
+}
+
+async function loadBlockedHistory() {
+    try {
+        const res = await fetch('/api/blocked-history');
+        const history = await res.json();
+        const tbody = document.getElementById('blocked-history-table-body');
+        const countBadge = document.getElementById('sub-blocked-count');
+
+        if (countBadge) countBadge.textContent = history.length;
+        if (!tbody) return;
+
+        if (!history || history.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="6" class="p-8 text-center text-slate-400 text-xs">
+                        No previous threat blocks or kills recorded yet. Active scanning will record all eradicated threats here.
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        tbody.innerHTML = history.map(item => {
+            let actionBadge = 'bg-red-600/20 text-red-300 border-red-500/30';
+            if (item.action === 'IP_BLOCKED') actionBadge = 'bg-amber-600/20 text-amber-300 border-amber-500/30';
+            if (item.action === 'FILE_QUARANTINED') actionBadge = 'bg-purple-600/20 text-purple-300 border-purple-500/30';
+            if (item.action === 'PROCESS_KILLED') actionBadge = 'bg-emerald-600/20 text-emerald-300 border-emerald-500/30';
+
+            const statusClass = item.status === 'SUCCESS' ? 'text-emerald-400 font-bold' : (item.status === 'FAILED' ? 'text-red-400 font-bold' : 'text-amber-400 font-bold');
+
+            return `
+                <tr class="border-b border-slate-800/60 hover:bg-slate-800/30 transition">
+                    <td class="p-3 text-slate-400">${escapeHtml(item.time_display || item.timestamp || '')}</td>
+                    <td class="p-3">
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold border ${actionBadge}">
+                            ${escapeHtml(item.action)}
+                        </span>
+                    </td>
+                    <td class="p-3 font-bold text-white">${escapeHtml(item.target || 'N/A')}</td>
+                    <td class="p-3 text-slate-300">${item.pid || '-'}</td>
+                    <td class="p-3 text-slate-300">${escapeHtml(item.details || '')}</td>
+                    <td class="p-3 text-right ${statusClass}">${escapeHtml(item.status)}</td>
+                </tr>
+            `;
+        }).join('');
+    } catch (e) {
+        console.error('Failed to load blocked history:', e);
+    }
 }
 
 // Core Scanning Logic
@@ -275,6 +386,8 @@ function renderDashboard(data) {
 // Render Active Threats
 function renderThreats(threats) {
     const container = document.getElementById('threats-grid');
+    const subActive = document.getElementById('sub-active-count');
+    if (subActive) subActive.textContent = threats ? threats.length : 0;
     if (!container) return;
 
     if (!threats || threats.length === 0) {
@@ -969,10 +1082,35 @@ async function killProcess(pid, name) {
             runScan(false);
             if (state.activeTab === 'network') loadNetworkTracer();
         } else {
+            if (data.requires_admin || (data.message && data.message.includes('Access denied'))) {
+                const doElevate = confirm(`${data.message}\n\nWould you like AegisShield to trigger a Windows Administrator UAC Elevation Prompt to terminate PID ${pid}?`);
+                if (doElevate) {
+                    elevateKillProcess(pid, name);
+                    return;
+                }
+            }
             showToast('Kill Failed', data.message, 'danger');
         }
     } catch (e) {
         showToast('Error', 'Failed to communicate with eradication engine', 'danger');
+    }
+}
+
+async function elevateKillProcess(pid, name) {
+    try {
+        showToast('Requesting Admin Elevation', `Prompting Windows UAC dialog for PID ${pid}...`, 'info');
+        const res = await fetch(`/api/admin/elevate-kill/${pid}`, { method: 'POST' });
+        const data = await res.json();
+        if (data.success) {
+            CyberAudio.playChime('kill');
+            showToast('Process Eradicated', `Successfully terminated PID ${pid} via Administrator UAC.`, 'success');
+            runScan(true);
+        } else {
+            showToast('Elevation Triggered', data.message || 'Please approve the Windows UAC security dialog on screen.', 'warning');
+            setTimeout(() => runScan(true), 2500);
+        }
+    } catch (e) {
+        showToast('Elevation Error', 'Unable to invoke UAC prompt', 'danger');
     }
 }
 
@@ -1552,5 +1690,132 @@ async function clearWebTrafficLogs() {
         }
     } catch (e) {
         showToast('Error', 'Unable to clear traffic logs', 'danger');
+    }
+}
+
+// ==============================================================
+// Theme Toggle (Dark Cyber Mode / Light Clean Mode)
+// ==============================================================
+
+function initTheme() {
+    const savedTheme = localStorage.getItem('aegis_theme') || 'dark';
+    setTheme(savedTheme, false);
+}
+
+function toggleTheme() {
+    const currentTheme = document.body.classList.contains('theme-light') ? 'light' : 'dark';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme, true);
+}
+
+function setTheme(theme, notify = true) {
+    const btn = document.getElementById('btn-theme-toggle');
+    const label = document.getElementById('theme-toggle-label');
+    const icon = document.getElementById('theme-toggle-icon');
+
+    if (theme === 'light') {
+        document.body.classList.add('theme-light');
+        document.documentElement.classList.add('theme-light');
+        if (label) label.innerText = 'Dark Mode';
+        if (icon) icon.setAttribute('data-lucide', 'moon');
+        localStorage.setItem('aegis_theme', 'light');
+        if (notify) showToast('Light Mode Activated', 'Clean daylight SOC interface applied', 'info');
+    } else {
+        document.body.classList.remove('theme-light');
+        document.documentElement.classList.remove('theme-light');
+        if (label) label.innerText = 'Light Mode';
+        if (icon) icon.setAttribute('data-lucide', 'sun');
+        localStorage.setItem('aegis_theme', 'dark');
+        if (notify) showToast('Dark Mode Activated', 'Dark cyber SOC theme restored', 'info');
+    }
+    if (window.lucide) lucide.createIcons();
+}
+
+// ==============================================================
+// Private Stealth Mode Controls
+// ==============================================================
+
+async function checkPrivacyStatus() {
+    try {
+        const res = await fetch('/api/privacy/status');
+        const data = await res.json();
+        state.privateMode = data.private_mode;
+        updatePrivacyUI(state.privateMode);
+    } catch (e) {
+        console.warn('Failed to fetch privacy status:', e);
+    }
+}
+
+function updatePrivacyUI(isPrivate) {
+    state.privateMode = isPrivate;
+    const headerBtn = document.getElementById('btn-private-mode');
+    const headerLabel = document.getElementById('private-mode-label');
+    const tabLabel = document.getElementById('tab-private-label');
+    const tabBtn = document.getElementById('btn-tab-private-mode');
+    const banner = document.getElementById('private-mode-banner');
+
+    if (isPrivate) {
+        if (headerLabel) headerLabel.innerText = 'Private Mode: ON';
+        if (tabLabel) tabLabel.innerText = 'Private Mode: ON';
+        if (headerBtn) {
+            headerBtn.classList.add('bg-purple-600', 'text-white', 'border-purple-400');
+            headerBtn.classList.remove('bg-slate-800', 'text-purple-300');
+        }
+        if (tabBtn) {
+            tabBtn.classList.add('bg-purple-600', 'text-white');
+            tabBtn.classList.remove('bg-purple-950/80', 'text-purple-200');
+        }
+        if (banner) banner.classList.remove('hidden');
+    } else {
+        if (headerLabel) headerLabel.innerText = 'Private Mode: OFF';
+        if (tabLabel) tabLabel.innerText = 'Private Mode: OFF';
+        if (headerBtn) {
+            headerBtn.classList.remove('bg-purple-600', 'text-white', 'border-purple-400');
+            headerBtn.classList.add('bg-slate-800', 'text-purple-300');
+        }
+        if (tabBtn) {
+            tabBtn.classList.remove('bg-purple-600', 'text-white');
+            tabBtn.classList.add('bg-purple-950/80', 'text-purple-200');
+        }
+        if (banner) banner.classList.add('hidden');
+    }
+}
+
+async function togglePrivateMode() {
+    const nextState = !state.privateMode;
+    try {
+        const res = await fetch('/api/privacy/toggle', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ enable: nextState })
+        });
+        const data = await res.json();
+        if (data.success) {
+            state.privateMode = data.private_mode;
+            updatePrivacyUI(state.privateMode);
+            CyberAudio.playChime(nextState ? 'kill' : 'threat');
+            showToast(
+                nextState ? 'Private Mode Active' : 'Private Mode Disabled',
+                nextState ? 'Zero disk logging & volatile buffers activated' : 'Standard logging restored',
+                nextState ? 'success' : 'info'
+            );
+        }
+    } catch (e) {
+        showToast('Error', 'Failed to toggle Private Mode', 'danger');
+    }
+}
+
+async function panicWipe() {
+    if (!confirm('Execute Stealth Panic Wipe? This will immediately purge all web browsing logs, volatile memory buffers, and DNS caches.')) return;
+    try {
+        const res = await fetch('/api/privacy/panic-wipe', { method: 'POST' });
+        const data = await res.json();
+        if (data.success) {
+            CyberAudio.playChime('kill');
+            showToast('Stealth Panic Wipe', data.message, 'success');
+            loadAdBlockDashboard();
+        }
+    } catch (e) {
+        showToast('Error', 'Panic wipe failed', 'danger');
     }
 }

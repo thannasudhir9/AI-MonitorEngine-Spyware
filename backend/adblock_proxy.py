@@ -128,7 +128,16 @@ class AdBlockProxyServer:
 
             # Handle Action
             if is_blocked:
-                # Return HTTP 403 Forbidden block page
+                # Return HTTP 403 Forbidden block page with anti-tracking headers
+                is_private = self.logger.is_private_mode()
+                private_headers = ""
+                if is_private:
+                    private_headers = (
+                        "Cache-Control: no-store, no-cache, must-revalidate\r\n"
+                        "Pragma: no-cache\r\n"
+                        "Clear-Site-Data: \"cache\", \"cookies\", \"storage\"\r\n"
+                    )
+
                 block_body = (
                     f"<html><head><title>AegisShield - Blocked</title></head>"
                     f"<body style='font-family:sans-serif;background:#080c14;color:#f8fafc;padding:40px;text-align:center;'>"
@@ -136,12 +145,14 @@ class AdBlockProxyServer:
                     f"<p style='color:#94a3b8;'>Domain: <b style='color:#ffffff;'>{target_host}</b></p>"
                     f"<p style='color:#f59e0b;'>Category: {category}</p>"
                     f"<p style='color:#64748b;font-size:12px;'>Reason: {reason}</p>"
+                    f"{'<p style=\"color:#a855f7;font-size:11px;\">🔒 STEALTH PRIVATE MODE ACTIVE - ZERO DISK FOOTPRINT</p>' if is_private else ''}"
                     f"</body></html>"
                 )
                 response = (
                     f"HTTP/1.1 403 Forbidden\r\n"
                     f"Content-Type: text/html\r\n"
                     f"Content-Length: {len(block_body)}\r\n"
+                    f"{private_headers}"
                     f"Connection: close\r\n\r\n"
                     f"{block_body}"
                 )

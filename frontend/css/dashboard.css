@@ -224,3 +224,104 @@ body {
     opacity: 1;
   }
 }
+
+/* ==============================================================
+   LIGHT CLEAN SOC THEME (Clean Daylight Mode)
+   ============================================================== */
+
+body.theme-light {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --border-color: #e2e8f0;
+  --border-glow: #0284c733;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(99, 102, 241, 0.08) 0%, transparent 40%) !important;
+}
+
+body.theme-light header {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-bottom-color: #e2e8f0 !important;
+}
+
+body.theme-light .cyber-card {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.04) !important;
+  color: #0f172a !important;
+}
+
+body.theme-light .cyber-card:hover {
+  border-color: #0284c7 !important;
+  box-shadow: 0 10px 25px -3px rgba(2, 132, 199, 0.12) !important;
+}
+
+body.theme-light thead {
+  background-color: #f1f5f9 !important;
+  color: #475569 !important;
+  border-bottom-color: #e2e8f0 !important;
+}
+
+body.theme-light th, body.theme-light td {
+  border-bottom-color: #f1f5f9 !important;
+}
+
+body.theme-light tr:hover {
+  background-color: #f8fafc !important;
+}
+
+body.theme-light input, body.theme-light select {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+body.theme-light .text-white {
+  color: #0f172a !important;
+}
+
+body.theme-light .text-slate-100 {
+  color: #0f172a !important;
+}
+
+body.theme-light .text-slate-300 {
+  color: #334155 !important;
+}
+
+body.theme-light .text-slate-400 {
+  color: #64748b !important;
+}
+
+body.theme-light .bg-slate-800 {
+  background-color: #f1f5f9 !important;
+  color: #334155 !important;
+}
+
+body.theme-light .bg-slate-900 {
+  background-color: #ffffff !important;
+}
+
+body.theme-light .border-slate-800, body.theme-light .border-slate-700 {
+  border-color: #e2e8f0 !important;
+}
+
+body.theme-light #nav-tabs {
+  background-color: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+}
+
+body.theme-light .tab-btn {
+  color: #64748b !important;
+}
+
+body.theme-light .tab-btn.tab-active {
+  background-color: #ffffff !important;
+  color: #0284c7 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+}

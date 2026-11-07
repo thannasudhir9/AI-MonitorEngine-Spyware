@@ -141,6 +141,48 @@ This document records the exact chronological sequence of user prompts, engineer
 
 ---
 
+### 2.7 User Request 7: Private Stealth Mode & Light Clean SOC Theme
+> **User Prompt:**  
+> *"add a private mode feature also"*  
+> *"add light mode also"*
+
+#### Engineering Response & Actions:
+- **Private Stealth Mode (Zero Disk Footprint):**
+  - Updated `WebTrafficLogger` with volatile in-memory session buffer (`volatile_private_logs`), suppressing all disk writes (`database/web_traffic_logs.json`) while Private Mode is active.
+  - Anonymized client IP to `127.0.0.1 (STEALTH)` and masked domains with `🔒 [PRIVATE]`.
+  - Added anti-tracking & anti-fingerprint headers (`Cache-Control: no-store`, `Pragma: no-cache`, `Clear-Site-Data: "cache", "cookies", "storage"`).
+  - Built 1-Click Stealth Panic Wipe endpoint (`POST /api/privacy/panic-wipe`) and CLI flag (`--panic-wipe`).
+  - Added glowing purple Private Stealth Mode banner and header toggle.
+- **Light Clean SOC Mode:**
+  - Added clean daylight theme palette in `frontend/css/dashboard.css` using `body.theme-light` overrides.
+  - Implemented 1-click Theme Toggle in the header (`btn-theme-toggle`) with `localStorage` persistence.
+  - Generated visual captures for both features (`11_private_mode_stealth.png` and `12_light_mode_clean_soc.png`).
+
+---
+
+### 2.8 User Request 8: Elevated Kill Resilience & Critical Threats Navigation with Blocked Tracking
+> **User Prompt:**  
+> *"Kill Failed: Access denied when killing PID 5824. Please run AegisShield as Administrator."*  
+> *"when I click - critical threats section , it should take me to that area and show me what has been blocked previously also a full list and tracking should be manitained. do same for other tabs also"*
+
+#### Engineering Response & Actions:
+- **Multi-Stage Resilient Kill Engine:**
+  - Integrated `enable_debug_privilege()` in `backend/remediator.py` via `ctypes.windll.advapi32` to acquire `SeDebugPrivilege` across Windows token boundaries.
+  - Implemented multi-tier kill fallbacks: Tier 1 (`psutil` `proc.kill()`) $\to$ Tier 2 (Native Windows `taskkill /F /PID`) $\to$ Tier 3 (PowerShell `Stop-Process -Force`) $\to$ Tier 4 (Interactive UAC elevation dialog).
+  - Added dedicated UAC elevation endpoint: `POST /api/admin/elevate-kill/{pid}`.
+  - Created 1-click Administrator launchers: `start_dashboard_admin.bat` and `start_all_admin.bat`.
+- **Interactive KPI Navigation & Blocked Tracking History:**
+  - Made all 5 KPI metrics cards interactive with hover effects and smooth navigation:
+    - `ACTIVE PROCESSES` $\to$ Process Monitor tab.
+    - `FLAGGED THREATS` $\to$ Active Threat Vectors.
+    - `CRITICAL THREATS` $\to$ Blocked & Eradicated History tracking table.
+    - `REMOTE DESKTOP / RMM` $\to$ RMM session hunter.
+    - `HEALTH INDEX` $\to$ Audit Trail log.
+  - Added sub-view toggle to Threat Center: `[Active Threats]` vs `[Blocked & Eradicated History (Tracking)]`.
+  - Implemented `GET /api/blocked-history` returning all historical kills, blocked IPs, and quarantined files.
+
+---
+
 ## 3. Engineering Decisions & Problem-Solving Record
 
 | Problem Encountered | Root Cause | Solution Implemented |
@@ -150,4 +192,5 @@ This document records the exact chronological sequence of user prompts, engineer
 | **Headless Browser Execution** | Standard sandbox blocks launching external Chrome/Edge browser processes. | Developed a Python Pillow (`PIL`) rendering engine to capture and export all 10 dashboard states as high-definition 1600x1000 PNGs. |
 | **Thread Concurrency in Web Logging** | Rapid burst requests from multi-tab browser sessions could corrupt JSON logs. | Implemented reentrant `threading.Lock()` wrappers with atomic disk flushing and bounded memory queues. |
 | **Git Push Network Sandbox Isolation** | Sandboxed commands lack direct outbound internet routing to `github.com:443`. | Executed git push with elevated network access, successfully synchronizing the remote repository with zero data loss. |
+| **Access Denied on Kill (PID 5824)** | Target process was running under elevated / SYSTEM token without debug privileges. | Implemented `enable_debug_privilege()`, native `taskkill /F` fallback, automated UAC elevation prompts, and `start_dashboard_admin.bat`. |
 

@@ -54,11 +54,13 @@ SpywareProcessMon/
 │   ├── 07_persistence_startup.png          # Windows Registry Run keys, autorun items & scheduled tasks
 │   ├── 08_threat_simulation_lab.png        # Safe attack simulation triggers (Trojan, LOLBin, RMM)
 │   ├── 09_email_alerts_config.png          # SMTP configuration & manual report dispatch
-│   └── 10_incident_audit_trail.png         # Chronological eradication and policy enforcement audit trail
+│   ├── 10_incident_audit_trail.png         # Chronological eradication and policy enforcement audit trail
+│   ├── 11_private_mode_stealth.png         # Zero-disk footprint stealth mode console & volatile buffer
+│   └── 12_light_mode_clean_soc.png         # Clean daylight SOC theme interface view
 │
 ├── tools/                                  # Diagnostic and Visual Engines
 │   ├── screenshot_engine.py                # High-definition Pillow dashboard renderer generating screenshots
-│   └── test_engine.py                      # Master automated diagnostic suite (22/22 unit & integration checks)
+│   └── test_engine.py                      # Master automated diagnostic suite (25/25 unit & integration checks)
 │
 ├── brain_archive/                          # Complete Mirror of Session State & Brain Files
 │   ├── plan.md                             # Initial master development plan

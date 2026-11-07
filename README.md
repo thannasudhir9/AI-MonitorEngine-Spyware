@@ -5,7 +5,7 @@
 [![Python](https://img.shields.io/badge/Python-3.14%2B-blue.svg?logo=python)](https://python.org)
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011%20%7C%20Server-0078D6.svg?logo=windows)](https://microsoft.com)
 [![License](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-22%2F22%20Passing%20(100%25)-brightgreen.svg)](tools/test_engine.py)
+[![Tests](https://img.shields.io/badge/Tests-25%2F25%20Passing%20(100%25)-brightgreen.svg)](tools/test_engine.py)
 [![Port: EDR Dashboard](https://img.shields.io/badge/EDR%20Dashboard-127.0.0.1%3A8888-cyan.svg)](http://127.0.0.1:8888)
 [![Port: AdBlock Proxy](https://img.shields.io/badge/AdBlock%20Proxy-127.0.0.1%3A8080-purple.svg)](http://127.0.0.1:8080)
 
@@ -33,20 +33,36 @@
 | :---: | :---: |
 | ![Email Alerts](screenshots/09_email_alerts_config.png) | ![Audit Trail](screenshots/10_incident_audit_trail.png) |
 
+| View 11: Private Stealth Mode Console | View 12: Light Clean SOC Daylight Mode |
+| :---: | :---: |
+| ![Private Stealth Mode](screenshots/11_private_mode_stealth.png) | ![Light Clean SOC Mode](screenshots/12_light_mode_clean_soc.png) |
+
 ---
 
 ## 🌟 Core Subsystems & Capabilities
 
-### 1. 🛡️ Endpoint Detection and Response (EDR)
+### 1. 🛡️ Endpoint Detection, Eradication & Resilient Kill
 - **Multi-Vector Heuristics (0–100 Scoring):**
   - **Masquerading Detection:** Flags unauthorized executables naming themselves after critical Windows components (`svchost.exe`, `csrss.exe`, `lsass.exe`, `explorer.exe`) executing outside `C:\Windows\System32`.
   - **Living-Off-The-Land (LOLBins):** Detects base64-encoded PowerShell (`-enc`, `FromBase64String`), execution policy bypass, hidden window execution (`-w hidden`), memory injection, and web download cradles (`IEX`, `DownloadString`).
   - **PE Structural Forensics:** Pure-Python PE parser computes **Shannon Entropy** ($H(X) > 7.2$) to flag packed/crypted malware payloads (UPX, Themida) and unsigned binaries lacking Authenticode certificates.
   - **Known Trojan Signatures:** Comprehensive catalog covering **AsyncRAT**, **njRAT**, **RedLine Stealer**, **AgentTesla**, **DarkComet**, **Mimikatz**, and **XMRig**.
-- **Process Eradication ("Finds it and Kills it"):**
-  - Instant kernel-level termination (`TerminateProcess` / `SIGKILL`) of hostile process trees.
-  - Automatic isolation of threat binaries into `.quarantine/` with revoked execute permissions.
-  - Protected Windows System Whitelist prevents accidental termination of vital OS services.
+- **Resilient Multi-Stage Process Eradication:**
+  - Automatic `SeDebugPrivilege` acquisition via `ctypes.windll.advapi32`.
+  - Multi-tier termination fallbacks: Tier 1 (`psutil` `proc.kill()`) $\to$ Tier 2 (Native Windows `taskkill /F /PID`) $\to$ Tier 3 (PowerShell `Stop-Process -Force`) $\to$ Tier 4 (Windows UAC Administrator elevation dialog).
+  - 1-Click Administrator elevation launchers: `start_dashboard_admin.bat` and `start_all_admin.bat`.
+  - Interactive KPI cards with 1-click navigation to the **Historical Blocked & Eradicated Tracking List** (`/api/blocked-history`).
+
+### 2. 🕵️ Private Stealth Mode (Zero-Disk Footprint)
+- **Zero Disk Persistence:** Visited websites and timestamps are stored strictly in volatile RAM memory (`volatile_private_logs`), with zero writes to disk.
+- **Anonymized Telemetry:** Client IP addresses masked to `127.0.0.1 (STEALTH)`, domains masked with `🔒 [PRIVATE]`.
+- **Anti-Tracking & Anti-Fingerprinting:** Automatically injects `Clear-Site-Data: "cache", "cookies", "storage"`, `Cache-Control: no-store`, and `Pragma: no-cache` headers.
+- **Stealth Panic Wipe:** 1-Click instant purge obliterating all browsing history, volatile buffers, and DNS caches simultaneously.
+
+### 3. ☀️ Dual-Theme Interface: Dark Cyber SOC & Light Clean SOC
+- **Dark Cyber SOC Theme (Default):** Deep obsidian `#080c14` backdrop with high-contrast neon cyan, crimson, and amber cyber HUD accents.
+- **Light Clean SOC Theme:** Clean daylight palette `#f8fafc` with crisp white card surfaces, slate `#0f172a` typography, and azure `#0284c7` highlights.
+- **Persistent Preferences:** User theme choice saved in `localStorage` across browser refreshes.
 
 ### 2. 🚫 System-Wide Network Ad Blocker & Web Traffic Inspector
 - **Universal Machine Traffic Routing:**
@@ -92,10 +108,12 @@
 ### 1-Click Launchers (Windows)
 Double-click any batch launcher in the project root:
 - **`start_all.bat`**: Starts both the EDR Cyber Dashboard (`:8888`) and the AdBlock Proxy (`:8080`).
+- **`start_all_admin.bat`**: Elevated launcher requesting Windows Administrator UAC approval (terminates protected system services).
 - **`start_dashboard.bat`**: Launches only the EDR Web Dashboard (`http://127.0.0.1:8888`).
+- **`start_dashboard_admin.bat`**: Launches the EDR Dashboard with full Administrator elevation.
 - **`start_adblocker.bat`**: Launches only the AdBlock Proxy on port `8080`.
-- **`run_tests.bat`**: Executes the master diagnostic testing suite.
-- **`generate_screenshots.bat`**: Re-generates all 10 visual screenshots in `screenshots/`.
+- **`run_tests.bat`**: Executes the master diagnostic testing suite (25/25 checks).
+- **`generate_screenshots.bat`**: Re-generates all 12 visual screenshots in `screenshots/`.
 
 ---
 

@@ -1,5 +1,35 @@
 [
   {
+    "id": "evt_1794034974143",
+    "timestamp": "2026-11-07T08:02:54.143502",
+    "time_display": "2026-11-07 08:02:54",
+    "action": "PROCESS_KILLED",
+    "target": "python.exe",
+    "pid": 19628,
+    "details": "Test Engine Kill. Successfully terminated.",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "evt_1794034607573",
+    "timestamp": "2026-11-07T07:56:47.573033",
+    "time_display": "2026-11-07 07:56:47",
+    "action": "PROCESS_KILLED",
+    "target": "python.exe",
+    "pid": 86588,
+    "details": "Test Engine Kill. Successfully terminated.",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "evt_1794034492065",
+    "timestamp": "2026-11-07T07:54:52.065874",
+    "time_display": "2026-11-07 07:54:52",
+    "action": "KILL_FAILED",
+    "target": "5824",
+    "pid": 5824,
+    "details": "Access denied. Elevated administrator rights required.",
+    "status": "FAILED"
+  },
+  {
     "id": "evt_1794034101486",
     "timestamp": "2026-11-07T07:48:21.486613",
     "time_display": "2026-11-07 07:48:21",

@@ -169,11 +169,30 @@ def main():
     parser.add_argument("--kill-pid", type=int, help="Forcefully terminate a single process by PID")
     parser.add_argument("--kill-tree", type=int, help="Forcefully terminate process and all child processes")
     parser.add_argument("--min-score", type=int, default=50, help="Minimum threat score to terminate (default 50)")
+    parser.add_argument("--private-mode", choices=["on", "off"], help="Toggle Private Stealth Mode (zero-disk logging)")
+    parser.add_argument("--panic-wipe", action="store_true", help="Instantly purge all browsing history, volatile buffers, and DNS cache")
 
     args = parser.parse_args()
 
     remediator = ThreatRemediator()
     policy = PolicyEngine()
+
+    if args.private_mode:
+        from backend.web_traffic_logger import WebTrafficLogger
+        logger = WebTrafficLogger()
+        active = (args.private_mode.lower() == "on")
+        logger.set_private_mode(active)
+        print(f"{GREEN if active else YELLOW}[✓] Private Stealth Mode is now {'ENABLED (Zero Disk Footprint)' if active else 'DISABLED'}.{RESET}")
+        return
+
+    if args.panic_wipe:
+        from backend.web_traffic_logger import WebTrafficLogger
+        logger = WebTrafficLogger()
+        tracer = NetworkTracer()
+        logger.panic_wipe()
+        tracer.clear_cache()
+        print(f"{RED}{BOLD}[✓] STEALTH PANIC WIPE COMPLETE: All browsing logs, volatile memory, and DNS caches purged.{RESET}")
+        return
 
     if args.allow:
         res = policy.add_allow_rule("name", args.allow, comment="CLI Allowlist Entry")

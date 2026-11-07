@@ -9,6 +9,9 @@ import time
 import json
 import shutil
 import psutil
+import subprocess
+import ctypes
+from ctypes import wintypes
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Any, Optional
@@ -17,6 +20,48 @@ from .config import LOGS_DIR, QUARANTINE_DIR, CRITICAL_SYSTEM_PROCESSES, SCORE_M
 from .pe_analyzer import get_file_hashes
 
 AUDIT_LOG_FILE = LOGS_DIR / "audit_events.json"
+
+
+def enable_debug_privilege() -> bool:
+    """Acquire SeDebugPrivilege to allow terminating processes across user and service boundaries."""
+    try:
+        advapi32 = ctypes.windll.advapi32
+        kernel32 = ctypes.windll.kernel32
+
+        TOKEN_ADJUST_PRIVILEGES = 0x0020
+        TOKEN_QUERY = 0x0008
+        SE_PRIVILEGE_ENABLED = 0x00000002
+
+        h_token = wintypes.HANDLE()
+        h_process = kernel32.GetCurrentProcess()
+        if not advapi32.OpenProcessToken(h_process, TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, ctypes.byref(h_token)):
+            return False
+
+        luid = wintypes.LARGE_INTEGER()
+        if not advapi32.LookupPrivilegeValueW(None, "SeDebugPrivilege", ctypes.byref(luid)):
+            kernel32.CloseHandle(h_token)
+            return False
+
+        class LUID_AND_ATTRIBUTES(ctypes.Structure):
+            _fields_ = [("Luid", wintypes.LARGE_INTEGER), ("Attributes", wintypes.DWORD)]
+
+        class TOKEN_PRIVILEGES(ctypes.Structure):
+            _fields_ = [("PrivilegeCount", wintypes.DWORD), ("Privileges", LUID_AND_ATTRIBUTES * 1)]
+
+        tp = TOKEN_PRIVILEGES()
+        tp.PrivilegeCount = 1
+        tp.Privileges[0].Luid = luid
+        tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED
+
+        advapi32.AdjustTokenPrivileges(h_token, False, ctypes.byref(tp), ctypes.sizeof(tp), None, None)
+        kernel32.CloseHandle(h_token)
+        return True
+    except Exception:
+        return False
+
+
+# Attempt SeDebugPrivilege elevation on module import
+enable_debug_privilege()
 
 
 class ThreatRemediator:
@@ -65,6 +110,20 @@ class ThreatRemediator:
         """Retrieve recent audit events."""
         return self._audit_log[:limit]
 
+    def get_blocked_history(self, limit: int = 150) -> List[Dict[str, Any]]:
+        """Retrieve tracking history of all processes killed, IPs blocked, and files quarantined."""
+        blocked_actions = {
+            "PROCESS_KILLED",
+            "PROCESS_TREE_KILLED",
+            "IP_BLOCKED",
+            "FILE_QUARANTINED",
+            "PERSISTENCE_DISABLED",
+            "KILL_ABORTED",
+            "KILL_FAILED"
+        }
+        history = [e for e in self._audit_log if e.get("action") in blocked_actions]
+        return history[:limit]
+
     def is_protected(self, proc: psutil.Process) -> bool:
         """Check if process is a protected Windows core binary."""
         try:
@@ -103,14 +162,62 @@ class ThreatRemediator:
                     "message": f"Cannot terminate '{name}' (PID: {pid}). This is a protected Windows core system process."
                 }
 
-            # Attempt termination
-            proc.terminate()
+            # Attempt termination via psutil
             try:
-                proc.wait(timeout=1.5)
-            except psutil.TimeoutExpired:
-                if force:
-                    proc.kill()
-                    proc.wait(timeout=1.5)
+                proc.terminate()
+                try:
+                    proc.wait(timeout=1.0)
+                except psutil.TimeoutExpired:
+                    if force:
+                        proc.kill()
+                        proc.wait(timeout=1.0)
+            except (psutil.AccessDenied, psutil.TimeoutExpired):
+                # Fallback Tier 1: Windows Native Taskkill
+                tk_res = subprocess.run(["taskkill", "/F", "/PID", str(pid)], capture_output=True, text=True)
+                time.sleep(0.3)
+                if not psutil.pid_exists(pid) or tk_res.returncode == 0:
+                    self.log_event("PROCESS_KILLED", name, pid, f"{reason}. Terminated via native taskkill.", "SUCCESS")
+                    return {
+                        "success": True,
+                        "message": f"Successfully terminated process '{name}' (PID: {pid}) via native taskkill.",
+                        "pid": pid,
+                        "name": name
+                    }
+
+                # Fallback Tier 2: PowerShell Stop-Process
+                ps_cmd = f"Stop-Process -Id {pid} -Force -ErrorAction SilentlyContinue"
+                subprocess.run(["powershell", "-NoProfile", "-Command", ps_cmd], capture_output=True, text=True)
+                time.sleep(0.3)
+                if not psutil.pid_exists(pid):
+                    self.log_event("PROCESS_KILLED", name, pid, f"{reason}. Terminated via PowerShell force.", "SUCCESS")
+                    return {
+                        "success": True,
+                        "message": f"Successfully terminated process '{name}' (PID: {pid}) via PowerShell force.",
+                        "pid": pid,
+                        "name": name
+                    }
+
+                # Fallback Tier 3: Trigger UAC Elevation Dialog
+                uac_cmd = f"Start-Process taskkill -ArgumentList '/F /PID {pid}' -Verb RunAs -WindowStyle Hidden"
+                elev_res = subprocess.run(["powershell", "-NoProfile", "-Command", uac_cmd], capture_output=True, text=True)
+                time.sleep(1.0)
+                if not psutil.pid_exists(pid):
+                    self.log_event("PROCESS_KILLED", name, pid, f"{reason}. Terminated via Administrator UAC.", "SUCCESS")
+                    return {
+                        "success": True,
+                        "message": f"Successfully terminated elevated process '{name}' (PID: {pid}) via Administrator UAC.",
+                        "pid": pid,
+                        "name": name
+                    }
+
+                # If still alive, report clear elevation guidance
+                self.log_event("KILL_FAILED", name, pid, "Access denied. Process is protected by Windows kernel/service token.", "FAILED")
+                return {
+                    "success": False,
+                    "message": f"Process '{name}' (PID: {pid}) is running as elevated SYSTEM/Protected Service. Please run AegisShield with 'Run as Administrator' or click 'Elevate UAC Kill'.",
+                    "requires_admin": True,
+                    "pid": pid
+                }
 
             self.log_event("PROCESS_KILLED", name, pid, f"{reason}. Successfully terminated.", "SUCCESS")
             return {
@@ -123,10 +230,24 @@ class ThreatRemediator:
         except psutil.NoSuchProcess:
             return {"success": True, "message": f"Process PID {pid} already exited."}
         except psutil.AccessDenied:
+            # Native fallback if psutil was blocked on init
+            tk_res = subprocess.run(["taskkill", "/F", "/PID", str(pid)], capture_output=True, text=True)
+            if not psutil.pid_exists(pid) or tk_res.returncode == 0:
+                self.log_event("PROCESS_KILLED", str(pid), pid, f"{reason}. Terminated via taskkill fallback.", "SUCCESS")
+                return {"success": True, "message": f"Terminated PID {pid} using native taskkill."}
+
+            # Prompt UAC
+            uac_cmd = f"Start-Process taskkill -ArgumentList '/F /PID {pid}' -Verb RunAs -WindowStyle Hidden"
+            subprocess.run(["powershell", "-NoProfile", "-Command", uac_cmd], capture_output=True, text=True)
+            time.sleep(1.0)
+            if not psutil.pid_exists(pid):
+                return {"success": True, "message": f"Terminated PID {pid} via Administrator UAC elevation."}
+
             self.log_event("KILL_FAILED", str(pid), pid, "Access denied. Elevated administrator rights required.", "FAILED")
             return {
                 "success": False,
-                "message": f"Access denied when killing PID {pid}. Please run AegisShield as Administrator."
+                "message": f"Access denied when killing PID {pid}. Please run AegisShield as Administrator.",
+                "requires_admin": True
             }
         except Exception as e:
             self.log_event("KILL_ERROR", str(pid), pid, str(e), "ERROR")

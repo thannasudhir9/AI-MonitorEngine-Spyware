@@ -266,4 +266,40 @@ flowchart LR
 - **Visual Evidence Pipeline:** All frontend UI views are rendered into static, high-resolution PNG captures in `screenshots/` for instant visual inspection without headless browser dependency.
 - **Upstream Synchronization:** All commits, documentation revisions, and architecture updates are pushed to the official repository at `https://github.com/thannasudhir9/AI-MonitorEngine-Spyware.git`.
 
+---
+
+## 7. Private Stealth Mode & Dual-Theme Architecture
+
+### 7.1 Private Stealth Mode (Zero-Disk Footprint)
+```mermaid
+sequenceDiagram
+    participant User as Browser / User
+    participant Proxy as AdBlock Proxy (:8080)
+    participant Logger as WebTrafficLogger
+    participant Disk as Database (web_traffic_logs.json)
+    participant RAM as Volatile RAM Buffer
+
+    User->>Proxy: HTTP / HTTPS Web Request
+    Proxy->>Logger: log_request(domain, method)
+    alt Private Mode is OFF
+        Logger->>Disk: Persist JSON record with exact domain & timestamp
+    else Private Mode is ON (STEALTH)
+        Logger->>RAM: Write ephemeral volatile entry (capped at 100)
+        Note over Logger,Disk: ZERO BYTES WRITTEN TO DISK
+        Proxy-->>User: Inject Anti-Tracking Headers (Clear-Site-Data, No-Cache)
+    end
+    opt Stealth Panic Wipe
+        User->>Logger: POST /api/privacy/panic-wipe
+        Logger->>RAM: Clear volatile memory
+        Logger->>Disk: Truncate logs file
+        Note over User,Disk: 100% Traces & Caches Obliterated
+    end
+```
+
+### 7.2 Clean Daylight & Dark Cyber SOC Theming
+- **Dark Cyber SOC Theme (Default):** Deep obsidian `#080c14` backdrop with high-contrast neon cyan, crimson, and amber cyber HUD accents.
+- **Light Clean SOC Theme:** Clean daylight palette `#f8fafc` with crisp white card surfaces, slate `#0f172a` typography, and azure `#0284c7` highlights.
+- **State Persistence:** User preference stored in `localStorage.getItem('aegis_theme')` with zero flicker on page load.
+
+
 

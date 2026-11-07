@@ -561,6 +561,154 @@ def render_all_remaining_views():
         print(f"[✓] Generated {fname}")
 
 
+def render_private_mode_view():
+    """Render 11: Private Stealth Mode View with zero-disk footprint."""
+    img = Image.new("RGB", (1600, 1000), color=(8, 12, 20))
+    d = ImageDraw.Draw(img)
+    draw_hud_header(d, "AdBlock")
+
+    # Stealth Banner
+    d.rectangle([(0, 120), (1600, 160)], fill=(46, 16, 77), outline=(168, 85, 247))
+    d.ellipse([(25, 136), (33, 144)], fill=(192, 132, 252))
+    d.text((45, 134), "🕵️ PRIVATE STEALTH MODE ACTIVE: Zero disk logging • Volatile memory only • Anti-fingerprint headers enforced • Traces destroyed on exit.", fill=(243, 232, 255))
+    d.rectangle([(1420, 126), (1560, 154)], fill=(220, 38, 38), outline=(239, 68, 68))
+    d.text((1435, 132), "⚡ Stealth Panic Wipe", fill=(255, 255, 255))
+
+    d.text((25, 175), "STEALTH BROWSING & ZERO FOOTPRINT CONSOLE", fill=(216, 180, 254))
+    d.text((25, 200), "Interception active with volatile RAM buffers and anti-tracking headers enabled.", fill=(148, 163, 184))
+
+    # KPI Cards
+    cards = [
+        ("PRIVATE BROWSING", "ACTIVE (RAM ONLY)", "Zero Disk Persistence", (168, 85, 247)),
+        ("CLIENT IP", "127.0.0.1 (STEALTH)", "Origin Anonymized", (6, 182, 212)),
+        ("ANTI-FINGERPRINT", "ENFORCED", "Clear-Site-Data & No-Cache", (16, 185, 129)),
+        ("VOLATILE BUFFER", "4 ENTRIES", "Wiped on Exit or Panic Wipe", (245, 158, 11))
+    ]
+    cx = 25
+    for title, val, sub, col in cards:
+        d.rectangle([(cx, 235), (cx + 365, 330)], fill=(19, 28, 49), outline=(168, 85, 247) if col == (168, 85, 247) else (30, 41, 59))
+        d.text((cx + 20, 250), title, fill=(148, 163, 184))
+        d.text((cx + 20, 275), val, fill=col)
+        d.text((cx + 20, 305), sub, fill=(100, 116, 139))
+        cx += 395
+
+    # Volatile Browsing Table
+    d.rectangle([(25, 355), (1575, 960)], fill=(19, 28, 49), outline=(30, 41, 59))
+    d.rectangle([(25, 355), (1575, 400)], fill=(15, 23, 42), outline=(30, 41, 59))
+
+    d.text((45, 370), "TIMESTAMP", fill=(148, 163, 184))
+    d.text((260, 370), "WEBSITE / TARGET DOMAIN (VOLATILE RAM BUFFER)", fill=(148, 163, 184))
+    d.text((880, 370), "METHOD : PORT", fill=(148, 163, 184))
+    d.text((1150, 370), "PRIVACY VERDICT", fill=(148, 163, 184))
+    d.text((1420, 370), "STORAGE MODE", fill=(148, 163, 184))
+
+    rows = [
+        ("2026-11-07 07:54:10", "🔒 [PRIVATE] duckduckgo.com", "CONNECT : 443", "ALLOWED (STEALTH)", (16, 185, 129), "VOLATILE RAM"),
+        ("2026-11-07 07:54:12", "🔒 [PRIVATE] adservice.google.com", "CONNECT : 443", "BLOCKED AD", (239, 68, 68), "VOLATILE RAM"),
+        ("2026-11-07 07:54:18", "🔒 [PRIVATE] proton.me", "CONNECT : 443", "ALLOWED (STEALTH)", (16, 185, 129), "VOLATILE RAM"),
+        ("2026-11-07 07:54:25", "🔒 [PRIVATE] doubleclick.net", "CONNECT : 443", "BLOCKED TRACKER", (239, 68, 68), "VOLATILE RAM")
+    ]
+
+    ry = 415
+    for ts, dom, mp, verd, col, store in rows:
+        d.line([(25, ry), (1575, ry)], fill=(30, 41, 59))
+        d.text((45, ry + 15), ts, fill=(148, 163, 184))
+        d.text((260, ry + 15), dom, fill=(243, 232, 255) if "duck" in dom or "proton" in dom else (252, 165, 165))
+        d.text((880, ry + 15), mp, fill=(6, 182, 212))
+        d.text((1150, ry + 15), verd, fill=col)
+
+        d.rectangle([(1420, ry + 8), (1545, ry + 36)], fill=(59, 7, 100), outline=(168, 85, 247))
+        d.text((1435, ry + 14), store, fill=(216, 180, 254))
+        ry += 52
+
+    img.save(SCREENSHOTS_DIR / "11_private_mode_stealth.png")
+    print("[✓] Generated 11_private_mode_stealth.png")
+
+
+def render_light_mode_view():
+    """Render 12: Light Clean SOC Mode (Daylight Theme)."""
+    img = Image.new("RGB", (1600, 1000), color=(248, 250, 252))
+    d = ImageDraw.Draw(img)
+
+    # Header
+    d.rectangle([(0, 0), (1600, 75)], fill=(255, 255, 255), outline=(226, 232, 240))
+    d.rectangle([(25, 18), (65, 58)], fill=(241, 245, 249), outline=(2, 132, 199), width=2)
+    d.text((33, 24), "🛡", fill=(2, 132, 199))
+    d.text((80, 22), "AEGISSHIELD EDR v2.0 (LIGHT SOC MODE)", fill=(15, 23, 42))
+    d.text((80, 44), "Daylight Clean SOC Theme - All Subsystems Operational", fill=(100, 116, 139))
+
+    # Center Pill
+    d.rectangle([(620, 22), (980, 52)], fill=(236, 253, 245), outline=(16, 185, 129), width=1)
+    d.ellipse([(635, 33), (643, 41)], fill=(16, 185, 129))
+    d.text((655, 28), "SYSTEM PROTECTED & SECURE | 2026-11-07 07:55:00", fill=(5, 150, 105))
+
+    # Header Buttons
+    d.rectangle([(1020, 22), (1130, 52)], fill=(254, 243, 199), outline=(245, 158, 11))
+    d.text((1035, 29), "🌙 Dark Mode", fill=(180, 83, 9))
+
+    d.rectangle([(1145, 22), (1265, 52)], fill=(243, 232, 255), outline=(168, 85, 247))
+    d.text((1158, 29), "📧 Email Report", fill=(126, 34, 206))
+
+    d.rectangle([(1280, 22), (1390, 52)], fill=(2, 132, 199), outline=(2, 132, 199))
+    d.text((1295, 29), "⚡ Deep Scan", fill=(255, 255, 255))
+
+    d.rectangle([(1405, 22), (1575, 52)], fill=(239, 68, 68), outline=(220, 38, 38))
+    d.text((1420, 29), "🚨 KILL ALL THREATS", fill=(255, 255, 255))
+
+    # Tab bar
+    d.rectangle([(0, 75), (1600, 120)], fill=(241, 245, 249), outline=(226, 232, 240))
+    d.text((45, 90), "[Active Threats]", fill=(2, 132, 199))
+    d.text((180, 90), "Network Radar", fill=(100, 116, 139))
+    d.text((315, 90), "AdBlocker & Analytics", fill=(100, 116, 139))
+    d.text((490, 90), "Remote Control Hunter", fill=(100, 116, 139))
+    d.text((670, 90), "Process Monitor", fill=(100, 116, 139))
+
+    # Metric Cards in Light Mode
+    cards = [
+        ("ACTIVE THREATS", "0 DETECTED", "All Host Trees Clean", (5, 150, 105)),
+        ("SYSTEM HEALTH", "100%", "Optimal Security Integrity", (5, 150, 105)),
+        ("ACTIVE PROCESSES", "144 RUNNING", "Verified Executable Paths", (2, 132, 199)),
+        ("NETWORK SOCKETS", "18 MONITORED", "Legitimate CDN Endpoints", (2, 132, 199))
+    ]
+    cx = 25
+    for title, val, sub, col in cards:
+        d.rectangle([(cx, 140), (cx + 365, 235)], fill=(255, 255, 255), outline=(226, 232, 240))
+        d.text((cx + 20, 155), title, fill=(100, 116, 139))
+        d.text((cx + 20, 180), val, fill=col)
+        d.text((cx + 20, 210), sub, fill=(148, 163, 184))
+        cx += 395
+
+    # Main Table
+    d.rectangle([(25, 260), (1575, 960)], fill=(255, 255, 255), outline=(226, 232, 240))
+    d.rectangle([(25, 260), (1575, 305)], fill=(241, 245, 249), outline=(226, 232, 240))
+
+    d.text((45, 275), "PID & BINARY NAME", fill=(71, 85, 105))
+    d.text((350, 275), "EXECUTABLE PATH & USER", fill=(71, 85, 105))
+    d.text((1050, 275), "THREAT SCORE & HEURISTIC CLASSIFICATION", fill=(71, 85, 105))
+    d.text((1420, 275), "STATUS BADGE", fill=(71, 85, 105))
+
+    procs = [
+        ("system (PID: 4)", "C:\\Windows\\System32\\ntoskrnl.exe | NT AUTHORITY\\SYSTEM", "Score: 0 - Verified OS Kernel Component", "SAFE", (5, 150, 105)),
+        ("svchost.exe (PID: 1240)", "C:\\Windows\\System32\\svchost.exe | NETWORK SERVICE", "Score: 0 - Legitimate RPC Host Service", "SAFE", (5, 150, 105)),
+        ("chrome.exe (PID: 4890)", "C:\\Program Files\\Google\\Chrome\\chrome.exe | User", "Score: 5 - Verified Digital Authenticode", "SAFE", (5, 150, 105)),
+        ("python.exe (PID: 35612)", "C:\\Python314\\python.exe | User", "Score: 0 - AegisShield Daemon Process", "SAFE", (5, 150, 105))
+    ]
+
+    ry = 320
+    for p1, p2, p3, badge, col in procs:
+        d.line([(25, ry), (1575, ry)], fill=(241, 245, 249))
+        d.text((45, ry + 15), p1, fill=(15, 23, 42))
+        d.text((350, ry + 15), p2, fill=(51, 65, 85))
+        d.text((1050, ry + 15), p3, fill=col)
+
+        d.rectangle([(1420, ry + 8), (1540, ry + 36)], fill=(236, 253, 245), outline=col)
+        d.text((1445, ry + 14), badge, fill=col)
+        ry += 55
+
+    img.save(SCREENSHOTS_DIR / "12_light_mode_clean_soc.png")
+    print("[✓] Generated 12_light_mode_clean_soc.png")
+
+
 def main():
     print("""
     ===============================================================
@@ -574,6 +722,8 @@ def main():
     render_adblocker_view()
     render_policy_rules_view()
     render_all_remaining_views()
+    render_private_mode_view()
+    render_light_mode_view()
 
     pngs = list(SCREENSHOTS_DIR.glob("*.png"))
     print(f"\n[✓] Successfully captured and generated all {len(pngs)} dashboard screenshots!")

@@ -69,6 +69,12 @@ class NetworkTracer:
         except Exception:
             pass
 
+    def clear_cache(self) -> Dict[str, Any]:
+        """Flush and clear all cached DNS and geographic origin IP lookups."""
+        self._geo_cache.clear()
+        self._save_cache()
+        return {"success": True, "message": "DNS and IP Geolocation cache cleared."}
+
     def is_private_ip(self, ip: str) -> bool:
         """Check if IP address is localhost or in private RFC 1918 range."""
         if not ip:

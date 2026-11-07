@@ -63,6 +63,16 @@
 
         <!-- Quick Action Buttons -->
         <div class="flex items-center gap-2.5">
+            <!-- Theme Toggle Button (Dark / Light Mode) -->
+            <button id="btn-theme-toggle" onclick="toggleTheme()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-mono text-amber-300 border border-slate-700 flex items-center gap-1.5 transition shadow-sm" title="Toggle Light / Dark Mode">
+                <i id="theme-toggle-icon" data-lucide="sun" class="w-3.5 h-3.5 text-amber-400"></i> <span id="theme-toggle-label">Light Mode</span>
+            </button>
+
+            <!-- Private Mode Toggle Button -->
+            <button id="btn-private-mode" onclick="togglePrivateMode()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-mono text-purple-300 border border-purple-500/30 flex items-center gap-1.5 transition shadow-sm" title="Toggle Zero-Footprint Private Browsing">
+                <i data-lucide="eye-off" class="w-3.5 h-3.5 text-purple-400"></i> <span id="private-mode-label">Private Mode: OFF</span>
+            </button>
+
             <!-- Send Email Report Button -->
             <button onclick="openEmailModal()" class="px-3 py-1.5 rounded-lg bg-purple-600/30 hover:bg-purple-600 text-purple-200 text-xs font-mono border border-purple-500/40 flex items-center gap-1.5 transition">
                 <i data-lucide="mail" class="w-3.5 h-3.5"></i> Email Report
@@ -85,6 +95,20 @@
         </div>
     </header>
 
+    <!-- Stealth / Private Mode Active Banner -->
+    <div id="private-mode-banner" class="hidden bg-gradient-to-r from-purple-950/90 via-slate-900 to-purple-950/90 border-b border-purple-500/60 px-6 py-2.5 flex items-center justify-between text-xs font-mono shadow-inner transition-all">
+        <div class="flex items-center gap-2.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-purple-400 animate-ping"></span>
+            <span class="font-extrabold text-purple-300 tracking-wider">🕵️ PRIVATE STEALTH MODE ACTIVE:</span>
+            <span class="text-slate-300 hidden sm:inline">Zero disk logging • Volatile memory only • Anti-fingerprint headers enforced • Traces destroyed on exit.</span>
+        </div>
+        <div class="flex items-center gap-3">
+            <button onclick="panicWipe()" class="px-3 py-1 rounded bg-red-600 hover:bg-red-500 text-white font-bold border border-red-400 text-[11px] flex items-center gap-1 transition shadow-md shadow-red-900/50">
+                <i data-lucide="flame" class="w-3.5 h-3.5"></i> Stealth Panic Wipe
+            </button>
+        </div>
+    </div>
+
     <!-- Radar Scan Progress Indicator (Hidden by default) -->
     <div id="scan-radar" class="radar-sweep h-1 bg-cyan-500/20 w-full hidden"></div>
 
@@ -94,7 +118,7 @@
         <!-- Metrics Overview Grid -->
         <section class="grid grid-cols-2 md:grid-cols-5 gap-4">
             <!-- Total Processes Card -->
-            <div class="cyber-card p-4 flex flex-col justify-between">
+            <div onclick="navigateToTab('processes')" class="cyber-card p-4 flex flex-col justify-between cursor-pointer hover:border-cyan-500/50 hover:scale-[1.02] transition shadow-md" title="Click to view Live Process Monitor">
                 <div class="flex items-center justify-between text-slate-400 text-xs font-mono">
                     <span>ACTIVE PROCESSES</span>
                     <i data-lucide="cpu" class="w-4 h-4 text-cyan-400"></i>
@@ -107,7 +131,7 @@
             </div>
 
             <!-- Total Flagged Threats Card -->
-            <div class="cyber-card p-4 flex flex-col justify-between border-l-4 border-amber-500">
+            <div onclick="navigateToThreatsTab('active')" class="cyber-card p-4 flex flex-col justify-between border-l-4 border-amber-500 cursor-pointer hover:border-amber-400 hover:scale-[1.02] transition shadow-md" title="Click to view Active Threat Vectors">
                 <div class="flex items-center justify-between text-slate-400 text-xs font-mono">
                     <span>FLAGGED THREATS</span>
                     <i data-lucide="alert-octagon" class="w-4 h-4 text-amber-400"></i>
@@ -120,33 +144,35 @@
             </div>
 
             <!-- Critical Threats Card -->
-            <div class="cyber-card p-4 flex flex-col justify-between border-l-4 border-red-500">
+            <div onclick="navigateToThreatsTab('blocked_history')" class="cyber-card p-4 flex flex-col justify-between border-l-4 border-red-500 cursor-pointer hover:border-red-400 hover:scale-[1.02] transition shadow-md" title="Click to view Previously Blocked & Eradicated History">
                 <div class="flex items-center justify-between text-slate-400 text-xs font-mono">
-                    <span>CRITICAL THREATS</span>
-                    <i data-lucide="skull" class="w-4 h-4 text-red-500"></i>
+                    <span class="text-red-400 font-bold">CRITICAL THREATS</span>
+                    <i data-lucide="skull" class="w-4 h-4 text-red-500 animate-bounce"></i>
                 </div>
                 <div class="mt-2 flex items-baseline gap-2">
                     <span id="stat-critical" class="text-2xl font-bold font-mono text-red-400">0</span>
-                    <span class="text-xs text-slate-400">Immediate Kill</span>
+                    <span class="text-xs text-red-300">Tracking</span>
                 </div>
-                <div class="text-[11px] font-mono text-red-400/80 mt-1">Trojan / RAT / Infostealer</div>
+                <div class="text-[11px] font-mono text-red-400/90 mt-1 flex items-center gap-1 font-bold">
+                    <span>⚡ Click: Full Blocked List</span>
+                </div>
             </div>
 
             <!-- Remote Desktop & RMM Card -->
-            <div class="cyber-card p-4 flex flex-col justify-between border-l-4 border-cyan-500">
+            <div onclick="navigateToTab('rmm')" class="cyber-card p-4 flex flex-col justify-between border-l-4 border-cyan-500 cursor-pointer hover:border-cyan-400 hover:scale-[1.02] transition shadow-md" title="Click to view Remote Desktop / RMM Sessions">
                 <div class="flex items-center justify-between text-slate-400 text-xs font-mono">
                     <span>REMOTE DESKTOP / RMM</span>
                     <i data-lucide="screen-share" class="w-4 h-4 text-cyan-400"></i>
                 </div>
                 <div class="mt-2 flex items-baseline gap-2">
                     <span id="stat-rmm" class="text-2xl font-bold font-mono text-cyan-300">0</span>
-                    <span class="text-xs text-slate-400">Active Sessions</span>
+                    <span class="text-xs text-slate-400">Active</span>
                 </div>
                 <div class="text-[11px] font-mono text-slate-500 mt-1">AnyDesk, VNC, RustDesk...</div>
             </div>
 
             <!-- System Threat Index Card -->
-            <div class="cyber-card p-4 flex flex-col justify-between border-l-4 border-emerald-500">
+            <div onclick="navigateToTab('audit')" class="cyber-card p-4 flex flex-col justify-between border-l-4 border-emerald-500 cursor-pointer hover:border-emerald-400 hover:scale-[1.02] transition shadow-md" title="Click to view Eradication Audit Trail">
                 <div class="flex items-center justify-between text-slate-400 text-xs font-mono">
                     <span>HEALTH INDEX</span>
                     <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
@@ -155,7 +181,7 @@
                     <span id="stat-health" class="text-2xl font-bold font-mono text-emerald-400">100%</span>
                     <span class="text-xs text-slate-400">Secure</span>
                 </div>
-                <div class="text-[11px] font-mono text-slate-500 mt-1">SOC Readiness Score</div>
+                <div class="text-[11px] font-mono text-slate-500 mt-1">Audit Trail & Receipts</div>
             </div>
         </section>
 
@@ -197,19 +223,62 @@
         <!-- TAB 1: ACTIVE THREATS & REMEDIATION -->
         <!-- ========================================== -->
         <section id="view-threats" class="tab-content space-y-4">
-            <div class="flex items-center justify-between">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <div>
-                    <h2 class="text-base font-bold font-mono text-white">Active Threat Vectors</h2>
+                    <h2 class="text-base font-bold font-mono text-white flex items-center gap-2">
+                        <span>Threat Intelligence & Eradication</span>
+                        <span id="threats-mode-badge" class="px-2 py-0.5 rounded text-[10px] font-mono bg-red-600/30 text-red-300 border border-red-500/40">Active Detections</span>
+                    </h2>
                     <p class="text-xs text-slate-400">Processes exceeding risk thresholds via signatures, LOLRMM, masquerading, policy violations, or injected APIs.</p>
                 </div>
-                <div class="text-xs text-slate-400 font-mono">
-                    Showing real-time detections with direct kill, allow, and block controls
+                
+                <!-- Sub-toggle for Threats Tab -->
+                <div class="flex items-center gap-1.5 font-mono text-xs bg-slate-900 p-1 rounded-lg border border-slate-800">
+                    <button id="btn-threats-active" onclick="switchThreatsSubView('active')" class="px-3 py-1.5 rounded-md bg-red-600 text-white font-bold flex items-center gap-1.5 transition">
+                        <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i> Active Threats (<span id="sub-active-count">0</span>)
+                    </button>
+                    <button id="btn-threats-history" onclick="switchThreatsSubView('blocked_history')" class="px-3 py-1.5 rounded-md text-slate-400 hover:text-white flex items-center gap-1.5 transition">
+                        <i data-lucide="history" class="w-3.5 h-3.5 text-cyan-400"></i> Blocked & Eradicated History (<span id="sub-blocked-count">0</span>)
+                    </button>
                 </div>
             </div>
 
-            <!-- Threats Grid Container -->
+            <!-- Active Threats Grid Container -->
             <div id="threats-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Rendered dynamically by JavaScript -->
+            </div>
+
+            <!-- Previously Blocked & Eradicated History Table (Full Tracking List) -->
+            <div id="threats-history-view" class="cyber-card overflow-hidden hidden space-y-3 p-4">
+                <div class="border-b border-slate-800 pb-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                    <div>
+                        <h3 class="font-mono text-sm font-bold text-red-400 flex items-center gap-2">
+                            <i data-lucide="shield-ban" class="w-4 h-4"></i> PREVIOUSLY BLOCKED, TERMINATED & QUARANTINED THREATS
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Immutable audit tracking of all eradicated malware, killed trojans, and enforced blocklist actions.</p>
+                    </div>
+                    <button onclick="loadBlockedHistory()" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-cyan-400 text-xs font-mono border border-slate-700 flex items-center gap-1.5 transition">
+                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh Tracking
+                    </button>
+                </div>
+
+                <div class="overflow-x-auto max-h-[500px] overflow-y-auto">
+                    <table class="w-full text-left text-xs font-mono">
+                        <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400 sticky top-0 z-10">
+                            <tr>
+                                <th class="p-3 w-44">Date & Time</th>
+                                <th class="p-3 w-36">Action Taken</th>
+                                <th class="p-3">Target / Binary Name</th>
+                                <th class="p-3 w-24">PID</th>
+                                <th class="p-3">Details & Eradication Method</th>
+                                <th class="p-3 w-28 text-right">Result</th>
+                            </tr>
+                        </thead>
+                        <tbody id="blocked-history-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </section>
 
@@ -311,6 +380,10 @@
                 </div>
 
                 <div class="flex items-center gap-2 font-mono text-xs w-full md:w-auto justify-end">
+                    <!-- Toggle Private Mode in AdBlock tab -->
+                    <button id="btn-tab-private-mode" onclick="togglePrivateMode()" class="px-3.5 py-2 rounded-lg bg-purple-950/80 hover:bg-purple-900 text-purple-200 border border-purple-500/50 flex items-center gap-1.5 transition" title="Toggle Zero Disk Footprint Mode">
+                        <i data-lucide="eye-off" class="w-4 h-4 text-purple-400"></i> <span id="tab-private-label">Private Mode: OFF</span>
+                    </button>
                     <!-- Toggle System Proxy Button -->
                     <button id="btn-toggle-system-proxy" onclick="toggleSystemProxy()" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-black font-bold flex items-center gap-2 shadow-lg shadow-emerald-600/20 transition">
                         <i data-lucide="power" class="w-4 h-4"></i> <span id="proxy-btn-text">Enable System Proxy</span>

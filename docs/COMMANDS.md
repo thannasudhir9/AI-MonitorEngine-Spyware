@@ -7,10 +7,12 @@ All batch files are located in the project root directory and can be executed vi
 | Batch File | Description | Execution Command |
 | :--- | :--- | :--- |
 | **`start_all.bat`** | Launches both the EDR Cyber Dashboard (`:8888`) and the AdBlock Intercepting Proxy (`:8080`) in synchronized background windows. | `.\start_all.bat` |
+| **`start_all_admin.bat`** | Launches both EDR and AdBlock with full Windows Administrator elevation (UAC prompt), enabling termination of protected services. | `.\start_all_admin.bat` |
 | **`start_dashboard.bat`** | Starts only the AegisShield EDR Dashboard and REST/WebSocket API server on `127.0.0.1:8888`. | `.\start_dashboard.bat` |
+| **`start_dashboard_admin.bat`**| Starts the EDR Dashboard with full Administrator elevation. | `.\start_dashboard_admin.bat` |
 | **`start_adblocker.bat`** | Starts only the high-speed AdBlock Intercepting Proxy on `127.0.0.1:8080`. | `.\start_adblocker.bat` |
-| **`run_tests.bat`** | Executes the automated diagnostic testing engine verifying all 22 subsystem health checks. | `.\run_tests.bat` |
-| **`generate_screenshots.bat`** | Executes the high-definition Pillow screenshot engine, producing 10 UI captures in `screenshots/`. | `.\generate_screenshots.bat` |
+| **`run_tests.bat`** | Executes the automated diagnostic testing engine verifying all 25 subsystem health checks. | `.\run_tests.bat` |
+| **`generate_screenshots.bat`** | Executes the high-definition Pillow screenshot engine, producing 12 UI captures in `screenshots/`. | `.\generate_screenshots.bat` |
 
 ---
 
@@ -99,6 +101,11 @@ The AegisShield backend exposes a comprehensive RESTful API on `http://127.0.0.1
 | `/api/persistence` | `GET` | Returns startup, registry, and scheduled task persistence items. | `GET /api/persistence` |
 | `/api/simulate-threat` | `POST` | Spawns a harmless threat simulation scenario. | `{"scenario": "temp_trojan"}` |
 | `/api/audit-log` | `GET` | Returns historical record of all remediation and policy actions. | `GET /api/audit-log` |
+| `/api/blocked-history` | `GET` | Returns full persistent tracking of all previously blocked/killed threats. | `GET /api/blocked-history` |
+| `/api/admin/elevate-kill/{pid}`| `POST`| Triggers Windows UAC elevation prompt to kill protected/SYSTEM process. | `POST /api/admin/elevate-kill/5824` |
+| `/api/privacy/status` | `GET` | Returns Private Stealth Mode zero-footprint state and volatile count. | `GET /api/privacy/status` |
+| `/api/privacy/toggle` | `POST` | Enables or disables zero-disk footprint Private Mode. | `{"enable": true}` |
+| `/api/privacy/panic-wipe` | `POST` | Immediately purges all browsing history, volatile buffers, and DNS cache. | `POST /api/privacy/panic-wipe` |
 
 ### 3.2 Network Tracer Endpoints
 | Endpoint | Method | Description | Sample Query / Body |
