@@ -1,0 +1,6 @@
+Command exited with code 0.
+
+Command output:
+Evaluation with normal name: 0 NORMAL PROCESS
+Evaluation after adding allow rule for python.exe: 0 TRUSTED WHITELIST
+Allow and Block policy tests passed 100% perfectly!

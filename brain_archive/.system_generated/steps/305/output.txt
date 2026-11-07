@@ -1,0 +1,24 @@
+Command exited with code 0.
+
+Command output:
+
+
+    Directory: C:\Users\thann\Downloads\AntiGravity\SpywareProcessMon\screenshots
+
+
+Mode                 LastWriteTime         Length Name                                                                 
+----                 -------------         ------ ----                                                                 
+-a----        07-11-2026     07:31          80283 01_active_threats_remediation.png                                    
+-a----        07-11-2026     07:28           8405 01_test.png                                                          
+-a----        07-11-2026     07:31          93047 02_network_radar_ip_tracer.png                                       
+-a----        07-11-2026     07:31         110215 03_adblocker_web_analytics.png                                       
+-a----        07-11-2026     07:31          54652 04_remote_desktop_rmm_hunter.png                                     
+-a----        07-11-2026     07:31          54265 05_live_process_monitor.png                                          
+-a----        07-11-2026     07:31          66460 06_access_control_rules.png                                          
+-a----        07-11-2026     07:31          47890 07_persistence_startup.png                                           
+-a----        07-11-2026     07:31          44631 08_threat_simulation_lab.png                                         
+-a----        07-11-2026     07:31          45032 09_email_alerts_config.png                                           
+-a----        07-11-2026     07:31          48604 10_incident_audit_trail.png                                          
+-a----        07-11-2026     07:28          53853 _temp_rmm.html                                                       
+
+

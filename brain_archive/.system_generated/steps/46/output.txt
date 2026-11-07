@@ -1,0 +1,4 @@
+Command exited with code 0.
+
+Command output:
+net_connections notice: GetExtendedTcpTable failed

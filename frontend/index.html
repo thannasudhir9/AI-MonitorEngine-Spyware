@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AegisShield | Cyber Threat Hunter, Process Monitor & Eradicator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            900: '#080c14',
+                            800: '#0f172a',
+                            700: '#131c31',
+                            card: '#111a2e',
+                            cyan: '#06b6d4',
+                            emerald: '#10b981',
+                            crimson: '#ef4444',
+                            amber: '#f59e0b',
+                            purple: '#8b5cf6'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Custom Cyber Dashboard CSS -->
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+<body class="bg-cyber-900 text-slate-100 min-h-screen flex flex-col font-sans selection:bg-cyan-500 selection:text-black">
+
+    <!-- Top Navigation Header -->
+    <header class="border-b border-slate-800 bg-cyber-900/90 backdrop-blur-md sticky top-0 z-40 px-6 py-3.5 flex items-center justify-between">
+        <!-- Brand & Shield Indicator -->
+        <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-emerald-500 p-0.5 shadow-lg shadow-cyan-500/20 flex items-center justify-center">
+                <div class="w-full h-full bg-cyber-900 rounded-[10px] flex items-center justify-center text-cyan-400">
+                    <i data-lucide="shield-alert" class="w-5 h-5"></i>
+                </div>
+            </div>
+            <div>
+                <div class="flex items-center gap-2">
+                    <h1 class="font-extrabold text-lg tracking-wider font-mono text-white">AEGIS<span class="text-cyan-400">SHIELD</span></h1>
+                    <span class="px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-[10px] font-mono font-bold">EDR v2.0</span>
+                </div>
+                <p class="text-xs text-slate-400">Spyware, Antivirus, Remote Desktop & Network Origin Hunter</p>
+            </div>
+        </div>
+
+        <!-- Center System Status Badge -->
+        <div class="hidden md:flex items-center gap-3">
+            <div id="system-status-indicator" class="px-3.5 py-1 rounded-full text-xs font-mono font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> SYSTEM PROTECTED & SECURE
+            </div>
+            <div class="text-xs font-mono text-slate-400" id="live-time">--:--:--</div>
+        </div>
+
+        <!-- Quick Action Buttons -->
+        <div class="flex items-center gap-2.5">
+            <!-- Send Email Report Button -->
+            <button onclick="openEmailModal()" class="px-3 py-1.5 rounded-lg bg-purple-600/30 hover:bg-purple-600 text-purple-200 text-xs font-mono border border-purple-500/40 flex items-center gap-1.5 transition">
+                <i data-lucide="mail" class="w-3.5 h-3.5"></i> Email Report
+            </button>
+
+            <!-- Auto-Refresh Toggle -->
+            <button id="btn-auto-refresh" onclick="toggleAutoRefresh()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-mono text-slate-300 border border-slate-700 flex items-center gap-2 transition">
+                <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-emerald-400"></i> Auto-Refresh: ON
+            </button>
+
+            <!-- Manual Deep Scan -->
+            <button id="btn-scan" onclick="runScan(true)" class="px-4 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-black font-bold text-xs font-mono flex items-center gap-1.5 shadow-lg shadow-cyan-600/30 transition">
+                <i data-lucide="radar" class="w-3.5 h-3.5"></i> Deep Scan
+            </button>
+
+            <!-- Emergency Kill All Threats -->
+            <button onclick="emergencyKillAll()" class="px-4 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold text-xs font-mono flex items-center gap-1.5 shadow-lg shadow-red-900/40 border border-red-500 transition animate-pulse">
+                <i data-lucide="zap" class="w-3.5 h-3.5"></i> KILL ALL THREATS
+            </button>
+        </div>
+    </header>
+
+    <!-- Radar Scan Progress Indicator (Hidden by default) -->
+    <div id="scan-radar" class="radar-sweep h-1 bg-cyan-500/20 w-full hidden"></div>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-6 space-y-6">
+
+        <!-- Metrics Overview Grid -->
+        <section class="grid grid-cols-2 md:grid-cols-5 gap-4">
+            <!-- Total Processes Card -->
+            <div class="cyber-card p-4 flex flex-col justify-between">
+                <div class="flex items-center justify-between text-slate-400 text-xs font-mono">
+                    <span>ACTIVE PROCESSES</span>
+                    <i data-lucide="cpu" class="w-4 h-4 text-cyan-400"></i>
+                </div>
+                <div class="mt-2 flex items-baseline gap-2">
+                    <span id="stat-total-procs" class="text-2xl font-bold font-mono text-white">--</span>
+                    <span class="text-xs text-slate-400">PIDs</span>
+                </div>
+                <div class="text-[11px] font-mono text-slate-500 mt-1">CPU: <span id="stat-cpu" class="text-cyan-400">--%</span> | RAM: <span id="stat-memory" class="text-cyan-400">--%</span></div>
+            </div>
+
+            <!-- Total Flagged Threats Card -->
+            <div class="cyber-card p-4 flex flex-col justify-between border-l-4 border-amber-500">
+                <div class="flex items-center justify-between text-slate-400 text-xs font-mono">
+                    <span>FLAGGED THREATS</span>
+                    <i data-lucide="alert-octagon" class="w-4 h-4 text-amber-400"></i>
+                </div>
+                <div class="mt-2 flex items-baseline gap-2">
+                    <span id="stat-threats" class="text-2xl font-bold font-mono text-amber-400">0</span>
+                    <span class="text-xs text-slate-400">Risks</span>
+                </div>
+                <div class="text-[11px] font-mono text-slate-500 mt-1">Behavioral & Signatures</div>
+            </div>
+
+            <!-- Critical Threats Card -->
+            <div class="cyber-card p-4 flex flex-col justify-between border-l-4 border-red-500">
+                <div class="flex items-center justify-between text-slate-400 text-xs font-mono">
+                    <span>CRITICAL THREATS</span>
+                    <i data-lucide="skull" class="w-4 h-4 text-red-500"></i>
+                </div>
+                <div class="mt-2 flex items-baseline gap-2">
+                    <span id="stat-critical" class="text-2xl font-bold font-mono text-red-400">0</span>
+                    <span class="text-xs text-slate-400">Immediate Kill</span>
+                </div>
+                <div class="text-[11px] font-mono text-red-400/80 mt-1">Trojan / RAT / Infostealer</div>
+            </div>
+
+            <!-- Remote Desktop & RMM Card -->
+            <div class="cyber-card p-4 flex flex-col justify-between border-l-4 border-cyan-500">
+                <div class="flex items-center justify-between text-slate-400 text-xs font-mono">
+                    <span>REMOTE DESKTOP / RMM</span>
+                    <i data-lucide="screen-share" class="w-4 h-4 text-cyan-400"></i>
+                </div>
+                <div class="mt-2 flex items-baseline gap-2">
+                    <span id="stat-rmm" class="text-2xl font-bold font-mono text-cyan-300">0</span>
+                    <span class="text-xs text-slate-400">Active Sessions</span>
+                </div>
+                <div class="text-[11px] font-mono text-slate-500 mt-1">AnyDesk, VNC, RustDesk...</div>
+            </div>
+
+            <!-- System Threat Index Card -->
+            <div class="cyber-card p-4 flex flex-col justify-between border-l-4 border-emerald-500">
+                <div class="flex items-center justify-between text-slate-400 text-xs font-mono">
+                    <span>HEALTH INDEX</span>
+                    <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+                </div>
+                <div class="mt-2 flex items-baseline gap-2">
+                    <span id="stat-health" class="text-2xl font-bold font-mono text-emerald-400">100%</span>
+                    <span class="text-xs text-slate-400">Secure</span>
+                </div>
+                <div class="text-[11px] font-mono text-slate-500 mt-1">SOC Readiness Score</div>
+            </div>
+        </section>
+
+        <!-- Navigation Tabs Bar -->
+        <nav class="flex border-b border-slate-800 gap-1 overflow-x-auto pb-1 text-sm font-mono">
+            <button data-tab="threats" class="tab-btn px-4 py-2.5 rounded-t-lg bg-cyan-500/20 text-cyan-300 border-b-2 border-cyan-500 flex items-center gap-2 font-medium">
+                <i data-lucide="shield-alert" class="w-4 h-4"></i> Active Threats & Remediation
+            </button>
+            <button data-tab="network" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
+                <i data-lucide="globe" class="w-4 h-4 text-emerald-400"></i> Network Radar & Origin Tracer
+            </button>
+            <button data-tab="adblock" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
+                <i data-lucide="shield-ban" class="w-4 h-4 text-rose-400"></i> AdBlocker & Web Analytics
+            </button>
+            <button data-tab="rmm" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
+                <i data-lucide="radio" class="w-4 h-4"></i> Remote Desktop & RAT Hunter
+            </button>
+            <button data-tab="processes" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
+                <i data-lucide="list-tree" class="w-4 h-4"></i> Live Process Monitor
+            </button>
+            <button data-tab="policy" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
+                <i data-lucide="shield-check" class="w-4 h-4 text-cyan-400"></i> Access Control & Rules
+            </button>
+            <button data-tab="persistence" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
+                <i data-lucide="rocket" class="w-4 h-4"></i> Persistence & Startup
+            </button>
+            <button data-tab="simulation" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
+                <i data-lucide="flask-conical" class="w-4 h-4 text-purple-400"></i> Simulation Lab
+            </button>
+            <button data-tab="email" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
+                <i data-lucide="mail" class="w-4 h-4 text-amber-400"></i> Email Alerts
+            </button>
+            <button data-tab="audit" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
+                <i data-lucide="history" class="w-4 h-4"></i> Incident Audit Log
+            </button>
+        </nav>
+
+        <!-- ========================================== -->
+        <!-- TAB 1: ACTIVE THREATS & REMEDIATION -->
+        <!-- ========================================== -->
+        <section id="view-threats" class="tab-content space-y-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-base font-bold font-mono text-white">Active Threat Vectors</h2>
+                    <p class="text-xs text-slate-400">Processes exceeding risk thresholds via signatures, LOLRMM, masquerading, policy violations, or injected APIs.</p>
+                </div>
+                <div class="text-xs text-slate-400 font-mono">
+                    Showing real-time detections with direct kill, allow, and block controls
+                </div>
+            </div>
+
+            <!-- Threats Grid Container -->
+            <div id="threats-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Rendered dynamically by JavaScript -->
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 2: NETWORK RADAR & IP ORIGIN TRACER -->
+        <!-- ========================================== -->
+        <section id="view-network" class="tab-content hidden space-y-4">
+            <!-- Network Statistics Row -->
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-3 font-mono text-xs">
+                <div class="cyber-card p-3">
+                    <div class="text-slate-400">Processes On Network</div>
+                    <div id="net-stat-procs" class="text-lg font-bold text-white mt-1">--</div>
+                </div>
+                <div class="cyber-card p-3">
+                    <div class="text-slate-400">Active Outbound Sockets</div>
+                    <div id="net-stat-established" class="text-lg font-bold text-cyan-400 mt-1">--</div>
+                </div>
+                <div class="cyber-card p-3">
+                    <div class="text-slate-400">Listening Server Ports</div>
+                    <div id="net-stat-listening" class="text-lg font-bold text-amber-400 mt-1">--</div>
+                </div>
+                <div class="cyber-card p-3">
+                    <div class="text-slate-400">Verified Cloud / CDNs</div>
+                    <div id="net-stat-genuine" class="text-lg font-bold text-emerald-400 mt-1">--</div>
+                </div>
+                <div class="cyber-card p-3 border-l-2 border-red-500">
+                    <div class="text-slate-400">Suspicious Endpoints</div>
+                    <div id="net-stat-suspicious" class="text-lg font-bold text-red-400 mt-1">--</div>
+                </div>
+            </div>
+
+            <!-- Network Filter Controls -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div class="relative w-full sm:w-80">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-500 absolute left-3 top-2.5"></i>
+                    <input 
+                        type="text" 
+                        id="net-search" 
+                        oninput="filterNetworkTable()" 
+                        placeholder="Filter by Process, IP, or Domain..." 
+                        class="w-full bg-slate-900/90 border border-slate-800 rounded-lg pl-9 pr-4 py-2 text-xs font-mono text-white focus:outline-none focus:border-cyan-500 placeholder-slate-500"
+                    >
+                </div>
+
+                <div class="flex items-center gap-1.5 w-full sm:w-auto font-mono text-xs overflow-x-auto">
+                    <button onclick="setNetFilter('all')" data-net-filter="all" class="net-filter-btn px-3 py-1.5 rounded-lg bg-cyan-600 text-white font-medium">All Sockets</button>
+                    <button onclick="setNetFilter('external')" data-net-filter="external" class="net-filter-btn px-3 py-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white">Public External</button>
+                    <button onclick="setNetFilter('suspicious')" data-net-filter="suspicious" class="net-filter-btn px-3 py-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white">Suspicious</button>
+                    <button onclick="setNetFilter('genuine')" data-net-filter="genuine" class="net-filter-btn px-3 py-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white">Verified CDNs</button>
+                    <button onclick="setNetFilter('listening')" data-net-filter="listening" class="net-filter-btn px-3 py-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white">Listening Daemons</button>
+                    <button onclick="loadNetworkTracer()" class="px-3 py-1.5 rounded-lg bg-slate-800 text-cyan-400 hover:bg-slate-700 flex items-center gap-1">
+                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Network Table -->
+            <div class="cyber-card overflow-hidden">
+                <div class="overflow-x-auto max-h-[550px] overflow-y-auto">
+                    <table class="w-full text-left text-xs font-mono">
+                        <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400 sticky top-0 z-10">
+                            <tr>
+                                <th class="p-3">Process (PID)</th>
+                                <th class="p-3">Local Socket</th>
+                                <th class="p-3">Remote Endpoint</th>
+                                <th class="p-3">Reverse DNS / Organization</th>
+                                <th class="p-3">Genuineness Verdict</th>
+                                <th class="p-3">State</th>
+                                <th class="p-3 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="net-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB: ADBLOCKER & WEB TRAFFIC ANALYTICS -->
+        <!-- ========================================== -->
+        <section id="view-adblock" class="tab-content hidden space-y-4">
+            <!-- Proxy Controller & Status Header -->
+            <div class="cyber-card p-4 flex flex-col md:flex-row items-center justify-between gap-4 border-l-4 border-rose-500">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center border border-rose-500/30">
+                        <i data-lucide="shield-ban" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-sm font-bold font-mono text-white">System-Wide Network Ad Blocker & Web Inspector</h2>
+                            <span id="adblock-proxy-pill" class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700">
+                                Proxy: Port 8080 Active
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-0.5">Intercepts laptop web browsing, blocks ads/trackers, and logs websites with exact date & time.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 font-mono text-xs w-full md:w-auto justify-end">
+                    <!-- Toggle System Proxy Button -->
+                    <button id="btn-toggle-system-proxy" onclick="toggleSystemProxy()" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-black font-bold flex items-center gap-2 shadow-lg shadow-emerald-600/20 transition">
+                        <i data-lucide="power" class="w-4 h-4"></i> <span id="proxy-btn-text">Enable System Proxy</span>
+                    </button>
+                    <!-- Clear Logs -->
+                    <button onclick="clearWebTrafficLogs()" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 flex items-center gap-1.5 transition" title="Clear browsing logs">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5 text-red-400"></i> Clear Logs
+                    </button>
+                    <!-- Refresh -->
+                    <button onclick="loadAdBlockDashboard()" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-slate-700 transition" title="Refresh analytics">
+                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- AdBlock Metrics Cards -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 font-mono text-xs">
+                <div class="cyber-card p-3">
+                    <div class="text-slate-400 flex items-center justify-between">
+                        <span>SITES BROWSED</span>
+                        <i data-lucide="globe-2" class="w-4 h-4 text-cyan-400"></i>
+                    </div>
+                    <div id="adblock-stat-total" class="text-xl font-bold text-white mt-1">0</div>
+                    <div class="text-[10px] text-slate-500 mt-0.5">Total Intercepted Requests</div>
+                </div>
+
+                <div class="cyber-card p-3 border-l-2 border-rose-500">
+                    <div class="text-slate-400 flex items-center justify-between">
+                        <span>ADS & TRACKERS BLOCKED</span>
+                        <i data-lucide="ban" class="w-4 h-4 text-rose-400"></i>
+                    </div>
+                    <div id="adblock-stat-blocked" class="text-xl font-bold text-rose-400 mt-1">0</div>
+                    <div class="text-[10px] text-rose-400/80 mt-0.5">Ads, Beacons & Spyware</div>
+                </div>
+
+                <div class="cyber-card p-3">
+                    <div class="text-slate-400 flex items-center justify-between">
+                        <span>BLOCK PERCENTAGE</span>
+                        <i data-lucide="percent" class="w-4 h-4 text-amber-400"></i>
+                    </div>
+                    <div id="adblock-stat-rate" class="text-xl font-bold text-amber-400 mt-1">0%</div>
+                    <div class="text-[10px] text-slate-500 mt-0.5">Efficiency Ratio</div>
+                </div>
+
+                <div class="cyber-card p-3 border-l-2 border-emerald-500">
+                    <div class="text-slate-400 flex items-center justify-between">
+                        <span>BANDWIDTH SAVED</span>
+                        <i data-lucide="zap" class="w-4 h-4 text-emerald-400"></i>
+                    </div>
+                    <div id="adblock-stat-saved" class="text-xl font-bold text-emerald-400 mt-1">0 MB</div>
+                    <div class="text-[10px] text-emerald-400/80 mt-0.5">Data & Energy Preserved</div>
+                </div>
+            </div>
+
+            <!-- Analytics Visual Breakdown -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Top Visited Websites -->
+                <div class="cyber-card p-4">
+                    <h3 class="text-xs font-bold font-mono text-white mb-2 flex items-center gap-1.5">
+                        <i data-lucide="compass" class="w-4 h-4 text-cyan-400"></i> Top Visited Websites
+                    </h3>
+                    <div id="adblock-top-visited" class="space-y-2 max-h-60 overflow-y-auto text-xs font-mono">
+                        <div class="text-slate-500 text-[11px] p-2">No browsing activity recorded yet.</div>
+                    </div>
+                </div>
+
+                <!-- Top Blocked Ad Networks -->
+                <div class="cyber-card p-4">
+                    <h3 class="text-xs font-bold font-mono text-rose-400 mb-2 flex items-center gap-1.5">
+                        <i data-lucide="shield-alert" class="w-4 h-4 text-rose-400"></i> Top Blocked Ad Networks
+                    </h3>
+                    <div id="adblock-top-blocked" class="space-y-2 max-h-60 overflow-y-auto text-xs font-mono">
+                        <div class="text-slate-500 text-[11px] p-2">No ad blocks recorded yet.</div>
+                    </div>
+                </div>
+
+                <!-- Categorical Distribution -->
+                <div class="cyber-card p-4">
+                    <h3 class="text-xs font-bold font-mono text-amber-400 mb-2 flex items-center gap-1.5">
+                        <i data-lucide="pie-chart" class="w-4 h-4 text-amber-400"></i> Traffic Distribution
+                    </h3>
+                    <div id="adblock-categories" class="space-y-2 max-h-60 overflow-y-auto text-xs font-mono">
+                        <div class="text-slate-500 text-[11px] p-2">Awaiting browsing telemetry.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Web Browsing Feed Table -->
+            <div class="cyber-card overflow-hidden">
+                <div class="p-3 border-b border-slate-800 bg-slate-900/60 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div class="relative w-full sm:w-80">
+                        <i data-lucide="search" class="w-4 h-4 text-slate-500 absolute left-3 top-2.5"></i>
+                        <input 
+                            type="text" 
+                            id="traffic-search" 
+                            oninput="filterTrafficTable()" 
+                            placeholder="Search browsed websites..." 
+                            class="w-full bg-slate-900 border border-slate-800 rounded-lg pl-9 pr-4 py-1.5 text-xs font-mono text-white focus:outline-none focus:border-rose-500 placeholder-slate-500"
+                        >
+                    </div>
+
+                    <div class="flex items-center gap-1.5 font-mono text-xs w-full sm:w-auto">
+                        <button onclick="setTrafficFilter('all')" data-traffic-filter="all" class="traffic-filter-btn px-3 py-1 rounded bg-rose-600 text-white font-medium">All Traffic</button>
+                        <button onclick="setTrafficFilter('blocked')" data-traffic-filter="blocked" class="traffic-filter-btn px-3 py-1 rounded bg-slate-800 text-slate-400 hover:text-white">Blocked Ads</button>
+                        <button onclick="setTrafficFilter('allowed')" data-traffic-filter="allowed" class="traffic-filter-btn px-3 py-1 rounded bg-slate-800 text-slate-400 hover:text-white">Allowed Sites</button>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto max-h-[500px] overflow-y-auto">
+                    <table class="w-full text-left text-xs font-mono">
+                        <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400 sticky top-0 z-10">
+                            <tr>
+                                <th class="p-3 w-44">Date & Time</th>
+                                <th class="p-3">Website / Target Domain</th>
+                                <th class="p-3 w-28">Method & Port</th>
+                                <th class="p-3 w-40">Category</th>
+                                <th class="p-3 w-28">Status</th>
+                                <th class="p-3 text-right w-36">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="traffic-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 3: REMOTE DESKTOP & RAT HUNTER -->
+        <!-- ========================================== -->
+        <section id="view-rmm" class="tab-content hidden space-y-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-base font-bold font-mono text-cyan-300">Remote Desktop, VNC, RMM & RAT Monitor</h2>
+                    <p class="text-xs text-slate-400">Tracks AnyDesk, TeamViewer, RustDesk, ScreenConnect, VNC, and reverse ingress tunnels (LOLRMM).</p>
+                </div>
+            </div>
+
+            <div class="cyber-card overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs font-mono">
+                        <thead class="bg-slate-900/80 border-b border-slate-800 text-slate-400">
+                            <tr>
+                                <th class="p-3">Software / Tool</th>
+                                <th class="p-3">PID</th>
+                                <th class="p-3">Category</th>
+                                <th class="p-3">Executable Path</th>
+                                <th class="p-3">Network Sockets / Ports</th>
+                                <th class="p-3 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rmm-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 4: LIVE PROCESS MONITOR -->
+        <!-- ========================================== -->
+        <section id="view-processes" class="tab-content hidden space-y-4">
+            <!-- Search & Filter Controls -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div class="relative w-full sm:w-96">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-500 absolute left-3 top-2.5"></i>
+                    <input 
+                        type="text" 
+                        id="process-search" 
+                        oninput="setSearchQuery(this.value)" 
+                        placeholder="Search by PID, Name, Path, or User..." 
+                        class="w-full bg-slate-900/90 border border-slate-800 rounded-lg pl-9 pr-4 py-2 text-xs font-mono text-white focus:outline-none focus:border-cyan-500 placeholder-slate-500"
+                    >
+                </div>
+
+                <div class="flex items-center gap-1.5 w-full sm:w-auto font-mono text-xs">
+                    <button onclick="setProcessFilter('all')" data-filter="all" class="proc-filter-btn px-3 py-1.5 rounded-lg bg-cyan-600 text-white font-medium">All</button>
+                    <button onclick="setProcessFilter('threats')" data-filter="threats" class="proc-filter-btn px-3 py-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white">Threats Only</button>
+                    <button onclick="setProcessFilter('rmm')" data-filter="rmm" class="proc-filter-btn px-3 py-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white">Remote Control</button>
+                    <button onclick="setProcessFilter('high_cpu')" data-filter="high_cpu" class="proc-filter-btn px-3 py-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white">High CPU</button>
+                </div>
+            </div>
+
+            <!-- Process Explorer Table -->
+            <div class="cyber-card overflow-hidden">
+                <div class="overflow-x-auto max-h-[550px] overflow-y-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400 font-mono sticky top-0 z-10">
+                            <tr>
+                                <th class="p-3 w-16">PID</th>
+                                <th class="p-3">Process Name & Path</th>
+                                <th class="p-3 w-28">Threat Level</th>
+                                <th class="p-3 w-20">CPU</th>
+                                <th class="p-3 w-24">Memory</th>
+                                <th class="p-3 w-36">User</th>
+                                <th class="p-3 text-right w-48">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="process-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 5: ACCESS CONTROL & ALLOW / BLOCK RULES -->
+        <!-- ========================================== -->
+        <section id="view-policy" class="tab-content hidden space-y-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-base font-bold font-mono text-white">Access Control & Allow / Block Policy Rules</h2>
+                    <p class="text-xs text-slate-400">Explicitly whitelist trusted software or blacklist malicious processes and remote IP addresses.</p>
+                </div>
+                <button onclick="openAddRuleModal()" class="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-black font-bold text-xs font-mono rounded flex items-center gap-1.5 shadow">
+                    <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i> Add Custom Rule
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Allowed Processes (Whitelist) -->
+                <div class="cyber-card p-4 flex flex-col justify-between border-t-2 border-emerald-500">
+                    <div>
+                        <div class="flex items-center justify-between text-xs font-mono mb-2">
+                            <span class="font-bold text-emerald-400 flex items-center gap-1.5">
+                                <i data-lucide="check-circle" class="w-4 h-4"></i> Allowed (Whitelisted)
+                            </span>
+                            <span id="policy-count-allowed" class="text-slate-400">0 rules</span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 mb-3">Processes that bypass all heuristics and are never terminated.</p>
+                        <div id="policy-list-allowed" class="space-y-2 max-h-72 overflow-y-auto">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blocked Processes (Blacklist) -->
+                <div class="cyber-card p-4 flex flex-col justify-between border-t-2 border-red-500">
+                    <div>
+                        <div class="flex items-center justify-between text-xs font-mono mb-2">
+                            <span class="font-bold text-red-400 flex items-center gap-1.5">
+                                <i data-lucide="ban" class="w-4 h-4"></i> Blocked Processes (Blacklist)
+                            </span>
+                            <span id="policy-count-blocked" class="text-slate-400">0 rules</span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 mb-3">Processes banned by policy, flagged as Critical on sight.</p>
+                        <div id="policy-list-blocked" class="space-y-2 max-h-72 overflow-y-auto">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blocked IP Addresses -->
+                <div class="cyber-card p-4 flex flex-col justify-between border-t-2 border-amber-500">
+                    <div>
+                        <div class="flex items-center justify-between text-xs font-mono mb-2">
+                            <span class="font-bold text-amber-400 flex items-center gap-1.5">
+                                <i data-lucide="shield-x" class="w-4 h-4"></i> Banned IP Addresses
+                            </span>
+                            <span id="policy-count-ips" class="text-slate-400">0 rules</span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 mb-3">Remote IPs blocked via Windows Firewall & active connection bans.</p>
+                        <div id="policy-list-ips" class="space-y-2 max-h-72 overflow-y-auto">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 6: PERSISTENCE & STARTUP -->
+        <!-- ========================================== -->
+        <section id="view-persistence" class="tab-content hidden space-y-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-base font-bold font-mono text-white">Autoruns, Registry & Startup Persistence</h2>
+                    <p class="text-xs text-slate-400">Scans HKCU/HKLM Run keys, Startup folders, and Scheduled Tasks for hidden persistence.</p>
+                </div>
+                <button onclick="loadPersistence()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-mono text-slate-300 rounded border border-slate-700 flex items-center gap-1.5">
+                    <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Rescan Autoruns
+                </button>
+            </div>
+
+            <div class="cyber-card overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs font-mono">
+                        <thead class="bg-slate-900/80 border-b border-slate-800 text-slate-400">
+                            <tr>
+                                <th class="p-3">Entry Name</th>
+                                <th class="p-3">Location Vector</th>
+                                <th class="p-3">Target Command / Path</th>
+                                <th class="p-3">Status</th>
+                                <th class="p-3 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="persistence-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 7: SIMULATION LAB -->
+        <!-- ========================================== -->
+        <section id="view-simulation" class="tab-content hidden space-y-4">
+            <div class="cyber-card p-6 border-purple-500/40">
+                <div class="flex items-start gap-4">
+                    <div class="p-3 rounded-xl bg-purple-500/20 text-purple-400 border border-purple-500/30">
+                        <i data-lucide="flask-conical" class="w-8 h-8"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold font-mono text-white">Safe Threat Simulation Sandbox</h2>
+                        <p class="text-xs text-slate-400 mt-1 max-w-2xl">
+                            Verify AegisShield's detection and eradication engine safely! These scenarios spawn completely harmless background Python processes that exhibit real-world malware behavioral patterns (e.g., Temp drop zones, obfuscated LOLBins, remote desktop beacons).
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                    <!-- Scenario 1 -->
+                    <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-800 flex flex-col justify-between">
+                        <div>
+                            <div class="font-bold text-sm text-white font-mono">Scenario 1: Temp Drop Trojan</div>
+                            <p class="text-xs text-slate-400 mt-1">Spawns a benign process running out of %TEMP% mimicking a dropped Trojan payload.</p>
+                        </div>
+                        <button onclick="spawnTestSimulation('temp_trojan')" class="mt-4 px-3 py-2 bg-purple-600/30 hover:bg-purple-600 text-purple-200 text-xs font-mono font-bold rounded border border-purple-500/50 flex items-center justify-center gap-2">
+                            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Temp Trojan
+                        </button>
+                    </div>
+
+                    <!-- Scenario 2 -->
+                    <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-800 flex flex-col justify-between">
+                        <div>
+                            <div class="font-bold text-sm text-white font-mono">Scenario 2: Obfuscated LOLBin</div>
+                            <p class="text-xs text-slate-400 mt-1">Launches a hidden process with base64/encoded download cradle flags.</p>
+                        </div>
+                        <button onclick="spawnTestSimulation('encoded_cmdline')" class="mt-4 px-3 py-2 bg-purple-600/30 hover:bg-purple-600 text-purple-200 text-xs font-mono font-bold rounded border border-purple-500/50 flex items-center justify-center gap-2">
+                            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Encoded Cradle
+                        </button>
+                    </div>
+
+                    <!-- Scenario 3 -->
+                    <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-800 flex flex-col justify-between">
+                        <div>
+                            <div class="font-bold text-sm text-white font-mono">Scenario 3: Remote Desktop Beacon</div>
+                            <p class="text-xs text-slate-400 mt-1">Simulates an unauthorized VNC / RMM remote control session beacon.</p>
+                        </div>
+                        <button onclick="spawnTestSimulation('rmm_beacon')" class="mt-4 px-3 py-2 bg-purple-600/30 hover:bg-purple-600 text-purple-200 text-xs font-mono font-bold rounded border border-purple-500/50 flex items-center justify-center gap-2">
+                            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch RMM Beacon
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-800 flex justify-end">
+                    <button onclick="cleanupSimulations()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-mono text-slate-300 rounded border border-slate-700 flex items-center gap-2">
+                        <i data-lucide="trash-2" class="w-4 h-4 text-red-400"></i> Terminate All Active Simulations
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 8: EMAIL ALERTS & REPORT CONFIGURATION -->
+        <!-- ========================================== -->
+        <section id="view-email" class="tab-content hidden space-y-4">
+            <div class="cyber-card p-6 max-w-2xl mx-auto">
+                <div class="flex items-center gap-3 border-b border-slate-800 pb-4 mb-4">
+                    <div class="p-2.5 rounded-xl bg-purple-500/20 text-purple-400 border border-purple-500/30">
+                        <i data-lucide="mail" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-base font-bold font-mono text-white">SMTP Email Alert & Report Dispatcher</h2>
+                        <p class="text-xs text-slate-400">Configure SMTP credentials to receive automated HTML security posture reports and critical alerts.</p>
+                    </div>
+                </div>
+
+                <form onsubmit="handleSaveEmailConfig(event)" class="space-y-4 font-mono text-xs">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-slate-400 mb-1">SMTP Server Host</label>
+                            <input type="text" id="email-smtp-server" placeholder="smtp.gmail.com" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white">
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 mb-1">SMTP Port</label>
+                            <input type="number" id="email-smtp-port" placeholder="587" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-slate-400 mb-1">Sender Email Address</label>
+                        <input type="email" id="email-sender" placeholder="security@yourdomain.com" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white">
+                    </div>
+
+                    <div>
+                        <label class="block text-slate-400 mb-1">App Password / Auth Token</label>
+                        <input type="password" id="email-password" placeholder="••••••••••••••••" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white">
+                        <span class="text-[10px] text-slate-500">For Gmail, generate an "App Password" in Google Account Security.</span>
+                    </div>
+
+                    <div>
+                        <label class="block text-slate-400 mb-1">Default Recipient Email Address</label>
+                        <input type="email" id="email-recipient" placeholder="admin@yourdomain.com" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white">
+                    </div>
+
+                    <div class="flex items-center gap-2 pt-2">
+                        <input type="checkbox" id="email-auto-alert" class="rounded bg-slate-900 border-slate-800 text-cyan-600 focus:ring-0">
+                        <label for="email-auto-alert" class="text-slate-300">Automatically dispatch email alert when a Critical threat is detected</label>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-800 flex items-center justify-between">
+                        <button type="button" onclick="sendTestEmail()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-cyan-400 rounded border border-slate-700 flex items-center gap-1.5">
+                            <i data-lucide="send" class="w-3.5 h-3.5"></i> Send Test Verification
+                        </button>
+                        <div class="flex gap-2">
+                            <button type="button" onclick="sendFullReport()" class="px-3 py-2 bg-purple-600/30 hover:bg-purple-600 text-purple-200 rounded border border-purple-500/50 flex items-center gap-1.5 font-bold">
+                                <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Send Full Report Now
+                            </button>
+                            <button type="submit" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-black font-bold rounded">
+                                Save Settings
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 9: INCIDENT AUDIT LOG -->
+        <!-- ========================================== -->
+        <section id="view-audit" class="tab-content hidden space-y-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-base font-bold font-mono text-white">Incident & Eradication Audit Trail</h2>
+                    <p class="text-xs text-slate-400">Chronological ledger of scans, terminations, quarantines, email dispatches, and policy events.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="loadAuditLog()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-mono text-slate-300 rounded border border-slate-700 flex items-center gap-1.5">
+                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh
+                    </button>
+                    <button onclick="exportAuditLog()" class="px-3 py-1.5 bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-300 text-xs font-mono rounded border border-cyan-500/40 flex items-center gap-1.5">
+                        <i data-lucide="download" class="w-3.5 h-3.5"></i> Export Report (JSON)
+                    </button>
+                </div>
+            </div>
+
+            <div class="cyber-card p-4">
+                <div id="audit-log-container" class="space-y-2 max-h-[500px] overflow-y-auto">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Deep Process Inspection Modal -->
+    <div id="inspect-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="cyber-card max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto" id="inspect-modal-content">
+            <!-- Populated dynamically -->
+        </div>
+    </div>
+
+    <!-- Deep IP Tracer Modal -->
+    <div id="ip-trace-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="cyber-card max-w-lg w-full p-6 font-mono text-xs space-y-4" id="ip-trace-modal-content">
+            <!-- Populated dynamically -->
+        </div>
+    </div>
+
+    <!-- Add Custom Policy Rule Modal -->
+    <div id="add-rule-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="cyber-card max-w-md w-full p-6 font-mono text-xs space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="text-sm font-bold text-white">Add Access Control Rule</h3>
+                <button onclick="closeAddRuleModal()" class="text-slate-400 hover:text-white">✕</button>
+            </div>
+            <form onsubmit="handleCreateRule(event)" class="space-y-3">
+                <div>
+                    <label class="block text-slate-400 mb-1">Rule Policy Action</label>
+                    <select id="rule-action" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white">
+                        <option value="allow">Allowlist (Trust & Never Kill)</option>
+                        <option value="block">Blocklist (Ban & Flag Critical)</option>
+                        <option value="block_ip">Block Remote IP Address (Firewall)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">Match Type</label>
+                    <select id="rule-type" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white">
+                        <option value="name">Process Name (e.g. process.exe)</option>
+                        <option value="path">Full Path (e.g. C:\tools\)</option>
+                        <option value="hash">SHA256 Hash</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">Target Value</label>
+                    <input type="text" id="rule-value" required placeholder="e.g. test_tool.exe or 198.51.100.1" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">Comment / Reason</label>
+                    <input type="text" id="rule-comment" placeholder="e.g. Verified internal administrative script" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white">
+                </div>
+                <div class="pt-3 border-t border-slate-800 flex justify-end gap-2">
+                    <button type="button" onclick="closeAddRuleModal()" class="px-3 py-1.5 bg-slate-800 text-slate-300 rounded">Cancel</button>
+                    <button type="submit" class="px-4 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-black font-bold rounded">Create Rule</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container"></div>
+
+    <!-- App JavaScript -->
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

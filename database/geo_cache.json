@@ -1,0 +1,13 @@
+{
+  "8.8.8.8": {
+    "ip": "8.8.8.8",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "Google Public DNS",
+    "verdict": "GENUINE CLOUD / CDN",
+    "is_genuine": true,
+    "is_private": false,
+    "confidence": 60
+  }
+}

@@ -1,0 +1,10 @@
+Command exited with code 0.
+
+Command output:
+fastapi OK
+uvicorn OK
+flask OK
+aiohttp MISSING
+requests OK
+win32api MISSING
+wmi MISSING

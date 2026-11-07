@@ -1,0 +1,20 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+env/
+venv/
+.venv/
+
+# AegisShield Quarantine & Temp Logs
+quarantine/*
+!quarantine/.gitkeep
+logs/test_*.log
+
+# OS / Editor Artifacts
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

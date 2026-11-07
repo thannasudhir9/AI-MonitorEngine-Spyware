@@ -1,0 +1,1 @@
+Made 1 replacement in c:\Users\thann\Downloads\AntiGravity\SpywareProcessMon\backend\detector.py starting at line 280 (+45/-1 lines).

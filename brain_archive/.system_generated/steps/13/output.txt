@@ -1,0 +1,45 @@
+The search for "github RMM RAT detection list "remote monitoring and management"" returned the following summary:
+Several prominent community-driven GitHub repositories and open-source intelligence projects focus on tracking, cataloging, and detecting **Remote Monitoring and Management (RMM)** and remote access tools that are often abused by threat actors (Living Off the Land RMM / "LotLRMM")[1]. 
+
+The primary GitHub repositories and tracking lists used for RMM/RAT detection engineering, threat hunting, and digital forensics include:
+
+### 1. **LOLRMM (Living Off the Land Remote Monitoring and Management)**
+* **GitHub URL:** `magicsword-io/LOLRMM`[1]
+* **Website:** [lolrmm.io](https://lolrmm.io)[1]
+* **Overview:** A community-driven project providing a massive, structured catalog of legitimate RMM and remote access tools commonly repurposed by threat actors for persistence and hands-on-keyboard access[1]. 
+* **What it offers:** Structured YAML source records detailing tool metadata, installation paths, network domains, disk artifacts, and **ready-to-use Sigma, Splunk, and Microsoft Defender detection rules**[1]. It also features JSON/CSV APIs for SIEM ingestion[1].
+
+### 2. **Remote Management Monitoring Tools (Artifacts & Forensics)**
+* **GitHub URL:** `jischell-msft/RemoteManagementMonitoringTools`[2]
+* **Overview:** Maintained with a focus on enterprise defense, this repository catalogs artifacts left behind by dozens of commercial and open-source RMM tools[2].
+* **What it offers:** Specific guidance, process execution indicators, and Kusto Query Language (KQL) rules tailored for **Microsoft Defender for Endpoint (MDE)** to hunt for unauthorized RMM software[2].
+
+### 3. **RMML (Remote Management and Monitoring List)**
+* **GitHub URL:** `LivingInSyn/RMML`[3]
+* **Overview:** Built specifically to help security operations teams automate the detection of unauthorized RMMs (and remote network access tools like Tailscale or Ngrok) inside corporate perimeters[3].
+* **What it offers:** Automated CI pipelines that compile lists into formats consumed directly by EDR and alerting platforms (such as Carbon Black integrations)[3].
+
+### 4. **RMM-Catalogue (CSV & IOC Lists)**
+* **GitHub URL:** `RMM-Catalogue/rmm.csv`[4]
+* **Overview:** A straightforward, heavily populated spreadsheet listing executable names, associated domains, and vendors for scores of remote administration utilities (e.g., GoToAssist, Level, Kaseya, LabTech, Iperius, etc.)[4] to cross-reference against endpoint telemetry.
+
+### 5. **Arizona-Cyber-Threat-Response-Alliance (ACTRA) - rmm-detection**
+* **GitHub URL:** `Arizona-Cyber-Threat-Response-Alliance/rmm-detection`[5]
+* **Overview:** A collection geared toward enterprise defense, containing multi-SIEM detection rules (Splunk, Microsoft Sentinel, ELK), response scripts, and playbooks to handle unauthorized RMM usage[5][6].
+
+---
+
+### Commonly Tracked Tools in These Lists
+These GitHub lists typically cover over 100+ dual-use administrative utilities frequently abused in ransomware campaigns and espionage[2][7], including:
+* **Commercial RMMs:** ConnectWise ScreenConnect, AnyDesk, TeamViewer, NinjaOne (NinjaRMM), SyncroMSP, TacticalRMM, Level.io, Atera, Pulseway, SplashTop, LogMeIn, GoToAssist, Remote Utilities, RustDesk, MeshCentral, and SupRemo[2].
+
+Sources:
+[1] [github.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFotLEtJvWy_6ROqFGh7MOwf5h9ui-jkme6vLqkANQgREcNYKAncyT1zmzc0pliM4bOXGl7ki3OCE7h8IxqV_sG9YLh4j-puRbxmpWId8niWhoIp2_hRPM3sUoOpvI=)
+[2] [github.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGPMDmXHnL5q5oxJa0OSJ1tQzxgmzHcnlNc4LHk3AQZNzDilhp3v2bEncL4L5KbUap2Ahi70IRP2XgASWr43P0ey4WTT0WoVXLJ3-YYFrZDbzlk0RGk6G6dBXcMY58_V-vcHyhwYWf8BpRMWAE11Q6tRW9bFurO)
+[3] [github.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEnPVhv8voIaheh9lRBk6kHfmv7W8yW5t0o-6vd-opt79wMEAK1uWU_hH-OAwJXmp-FSvFtWNTdH3olLB9Sc3rBZcKl5VMMMfoCHoBkoLiOf8zTRhpxUMfiWA==)
+[4] [github.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdgDiWbZQ9zMFguCDN6i6m5dESOkcMC571sWbMsN6kkzE6w0r-EYvpT2Crh8XO7JxGUqlB7mY77dI3KX9TflC-H4hm1Sr6Yzbq1HOC76f02T-2uFFcC0oSSCdUgFGfF9q5PolJtF76yXFRVzwHlzFmkThTXy8=)
+[5] [github.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFN16iBEBeGQVxVm1YMVOmobuq-PHhi97IDD8Ap25R3Vbnh5VGhTk3yvGo5XtFZDUclgl6biwnl-ko-wRj2d97loMZDDgyNaf79cCCBTtDGcWtOHhRX9YIl-p2oqKG41S1n-lx4028JCj8wz1iEHxbQZE_XupytWmPsts754Q==)
+[6] [github.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFN16iBEBeGQVxVm1YMVOmobuq-PHhi97IDD8Ap25R3Vbnh5VGhTk3yvGo5XtFZDUclgl6biwnl-ko-wRj2d97loMZDDgyNaf79cCCBTtDGcWtOHhRX9YIl-p2oqKG41S1n-lx4028JCj8wz1iEHxbQZE_XupytWmPsts754Q==)
+[7] [socprime.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHWWuAf0KkQNJCuXQD7U5hdzWPbgzCNpIIEMhJ6XwsJN1fotbG_2LCnqVupyqiS2Vi9_r8UR0OQ87eB8TT2CrVH2PnUKt4aPwqeBnNNcVvzaCXXzmcM37sL4npDPVYUUt7KY80q8RPQEiXpD02AOG2o3gKOL4xevgHwR29U6eKcCJDnkGd6fIIo6kOcFXMZ)
+
+Note: Source URLs are HTTP redirects; check where they resolve if you need the direct link.

@@ -1,0 +1,15 @@
+Command exited with code 0.
+
+Command output:
+UDP Port 53: IN USE ([WinError 10013] An attempt was made to access a socket in a way forbidden by its access permissions)
+TCP Port 53: AVAILABLE
+UDP Port 5353: IN USE ([WinError 10013] An attempt was made to access a socket in a way forbidden by its access permissions)
+TCP Port 5353: AVAILABLE
+UDP Port 8080: AVAILABLE
+TCP Port 8080: AVAILABLE
+UDP Port 8443: AVAILABLE
+TCP Port 8443: AVAILABLE
+UDP Port 8888: AVAILABLE
+TCP Port 8888: AVAILABLE
+UDP Port 9090: AVAILABLE
+TCP Port 9090: AVAILABLE

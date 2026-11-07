@@ -1,0 +1,72 @@
+[
+  {
+    "id": "evt_1794033363252",
+    "timestamp": "2026-11-07T07:36:03.252408",
+    "time_display": "2026-11-07 07:36:03",
+    "action": "PROCESS_KILLED",
+    "target": "python.exe",
+    "pid": 58536,
+    "details": "Test Engine Kill. Successfully terminated.",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "evt_1794033129078",
+    "timestamp": "2026-11-07T07:32:09.078838",
+    "time_display": "2026-11-07 07:32:09",
+    "action": "PROCESS_KILLED",
+    "target": "python.exe",
+    "pid": 75088,
+    "details": "Test Engine Kill. Successfully terminated.",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "evt_1794032837925",
+    "timestamp": "2026-11-07T07:27:17.925711",
+    "time_display": "2026-11-07 07:27:17",
+    "action": "PROCESS_KILLED",
+    "target": "python.exe",
+    "pid": 58188,
+    "details": "Test Engine Kill. Successfully terminated.",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "evt_1794032809804",
+    "timestamp": "2026-11-07T07:26:49.804508",
+    "time_display": "2026-11-07 07:26:49",
+    "action": "PROCESS_KILLED",
+    "target": "python.exe",
+    "pid": 25540,
+    "details": "Test Engine Kill. Successfully terminated.",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "evt_1794031853788",
+    "timestamp": "2026-11-07T07:10:53.788581",
+    "time_display": "2026-11-07 07:10:53",
+    "action": "POLICY_BLOCK_ADDED",
+    "target": "203.0.113.50",
+    "pid": null,
+    "details": "Added to blacklist [ip]: Test malicious IP",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "evt_1794031853617",
+    "timestamp": "2026-11-07T07:10:53.617955",
+    "time_display": "2026-11-07 07:10:53",
+    "action": "POLICY_ALLOW_ADDED",
+    "target": "test_app.exe",
+    "pid": null,
+    "details": "Added to whitelist [name]: Unit test allow",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "evt_1794031483997",
+    "timestamp": "2026-11-07T07:04:43.997867",
+    "time_display": "2026-11-07 07:04:43",
+    "action": "PROCESS_KILLED",
+    "target": "python.exe",
+    "pid": 64316,
+    "details": "Test Kill. Successfully terminated.",
+    "status": "SUCCESS"
+  }
+]

@@ -1,0 +1,13 @@
+Command exited with code 0.
+
+Command output:
+
+Name                  Length
+----                  ------
+.system_generated           
+.user_uploaded              
+scratch                     
+plan.md               9989  
+plan.md.metadata.json 542   
+
+

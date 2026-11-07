@@ -1,0 +1,37 @@
+Command exited with code 1.
+
+Command output:
+
+    ===============================================================
+       AEGISSHIELD - HIGH-DEFINITION SCREENSHOT CAPTURE ENGINE
+    ===============================================================
+    
+[*] Target Directory: C:\Users\thann\Downloads\AntiGravity\SpywareProcessMon\screenshots
+
+[✓] Generated 01_active_threats_remediation.png
+[✓] Generated 02_network_radar_ip_tracer.png
+[✓] Generated 03_adblocker_web_analytics.png
+[✓] Generated 06_access_control_rules.png
+Traceback (most recent call last):
+  File "C:\Users\thann\Downloads\AntiGravity\SpywareProcessMon\tools\screenshot_engine.py", line 579, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\thann\Downloads\AntiGravity\SpywareProcessMon\tools\screenshot_engine.py", line 572, in main
+    render_all_remaining_views()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\thann\Downloads\AntiGravity\SpywareProcessMon\tools\screenshot_engine.py", line 549, in render_all_remaining_views
+    d.text((1050, ry + 15), str(c4)[:35], fill=col)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\thann\AppData\Roaming\Python\Python314\site-packages\PIL\ImageDraw.py", line 569, in text
+    ink = getink(fill)
+  File "C:\Users\thann\AppData\Roaming\Python\Python314\site-packages\PIL\ImageDraw.py", line 563, in getink
+    ink, fill_ink = self._getink(fill)
+                    ~~~~~~~~~~~~^^^^^^
+  File "C:\Users\thann\AppData\Roaming\Python\Python314\site-packages\PIL\ImageDraw.py", line 148, in _getink
+    ink = ImageColor.getcolor(ink, self.mode)
+  File "C:\Users\thann\AppData\Roaming\Python\Python314\site-packages\PIL\ImageColor.py", line 144, in getcolor
+    rgb, alpha = getrgb(color), 255
+                 ~~~~~~^^^^^^^
+  File "C:\Users\thann\AppData\Roaming\Python\Python314\site-packages\PIL\ImageColor.py", line 125, in getrgb
+    raise ValueError(msg)
+ValueError: unknown color specifier: 'active rmm'

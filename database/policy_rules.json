@@ -1,0 +1,44 @@
+{
+  "allowed_processes": [
+    {
+      "id": "rule_allow_default_1",
+      "type": "name",
+      "value": "explorer.exe",
+      "comment": "Default Windows Shell",
+      "created_at": "2026-11-07T00:00:00"
+    },
+    {
+      "id": "allow_1794031853616",
+      "type": "name",
+      "value": "test_app.exe",
+      "comment": "Unit test allow",
+      "created_at": "2026-11-07T07:10:53"
+    }
+  ],
+  "blocked_processes": [
+    {
+      "id": "rule_block_default_1",
+      "type": "name",
+      "value": "wannacry.exe",
+      "comment": "Known Ransomware",
+      "created_at": "2026-11-07T00:00:00"
+    }
+  ],
+  "blocked_ips": [
+    {
+      "id": "rule_ip_default_1",
+      "type": "ip",
+      "value": "198.51.100.1",
+      "comment": "Example Blocked C2 IP",
+      "created_at": "2026-11-07T00:00:00"
+    },
+    {
+      "id": "ip_block_1794031853618",
+      "type": "ip",
+      "value": "203.0.113.50",
+      "comment": "Test malicious IP",
+      "created_at": "2026-11-07T07:10:53"
+    }
+  ],
+  "allowed_ips": []
+}
