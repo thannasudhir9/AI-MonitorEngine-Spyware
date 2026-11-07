@@ -62,3 +62,4 @@ In light mode, low-contrast text classes (`text-amber-300`, `text-cyan-300`, `te
 6. Re-run `tools/screenshot_engine.py` to regenerate all 18 HD screenshots reflecting the improved typography.
 7. Update all documentation files in `docs/` and root `README.md`.
 8. Commit and push cleanly to GitHub `origin/main`.
+

@@ -71,7 +71,7 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  background-image: 
+  background-image:
     radial-gradient(circle at 15% 15%, rgba(6, 182, 212, 0.05) 0%, transparent 40%),
     radial-gradient(circle at 85% 85%, rgba(239, 68, 68, 0.05) 0%, transparent 40%);
 }
@@ -87,13 +87,16 @@ body {
   width: 6px;
   height: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: #f1f5f9;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 9999px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
@@ -101,9 +104,11 @@ body {
 .dark ::-webkit-scrollbar-track {
   background: #0b111e;
 }
+
 .dark ::-webkit-scrollbar-thumb {
   background: #25334d;
 }
+
 .dark ::-webkit-scrollbar-thumb:hover {
   background: #3b82f6;
 }
@@ -140,9 +145,11 @@ body {
   0% {
     box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.3);
   }
+
   70% {
     box-shadow: 0 0 15px 5px rgba(239, 68, 68, 0);
   }
+
   100% {
     box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
   }
@@ -166,8 +173,13 @@ body {
 }
 
 @keyframes scan-sweep {
-  0% { left: -100%; }
-  100% { left: 100%; }
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 100%;
+  }
 }
 
 /* Threat & Security Badges (Dark Mode Defaults) */
@@ -259,7 +271,7 @@ body {
   background: #111a2e;
   border: 1px solid #1e293b;
   color: #f8fafc;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -272,6 +284,7 @@ body {
     transform: translateX(100%);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
@@ -286,7 +299,7 @@ body.theme-light,
 .theme-light {
   background-color: #f8fafc !important;
   color: #0f172a !important;
-  background-image: 
+  background-image:
     radial-gradient(circle at 15% 15%, rgba(6, 182, 212, 0.06) 0%, transparent 40%),
     radial-gradient(circle at 85% 85%, rgba(99, 102, 241, 0.06) 0%, transparent 40%) !important;
 }
@@ -313,12 +326,29 @@ body.theme-light .cyber-card:hover {
 }
 
 /* Top KPI Card Values (High Contrast Semantic Colors) */
-body.theme-light #stat-total-procs { color: #0f172a !important; }
-body.theme-light #stat-critical { color: #b91c1c !important; }
-body.theme-light #stat-suspicious { color: #b45309 !important; }
-body.theme-light #stat-rmm { color: #0369a1 !important; }
-body.theme-light #stat-drives-used { color: #4338ca !important; }
-body.theme-light #stat-health { color: #15803d !important; }
+body.theme-light #stat-total-procs {
+  color: #0f172a !important;
+}
+
+body.theme-light #stat-critical {
+  color: #b91c1c !important;
+}
+
+body.theme-light #stat-suspicious {
+  color: #b45309 !important;
+}
+
+body.theme-light #stat-rmm {
+  color: #0369a1 !important;
+}
+
+body.theme-light #stat-drives-used {
+  color: #4338ca !important;
+}
+
+body.theme-light #stat-health {
+  color: #15803d !important;
+}
 
 /* Global Text Hierarchy & Dark Tone Overrides in Light Mode */
 body.theme-light .text-white {
@@ -831,7 +861,7 @@ body.dark,
 body.theme-dark {
   background-color: #080c14 !important;
   color: #f8fafc !important;
-  background-image: 
+  background-image:
     radial-gradient(circle at 15% 15%, rgba(6, 182, 212, 0.05) 0%, transparent 40%),
     radial-gradient(circle at 85% 85%, rgba(239, 68, 68, 0.05) 0%, transparent 40%) !important;
 }
@@ -979,4 +1009,3 @@ body.theme-light .bg-purple-600 *,
 body.theme-light .bg-blue-600 * {
   color: #ffffff !important;
 }
-

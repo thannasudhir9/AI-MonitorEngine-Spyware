@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="light theme-light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,24 +41,30 @@
             border-left: 3px solid #0284c7;
             font-weight: 600;
         }
+
         .dark .doc-nav-item.active {
             background-color: rgba(6, 182, 212, 0.15);
             color: #06b6d4;
             border-left: 3px solid #06b6d4;
             font-weight: 700;
         }
+
         pre code {
             font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
             font-variant-numeric: tabular-nums;
         }
     </style>
 </head>
-<body class="theme-light bg-slate-50 text-slate-900 min-h-screen flex flex-col font-sans selection:bg-cyan-500 selection:text-black">
+
+<body
+    class="theme-light bg-slate-50 text-slate-900 min-h-screen flex flex-col font-sans selection:bg-cyan-500 selection:text-black">
 
     <!-- Top Navigation Header -->
-    <header class="border-b border-slate-800 bg-cyber-900/90 backdrop-blur-md sticky top-0 z-40 px-6 py-3.5 flex items-center justify-between">
+    <header
+        class="border-b border-slate-800 bg-cyber-900/90 backdrop-blur-md sticky top-0 z-40 px-6 py-3.5 flex items-center justify-between">
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-emerald-500 p-0.5 shadow-lg shadow-cyan-500/20 flex items-center justify-center flex-shrink-0">
+            <div
+                class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-emerald-500 p-0.5 shadow-lg shadow-cyan-500/20 flex items-center justify-center flex-shrink-0">
                 <div class="w-full h-full bg-cyber-900 rounded-[10px] flex items-center justify-center text-cyan-400">
                     <i data-lucide="book-open" class="w-5 h-5"></i>
                 </div>
@@ -65,34 +72,44 @@
             <div>
                 <div class="flex items-center gap-2 flex-wrap">
                     <h1 class="font-extrabold text-sm md:text-base tracking-wide font-mono text-white">
-                        AI Monitoring Engine <span class="text-cyan-400">•</span> AdBlocker Engine <span class="text-emerald-400">•</span> Web Tracker <span class="text-purple-400">•</span> Proc Mon Engine
+                        AI Monitoring Engine <span class="text-cyan-400">•</span> AdBlocker Engine <span
+                            class="text-emerald-400">•</span> Web Tracker <span class="text-purple-400">•</span> Proc
+                        Mon Engine
                     </h1>
-                    <span class="px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-[10px] font-mono font-bold">DOCUMENTATION HUB</span>
+                    <span
+                        class="px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-[10px] font-mono font-bold">DOCUMENTATION
+                        HUB</span>
                 </div>
-                <p class="text-xs text-slate-400">Complete Architectural Reference, Screenshots, Brain Files, Prompts, CLI Runbook & API Specifications</p>
+                <p class="text-xs text-slate-400">Complete Architectural Reference, Screenshots, Brain Files, Prompts,
+                    CLI Runbook & API Specifications</p>
             </div>
         </div>
 
         <div class="flex items-center gap-3">
             <!-- Theme Toggle -->
-            <button id="btn-theme-toggle" onclick="toggleDocTheme()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-mono text-amber-300 border border-slate-700 flex items-center gap-1.5 transition">
+            <button id="btn-theme-toggle" onclick="toggleDocTheme()"
+                class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-mono text-amber-300 border border-slate-700 flex items-center gap-1.5 transition">
                 <i data-lucide="sun" class="w-3.5 h-3.5 text-amber-400"></i> Toggle Theme
             </button>
             <!-- Return to Dashboard -->
-            <a href="/" class="px-4 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-black font-bold text-xs font-mono flex items-center gap-1.5 shadow-lg shadow-cyan-600/30 transition">
+            <a href="/"
+                class="px-4 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-black font-bold text-xs font-mono flex items-center gap-1.5 shadow-lg shadow-cyan-600/30 transition">
                 <i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i> Open Dashboard
             </a>
         </div>
     </header>
 
     <!-- Sub-Header Metadata Bar -->
-    <div class="bg-slate-900/80 border-b border-slate-800 px-6 py-2 flex flex-wrap items-center justify-between text-xs font-mono text-slate-400">
+    <div
+        class="bg-slate-900/80 border-b border-slate-800 px-6 py-2 flex flex-wrap items-center justify-between text-xs font-mono text-slate-400">
         <div class="flex items-center gap-4 flex-wrap">
             <span><strong>Author:</strong> <span class="text-cyan-400 font-bold">Sudhir Kumar Thanna</span></span>
             <span>•</span>
-            <span><strong>Deployed Version:</strong> <span class="text-emerald-400">v2.5.0-SOC-Enterprise (Build 2026.11.07-STABLE)</span></span>
+            <span><strong>Deployed Version:</strong> <span class="text-emerald-400">v2.5.0-SOC-Enterprise (Build
+                    2026.11.07-STABLE)</span></span>
             <span>•</span>
-            <span><strong>Architecture:</strong> Hybrid Fast-Tick Polling + Async Push + Windows Kernel Interceptor</span>
+            <span><strong>Architecture:</strong> Hybrid Fast-Tick Polling + Async Push + Windows Kernel
+                Interceptor</span>
         </div>
         <div class="flex items-center gap-2">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -106,7 +123,8 @@
         <!-- Sidebar Navigation -->
         <aside class="w-full md:w-64 flex-shrink-0 space-y-2 font-mono text-xs">
             <div class="cyber-card p-3 sticky top-20 space-y-1">
-                <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider px-3 py-1">Table of Contents</div>
+                <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider px-3 py-1">Table of Contents
+                </div>
                 <a href="#overview" class="doc-nav-item active flex items-center gap-2 px-3 py-2 rounded transition">
                     <i data-lucide="shield" class="w-3.5 h-3.5"></i> 1. Executive Overview
                 </a>
@@ -150,25 +168,32 @@
                 </div>
                 <h2 class="text-2xl font-bold font-mono text-white">AegisShield EDR — Executive Overview</h2>
                 <p class="text-slate-300 leading-relaxed">
-                    <strong>AegisShield EDR</strong> is an enterprise-grade Autonomous Security Operations Center (SOC) defense system built for modern Windows endpoints. It continuously audits system processes, monitors network origins, terminates threats, intercepts web traffic, blocks ads/trackers, enforces zero-footprint stealth browsing, and dispatches incident reports via Resend API and SMTP.
+                    <strong>AegisShield EDR</strong> is an enterprise-grade Autonomous Security Operations Center (SOC)
+                    defense system built for modern Windows endpoints. It continuously audits system processes, monitors
+                    network origins, terminates threats, intercepts web traffic, blocks ads/trackers, enforces
+                    zero-footprint stealth browsing, and dispatches incident reports via Resend API and SMTP.
                 </p>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 font-mono text-xs pt-2">
                     <div class="p-3 bg-slate-900/80 rounded-lg border border-slate-800">
                         <div class="text-cyan-400 font-bold">AI Monitoring Engine</div>
-                        <div class="text-slate-400 text-[11px] mt-1">Multi-vector heuristics, signature hashing, masquerade hunter.</div>
+                        <div class="text-slate-400 text-[11px] mt-1">Multi-vector heuristics, signature hashing,
+                            masquerade hunter.</div>
                     </div>
                     <div class="p-3 bg-slate-900/80 rounded-lg border border-slate-800">
                         <div class="text-emerald-400 font-bold">AdBlocker & Proxy</div>
-                        <div class="text-slate-400 text-[11px] mt-1">Port 8080 HTTP/CONNECT interceptor with 100k+ filter lists.</div>
+                        <div class="text-slate-400 text-[11px] mt-1">Port 8080 HTTP/CONNECT interceptor with 100k+
+                            filter lists.</div>
                     </div>
                     <div class="p-3 bg-slate-900/80 rounded-lg border border-slate-800">
                         <div class="text-purple-400 font-bold">Web Origin Tracker</div>
-                        <div class="text-slate-400 text-[11px] mt-1">Reverse DNS, ASN/ISP classification, timestamped web telemetry.</div>
+                        <div class="text-slate-400 text-[11px] mt-1">Reverse DNS, ASN/ISP classification, timestamped
+                            web telemetry.</div>
                     </div>
                     <div class="p-3 bg-slate-900/80 rounded-lg border border-slate-800">
                         <div class="text-amber-400 font-bold">Proc Mon Remediator</div>
-                        <div class="text-slate-400 text-[11px] mt-1">Multi-tier termination, UAC elevation, service controller.</div>
+                        <div class="text-slate-400 text-[11px] mt-1">Multi-tier termination, UAC elevation, service
+                            controller.</div>
                     </div>
                 </div>
             </section>
@@ -180,10 +205,12 @@
                 </div>
                 <h2 class="text-2xl font-bold font-mono text-white">System Architecture & Component Graph</h2>
                 <p class="text-slate-300 leading-relaxed">
-                    The platform decouples real-time kernel process inspection from high-speed network interception. Telemetry streams across WebSockets to a dark-cyber glassmorphic SOC dashboard.
+                    The platform decouples real-time kernel process inspection from high-speed network interception.
+                    Telemetry streams across WebSockets to a dark-cyber glassmorphic SOC dashboard.
                 </p>
 
-                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 font-mono text-xs text-slate-300 overflow-x-auto">
+                <div
+                    class="bg-slate-950 p-4 rounded-xl border border-slate-800 font-mono text-xs text-slate-300 overflow-x-auto">
                     <pre><code>┌────────────────────────────────────────────────────────────────────────────────────────┐
 │                                 AEGISSHIELD EDR PLATFORM                                │
 ├──────────────────────────────────────────┬─────────────────────────────────────────────┤
@@ -209,19 +236,27 @@
                 <div class="space-y-4 text-xs font-mono">
                     <div class="p-4 bg-slate-900/70 border border-cyan-500/30 rounded-xl space-y-2">
                         <h3 class="text-sm font-bold text-cyan-300 flex items-center gap-2">
-                            <i data-lucide="radar" class="w-4 h-4 text-cyan-400"></i> 1. AI Monitoring Engine (Threat Hunter)
+                            <i data-lucide="radar" class="w-4 h-4 text-cyan-400"></i> 1. AI Monitoring Engine (Threat
+                            Hunter)
                         </h3>
                         <p class="text-slate-300 font-sans">
-                            Scans running processes, parent-child hierarchies, binary headers, and loaded modules. Calculates cumulative anomaly scores (0-100) using 6 core detection layers: Signature Matching, Masquerade Detection, LOLRMM / Remote Desktop tools, Temporary Directory execution, Suspicious Command-Line flags, and Policy Rules.
+                            Scans running processes, parent-child hierarchies, binary headers, and loaded modules.
+                            Calculates cumulative anomaly scores (0-100) using 6 core detection layers: Signature
+                            Matching, Masquerade Detection, LOLRMM / Remote Desktop tools, Temporary Directory
+                            execution, Suspicious Command-Line flags, and Policy Rules.
                         </p>
                     </div>
 
                     <div class="p-4 bg-slate-900/70 border border-emerald-500/30 rounded-xl space-y-2">
                         <h3 class="text-sm font-bold text-emerald-300 flex items-center gap-2">
-                            <i data-lucide="shield-ban" class="w-4 h-4 text-emerald-400"></i> 2. AdBlocker Engine (Network Interceptor)
+                            <i data-lucide="shield-ban" class="w-4 h-4 text-emerald-400"></i> 2. AdBlocker Engine
+                            (Network Interceptor)
                         </h3>
                         <p class="text-slate-300 font-sans">
-                            Runs on <code>127.0.0.1:8080</code>. Integrates directly into Windows Internet Settings via <code>winreg</code> (ProxyEnable=1). Blocks ad servers, telemetric trackers, malware distribution domains, and crypto-miners. Returns synthetic <code>204 No Content</code> or 1x1 transparent GIFs without crashing client applications.
+                            Runs on <code>127.0.0.1:8080</code>. Integrates directly into Windows Internet Settings via
+                            <code>winreg</code> (ProxyEnable=1). Blocks ad servers, telemetric trackers, malware
+                            distribution domains, and crypto-miners. Returns synthetic <code>204 No Content</code> or
+                            1x1 transparent GIFs without crashing client applications.
                         </p>
                     </div>
 
@@ -230,7 +265,10 @@
                             <i data-lucide="compass" class="w-4 h-4 text-purple-400"></i> 3. Web Tracker & Origin Tracer
                         </h3>
                         <p class="text-slate-300 font-sans">
-                            Logs all visited URLs, HTTP methods, client IPs, and status codes with millisecond date and time. Performs reverse DNS and ASN/ISP queries to classify remote endpoints into Verified CDNs, Trusted Infrastructure, or Suspicious Hosters. Features <strong>Private Stealth Mode</strong> which prevents writing to disk and suppresses tracking headers.
+                            Logs all visited URLs, HTTP methods, client IPs, and status codes with millisecond date and
+                            time. Performs reverse DNS and ASN/ISP queries to classify remote endpoints into Verified
+                            CDNs, Trusted Infrastructure, or Suspicious Hosters. Features <strong>Private Stealth
+                                Mode</strong> which prevents writing to disk and suppresses tracking headers.
                         </p>
                     </div>
 
@@ -239,7 +277,10 @@
                             <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i> 4. Process Monitor & Remediator
                         </h3>
                         <p class="text-slate-300 font-sans">
-                            Provides deep inspection of process PE headers, loaded DLLs, listening sockets, and security tokens. Implements a multi-tier failover termination engine: <code>psutil</code> -> <code>taskkill /F</code> -> PowerShell force -> Windows Service Control -> Interactive Administrator UAC Elevation.
+                            Provides deep inspection of process PE headers, loaded DLLs, listening sockets, and security
+                            tokens. Implements a multi-tier failover termination engine: <code>psutil</code> ->
+                            <code>taskkill /F</code> -> PowerShell force -> Windows Service Control -> Interactive
+                            Administrator UAC Elevation.
                         </p>
                     </div>
                 </div>
@@ -250,34 +291,43 @@
                 <div class="flex items-center gap-2 text-red-400 font-mono text-xs font-bold uppercase tracking-wider">
                     <i data-lucide="alert-triangle" class="w-4 h-4"></i> Section 04
                 </div>
-                <h2 class="text-2xl font-bold font-mono text-white">Administrator Elevation & Remediation Architecture</h2>
+                <h2 class="text-2xl font-bold font-mono text-white">Administrator Elevation & Remediation Architecture
+                </h2>
                 <p class="text-slate-300 leading-relaxed">
-                    Windows enforces strict process token boundaries. When a target PID is owned by the SYSTEM account or runs inside a protected Windows Service, standard user processes receive <code>Access Denied</code>. AegisShield overcomes this boundary through:
+                    Windows enforces strict process token boundaries. When a target PID is owned by the SYSTEM account
+                    or runs inside a protected Windows Service, standard user processes receive
+                    <code>Access Denied</code>. AegisShield overcomes this boundary through:
                 </p>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
                     <div class="p-4 bg-slate-900/80 border border-slate-800 rounded-lg space-y-2">
                         <div class="text-cyan-400 font-bold">1. SeDebugPrivilege Acquisition</div>
                         <p class="text-slate-300 font-sans text-xs">
-                            Upon startup, the Python backend invokes <code>ctypes.windll.advapi32.AdjustTokenPrivileges</code> to grant itself Windows Debug Rights.
+                            Upon startup, the Python backend invokes
+                            <code>ctypes.windll.advapi32.AdjustTokenPrivileges</code> to grant itself Windows Debug
+                            Rights.
                         </p>
                     </div>
                     <div class="p-4 bg-slate-900/80 border border-slate-800 rounded-lg space-y-2">
                         <div class="text-amber-400 font-bold">2. Service Control Interceptor</div>
                         <p class="text-slate-300 font-sans text-xs">
-                            If a process PID is tied to a Windows Service, AegisShield discovers the service name via WMI/CIM and commands <code>sc stop &lt;svc&gt;</code>.
+                            If a process PID is tied to a Windows Service, AegisShield discovers the service name via
+                            WMI/CIM and commands <code>sc stop &lt;svc&gt;</code>.
                         </p>
                     </div>
                     <div class="p-4 bg-slate-900/80 border border-slate-800 rounded-lg space-y-2">
                         <div class="text-red-400 font-bold">3. Elevated UAC Eradicator</div>
                         <p class="text-slate-300 font-sans text-xs">
-                            Clicking "⚡ Trigger Elevated UAC Eradicator" executes <code>Start-Process taskkill -ArgumentList '/F /T /PID &lt;pid&gt;' -Verb RunAs -Wait</code>, presenting the Windows UAC confirmation dialog to kill elevated malware cleanly.
+                            Clicking "⚡ Trigger Elevated UAC Eradicator" executes
+                            <code>Start-Process taskkill -ArgumentList '/F /T /PID &lt;pid&gt;' -Verb RunAs -Wait</code>,
+                            presenting the Windows UAC confirmation dialog to kill elevated malware cleanly.
                         </p>
                     </div>
                     <div class="p-4 bg-slate-900/80 border border-slate-800 rounded-lg space-y-2">
                         <div class="text-emerald-400 font-bold">4. 1-Click Admin Launchers</div>
                         <p class="text-slate-300 font-sans text-xs">
-                            Double-clicking <code>start_all_admin.bat</code> launches the entire suite with elevated token rights, removing all access denied restrictions permanently.
+                            Double-clicking <code>start_all_admin.bat</code> launches the entire suite with elevated
+                            token rights, removing all access denied restrictions permanently.
                         </p>
                     </div>
                 </div>
@@ -290,81 +340,115 @@
                 </div>
                 <h2 class="text-2xl font-bold font-mono text-white">High-Definition Application Screenshots</h2>
                 <p class="text-slate-300 leading-relaxed">
-                    Explore all 14 operational views captured in high definition (1600x1000):
+                    Explore all 18 operational views captured in high definition (1600x1000):
                 </p>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                     <div class="space-y-1.5">
                         <div class="text-xs font-mono font-bold text-cyan-300">01. Active Threats & Remediation</div>
-                        <img src="/screenshots/01_active_threats_remediation.png" alt="Threat Remediation" class="rounded-lg border border-slate-700 shadow-md hover:scale-[1.02] transition cursor-pointer">
+                        <img src="/screenshots/01_active_threats_remediation.png" alt="Threat Remediation"
+                            class="rounded-lg border border-slate-700 shadow-md hover:scale-[1.02] transition cursor-pointer">
                     </div>
                     <div class="space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-emerald-300">02. Network Radar & IP Origin Tracer</div>
-                        <img src="/screenshots/02_network_radar_ip_tracer.png" alt="Network Radar" class="rounded-lg border border-slate-700 shadow-md hover:scale-[1.02] transition cursor-pointer">
+                        <div class="text-xs font-mono font-bold text-emerald-300">02. Network Radar & IP Origin Tracer
+                        </div>
+                        <img src="/screenshots/02_network_radar_ip_tracer.png" alt="Network Radar"
+                            class="rounded-lg border border-slate-700 shadow-md hover:scale-[1.02] transition cursor-pointer">
                     </div>
                     <div class="space-y-1.5">
                         <div class="text-xs font-mono font-bold text-rose-300">03. AdBlocker & Web Analytics</div>
-                        <img src="/screenshots/03_adblocker_web_analytics.png" alt="AdBlocker" class="rounded-lg border border-slate-700 shadow-md hover:scale-[1.02] transition cursor-pointer">
+                        <img src="/screenshots/03_adblocker_web_analytics.png" alt="AdBlocker"
+                            class="rounded-lg border border-slate-700 shadow-md hover:scale-[1.02] transition cursor-pointer">
                     </div>
                     <div class="space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-purple-300">04. Remote Desktop & LOLRMM Hunter</div>
-                        <img src="/screenshots/04_remote_desktop_rmm_hunter.png" alt="RMM Hunter" class="rounded-lg border border-slate-700 shadow-md hover:scale-[1.02] transition cursor-pointer">
+                        <div class="text-xs font-mono font-bold text-purple-300">04. Remote Desktop & LOLRMM Hunter
+                        </div>
+                        <img src="/screenshots/04_remote_desktop_rmm_hunter.png" alt="RMM Hunter"
+                            class="rounded-lg border border-slate-700 shadow-md hover:scale-[1.02] transition cursor-pointer">
                     </div>
                     <div class="space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-cyan-300">05. Live Process Monitor & Telemetry</div>
-                        <img src="/screenshots/05_live_process_monitor.png" alt="Process Monitor" class="rounded-lg border border-slate-700 shadow-md hover:scale-[1.02] transition cursor-pointer">
+                        <div class="text-xs font-mono font-bold text-cyan-300">05. Live Process Monitor & Telemetry
+                        </div>
+                        <img src="/screenshots/05_live_process_monitor.png" alt="Process Monitor"
+                            class="rounded-lg border border-slate-700 shadow-md hover:scale-[1.02] transition cursor-pointer">
                     </div>
                     <div class="space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-emerald-300">06. Access Control & Policy Rules</div>
-                        <img src="/screenshots/06_access_control_rules.png" alt="Access Control" class="rounded-lg border border-slate-700 shadow-md hover:scale-[1.02] transition cursor-pointer">
+                        <div class="text-xs font-mono font-bold text-emerald-300">06. Access Control & Policy Rules
+                        </div>
+                        <img src="/screenshots/06_access_control_rules.png" alt="Access Control"
+                            class="rounded-lg border border-slate-700 shadow-md hover:scale-[1.02] transition cursor-pointer">
                     </div>
                     <div class="space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-amber-300">07. Persistence & Startup Autoruns Hunter</div>
-                        <img src="/screenshots/07_persistence_startup.png" alt="Persistence Hunter" class="rounded-lg border border-slate-700 shadow-md hover:scale-[1.02] transition cursor-pointer">
+                        <div class="text-xs font-mono font-bold text-amber-300">07. Persistence & Startup Autoruns
+                            Hunter</div>
+                        <img src="/screenshots/07_persistence_startup.png" alt="Persistence Hunter"
+                            class="rounded-lg border border-slate-700 shadow-md hover:scale-[1.02] transition cursor-pointer">
                     </div>
                     <div class="space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-rose-300">08. Threat Simulation Lab (Safe Droppers)</div>
-                        <img src="/screenshots/08_threat_simulation_lab.png" alt="Threat Simulator" class="rounded-lg border border-slate-700 shadow-md hover:scale-[1.02] transition cursor-pointer">
+                        <div class="text-xs font-mono font-bold text-rose-300">08. Threat Simulation Lab (Safe Droppers)
+                        </div>
+                        <img src="/screenshots/08_threat_simulation_lab.png" alt="Threat Simulator"
+                            class="rounded-lg border border-slate-700 shadow-md hover:scale-[1.02] transition cursor-pointer">
                     </div>
                     <div class="space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-purple-300">09. Resend API & SMTP Incident Alerting</div>
-                        <img src="/screenshots/09_email_alerts_config.png" alt="Email Alerts" class="rounded-lg border border-slate-700 shadow-md hover:scale-[1.02] transition cursor-pointer">
+                        <div class="text-xs font-mono font-bold text-purple-300">09. Resend API & SMTP Incident Alerting
+                        </div>
+                        <img src="/screenshots/09_email_alerts_config.png" alt="Email Alerts"
+                            class="rounded-lg border border-slate-700 shadow-md hover:scale-[1.02] transition cursor-pointer">
                     </div>
                     <div class="space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-cyan-300">10. Incident Eradication Audit Trail</div>
-                        <img src="/screenshots/10_incident_audit_trail.png" alt="Incident Audit" class="rounded-lg border border-slate-700 shadow-md hover:scale-[1.02] transition cursor-pointer">
+                        <div class="text-xs font-mono font-bold text-cyan-300">10. Incident Eradication Audit Trail
+                        </div>
+                        <img src="/screenshots/10_incident_audit_trail.png" alt="Incident Audit"
+                            class="rounded-lg border border-slate-700 shadow-md hover:scale-[1.02] transition cursor-pointer">
                     </div>
                     <div class="space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-purple-300">11. Private Stealth Mode (Zero-Disk Footprint)</div>
-                        <img src="/screenshots/11_private_mode_stealth.png" alt="Private Mode" class="rounded-lg border border-purple-500/40 shadow-md hover:scale-[1.02] transition cursor-pointer">
+                        <div class="text-xs font-mono font-bold text-purple-300">11. Private Stealth Mode (Zero-Disk
+                            Footprint)</div>
+                        <img src="/screenshots/11_private_mode_stealth.png" alt="Private Mode"
+                            class="rounded-lg border border-purple-500/40 shadow-md hover:scale-[1.02] transition cursor-pointer">
                     </div>
                     <div class="space-y-1.5">
                         <div class="text-xs font-mono font-bold text-amber-300">12. Clean Daylight SOC Light Mode</div>
-                        <img src="/screenshots/12_light_mode_clean_soc.png" alt="Light Mode" class="rounded-lg border border-slate-700 shadow-md hover:scale-[1.02] transition cursor-pointer">
+                        <img src="/screenshots/12_light_mode_clean_soc.png" alt="Light Mode"
+                            class="rounded-lg border border-slate-700 shadow-md hover:scale-[1.02] transition cursor-pointer">
                     </div>
                     <div class="space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-blue-300">13. Interactive Web Documentation Hub</div>
-                        <img src="/screenshots/13_documentation_hub.png" alt="Documentation Hub" class="rounded-lg border border-slate-700 shadow-md hover:scale-[1.02] transition cursor-pointer">
+                        <div class="text-xs font-mono font-bold text-blue-300">13. Interactive Web Documentation Hub
+                        </div>
+                        <img src="/screenshots/13_documentation_hub.png" alt="Documentation Hub"
+                            class="rounded-lg border border-slate-700 shadow-md hover:scale-[1.02] transition cursor-pointer">
                     </div>
                     <div class="space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-red-300">14. Elevated Administrator Eradication & Tracking</div>
-                        <img src="/screenshots/14_elevated_kill_modal_and_tracking.png" alt="Elevated Eradication" class="rounded-lg border border-red-500/40 shadow-md hover:scale-[1.02] transition cursor-pointer">
+                        <div class="text-xs font-mono font-bold text-red-300">14. Elevated Administrator Eradication &
+                            Tracking</div>
+                        <img src="/screenshots/14_elevated_kill_modal_and_tracking.png" alt="Elevated Eradication"
+                            class="rounded-lg border border-red-500/40 shadow-md hover:scale-[1.02] transition cursor-pointer">
                     </div>
                     <div class="space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-cyan-300">15. System Diagnostics & Security Baseline (SystemInfoCheck)</div>
-                        <img src="/screenshots/15_system_diagnostics_baseline.png" alt="System Diagnostics" class="rounded-lg border border-cyan-500/40 shadow-md hover:scale-[1.02] transition cursor-pointer">
+                        <div class="text-xs font-mono font-bold text-cyan-300">15. System Diagnostics & Security
+                            Baseline (SystemInfoCheck)</div>
+                        <img src="/screenshots/15_system_diagnostics_baseline.png" alt="System Diagnostics"
+                            class="rounded-lg border border-cyan-500/40 shadow-md hover:scale-[1.02] transition cursor-pointer">
                     </div>
                     <div class="space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-amber-300">16. Drive Storage & Malware Dropper Hunter (DriveOrganiser)</div>
-                        <img src="/screenshots/16_storage_dropper_hunter.png" alt="Drive Storage Droppers" class="rounded-lg border border-amber-500/40 shadow-md hover:scale-[1.02] transition cursor-pointer">
+                        <div class="text-xs font-mono font-bold text-amber-300">16. Drive Storage & Malware Dropper
+                            Hunter (DriveOrganiser)</div>
+                        <img src="/screenshots/16_storage_dropper_hunter.png" alt="Drive Storage Droppers"
+                            class="rounded-lg border border-amber-500/40 shadow-md hover:scale-[1.02] transition cursor-pointer">
                     </div>
                     <div class="space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-indigo-300">17. Persistent Suspicious Threat Tracking Ledger</div>
-                        <img src="/screenshots/17_suspicious_threat_tracking_ledger.png" alt="Threat Tracking Ledger" class="rounded-lg border border-indigo-500/40 shadow-md hover:scale-[1.02] transition cursor-pointer">
+                        <div class="text-xs font-mono font-bold text-indigo-300">17. Persistent Suspicious Threat
+                            Tracking Ledger</div>
+                        <img src="/screenshots/17_suspicious_threat_tracking_ledger.png" alt="Threat Tracking Ledger"
+                            class="rounded-lg border border-indigo-500/40 shadow-md hover:scale-[1.02] transition cursor-pointer">
                     </div>
                     <div class="space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-sky-400">18. Windows Services Control Panel (services.msc)</div>
-                        <img src="/screenshots/18_windows_services_control_panel.png" alt="Windows Services Control Panel" class="rounded-lg border border-sky-500/40 shadow-md hover:scale-[1.02] transition cursor-pointer">
+                        <div class="text-xs font-mono font-bold text-sky-400">18. Windows Services Control Panel
+                            (services.msc)</div>
+                        <img src="/screenshots/18_windows_services_control_panel.png"
+                            alt="Windows Services Control Panel"
+                            class="rounded-lg border border-sky-500/40 shadow-md hover:scale-[1.02] transition cursor-pointer">
                     </div>
                 </div>
             </section>
@@ -376,29 +460,38 @@
                 </div>
                 <h2 class="text-2xl font-bold font-mono text-white">Brain Files, Plans & Persistent Artifacts</h2>
                 <p class="text-slate-300 leading-relaxed">
-                    Under the <strong>"update, append - always"</strong> policy, all architectural plans and task tracking files are preserved in the <code>brain_archive/</code> directory.
+                    Under the <strong>"update, append - always"</strong> policy, all architectural plans and task
+                    tracking files are preserved in the <code>brain_archive/</code> directory.
                 </p>
 
                 <div class="space-y-3 font-mono text-xs">
                     <div class="p-3 bg-slate-900 border border-slate-800 rounded-lg">
                         <div class="text-cyan-400 font-bold mb-1">📄 adblocker_plan.md</div>
-                        <p class="text-slate-400 font-sans text-xs">Full architectural blueprint for system-wide 127.0.0.1:8080 proxy, AdBlocker engine, web traffic analytics, and Windows Internet Settings integration.</p>
+                        <p class="text-slate-400 font-sans text-xs">Full architectural blueprint for system-wide
+                            127.0.0.1:8080 proxy, AdBlocker engine, web traffic analytics, and Windows Internet Settings
+                            integration.</p>
                     </div>
                     <div class="p-3 bg-slate-900 border border-slate-800 rounded-lg">
                         <div class="text-emerald-400 font-bold mb-1">📄 plan.md</div>
-                        <p class="text-slate-400 font-sans text-xs">Master implementation plan covering Process Monitor, LOLRMM detection, Resend/SMTP alerting, Network radar, and multi-tier eradication.</p>
+                        <p class="text-slate-400 font-sans text-xs">Master implementation plan covering Process Monitor,
+                            LOLRMM detection, Resend/SMTP alerting, Network radar, and multi-tier eradication.</p>
                     </div>
                     <div class="p-3 bg-slate-900 border border-slate-800 rounded-lg">
                         <div class="text-amber-400 font-bold mb-1">📄 continuous_sync_and_memory_protocol.md</div>
-                        <p class="text-slate-400 font-sans text-xs">Persistent memory protocol establishing the mandatory 'create, update, append - always' operational policy across code, documentation, and tests.</p>
+                        <p class="text-slate-400 font-sans text-xs">Persistent memory protocol establishing the
+                            mandatory 'create, update, append - always' operational policy across code, documentation,
+                            and tests.</p>
                     </div>
                     <div class="p-3 bg-slate-900 border border-slate-800 rounded-lg">
                         <div class="text-sky-400 font-bold mb-1">📄 services_control_panel_and_shadcn_ui_plan.md</div>
-                        <p class="text-slate-400 font-sans text-xs">Architectural blueprint for Windows Services Management Control Panel (services.msc), shadcn/ui design tokens, smooth thin scrollbars, and default Light Clean SOC Mode.</p>
+                        <p class="text-slate-400 font-sans text-xs">Architectural blueprint for Windows Services
+                            Management Control Panel (services.msc), shadcn/ui design tokens, smooth thin scrollbars,
+                            and default Light Clean SOC Mode.</p>
                     </div>
                     <div class="p-3 bg-slate-900 border border-slate-800 rounded-lg">
                         <div class="text-purple-400 font-bold mb-1">📁 brain_archive/</div>
-                        <p class="text-slate-400 font-sans text-xs">Mirrored repository of all active task logs, subagent transcripts, and execution checkpoints.</p>
+                        <p class="text-slate-400 font-sans text-xs">Mirrored repository of all active task logs,
+                            subagent transcripts, and execution checkpoints.</p>
                     </div>
                 </div>
             </section>
@@ -412,44 +505,89 @@
 
                 <div class="space-y-3 font-mono text-xs">
                     <div class="p-3 bg-slate-900 border-l-2 border-cyan-500 rounded-r-lg">
-                        <div class="text-slate-400">Prompt: "send an email - to default ethstk911@gmail.com use resend website api way"</div>
-                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Direct Resend HTTP API integration with User-Agent header handling and verified test email dispatch.</div>
+                        <div class="text-slate-400">Prompt: "send an email - to default ethstk911@gmail.com use resend
+                            website api way"</div>
+                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Direct Resend HTTP API integration
+                            with User-Agent header handling and verified test email dispatch.</div>
                     </div>
                     <div class="p-3 bg-slate-900 border-l-2 border-amber-500 rounded-r-lg">
-                        <div class="text-slate-400">Prompt: "2026-11-07 07:54:52 KILL_FAILED 5824 Access denied. Elevated administrator rights required."</div>
-                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Multi-tier fallback (psutil -> taskkill -> PowerShell force -> Service Control -> UAC elevation dialog with -Wait).</div>
+                        <div class="text-slate-400">Prompt: "2026-11-07 07:54:52 KILL_FAILED 5824 Access denied.
+                            Elevated administrator rights required."</div>
+                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Multi-tier fallback (psutil ->
+                            taskkill -> PowerShell force -> Service Control -> UAC elevation dialog with -Wait).</div>
                     </div>
                     <div class="p-3 bg-slate-900 border-l-2 border-purple-500 rounded-r-lg">
-                        <div class="text-slate-400">Prompt: "AI Monitoring Engine, AdBlocker Engine, Web Tracker, Proc Mon Engine as app name"</div>
-                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Full header branding, enterprise footer with process name, ports, engines, author Sudhir Kumar Thanna.</div>
+                        <div class="text-slate-400">Prompt: "AI Monitoring Engine, AdBlocker Engine, Web Tracker, Proc
+                            Mon Engine as app name"</div>
+                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Full header branding, enterprise
+                            footer with process name, ports, engines, author Sudhir Kumar Thanna.</div>
                     </div>
                     <div class="p-3 bg-slate-900 border-l-2 border-emerald-500 rounded-r-lg">
-                        <div class="text-slate-400">Prompt: "create, update , append - always; copy all brain files , new plans , implementations and all to current project folder; update docs, screenshot engine, testing engine; keep in anti gravity memory"</div>
-                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Established permanent Antigravity memory protocol, mirrored brain files, updated all 9 docs in docs/, executed 30/30 test suite and 14 HD screenshots.</div>
+                        <div class="text-slate-400">Prompt: "create, update , append - always; copy all brain files ,
+                            new plans , implementations and all to current project folder; update docs, screenshot
+                            engine, testing engine; keep in anti gravity memory"</div>
+                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Established permanent Antigravity
+                            memory protocol, mirrored brain files, updated all 9 docs in docs/, executed 30/30 test
+                            suite and 14 HD screenshots.</div>
                     </div>
                     <div class="p-3 bg-slate-900 border-l-2 border-cyan-500 rounded-r-lg">
                         <div class="text-slate-400">Prompt: "remove notification sound in the website"</div>
-                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Muted/silenced notification chimes by default, added #btn-sound-toggle header control, and expanded test suite to 33 checks.</div>
+                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Muted/silenced notification chimes
+                            by default, added #btn-sound-toggle header control, and expanded test suite to 33 checks.
+                        </div>
                     </div>
                     <div class="p-3 bg-slate-900 border-l-2 border-red-500 rounded-r-lg">
-                        <div class="text-slate-400">Prompt: "Tree Kill Failed (pid=5824, name='AnyDesk.exe'), stop and start web app in admin mode with full prviliges"</div>
-                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Upgraded kill_process_tree with multi-tier taskkill /F /T, sc stop, and UAC elevation; cycled background daemon and updated admin launchers.</div>
+                        <div class="text-slate-400">Prompt: "Tree Kill Failed (pid=5824, name='AnyDesk.exe'), stop and
+                            start web app in admin mode with full prviliges"</div>
+                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Upgraded kill_process_tree with
+                            multi-tier taskkill /F /T, sc stop, and UAC elevation; cycled background daemon and updated
+                            admin launchers.</div>
                     </div>
                     <div class="p-3 bg-slate-900 border-l-2 border-amber-500 rounded-r-lg">
-                        <div class="text-slate-400">Prompt: "fetch github repo also on this topic - also one of my repo - https://github.com/thannasudhir9/SystemInfoCheck and https://github.com/thannasudhir9/DriveOrganiserAndAnalyzer-AG2.0; add these 2 repos features also into this"</div>
-                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Extracted features from both repos and created backend/system_info.py (OS, CPU, RAM, NICs, Baseline) and backend/drive_analyzer.py (Drive partitions, capacity bars, %TEMP% Dropper Hunter & Cleanup action).</div>
+                        <div class="text-slate-400">Prompt: "fetch github repo also on this topic - also one of my repo
+                            - https://github.com/thannasudhir9/SystemInfoCheck and
+                            https://github.com/thannasudhir9/DriveOrganiserAndAnalyzer-AG2.0; add these 2 repos features
+                            also into this"</div>
+                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Extracted features from both repos
+                            and created backend/system_info.py (OS, CPU, RAM, NICs, Baseline) and
+                            backend/drive_analyzer.py (Drive partitions, capacity bars, %TEMP% Dropper Hunter & Cleanup
+                            action).</div>
                     </div>
                     <div class="p-3 bg-slate-900 border-l-2 border-indigo-500 rounded-r-lg">
-                        <div class="text-slate-400">Prompt: "show suspisious threats also and keep track of them also"</div>
-                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Enhanced detector to score suspicious threats (20-74) alongside critical threats (&ge;75). Created backend/threat_ledger.py with persistent chronological JSON tracking ledger, lifecycle states, observation counts, and interactive filter toolbar.</div>
+                        <div class="text-slate-400">Prompt: "show suspisious threats also and keep track of them also"
+                        </div>
+                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Enhanced detector to score
+                            suspicious threats (20-74) alongside critical threats (&ge;75). Created
+                            backend/threat_ledger.py with persistent chronological JSON tracking ledger, lifecycle
+                            states, observation counts, and interactive filter toolbar.</div>
                     </div>
                     <div class="p-3 bg-slate-900 border-l-2 border-cyan-500 rounded-r-lg">
                         <div class="text-slate-400">Prompt: "ui ux design is bad, improve it using web"</div>
-                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Modernized cybersecurity SOC glassmorphism UI with slate-950 foundation, 6-card top KPI ticker, neon semantic accents, interactive sub-views, and refined micro-interactions.</div>
+                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Modernized cybersecurity SOC
+                            glassmorphism UI with slate-950 foundation, 6-card top KPI ticker, neon semantic accents,
+                            interactive sub-views, and refined micro-interactions.</div>
                     </div>
                     <div class="p-3 bg-slate-900 border-l-2 border-sky-500 rounded-r-lg">
-                        <div class="text-slate-400">Prompt: "services.msc also add these services control panel in our web app. improve tabs, scrolling and other ui , ux, use shadcn , improve test and color font formatting in light mode light mode is default"</div>
-                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Built Windows Services Control Panel (backend/services_manager.py) with 331+ service catalog, PIDs, startup modes, lifecycle controls (start/stop/restart/config); modernized UI/UX with shadcn segmented tab styling, smooth thin scrollbars, default Light Clean SOC mode with high-contrast typography and soft semantic badges.</div>
+                        <div class="text-slate-400">Prompt: "services.msc also add these services control panel in our
+                            web app. improve tabs, scrolling and other ui , ux, use shadcn , improve test and color font
+                            formatting in light mode light mode is default"</div>
+                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Built Windows Services Control Panel
+                            (backend/services_manager.py) with 331+ service catalog, PIDs, startup modes, lifecycle
+                            controls (start/stop/restart/config); modernized UI/UX with shadcn segmented tab styling,
+                            smooth thin scrollbars, default Light Clean SOC mode with high-contrast typography and soft
+                            semantic badges.</div>
+                    </div>
+                    <div class="p-3 bg-slate-900 border-l-2 border-purple-500 rounded-r-lg">
+                        <div class="text-slate-400">Prompt: "improve the tables in all pages, improve text and color formatting issues, improve design, improve scroll bars. the diffrernt sections , sub tabs should be visible in level 1 , level 2 , instead of scrolling"</div>
+                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Built a non-scrolling Two-Level Navigation architecture (5 Level 1 SOC Categories &rarr; dynamic Level 2 Sub-Nav strips). Standardized sticky headers, tabular monospace figures, compact padding, and 6px rounded scrollbars across all tables.</div>
+                    </div>
+                    <div class="p-3 bg-slate-900 border-l-2 border-amber-500 rounded-r-lg">
+                        <div class="text-slate-400">Prompt: "unable to sswitch to dark mode , fix it also"</div>
+                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Resolved dark mode switching failure by synchronizing 'dark' / 'theme-dark' vs 'light' / 'theme-light' classes across both &lt;html&gt; and &lt;body&gt; with localStorage persistence and strict .dark CSS selectors.</div>
+                    </div>
+                    <div class="p-3 bg-slate-900 border-l-2 border-teal-500 rounded-r-lg">
+                        <div class="text-slate-400">Prompt: "take latest screenshots and update readme and all other places accordingly"</div>
+                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Generated all 18 updated HD screenshots (1600x1000), expanded diagnostic suite to 67 automated checks across 21 subsystems (100% passing), and updated documentation and README.md.</div>
                     </div>
                 </div>
             </section>
@@ -467,7 +605,8 @@
                         <div class="text-cyan-300 font-bold">start_all_admin.bat</div>
                     </div>
                     <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
-                        <div class="text-slate-400 mb-1"># Run Diagnostic Test Suite (46 Tests across 17 Subsystems)</div>
+                        <div class="text-slate-400 mb-1"># Run Diagnostic Test Suite (67 Tests across 21 Subsystems)
+                        </div>
                         <div class="text-emerald-300 font-bold">python tools/test_engine.py</div>
                     </div>
                     <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
@@ -551,17 +690,22 @@
 
             <!-- Section 10: Future Scope & Strategic Roadmap (2026-2027) -->
             <section id="future-scope" class="cyber-card p-6 space-y-4">
-                <div class="flex items-center gap-2 text-purple-400 font-mono text-xs font-bold uppercase tracking-wider">
+                <div
+                    class="flex items-center gap-2 text-purple-400 font-mono text-xs font-bold uppercase tracking-wider">
                     <i data-lucide="compass" class="w-4 h-4"></i> Section 10
                 </div>
-                <h2 class="text-2xl font-bold font-mono text-white">Strategic Future Scope & Engineering Roadmap (2026–2027)</h2>
+                <h2 class="text-2xl font-bold font-mono text-white">Strategic Future Scope & Engineering Roadmap
+                    (2026–2027)</h2>
                 <p class="text-slate-300 leading-relaxed">
-                    AegisShield's long-term engineering vision transitions from reactive user-mode host inspection to <strong>Autonomous Action-in-the-Loop Endpoint Defense</strong>, incorporating kernel ETW sensors, Automated Moving Target Defense (AMTD), and on-device edge AI threat reasoning.
+                    AegisShield's long-term engineering vision transitions from reactive user-mode host inspection to
+                    <strong>Autonomous Action-in-the-Loop Endpoint Defense</strong>, incorporating kernel ETW sensors,
+                    Automated Moving Target Defense (AMTD), and on-device edge AI threat reasoning.
                 </p>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
                     <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg space-y-2">
-                        <div class="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">Phase 1 • v3.0 (Q1 2027)</div>
+                        <div class="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">Phase 1 • v3.0
+                            (Q1 2027)</div>
                         <h3 class="text-base font-bold text-white">Kernel ETW & Dynamic WFP</h3>
                         <ul class="text-xs text-slate-400 space-y-1 list-disc list-inside">
                             <li>Event Tracing for Windows (ETW) process & socket capture</li>
@@ -572,7 +716,8 @@
                     </div>
 
                     <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg space-y-2">
-                        <div class="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Phase 2 • v3.5 (Q2 2027)</div>
+                        <div class="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Phase 2 • v3.5
+                            (Q2 2027)</div>
                         <h3 class="text-base font-bold text-white">On-Device Edge AI & HTTP/3</h3>
                         <ul class="text-xs text-slate-400 space-y-1 list-disc list-inside">
                             <li>Local quantized SLM (Gemma 2B / Phi-3) via ONNX Runtime</li>
@@ -583,7 +728,8 @@
                     </div>
 
                     <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg space-y-2">
-                        <div class="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">Phase 3 • v4.0 (Q4 2027)</div>
+                        <div class="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">Phase 3 •
+                            v4.0 (Q4 2027)</div>
                         <h3 class="text-base font-bold text-white">Cross-Platform eBPF Mesh</h3>
                         <ul class="text-xs text-slate-400 space-y-1 list-disc list-inside">
                             <li>Standardized eBPF sensor for Linux servers & Kubernetes</li>
@@ -594,9 +740,12 @@
                     </div>
                 </div>
 
-                <div class="p-3 bg-purple-950/30 border border-purple-500/40 rounded-lg text-xs font-mono flex items-center justify-between flex-wrap gap-2">
-                    <span class="text-purple-300">Detailed Research & Architecture: Read the full engineering roadmap specification</span>
-                    <a href="/static/../docs/FUTURE_SCOPE.md" target="_blank" class="px-3 py-1 rounded bg-purple-600 hover:bg-purple-500 text-white font-bold transition">
+                <div
+                    class="p-3 bg-purple-950/30 border border-purple-500/40 rounded-lg text-xs font-mono flex items-center justify-between flex-wrap gap-2">
+                    <span class="text-purple-300">Detailed Research & Architecture: Read the full engineering roadmap
+                        specification</span>
+                    <a href="/static/../docs/FUTURE_SCOPE.md" target="_blank"
+                        class="px-3 py-1 rounded bg-purple-600 hover:bg-purple-500 text-white font-bold transition">
                         View FUTURE_SCOPE.md
                     </a>
                 </div>
@@ -606,17 +755,19 @@
     </div>
 
     <!-- Footer -->
-    <footer class="border-t border-slate-800 bg-cyber-card/90 px-6 py-4 mt-8 text-xs font-mono text-slate-400 text-center">
-        Built with ❤️ by <span class="text-cyan-400 font-bold">Sudhir Kumar Thanna</span> • AegisShield EDR Documentation Hub • 2026-11-07
+    <footer
+        class="border-t border-slate-800 bg-cyber-card/90 px-6 py-4 mt-8 text-xs font-mono text-slate-400 text-center">
+        Built with ❤️ by <span class="text-cyan-400 font-bold">Sudhir Kumar Thanna</span> • AegisShield EDR
+        Documentation Hub • 2026-11-07
     </footer>
 
     <script>
         if (window.lucide) lucide.createIcons();
 
         function toggleDocTheme() {
-            const isDark = document.documentElement.classList.contains('dark') || 
-                           document.body.classList.contains('dark') ||
-                           document.body.classList.contains('theme-dark');
+            const isDark = document.documentElement.classList.contains('dark') ||
+                document.body.classList.contains('dark') ||
+                document.body.classList.contains('theme-dark');
             const newTheme = isDark ? 'light' : 'dark';
             applyDocTheme(newTheme);
         }
@@ -652,5 +803,5 @@
         updateDocClock();
     </script>
 </body>
-</html>
 
+</html>

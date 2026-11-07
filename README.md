@@ -6,7 +6,7 @@
 [![Python](https://img.shields.io/badge/Python-3.14%2B-blue.svg?logo=python)](https://python.org)
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011%20%7C%20Server-0078D6.svg?logo=windows)](https://microsoft.com)
 [![License](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-56%2F56%20Passing%20(100%25)-brightgreen.svg)](tools/test_engine.py)
+[![Tests](https://img.shields.io/badge/Tests-67%2F67%20Passing%20(100%25)-brightgreen.svg)](tools/test_engine.py)
 [![Theme](https://img.shields.io/badge/Theme-Light%20Clean%20SOC%20Default-sky.svg)](#)
 [![Audio](https://img.shields.io/badge/Audio-Silent%20Mode%20Default-slate.svg)](#)
 [![Email Alerting](https://img.shields.io/badge/Email%20Alerts-Resend%20API%20%7C%20SMTP-purple.svg)](https://resend.com)
@@ -223,7 +223,7 @@ python tools/test_engine.py
 ================================================================
                   DIAGNOSTIC TEST RESULTS
 ================================================================
-  Passed Checks:  56
+  Passed Checks:  67
   Failed Checks:  0
   Success Rate:   100.0%
 ================================================================
@@ -257,7 +257,7 @@ SpywareProcessMon/
 ├── database/                 # Persistent JSON Datastores
 ├── docs/                     # Full 10-Document Engineering Suite
 ├── screenshots/              # 18 HD 1600x1000 UI Captures
-├── tools/                    # Automated Test Engine (56 checks) & Screenshot Generator (18 views)
+├── tools/                    # Automated Test Engine (67 checks) & Screenshot Generator (18 views)
 ├── brain_archive/            # Full Archive of Session States, Plans & Persistent Memory Protocols
 ├── logs/                     # Audit & Threat Tracking Ledgers
 ├── cli_scanner.py            # Terminal CLI Tool

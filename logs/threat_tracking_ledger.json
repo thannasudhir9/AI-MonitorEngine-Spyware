@@ -59,8 +59,8 @@
     "key": "exe_c:\\program files (x86)\\anydesk\\anydesk.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T11:08:01.639744",
-    "last_seen_display": "2026-11-07 11:08:01",
+    "last_seen": "2026-11-07T11:13:06.661734",
+    "last_seen_display": "2026-11-07 11:13:06",
     "pid": 5824,
     "name": "AnyDesk.exe",
     "exe": "C:\\Program Files (x86)\\AnyDesk\\AnyDesk.exe",
@@ -89,7 +89,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 161,
+    "times_observed": 178,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -104,8 +104,8 @@
     "key": "exe_c:\\windows\\system32\\cmd.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T11:08:01.639744",
-    "last_seen_display": "2026-11-07 11:08:01",
+    "last_seen": "2026-11-07T11:13:06.661734",
+    "last_seen_display": "2026-11-07 11:13:06",
     "pid": 22948,
     "name": "cmd.exe",
     "exe": "C:\\Windows\\System32\\cmd.exe",
@@ -122,7 +122,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 169,
+    "times_observed": 186,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -1219,7 +1219,7 @@
         "detail": "Binary imports dangerous APIs (OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 8,
     "history": [
       {
@@ -1233,6 +1233,12 @@
         "time_display": "2026-11-07 10:22:40",
         "action": "PROCESS_TERMINATED",
         "details": "Process (PID: 93844) no longer present in process table."
+      },
+      {
+        "timestamp": "2026-11-07T11:08:53.091599",
+        "time_display": "2026-11-07 11:08:53",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 96144) no longer present in process table."
       }
     ]
   },
