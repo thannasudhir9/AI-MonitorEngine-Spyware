@@ -30,6 +30,7 @@
 | **Proc Mon Engine** | Socket Auditor | In-Process | 🟢 ONLINE | Live Process & Socket Tracker |
 | **Resend HTTPS Emailer** | Alert Dispatcher | `443 / HTTPS` | 🟢 ONLINE | `https://api.resend.com/emails` |
 | **Windows Netsh Firewall** | Access Control | Host Kernel | 🟢 ONLINE | Dynamic rule synchronization |
+| **Audio Notification Engine** | Sound Controller | Client Web Audio | 🔇 MUTED / SILENT | Zero auditory alerts (Silent Mode) |
 
 ---
 
@@ -60,3 +61,4 @@ Every development task validates that:
 3. All brain artifacts in `<appDataDir>\brain\<conversation-id>` are mirrored to `brain_archive/`.
 4. All documentation assets in `docs/` and `README.md` are appended with latest details.
 5. Code is committed and pushed cleanly to GitHub `origin/main`.
+

@@ -263,7 +263,7 @@ def run_all_tests():
     # ==============================================================
     # Test Suite 12: Documentation Hub & Elevated Eradicator Handlers
     # ==============================================================
-    print(f"\n{BOLD}[12/12] Testing Documentation Hub & Remediation Resilience...{RESET}")
+    print(f"\n{BOLD}[12/13] Testing Documentation Hub & Remediation Resilience...{RESET}")
     docs_file = FRONTEND_DIR / "docs.html"
     runner.record("Documentation Web Page Exists", docs_file.exists(), f"Path: {docs_file.name} ({docs_file.stat().st_size if docs_file.exists() else 0} bytes)")
     
@@ -274,6 +274,17 @@ def run_all_tests():
     # Test blocked history ledger
     blocked_history = remediator.get_blocked_history()
     runner.record("Blocked History Ledger Tracking", isinstance(blocked_history, list), f"Total tracked items: {len(blocked_history)}")
+
+    # ==============================================================
+    # Test Suite 13: Notification Sound Removal & Silent Mode
+    # ==============================================================
+    print(f"\n{BOLD}[13/13] Testing Audio & Notification Sound Removal (Silent Mode)...{RESET}")
+    app_js_text = (FRONTEND_DIR / "js" / "app.js").read_text(encoding="utf-8")
+    index_html_text = (FRONTEND_DIR / "index.html").read_text(encoding="utf-8")
+
+    runner.record("Default Silent Sound Setting", "soundEnabled: false" in app_js_text, "Notification sound disabled by default in state")
+    runner.record("Sound Toggle Control in UI", "id=\"btn-sound-toggle\"" in index_html_text, "Silent mode toggle button wired in header")
+    runner.record("Silent Chime Gate Enforced", "if (!state.soundEnabled) return;" in app_js_text, "Audio chime gate ensures silence when disabled")
 
     # ==============================================================
     # Final Executive Summary

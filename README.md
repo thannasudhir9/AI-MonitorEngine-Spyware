@@ -6,7 +6,8 @@
 [![Python](https://img.shields.io/badge/Python-3.14%2B-blue.svg?logo=python)](https://python.org)
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011%20%7C%20Server-0078D6.svg?logo=windows)](https://microsoft.com)
 [![License](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-30%2F30%20Passing%20(100%25)-brightgreen.svg)](tools/test_engine.py)
+[![Tests](https://img.shields.io/badge/Tests-33%2F33%20Passing%20(100%25)-brightgreen.svg)](tools/test_engine.py)
+[![Audio](https://img.shields.io/badge/Audio-Silent%20Mode%20Default-slate.svg)](#)
 [![Email Alerting](https://img.shields.io/badge/Email%20Alerts-Resend%20API%20%7C%20SMTP-purple.svg)](https://resend.com)
 [![Port: EDR Dashboard](https://img.shields.io/badge/EDR%20Dashboard-127.0.0.1%3A8888-cyan.svg)](http://127.0.0.1:8888)
 [![Port: AdBlock Proxy](https://img.shields.io/badge/AdBlock%20Proxy-127.0.0.1%3A8080-purple.svg)](http://127.0.0.1:8080)
@@ -172,7 +173,7 @@ python tools/test_engine.py
 ================================================================
                   DIAGNOSTIC TEST RESULTS
 ================================================================
-  Passed Checks:  30
+  Passed Checks:  33
   Failed Checks:  0
   Success Rate:   100.0%
 ================================================================

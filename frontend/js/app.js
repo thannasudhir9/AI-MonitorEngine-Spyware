@@ -21,20 +21,21 @@ const state = {
     systemProxyEnabled: false,
     privateMode: false,
     lastAdblockData: null,
-    soundEnabled: true,
+    soundEnabled: false, // Notification sounds removed / disabled per user request
     isScanning: false,
     selectedProcess: null
 };
 
-// Web Audio API Synthesizer for Cyber Alerts
+// Web Audio API Synthesizer - Notification Sounds Removed / Silent by Default
 const CyberAudio = {
     ctx: null,
     init() {
-        if (!this.ctx && (window.AudioContext || window.webkitAudioContext)) {
+        if (state.soundEnabled && !this.ctx && (window.AudioContext || window.webkitAudioContext)) {
             this.ctx = new (window.AudioContext || window.webkitAudioContext)();
         }
     },
     playChime(type = 'threat') {
+        // Notification sounds removed - strictly check if sound is enabled
         if (!state.soundEnabled) return;
         try {
             this.init();
@@ -63,7 +64,7 @@ const CyberAudio = {
                 osc.stop(now + 0.25);
             }
         } catch (e) {
-            // Ignore audio unlock restrictions
+            // Audio context restriction or silent failure
         }
     }
 };
@@ -115,6 +116,7 @@ function showToast(title, message, type = 'info') {
 document.addEventListener('DOMContentLoaded', () => {
     initClock();
     initTheme();
+    initSound();
     initTabs();
     initWebSocket();
     checkPrivacyStatus();
@@ -2082,6 +2084,41 @@ function setTheme(theme, notify = true) {
         if (icon) icon.setAttribute('data-lucide', 'sun');
         localStorage.setItem('aegis_theme', 'dark');
         if (notify) showToast('Dark Mode Activated', 'Dark cyber SOC theme restored', 'info');
+    }
+    if (window.lucide) lucide.createIcons();
+}
+
+// ==============================================================
+// Sound Controls (Notification Sounds Removed / Silent by Default)
+// ==============================================================
+
+function initSound() {
+    const savedSound = localStorage.getItem('aegis_sound');
+    state.soundEnabled = savedSound === 'true' ? true : false; // Default is strictly false (SILENT)
+    updateSoundUI(state.soundEnabled, false);
+}
+
+function toggleSound() {
+    state.soundEnabled = !state.soundEnabled;
+    localStorage.setItem('aegis_sound', state.soundEnabled ? 'true' : 'false');
+    updateSoundUI(state.soundEnabled, true);
+}
+
+function updateSoundUI(enabled, notify = false) {
+    const btn = document.getElementById('btn-sound-toggle');
+    const label = document.getElementById('sound-toggle-label');
+    const icon = document.getElementById('sound-toggle-icon');
+
+    if (!enabled) {
+        if (label) label.innerText = 'Silent';
+        if (icon) icon.setAttribute('data-lucide', 'volume-x');
+        if (btn) btn.className = 'px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-mono text-slate-400 border border-slate-700 flex items-center gap-1.5 transition shadow-sm';
+        if (notify) showToast('Sound Muted', 'Notification sounds are disabled (Silent Mode)', 'info');
+    } else {
+        if (label) label.innerText = 'Sound ON';
+        if (icon) icon.setAttribute('data-lucide', 'volume-2');
+        if (btn) btn.className = 'px-2.5 py-1.5 rounded-lg bg-cyan-950/40 hover:bg-cyan-900/60 text-xs font-mono text-cyan-300 border border-cyan-500/40 flex items-center gap-1.5 transition shadow-sm';
+        if (notify) showToast('Sound Enabled', 'Notification audio alerts enabled', 'info');
     }
     if (window.lucide) lucide.createIcons();
 }

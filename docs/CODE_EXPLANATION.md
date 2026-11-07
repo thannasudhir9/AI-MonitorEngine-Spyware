@@ -347,5 +347,34 @@ Mounted on the Starlette application server:
 - `GET /screenshots/{filename}`: Serves rendered high-definition system previews.
 - Dashboard Tab 10 (`view-docs`): Embeds the documentation directly into the dashboard navigation with an iframe and quick external opening link.
 
+---
+
+## 18. Notification Sound Removal & Silent Mode Architecture (`frontend/js/app.js`)
+
+### 18.1 Silent Chime Gate
+Previously, detection events and eradication actions synthesized audio chimes using Web Audio API oscillators (`osc.type = 'sawtooth'`, `osc.type = 'sine'`). To eliminate auditory distractions and comply with user requirements, `CyberAudio` implements a strict silent gate:
+```javascript
+const CyberAudio = {
+    ctx: null,
+    init() {
+        if (state.soundEnabled && !this.ctx && (window.AudioContext || window.webkitAudioContext)) {
+            this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+    },
+    playChime(type = 'threat') {
+        // Notification sounds permanently muted by default
+        if (!state.soundEnabled) return;
+        // Synthesis executes ONLY if explicitly toggled on by user
+        ...
+    }
+};
+```
+
+### 18.2 State Persistence & UI Synchronization
+- **State Initialization:** `state.soundEnabled` is set strictly to `false` on boot.
+- **LocalStorage Storage:** Remembers user preference across sessions via `localStorage.getItem('aegis_sound')`.
+- **UI Controller:** `updateSoundUI()` dynamically updates icon (`volume-x` vs `volume-2`) and label (`Silent` vs `Sound ON`).
+
+
 
 

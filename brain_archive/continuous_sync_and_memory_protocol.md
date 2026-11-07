@@ -43,3 +43,9 @@ flowchart TD
 5. **Security & Elevation Principles:**
    - Standard user mode commands execute gracefully with diagnostic hints.
    - Privileged operations (killing protected SYSTEM processes, Windows service termination, raw firewall modifications) provide 1-click UAC elevated execution scripts (`start_all_admin.bat`, `start_dashboard_admin.bat`) and the Interactive Administrator Eradication Modal.
+
+6. **Audio & Notification Sound Policy:**
+   - Web notification sounds are permanently disabled / removed by default (`state.soundEnabled = false`).
+   - All audio oscillator triggers are gated behind an explicit mute guard (`if (!state.soundEnabled) return;`).
+   - A dedicated `#btn-sound-toggle` button in the header provides visual confirmation of Silent Mode.
+

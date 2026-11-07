@@ -54,3 +54,4 @@ For every current and future task in this workspace, Antigravity must execute th
 - [ ] 7. Git commit and push cleanly to origin/main
 - [ ] 8. Present concise, structured verification to the user
 ```
+

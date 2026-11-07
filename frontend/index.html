@@ -70,6 +70,11 @@
                 <i id="theme-toggle-icon" data-lucide="sun" class="w-3.5 h-3.5 text-amber-400"></i> <span id="theme-toggle-label">Light Mode</span>
             </button>
 
+            <!-- Notification Sound Toggle (Default: Silent / Sounds Removed) -->
+            <button id="btn-sound-toggle" onclick="toggleSound()" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-mono text-slate-400 border border-slate-700 flex items-center gap-1.5 transition shadow-sm" title="Notification Sounds Removed / Muted">
+                <i id="sound-toggle-icon" data-lucide="volume-x" class="w-3.5 h-3.5 text-slate-400"></i> <span id="sound-toggle-label">Silent</span>
+            </button>
+
             <!-- Private Mode Toggle Button -->
             <button id="btn-private-mode" onclick="togglePrivateMode()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-mono text-purple-300 border border-purple-500/30 flex items-center gap-1.5 transition shadow-sm" title="Toggle Zero-Footprint Private Browsing">
                 <i data-lucide="eye-off" class="w-3.5 h-3.5 text-purple-400"></i> <span id="private-mode-label">Private Mode: OFF</span>

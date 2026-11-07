@@ -119,3 +119,21 @@ Handling privileged processes (such as PID 5824 owned by SYSTEM / Windows Servic
 - **WAF Bypass:** Overcomes Cloudflare Error 1010 by supplying a realistic browser `User-Agent`.
 - **Secret Protection:** Complies with GitHub Push Protection by loading API keys dynamically from environment variables or gitignored configurations (`database/email_config.json`).
 - **SMTP Fallback:** Supports traditional SMTP TLS/SSL transport on ports 587 and 465.
+
+---
+
+## 5. Frontend Audio Subsystem & Silent Mode Architecture
+
+```mermaid
+flowchart LR
+    EventTrigger["Threat Detected / Kill Performed / Status Changed"] --> ChimeCall["CyberAudio.playChime(type)"]
+    ChimeCall --> GateCheck{"state.soundEnabled == true?"}
+    GateCheck -->|No (Default: SILENT)| DropSilent["Drop Audio Event\nNo AudioContext Allocated\nZero Sound Rendered"]
+    GateCheck -->|Yes (User Toggled ON)| SynthAudio["Allocate AudioContext\nSynthesize Oscillator (Sine / Sawtooth)\nPlay Chime"]
+```
+
+- **Guaranteed Silence by Default:** `state.soundEnabled: false` ensures no audio triggers execute during regular monitoring or background scans.
+- **Resource Conservation:** Prevents unnecessary allocation of browser `AudioContext` and oscillator audio threads.
+- **Client Persistence:** Selected state stored in `localStorage.getItem('aegis_sound')`.
+
+

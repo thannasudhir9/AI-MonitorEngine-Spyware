@@ -26,13 +26,17 @@ def draw_hud_header(draw, active_tab_title: str):
     draw.text((80, 44), "AEGISSHIELD EDR v2.5 | Autonomous Threat Hunter, Proxy Interceptor & Kernel Remediator", fill=(148, 163, 184))
 
     # Center Pill
-    draw.rectangle([(820, 22), (1120, 52)], fill=(16, 185, 129, 30), outline=(16, 185, 129), width=1)
-    draw.ellipse([(835, 33), (843, 41)], fill=(16, 185, 129))
-    draw.text((855, 28), "SYSTEM SECURE | 2026-11-07 08:30:00", fill=(110, 231, 183))
+    draw.rectangle([(800, 22), (1040, 52)], fill=(16, 185, 129, 30), outline=(16, 185, 129), width=1)
+    draw.ellipse([(815, 33), (823, 41)], fill=(16, 185, 129))
+    draw.text((835, 28), "SYSTEM SECURE | 2026-11-07", fill=(110, 231, 183))
+
+    # Silent Mode Badge (Notification Sound Removed)
+    draw.rectangle([(1050, 22), (1135, 52)], fill=(30, 41, 59), outline=(71, 85, 105), width=1)
+    draw.text((1060, 29), "🔇 Silent", fill=(148, 163, 184))
 
     # Action buttons
-    draw.rectangle([(1140, 22), (1240, 52)], fill=(139, 92, 246, 40), outline=(139, 92, 246), width=1)
-    draw.text((1152, 29), "📧 Email", fill=(216, 180, 254))
+    draw.rectangle([(1145, 22), (1240, 52)], fill=(139, 92, 246, 40), outline=(139, 92, 246), width=1)
+    draw.text((1157, 29), "📧 Email", fill=(216, 180, 254))
 
     draw.rectangle([(1255, 22), (1350, 52)], fill=(6, 182, 212, 40), outline=(6, 182, 212))
     draw.text((1268, 29), "📚 Docs", fill=(103, 232, 249))

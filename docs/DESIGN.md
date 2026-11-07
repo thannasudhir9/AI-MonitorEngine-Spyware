@@ -56,3 +56,12 @@ Positioned persistently at the bottom of the dashboard:
 - **Attribution & Support:** `Support with ❤️ - Sudhir Kumar Thanna`.
 - **Live Clock:** Real-time ticking date, UTC/Local time, and ISO timestamp.
 - **Deployed Version:** `v2.5.0-SOC-Enterprise (Build 2026.11.07-STABLE)`.
+
+### 1.6 Notification Sound Removal & Silent Mode Control (`#btn-sound-toggle`)
+Per user directive, intrusive audio chimes on threat detections, process terminations, and status changes are permanently silenced:
+- **Default State:** `state.soundEnabled = false` (Strict Silent Mode).
+- **Header Control:** Positioned in top navigation header next to theme toggle (`🔇 Silent`).
+- **Zero Sound Synthesis:** Web Audio API context and oscillator frequencies are gated by `if (!state.soundEnabled) return;`.
+- **Persistence:** Mute state persisted across page reloads via `localStorage.getItem('aegis_sound')`.
+
+
