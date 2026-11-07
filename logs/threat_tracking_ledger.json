@@ -1,0 +1,57 @@
+{
+  "exe_c:\\users\\temp\\suspicious_test_agent.exe": {
+    "id": "threat_1794041867819_1",
+    "key": "exe_c:\\users\\temp\\suspicious_test_agent.exe",
+    "first_seen": "2026-11-07T09:57:47.818831",
+    "first_seen_display": "2026-11-07 09:57:47",
+    "last_seen": "2026-11-07T10:08:18.283176",
+    "last_seen_display": "2026-11-07 10:08:18",
+    "pid": 999999,
+    "name": "suspicious_test_agent.exe",
+    "exe": "C:\\Users\\Temp\\suspicious_test_agent.exe",
+    "cmdline": "powershell -enc aW52b2tl",
+    "threat_score": 65,
+    "severity": "SUSPICIOUS",
+    "primary_category": "SUSPICIOUS PROCESS",
+    "reasons": [
+      {
+        "vector": "Heuristic Anomaly",
+        "detail": "Executing from unverified temp folder"
+      }
+    ],
+    "status": "ERADICATED",
+    "times_observed": 4,
+    "history": [
+      {
+        "timestamp": "2026-11-07T09:57:47.818831",
+        "time_display": "2026-11-07 09:57:47",
+        "action": "FLAGGED",
+        "details": "First detected with risk score 65 [SUSPICIOUS] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T09:57:47.820646",
+        "time_display": "2026-11-07 09:57:47",
+        "action": "UNIT_TEST_KILL",
+        "details": "Terminated via testing suite"
+      },
+      {
+        "timestamp": "2026-11-07T09:58:20.093369",
+        "time_display": "2026-11-07 09:58:20",
+        "action": "UNIT_TEST_KILL",
+        "details": "Terminated via testing suite"
+      },
+      {
+        "timestamp": "2026-11-07T10:01:07.117463",
+        "time_display": "2026-11-07 10:01:07",
+        "action": "UNIT_TEST_KILL",
+        "details": "Terminated via testing suite"
+      },
+      {
+        "timestamp": "2026-11-07T10:08:18.284868",
+        "time_display": "2026-11-07 10:08:18",
+        "action": "UNIT_TEST_KILL",
+        "details": "Terminated via testing suite"
+      }
+    ]
+  }
+}

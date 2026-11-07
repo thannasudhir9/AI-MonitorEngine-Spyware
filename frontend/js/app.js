@@ -23,7 +23,9 @@ const state = {
     lastAdblockData: null,
     soundEnabled: false, // Notification sounds removed / disabled per user request
     isScanning: false,
-    selectedProcess: null
+    selectedProcess: null,
+    threatSubView: 'all',
+    lastLedgerData: []
 };
 
 // Web Audio API Synthesizer - Notification Sounds Removed / Silent by Default
@@ -233,6 +235,12 @@ function switchTab(tabName) {
     const activeView = document.getElementById(`view-${tabName}`);
     if (activeView) activeView.classList.remove('hidden');
 
+    if (tabName === 'sysinfo') loadSystemInfo();
+    if (tabName === 'drives') loadDriveAnalyzer();
+    if (tabName === 'threats') {
+        if (state.threatSubView === 'ledger') loadThreatLedger();
+        else if (state.threatSubView === 'blocked_history') loadBlockedHistory();
+    }
     if (tabName === 'network') loadNetworkTracer();
     if (tabName === 'adblock') loadAdBlockDashboard();
     if (tabName === 'policy') loadPolicyRules();
@@ -505,21 +513,43 @@ function switchDocSection(sec) {
 }
 
 function switchThreatsSubView(subView) {
+    state.threatSubView = subView;
     const grid = document.getElementById('threats-grid');
+    const ledgerView = document.getElementById('threats-ledger-view');
     const historyView = document.getElementById('threats-history-view');
-    const btnActive = document.getElementById('btn-threats-active');
-    const btnHistory = document.getElementById('btn-threats-history');
     const badge = document.getElementById('threats-mode-badge');
 
-    if (subView === 'blocked_history') {
-        if (grid) grid.classList.add('hidden');
-        if (historyView) historyView.classList.remove('hidden');
-        if (btnActive) {
-            btnActive.classList.remove('bg-red-600', 'text-white');
-            btnActive.classList.add('text-slate-400');
+    const btnAll = document.getElementById('btn-threats-all');
+    const btnCritical = document.getElementById('btn-threats-critical');
+    const btnSuspicious = document.getElementById('btn-threats-suspicious');
+    const btnLedger = document.getElementById('btn-threats-ledger');
+    const btnHistory = document.getElementById('btn-threats-history');
+
+    [btnAll, btnCritical, btnSuspicious, btnLedger, btnHistory].forEach(b => {
+        if (!b) return;
+        b.classList.remove('bg-cyan-600', 'bg-red-600', 'bg-amber-600', 'bg-indigo-600', 'text-white', 'font-bold');
+        b.classList.add('text-slate-400');
+    });
+
+    if (grid) grid.classList.add('hidden');
+    if (ledgerView) ledgerView.classList.add('hidden');
+    if (historyView) historyView.classList.add('hidden');
+
+    if (subView === 'ledger') {
+        if (ledgerView) ledgerView.classList.remove('hidden');
+        if (btnLedger) {
+            btnLedger.classList.add('bg-indigo-600', 'text-white', 'font-bold');
+            btnLedger.classList.remove('text-slate-400');
         }
+        if (badge) {
+            badge.innerText = 'Persistent Threat Tracking Ledger';
+            badge.className = 'px-2 py-0.5 rounded text-[10px] font-mono bg-indigo-600/30 text-indigo-300 border border-indigo-500/40';
+        }
+        loadThreatLedger();
+    } else if (subView === 'blocked_history') {
+        if (historyView) historyView.classList.remove('hidden');
         if (btnHistory) {
-            btnHistory.classList.add('bg-red-600', 'text-white');
+            btnHistory.classList.add('bg-cyan-600', 'text-white', 'font-bold');
             btnHistory.classList.remove('text-slate-400');
         }
         if (badge) {
@@ -527,23 +557,379 @@ function switchThreatsSubView(subView) {
             badge.className = 'px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-600/30 text-cyan-300 border border-cyan-500/40';
         }
         loadBlockedHistory();
-    } else {
+    } else if (subView === 'critical') {
         if (grid) grid.classList.remove('hidden');
-        if (historyView) historyView.classList.add('hidden');
-        if (btnActive) {
-            btnActive.classList.add('bg-red-600', 'text-white');
-            btnActive.classList.remove('text-slate-400');
-        }
-        if (btnHistory) {
-            btnHistory.classList.remove('bg-red-600', 'text-white');
-            btnHistory.classList.add('text-slate-400');
+        if (btnCritical) {
+            btnCritical.classList.add('bg-red-600', 'text-white', 'font-bold');
+            btnCritical.classList.remove('text-slate-400');
         }
         if (badge) {
-            badge.innerText = 'Active Detections';
+            badge.innerText = 'Critical Severe Threats (Score ≥ 75)';
             badge.className = 'px-2 py-0.5 rounded text-[10px] font-mono bg-red-600/30 text-red-300 border border-red-500/40';
         }
+        if (state.lastScanData) renderThreats(state.lastScanData.threats);
+    } else if (subView === 'suspicious') {
+        if (grid) grid.classList.remove('hidden');
+        if (btnSuspicious) {
+            btnSuspicious.classList.add('bg-amber-600', 'text-white', 'font-bold');
+            btnSuspicious.classList.remove('text-slate-400');
+        }
+        if (badge) {
+            badge.innerText = 'Suspicious Anomalies & Droppers (Score 20-74)';
+            badge.className = 'px-2 py-0.5 rounded text-[10px] font-mono bg-amber-600/30 text-amber-300 border border-amber-500/40';
+        }
+        if (state.lastScanData) renderThreats(state.lastScanData.threats);
+    } else {
+        if (grid) grid.classList.remove('hidden');
+        if (btnAll) {
+            btnAll.classList.add('bg-cyan-600', 'text-white', 'font-bold');
+            btnAll.classList.remove('text-slate-400');
+        }
+        if (badge) {
+            badge.innerText = 'Active Detections & Risks';
+            badge.className = 'px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-600/30 text-cyan-300 border border-cyan-500/40';
+        }
+        if (state.lastScanData) renderThreats(state.lastScanData.threats);
     }
     if (window.lucide) lucide.createIcons();
+}
+
+async function loadThreatLedger() {
+    try {
+        const res = await fetch('/api/threats/tracking-ledger');
+        if (!res.ok) return;
+        const ledger = await res.json();
+        state.lastLedgerData = ledger || [];
+        const countBadge = document.getElementById('sub-ledger-count');
+        if (countBadge) countBadge.textContent = state.lastLedgerData.length;
+        filterThreatLedger();
+    } catch (e) {
+        console.error('Failed to load threat ledger:', e);
+    }
+}
+
+function filterThreatLedger() {
+    const searchInput = document.getElementById('ledger-search-input');
+    const sevSelect = document.getElementById('ledger-filter-severity');
+    const statSelect = document.getElementById('ledger-filter-status');
+    const tbody = document.getElementById('threat-ledger-table-body');
+    if (!tbody) return;
+
+    const query = (searchInput ? searchInput.value : '').toLowerCase().trim();
+    const severityFilter = (sevSelect ? sevSelect.value : '').toUpperCase();
+    const statusFilter = (statSelect ? statSelect.value : '').toUpperCase();
+
+    let items = state.lastLedgerData || [];
+
+    if (query) {
+        items = items.filter(e =>
+            (e.name || '').toLowerCase().includes(query) ||
+            (e.exe || '').toLowerCase().includes(query) ||
+            (e.primary_category || '').toLowerCase().includes(query) ||
+            String(e.pid || '').includes(query)
+        );
+    }
+
+    if (severityFilter) {
+        if (severityFilter === 'MEDIUM') {
+            items = items.filter(e => e.severity === 'MEDIUM' || e.severity === 'LOW');
+        } else {
+            items = items.filter(e => (e.severity || '').toUpperCase() === severityFilter);
+        }
+    }
+
+    if (statusFilter) {
+        items = items.filter(e => (e.status || '').toUpperCase() === statusFilter);
+    }
+
+    if (items.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7" class="p-8 text-center text-slate-400 text-xs">
+                    No threat ledger records match your filter criteria.
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    tbody.innerHTML = items.map(item => {
+        let badgeClass = 'badge-medium';
+        if (item.severity === 'CRITICAL') badgeClass = 'badge-critical';
+        else if (item.severity === 'HIGH' || item.severity === 'SUSPICIOUS') badgeClass = 'badge-high';
+
+        let statusBadge = 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+        if (item.status === 'ACTIVE') {
+            statusBadge = 'bg-red-500/20 text-red-300 border border-red-500/40 animate-pulse';
+        } else if (item.status === 'ERADICATED') {
+            statusBadge = 'bg-slate-800 text-slate-300 border border-slate-700';
+        } else if (item.status === 'QUARANTINED') {
+            statusBadge = 'bg-purple-500/20 text-purple-300 border border-purple-500/30';
+        }
+
+        const firstSeen = item.first_seen_display || (item.first_seen ? item.first_seen.replace('T', ' ').substring(0, 19) : '--');
+        const lastSeen = item.last_seen_display || (item.last_seen ? item.last_seen.replace('T', ' ').substring(0, 19) : '--');
+
+        const reasonsHtml = (item.reasons || []).slice(0, 2).map(r =>
+            `<div class="text-[11px] text-slate-400 truncate">• <strong class="text-slate-300">${escapeHtml(r.vector || '')}:</strong> ${escapeHtml(r.detail || '')}</div>`
+        ).join('');
+
+        return `
+            <tr class="border-b border-slate-800/60 hover:bg-slate-800/30 transition">
+                <td class="p-3 text-slate-400 text-[11px]">
+                    <div><span class="text-slate-500">First:</span> ${escapeHtml(firstSeen)}</div>
+                    <div><span class="text-slate-500">Last:</span> ${escapeHtml(lastSeen)}</div>
+                    <div class="text-[10px] text-cyan-400 mt-0.5">Observed: ${item.times_observed || 1}x</div>
+                </td>
+                <td class="p-3 text-slate-300 font-mono">${item.pid || '-'}</td>
+                <td class="p-3">
+                    <div class="font-bold text-white">${escapeHtml(item.name || 'Unknown')}</div>
+                    <div class="text-slate-400 text-[11px] truncate max-w-xs" title="${escapeHtml(item.exe || '')}">${escapeHtml(item.exe || 'In-Memory')}</div>
+                </td>
+                <td class="p-3">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold border ${badgeClass}">
+                        ${item.threat_score || 0} [${escapeHtml(item.severity || 'LOW')}]
+                    </span>
+                </td>
+                <td class="p-3 max-w-sm">
+                    <div class="font-semibold text-slate-200 text-xs">${escapeHtml(item.primary_category || 'SUSPICIOUS')}</div>
+                    ${reasonsHtml}
+                </td>
+                <td class="p-3">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${statusBadge}">
+                        ${escapeHtml(item.status || 'ACTIVE')}
+                    </span>
+                </td>
+                <td class="p-3 text-right">
+                    <div class="flex items-center justify-end gap-1">
+                        ${item.pid ? `
+                            <button onclick="killProcess(${item.pid}, '${escapeHtml(item.name)}')" class="px-2 py-1 bg-red-600/80 hover:bg-red-500 text-white rounded text-[11px] font-bold" title="Kill PID ${item.pid}">
+                                Kill
+                            </button>
+                            <button onclick="killTree(${item.pid}, '${escapeHtml(item.name)}')" class="px-2 py-1 bg-amber-600/30 hover:bg-amber-600 text-amber-300 rounded text-[11px]" title="Kill Process Tree">
+                                Tree
+                            </button>
+                        ` : ''}
+                        ${item.exe ? `
+                            <button onclick="quarantineFile('${escapeHtml(item.exe)}')" class="px-2 py-1 bg-purple-600/30 hover:bg-purple-600 text-purple-300 rounded text-[11px]" title="Quarantine Executable">
+                                Quaran
+                            </button>
+                        ` : ''}
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join('');
+    if (window.lucide) lucide.createIcons();
+}
+
+async function clearThreatLedger() {
+    if (!confirm('Are you sure you want to reset and clear the persistent threat tracking ledger?')) return;
+    try {
+        const res = await fetch('/api/threats/tracking-ledger/clear', { method: 'POST' });
+        const data = await res.json();
+        showToast('Ledger Cleared', data.message || 'Tracking ledger reset.', 'success');
+        loadThreatLedger();
+    } catch (e) {
+        showToast('Ledger Error', 'Failed to clear threat ledger.', 'danger');
+    }
+}
+
+async function loadSystemInfo() {
+    try {
+        const res = await fetch('/api/system-info');
+        if (!res.ok) return;
+        const data = await res.json();
+
+        // 1. OS & Uptime
+        const osNameEl = document.getElementById('sys-os-name');
+        const kernelEl = document.getElementById('sys-kernel');
+        const archEl = document.getElementById('sys-arch');
+        const hostEl = document.getElementById('sys-host');
+        const uptimeEl = document.getElementById('sys-uptime');
+
+        if (osNameEl) osNameEl.textContent = data.os?.os_name || 'Windows';
+        if (kernelEl) kernelEl.textContent = data.os?.version || '--';
+        if (archEl) archEl.textContent = data.os?.architecture || '--';
+        if (hostEl) hostEl.textContent = data.os?.hostname || '--';
+        if (uptimeEl) uptimeEl.textContent = data.system_uptime || '--';
+
+        // 2. CPU
+        const cpuLoadEl = document.getElementById('sys-cpu-load');
+        const cpuCoresEl = document.getElementById('sys-cpu-cores');
+        const cpuThreadsEl = document.getElementById('sys-cpu-threads');
+        const cpuFreqEl = document.getElementById('sys-cpu-freq');
+        const pythonVerEl = document.getElementById('sys-python-ver');
+
+        if (cpuLoadEl) cpuLoadEl.textContent = `${Math.round(data.cpu?.current_load_percent || 0)}%`;
+        if (cpuCoresEl) cpuCoresEl.textContent = data.cpu?.physical_cores || 1;
+        if (cpuThreadsEl) cpuThreadsEl.textContent = data.cpu?.logical_threads || 1;
+        if (cpuFreqEl) cpuFreqEl.textContent = `${data.cpu?.current_frequency_mhz || 0} MHz`;
+        if (pythonVerEl) pythonVerEl.textContent = data.os?.python_version || '--';
+
+        // 3. Memory & Swap
+        const ramUsedEl = document.getElementById('sys-ram-used');
+        const ramTotalEl = document.getElementById('sys-ram-total');
+        const ramBarEl = document.getElementById('sys-ram-bar');
+        const ramFreeEl = document.getElementById('sys-ram-free');
+        const swapUsedEl = document.getElementById('sys-swap-used');
+        const swapPctEl = document.getElementById('sys-swap-pct');
+
+        if (ramUsedEl) ramUsedEl.textContent = `${data.memory?.used_gb || 0} GB`;
+        if (ramTotalEl) ramTotalEl.textContent = `${data.memory?.total_gb || 0} GB`;
+        if (ramBarEl) ramBarEl.style.width = `${Math.min(data.memory?.percent_used || 0, 100)}%`;
+        if (ramFreeEl) ramFreeEl.textContent = `${data.memory?.available_gb || 0} GB`;
+        if (swapUsedEl) swapUsedEl.textContent = `${data.memory?.swap_used_gb || 0} GB`;
+        if (swapPctEl) swapPctEl.textContent = `${data.memory?.swap_percent || 0}%`;
+
+        // 4. Baseline
+        const baseAdminEl = document.getElementById('sys-baseline-admin');
+        if (baseAdminEl) {
+            baseAdminEl.textContent = data.security_baseline?.is_admin ? 'ELEVATED (ADMIN)' : 'Standard User Token';
+            baseAdminEl.className = data.security_baseline?.is_admin ? 'text-emerald-400 font-bold' : 'text-amber-400 font-bold';
+        }
+
+        // 5. Network Adapters Table
+        const adaptersTbody = document.getElementById('sysinfo-adapters-tbody');
+        if (adaptersTbody && data.network_adapters) {
+            if (data.network_adapters.length === 0) {
+                adaptersTbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">No active network adapters found.</td></tr>`;
+            } else {
+                adaptersTbody.innerHTML = data.network_adapters.map(nic => `
+                    <tr class="border-b border-slate-800/60 hover:bg-slate-800/30 transition">
+                        <td class="p-2.5 font-bold text-white">${escapeHtml(nic.name)}</td>
+                        <td class="p-2.5 text-cyan-300 font-mono">${escapeHtml(nic.ipv4 || 'Unassigned')}</td>
+                        <td class="p-2.5 text-slate-400 font-mono">${escapeHtml(nic.mac || '--')}</td>
+                        <td class="p-2.5 text-slate-300">${nic.speed_mbps ? `${nic.speed_mbps} Mbps` : 'Auto'}</td>
+                        <td class="p-2.5 text-slate-300">${escapeHtml(nic.duplex || 'Full')}</td>
+                        <td class="p-2.5 text-right">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${nic.is_up ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-red-500/20 text-red-300'}">
+                                ${nic.is_up ? 'ONLINE (UP)' : 'DOWN'}
+                            </span>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        }
+        if (window.lucide) lucide.createIcons();
+    } catch (e) {
+        console.error('Failed to load system info:', e);
+    }
+}
+
+async function loadDriveAnalyzer() {
+    try {
+        const resDrives = await fetch('/api/drives');
+        if (resDrives.ok) {
+            const dataDrives = await resDrives.json();
+
+            const poolTotalEl = document.getElementById('drive-pool-total');
+            const poolUsedEl = document.getElementById('drive-pool-used');
+            const poolFreeEl = document.getElementById('drive-pool-free');
+            const statDrivesUsed = document.getElementById('stat-drives-used');
+
+            if (poolTotalEl) poolTotalEl.textContent = `${dataDrives.total_capacity_gb || 0} GB`;
+            if (poolUsedEl) poolUsedEl.textContent = `${dataDrives.total_used_gb || 0} GB`;
+            if (poolFreeEl) poolFreeEl.textContent = `${dataDrives.total_free_gb || 0} GB`;
+            if (statDrivesUsed) statDrivesUsed.textContent = `${dataDrives.overall_percent_used || 0}%`;
+
+            const cardsGrid = document.getElementById('drives-cards-grid');
+            if (cardsGrid && dataDrives.drives) {
+                cardsGrid.innerHTML = dataDrives.drives.map(d => {
+                    const pct = d.percent_used || 0;
+                    let barColor = 'from-emerald-500 to-cyan-500';
+                    if (pct > 85) barColor = 'from-red-500 to-rose-600';
+                    else if (pct > 70) barColor = 'from-amber-500 to-yellow-500';
+
+                    return `
+                        <div class="p-3.5 bg-slate-900/90 rounded-xl border border-slate-800 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <div class="font-bold text-white flex items-center gap-1.5 font-mono">
+                                    <i data-lucide="hard-drive" class="w-4 h-4 text-cyan-400"></i>
+                                    <span>${escapeHtml(d.mountpoint)}</span>
+                                    <span class="text-[10px] text-slate-400 font-normal">(${escapeHtml(d.fstype)})</span>
+                                </div>
+                                <span class="text-xs font-mono font-bold text-cyan-300">${pct}%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                                <div class="bg-gradient-to-r ${barColor} h-2 rounded-full transition-all duration-500" style="width: ${Math.min(pct, 100)}%"></div>
+                            </div>
+                            <div class="text-[11px] font-mono text-slate-400 flex justify-between">
+                                <span>Used: <strong class="text-slate-200">${d.used_gb} GB</strong></span>
+                                <span>Free: <strong class="text-emerald-400">${d.free_gb} GB</strong></span>
+                                <span>Total: ${d.total_gb} GB</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        const resDroppers = await fetch('/api/drives/dropper-zones');
+        if (resDroppers.ok) {
+            const dataDroppers = await resDroppers.json();
+            const scannedEl = document.getElementById('dropper-files-scanned');
+            const countEl = document.getElementById('dropper-count');
+            const mbEl = document.getElementById('dropper-mb');
+            const tbody = document.getElementById('droppers-table-body');
+
+            if (scannedEl) scannedEl.textContent = dataDroppers.total_files_scanned || 0;
+            if (countEl) countEl.textContent = dataDroppers.dropper_count || 0;
+            if (mbEl) mbEl.textContent = dataDroppers.dropper_size_mb || 0;
+
+            if (tbody) {
+                if (!dataDroppers.droppers || dataDroppers.droppers.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="6" class="p-8 text-center text-slate-400 text-xs">
+                                No executable or script droppers found in monitored staging zones (%TEMP%, AppData, Windows Temp).
+                            </td>
+                        </tr>
+                    `;
+                } else {
+                    tbody.innerHTML = dataDroppers.droppers.map(drop => {
+                        const isSusp = drop.is_suspicious;
+                        const badgeClass = isSusp ? 'bg-red-500/20 text-red-300 border-red-500/30' : 'bg-slate-800 text-slate-300 border-slate-700';
+
+                        return `
+                            <tr class="border-b border-slate-800/60 hover:bg-slate-800/30 transition">
+                                <td class="p-2.5 text-cyan-300 font-bold">${escapeHtml(drop.zone)}</td>
+                                <td class="p-2.5 text-white font-bold">${escapeHtml(drop.filename)}</td>
+                                <td class="p-2.5 text-slate-400 text-[11px] truncate max-w-xs" title="${escapeHtml(drop.path)}">${escapeHtml(drop.path)}</td>
+                                <td class="p-2.5 text-slate-300">${drop.size_kb} KB</td>
+                                <td class="p-2.5 text-slate-400">${escapeHtml(drop.modified)}</td>
+                                <td class="p-2.5 text-right">
+                                    <div class="flex items-center justify-end gap-1.5">
+                                        <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${badgeClass}">
+                                            ${isSusp ? 'SUSPICIOUS DROPPER' : 'TEMP ARTIFACT'}
+                                        </span>
+                                        <button onclick="quarantineFile('${escapeHtml(drop.path)}')" class="px-2 py-0.5 bg-purple-600/30 hover:bg-purple-600 text-purple-200 rounded text-[10px]" title="Quarantine file">
+                                            Quarantine
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+            }
+        }
+        if (window.lucide) lucide.createIcons();
+    } catch (e) {
+        console.error('Failed to load drive analyzer:', e);
+    }
+}
+
+async function cleanTempDroppers() {
+    if (!confirm('Clean all temporary dropper staging files in your user %TEMP% directory?')) return;
+    try {
+        const res = await fetch('/api/drives/clean-temp', { method: 'POST' });
+        const data = await res.json();
+        showToast('Temp Cleanup', data.message || 'Temp files cleaned.', data.success ? 'success' : 'warning');
+        loadDriveAnalyzer();
+    } catch (e) {
+        showToast('Cleanup Error', 'Failed to clean temp directory.', 'danger');
+    }
 }
 
 async function loadBlockedHistory() {
@@ -628,11 +1014,17 @@ async function runScan(detailed = false) {
 // Render Dashboard Data
 function renderDashboard(data) {
     // 1. Metric Badges
-    document.getElementById('stat-total-procs').textContent = data.total_processes;
-    document.getElementById('stat-threats').textContent = data.total_threats;
-    document.getElementById('stat-critical').textContent = data.critical_count;
-    document.getElementById('stat-rmm').textContent = data.rmm_count;
-    document.getElementById('stat-health').textContent = `${data.system_health_index}%`;
+    const totalProcsEl = document.getElementById('stat-total-procs');
+    const criticalEl = document.getElementById('stat-critical');
+    const suspiciousEl = document.getElementById('stat-suspicious');
+    const rmmEl = document.getElementById('stat-rmm');
+    const healthEl = document.getElementById('stat-health');
+
+    if (totalProcsEl) totalProcsEl.textContent = data.total_processes;
+    if (criticalEl) criticalEl.textContent = data.critical_count !== undefined ? data.critical_count : 0;
+    if (suspiciousEl) suspiciousEl.textContent = data.suspicious_count !== undefined ? data.suspicious_count : 0;
+    if (rmmEl) rmmEl.textContent = data.rmm_count;
+    if (healthEl) healthEl.textContent = `${data.system_health_index}%`;
 
     // System Health Shield status
     const healthBadge = document.getElementById('system-status-indicator');
@@ -640,7 +1032,7 @@ function renderDashboard(data) {
         if (data.critical_count > 0) {
             healthBadge.className = 'px-3 py-1 rounded-full text-xs font-mono font-bold bg-red-500/20 text-red-400 border border-red-500/50 flex items-center gap-2 animate-pulse';
             healthBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-red-500"></span> CRITICAL THREAT DETECTED';
-        } else if (data.high_count > 0 || data.total_threats > 0) {
+        } else if (data.suspicious_count > 0 || data.high_count > 0 || data.total_threats > 0) {
             healthBadge.className = 'px-3 py-1 rounded-full text-xs font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/50 flex items-center gap-2';
             healthBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-500"></span> POTENTIAL RISKS ACTIVE';
         } else {
@@ -661,22 +1053,48 @@ function renderDashboard(data) {
     if (window.lucide) lucide.createIcons();
 }
 
-// Render Active Threats
+// Render Active / Filtered Threats
 function renderThreats(threats) {
     const container = document.getElementById('threats-grid');
     const subActive = document.getElementById('sub-active-count');
-    if (subActive) subActive.textContent = threats ? threats.length : 0;
+    const subAll = document.getElementById('sub-all-count');
+    const subCritical = document.getElementById('sub-critical-count');
+    const subSuspicious = document.getElementById('sub-suspicious-count');
+
+    const allThreats = threats || [];
+    const criticalThreats = allThreats.filter(t => t.is_critical || t.severity === 'CRITICAL' || t.severity === 'HIGH');
+    const suspiciousThreats = allThreats.filter(t => t.is_suspicious || (t.threat_score >= 20 && t.threat_score < 75));
+
+    if (subActive) subActive.textContent = allThreats.length;
+    if (subAll) subAll.textContent = allThreats.length;
+    if (subCritical) subCritical.textContent = criticalThreats.length;
+    if (subSuspicious) subSuspicious.textContent = suspiciousThreats.length;
+
     if (!container) return;
 
-    if (!threats || threats.length === 0) {
+    let displayList = allThreats;
+    if (state.threatSubView === 'critical') displayList = criticalThreats;
+    else if (state.threatSubView === 'suspicious') displayList = suspiciousThreats;
+
+    if (displayList.length === 0) {
+        let emptyTitle = 'Zero Active Threats Found';
+        let emptyMsg = 'Your running processes have passed behavioral heuristics, signature checks, and LOLRMM analysis.';
+        if (state.threatSubView === 'critical') {
+            emptyTitle = 'Zero Critical Threats Active';
+            emptyMsg = 'No severe threats with risk score exceeding 75 are currently present.';
+        } else if (state.threatSubView === 'suspicious') {
+            emptyTitle = 'Zero Suspicious Anomalies Active';
+            emptyMsg = 'No heuristic dropper anomalies or low-tier suspicious patterns are currently active.';
+        }
+
         container.innerHTML = `
             <div class="col-span-full cyber-card p-12 text-center">
                 <div class="w-16 h-16 mx-auto rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-4">
                     <i data-lucide="shield-check" class="w-8 h-8"></i>
                 </div>
-                <h3 class="text-lg font-semibold text-white">Zero Active Threats Found</h3>
+                <h3 class="text-lg font-semibold text-white">${emptyTitle}</h3>
                 <p class="text-sm text-slate-400 mt-1 max-w-md mx-auto">
-                    Your running processes have passed behavioral heuristics, signature checks, and LOLRMM analysis.
+                    ${emptyMsg}
                 </p>
                 <div class="mt-6 flex justify-center gap-3">
                     <button onclick="spawnTestSimulation('temp_trojan')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-mono text-cyan-400 rounded-lg border border-slate-700 flex items-center gap-2">
@@ -685,6 +1103,7 @@ function renderThreats(threats) {
                 </div>
             </div>
         `;
+        if (window.lucide) lucide.createIcons();
         return;
     }
 

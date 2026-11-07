@@ -28,6 +28,9 @@ from backend.web_analytics import WebAnalytics
 from backend.adblock_proxy import AdBlockProxyServer
 from backend.email_notifier import EmailNotifier
 from backend.simulator import spawn_simulated_threat
+from backend.system_info import SystemInfoEngine
+from backend.drive_analyzer import DriveAnalyzerEngine
+from backend.threat_ledger import ThreatTrackingLedger
 from backend.config import FRONTEND_DIR
 
 
@@ -223,7 +226,10 @@ def run_all_tests():
         "11_private_mode_stealth.png",
         "12_light_mode_clean_soc.png",
         "13_documentation_hub.png",
-        "14_elevated_kill_modal_and_tracking.png"
+        "14_elevated_kill_modal_and_tracking.png",
+        "15_system_diagnostics_baseline.png",
+        "16_storage_dropper_hunter.png",
+        "17_suspicious_threat_tracking_ledger.png"
     ]
     all_shots_exist = all((screenshots_dir / shot).is_file() and (screenshots_dir / shot).stat().st_size > 10000 for shot in expected_shots)
     runner.record("Screenshots Generated & Verified", all_shots_exist, f"{len(expected_shots)}/{len(expected_shots)} images present in {screenshots_dir}")
@@ -296,6 +302,57 @@ def run_all_tests():
 
     server_py_text = (APP_ROOT / "backend" / "server.py").read_text(encoding="utf-8")
     runner.record("Favicon Route Configured", "@app.get(\"/favicon.ico\")" in server_py_text, "In-memory cyber shield SVG favicon mounted")
+
+    # ==============================================================
+    # Test Suite 15: System Diagnostics & Security Baseline Engine (SystemInfoCheck)
+    # ==============================================================
+    print(f"\n{BOLD}[15/17] Testing System Diagnostics & Baseline Engine (SystemInfoCheck)...{RESET}")
+    sysinfo_engine = SystemInfoEngine()
+    sys_data = sysinfo_engine.get_full_system_info()
+    runner.record("System OS Telemetry", "os" in sys_data and "architecture" in sys_data["os"], f"OS: {sys_data['os'].get('os_name')}")
+    runner.record("CPU Frequency & Cores Audit", "cpu" in sys_data and sys_data["cpu"].get("physical_cores", 0) > 0, f"Cores: {sys_data['cpu'].get('physical_cores')} | Threads: {sys_data['cpu'].get('logical_threads')}")
+    runner.record("Physical RAM & Swap Audit", "memory" in sys_data and sys_data["memory"].get("total_gb", 0) > 0, f"Total RAM: {sys_data['memory'].get('total_gb')} GB (Used: {sys_data['memory'].get('used_gb')} GB)")
+    runner.record("Network Adapters Discovery", "network_adapters" in sys_data and isinstance(sys_data["network_adapters"], list), f"Found {len(sys_data.get('network_adapters', []))} active NICs")
+    runner.record("Security Baseline Check", "security_baseline" in sys_data and "is_admin" in sys_data["security_baseline"], f"Admin Privileges: {sys_data['security_baseline'].get('is_admin')}")
+
+    # ==============================================================
+    # Test Suite 16: Drive Space & Dropper Staging Analyzer (DriveOrganiserAndAnalyzer)
+    # ==============================================================
+    print(f"\n{BOLD}[16/17] Testing Drive Space & Dropper Hunter (DriveOrganiserAndAnalyzer)...{RESET}")
+    drive_engine = DriveAnalyzerEngine()
+    drives_data = drive_engine.get_drives_overview()
+    runner.record("Local Drive Partitions Audit", drives_data.get("total_drives", 0) > 0, f"Partitions: {drives_data.get('total_drives')} | Pool: {drives_data.get('total_capacity_gb')} GB")
+
+    droppers_data = drive_engine.scan_dropper_staging_zones(max_items=25)
+    runner.record("Dropper Staging Zones Audit", droppers_data.get("total_zones", 0) > 0, f"Audited zones: {', '.join(droppers_data.get('zones_audited', []))} (Found: {droppers_data.get('dropper_count')} droppers)")
+
+    clean_test = drive_engine.clean_temp_droppers()
+    runner.record("Temp Dropper Zone Cleanup", clean_test.get("success") is True, f"Cleaned: {clean_test.get('cleaned_count')} files ({clean_test.get('freed_mb')} MB freed)")
+
+    # ==============================================================
+    # Test Suite 17: Persistent Suspicious Threat Tracking Ledger
+    # ==============================================================
+    print(f"\n{BOLD}[17/17] Testing Suspicious Threat Tracking Ledger...{RESET}")
+    ledger = ThreatTrackingLedger()
+    test_threat_record = [{
+        "pid": 999999,
+        "name": "suspicious_test_agent.exe",
+        "exe": "C:\\Users\\Temp\\suspicious_test_agent.exe",
+        "cmdline": "powershell -enc aW52b2tl",
+        "threat_score": 65,
+        "severity": "SUSPICIOUS",
+        "primary_category": "SUSPICIOUS PROCESS",
+        "reasons": [{"vector": "Heuristic Anomaly", "detail": "Executing from unverified temp folder"}]
+    }]
+    recorded = ledger.record_threats(test_threat_record)
+    runner.record("Threat Ledger Recording", recorded >= 0, "Successfully recorded anomaly into persistent tracking ledger")
+
+    ledger_items = ledger.get_ledger(limit=10, search="suspicious_test_agent.exe")
+    runner.record("Ledger Query & Deduplication", len(ledger_items) > 0, f"Retrieved {len(ledger_items)} matching ledger records")
+
+    ledger.record_remediation(999999, "suspicious_test_agent.exe", "UNIT_TEST_KILL", "Terminated via testing suite")
+    updated_items = ledger.get_ledger(limit=5, search="suspicious_test_agent.exe")
+    runner.record("Ledger Lifecycle State Update", len(updated_items) > 0 and updated_items[0].get("status") in ("ERADICATED", "RESOLVED"), f"Status: {updated_items[0].get('status') if updated_items else 'N/A'}")
 
     # ==============================================================
     # Final Executive Summary

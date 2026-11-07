@@ -129,11 +129,11 @@
     <main class="flex-1 max-w-7xl w-full mx-auto p-6 space-y-6">
 
         <!-- Metrics Overview Grid -->
-        <section class="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <!-- Total Processes Card -->
-            <div onclick="navigateToTab('processes')" class="cyber-card p-4 flex flex-col justify-between cursor-pointer hover:border-cyan-500/50 hover:scale-[1.02] transition shadow-md" title="Click to view Live Process Monitor">
+        <section class="grid grid-cols-2 md:grid-cols-6 gap-3.5">
+            <!-- 1. Total Processes Card -->
+            <div onclick="navigateToTab('processes')" class="cyber-card p-3.5 flex flex-col justify-between cursor-pointer hover:border-cyan-500/50 hover:scale-[1.02] transition shadow-md" title="Click to view Live Process Monitor">
                 <div class="flex items-center justify-between text-slate-400 text-xs font-mono">
-                    <span>ACTIVE PROCESSES</span>
+                    <span>ACTIVE PROCS</span>
                     <i data-lucide="cpu" class="w-4 h-4 text-cyan-400"></i>
                 </div>
                 <div class="mt-2 flex items-baseline gap-2">
@@ -143,49 +143,60 @@
                 <div class="text-[11px] font-mono text-slate-500 mt-1">CPU: <span id="stat-cpu" class="text-cyan-400">--%</span> | RAM: <span id="stat-memory" class="text-cyan-400">--%</span></div>
             </div>
 
-            <!-- Total Flagged Threats Card -->
-            <div onclick="navigateToThreatsTab('active')" class="cyber-card p-4 flex flex-col justify-between border-l-4 border-amber-500 cursor-pointer hover:border-amber-400 hover:scale-[1.02] transition shadow-md" title="Click to view Active Threat Vectors">
-                <div class="flex items-center justify-between text-slate-400 text-xs font-mono">
-                    <span>FLAGGED THREATS</span>
-                    <i data-lucide="alert-octagon" class="w-4 h-4 text-amber-400"></i>
-                </div>
-                <div class="mt-2 flex items-baseline gap-2">
-                    <span id="stat-threats" class="text-2xl font-bold font-mono text-amber-400">0</span>
-                    <span class="text-xs text-slate-400">Risks</span>
-                </div>
-                <div class="text-[11px] font-mono text-slate-500 mt-1">Behavioral & Signatures</div>
-            </div>
-
-            <!-- Critical Threats Card -->
-            <div onclick="navigateToThreatsTab('blocked_history')" class="cyber-card p-4 flex flex-col justify-between border-l-4 border-red-500 cursor-pointer hover:border-red-400 hover:scale-[1.02] transition shadow-md" title="Click to view Previously Blocked & Eradicated History">
+            <!-- 2. Critical Threats Card (Red) -->
+            <div onclick="navigateToThreatsTab('critical')" class="cyber-card p-3.5 flex flex-col justify-between border-l-4 border-red-500 cursor-pointer hover:border-red-400 hover:scale-[1.02] transition shadow-md" title="Click to view Critical High-Risk Threats">
                 <div class="flex items-center justify-between text-slate-400 text-xs font-mono">
                     <span class="text-red-400 font-bold">CRITICAL THREATS</span>
                     <i data-lucide="skull" class="w-4 h-4 text-red-500 animate-bounce"></i>
                 </div>
                 <div class="mt-2 flex items-baseline gap-2">
                     <span id="stat-critical" class="text-2xl font-bold font-mono text-red-400">0</span>
-                    <span class="text-xs text-red-300">Tracking</span>
+                    <span class="text-xs text-red-300">Severe</span>
                 </div>
-                <div class="text-[11px] font-mono text-red-400/90 mt-1 flex items-center gap-1 font-bold">
-                    <span>⚡ Click: Full Blocked List</span>
-                </div>
+                <div class="text-[11px] font-mono text-red-400/90 mt-1 font-bold">⚡ Risk Score ≥ 75</div>
             </div>
 
-            <!-- Remote Desktop & RMM Card -->
-            <div onclick="navigateToTab('rmm')" class="cyber-card p-4 flex flex-col justify-between border-l-4 border-cyan-500 cursor-pointer hover:border-cyan-400 hover:scale-[1.02] transition shadow-md" title="Click to view Remote Desktop / RMM Sessions">
+            <!-- 3. Suspicious Threats Card (Amber) -->
+            <div onclick="navigateToThreatsTab('suspicious')" class="cyber-card p-3.5 flex flex-col justify-between border-l-4 border-amber-500 cursor-pointer hover:border-amber-400 hover:scale-[1.02] transition shadow-md" title="Click to view Suspicious Heuristic Anomalies">
                 <div class="flex items-center justify-between text-slate-400 text-xs font-mono">
-                    <span>REMOTE DESKTOP / RMM</span>
+                    <span class="text-amber-400 font-bold">SUSPICIOUS THREATS</span>
+                    <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400"></i>
+                </div>
+                <div class="mt-2 flex items-baseline gap-2">
+                    <span id="stat-suspicious" class="text-2xl font-bold font-mono text-amber-400">0</span>
+                    <span class="text-xs text-amber-300">Anomalies</span>
+                </div>
+                <div class="text-[11px] font-mono text-amber-500 mt-1">Heuristics & Droppers</div>
+            </div>
+
+            <!-- 4. Remote Desktop & RMM Card -->
+            <div onclick="navigateToTab('rmm')" class="cyber-card p-3.5 flex flex-col justify-between border-l-4 border-cyan-500 cursor-pointer hover:border-cyan-400 hover:scale-[1.02] transition shadow-md" title="Click to view Remote Desktop / RMM Sessions">
+                <div class="flex items-center justify-between text-slate-400 text-xs font-mono">
+                    <span>REMOTE / RMM</span>
                     <i data-lucide="screen-share" class="w-4 h-4 text-cyan-400"></i>
                 </div>
                 <div class="mt-2 flex items-baseline gap-2">
                     <span id="stat-rmm" class="text-2xl font-bold font-mono text-cyan-300">0</span>
                     <span class="text-xs text-slate-400">Active</span>
                 </div>
-                <div class="text-[11px] font-mono text-slate-500 mt-1">AnyDesk, VNC, RustDesk...</div>
+                <div class="text-[11px] font-mono text-slate-500 mt-1">AnyDesk, VNC, RDP...</div>
             </div>
 
-            <!-- System Threat Index Card -->
-            <div onclick="navigateToTab('audit')" class="cyber-card p-4 flex flex-col justify-between border-l-4 border-emerald-500 cursor-pointer hover:border-emerald-400 hover:scale-[1.02] transition shadow-md" title="Click to view Eradication Audit Trail">
+            <!-- 5. System & Storage Diagnostics Card -->
+            <div onclick="navigateToTab('sysinfo')" class="cyber-card p-3.5 flex flex-col justify-between border-l-4 border-indigo-500 cursor-pointer hover:border-indigo-400 hover:scale-[1.02] transition shadow-md" title="Click to view Hardware Diagnostics & Drives">
+                <div class="flex items-center justify-between text-slate-400 text-xs font-mono">
+                    <span>SYS & STORAGE</span>
+                    <i data-lucide="hard-drive" class="w-4 h-4 text-indigo-400"></i>
+                </div>
+                <div class="mt-2 flex items-baseline gap-2">
+                    <span id="stat-drives-used" class="text-2xl font-bold font-mono text-indigo-300">--%</span>
+                    <span class="text-xs text-slate-400">Disk Pool</span>
+                </div>
+                <div class="text-[11px] font-mono text-indigo-400 mt-1">Diagnostics & Temp Staging</div>
+            </div>
+
+            <!-- 6. System Threat Health Index Card -->
+            <div onclick="navigateToTab('audit')" class="cyber-card p-3.5 flex flex-col justify-between border-l-4 border-emerald-500 cursor-pointer hover:border-emerald-400 hover:scale-[1.02] transition shadow-md" title="Click to view Eradication Audit Trail">
                 <div class="flex items-center justify-between text-slate-400 text-xs font-mono">
                     <span>HEALTH INDEX</span>
                     <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
@@ -202,6 +213,12 @@
         <nav class="flex border-b border-slate-800 gap-1 overflow-x-auto pb-1 text-sm font-mono">
             <button data-tab="threats" class="tab-btn px-4 py-2.5 rounded-t-lg bg-cyan-500/20 text-cyan-300 border-b-2 border-cyan-500 flex items-center gap-2 font-medium">
                 <i data-lucide="shield-alert" class="w-4 h-4"></i> Active Threats & Remediation
+            </button>
+            <button data-tab="sysinfo" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
+                <i data-lucide="cpu" class="w-4 h-4 text-cyan-400"></i> System Diagnostics
+            </button>
+            <button data-tab="drives" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
+                <i data-lucide="hard-drive" class="w-4 h-4 text-amber-400"></i> Storage & Dropper Hunter
             </button>
             <button data-tab="network" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
                 <i data-lucide="globe" class="w-4 h-4 text-emerald-400"></i> Network Radar & Origin Tracer
@@ -249,19 +266,92 @@
                 </div>
                 
                 <!-- Sub-toggle for Threats Tab -->
-                <div class="flex items-center gap-1.5 font-mono text-xs bg-slate-900 p-1 rounded-lg border border-slate-800">
-                    <button id="btn-threats-active" onclick="switchThreatsSubView('active')" class="px-3 py-1.5 rounded-md bg-red-600 text-white font-bold flex items-center gap-1.5 transition">
-                        <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i> Active Threats (<span id="sub-active-count">0</span>)
+                <div class="flex flex-wrap items-center gap-1.5 font-mono text-xs bg-slate-900/90 p-1 rounded-lg border border-slate-800">
+                    <button id="btn-threats-all" onclick="switchThreatsSubView('all')" class="px-3 py-1.5 rounded-md bg-cyan-600 text-white font-bold flex items-center gap-1.5 transition">
+                        <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i> All Risks (<span id="sub-all-count">0</span>)
+                    </button>
+                    <button id="btn-threats-critical" onclick="switchThreatsSubView('critical')" class="px-3 py-1.5 rounded-md text-red-400 hover:text-white flex items-center gap-1.5 transition">
+                        <i data-lucide="skull" class="w-3.5 h-3.5 text-red-500"></i> Critical (<span id="sub-critical-count">0</span>)
+                    </button>
+                    <button id="btn-threats-suspicious" onclick="switchThreatsSubView('suspicious')" class="px-3 py-1.5 rounded-md text-amber-400 hover:text-white flex items-center gap-1.5 transition">
+                        <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-amber-400"></i> Suspicious (<span id="sub-suspicious-count">0</span>)
+                    </button>
+                    <button id="btn-threats-ledger" onclick="switchThreatsSubView('ledger')" class="px-3 py-1.5 rounded-md text-indigo-400 hover:text-white flex items-center gap-1.5 transition">
+                        <i data-lucide="book-marked" class="w-3.5 h-3.5 text-indigo-400"></i> Threat Tracking Ledger (<span id="sub-ledger-count">0</span>)
                     </button>
                     <button id="btn-threats-history" onclick="switchThreatsSubView('blocked_history')" class="px-3 py-1.5 rounded-md text-slate-400 hover:text-white flex items-center gap-1.5 transition">
-                        <i data-lucide="history" class="w-3.5 h-3.5 text-cyan-400"></i> Blocked & Eradicated History (<span id="sub-blocked-count">0</span>)
+                        <i data-lucide="history" class="w-3.5 h-3.5 text-cyan-400"></i> Blocked History (<span id="sub-blocked-count">0</span>)
                     </button>
                 </div>
             </div>
 
-            <!-- Active Threats Grid Container -->
+            <!-- Active / Filtered Threats Grid Container -->
             <div id="threats-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Rendered dynamically by JavaScript -->
+            </div>
+
+            <!-- Threat Tracking Ledger Container (Persistent Chronological Anomaly History) -->
+            <div id="threats-ledger-view" class="cyber-card overflow-hidden hidden space-y-3 p-4">
+                <div class="border-b border-slate-800 pb-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                    <div>
+                        <h3 class="font-mono text-sm font-bold text-indigo-400 flex items-center gap-2">
+                            <i data-lucide="book-marked" class="w-4 h-4"></i> PERSISTENT THREAT TRACKING & ANOMALY LEDGER
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Chronological ledger tracking suspicious & critical threats, detection timelines, observation counts, and life cycle states.</p>
+                    </div>
+                    <div class="flex items-center gap-2 font-mono text-xs">
+                        <button onclick="clearThreatLedger()" class="px-2.5 py-1 rounded bg-red-950/60 hover:bg-red-900 text-red-300 border border-red-500/40 flex items-center gap-1 transition">
+                            <i data-lucide="trash-2" class="w-3 h-3 text-red-400"></i> Clear Ledger
+                        </button>
+                        <button onclick="loadThreatLedger()" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-slate-700 flex items-center gap-1.5 transition">
+                            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh Ledger
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Ledger Filter Toolbar -->
+                <div class="flex flex-wrap items-center gap-2 bg-slate-900/80 p-2.5 rounded-lg border border-slate-800 font-mono text-xs">
+                    <div class="flex items-center gap-1.5 flex-1 min-w-[200px]">
+                        <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400"></i>
+                        <input id="ledger-search-input" type="text" placeholder="Search by name, path, PID, or category..." oninput="filterThreatLedger()" class="w-full bg-slate-800 text-white rounded px-2.5 py-1 border border-slate-700 text-xs focus:outline-none focus:border-cyan-500">
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <select id="ledger-filter-severity" onchange="filterThreatLedger()" class="bg-slate-800 text-slate-300 rounded px-2 py-1 border border-slate-700 text-xs">
+                            <option value="">All Severities</option>
+                            <option value="CRITICAL">Critical Only</option>
+                            <option value="SUSPICIOUS">Suspicious Only</option>
+                            <option value="HIGH">High Only</option>
+                            <option value="MEDIUM">Medium / Low</option>
+                        </select>
+                        <select id="ledger-filter-status" onchange="filterThreatLedger()" class="bg-slate-800 text-slate-300 rounded px-2 py-1 border border-slate-700 text-xs">
+                            <option value="">All Statuses</option>
+                            <option value="ACTIVE">Active Threats</option>
+                            <option value="ERADICATED">Eradicated / Killed</option>
+                            <option value="QUARANTINED">Quarantined</option>
+                            <option value="INACTIVE">Inactive / Dead</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Ledger Records Table -->
+                <div class="overflow-x-auto max-h-[520px] overflow-y-auto">
+                    <table class="w-full text-left text-xs font-mono">
+                        <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400 sticky top-0 z-10">
+                            <tr>
+                                <th class="p-3 w-40">Timeline (First / Last)</th>
+                                <th class="p-3 w-20">PID</th>
+                                <th class="p-3">Threat Name & Binary Path</th>
+                                <th class="p-3 w-28">Risk Score</th>
+                                <th class="p-3">Category & Anomalies</th>
+                                <th class="p-3 w-28">Status</th>
+                                <th class="p-3 w-32 text-right">Eradicate</th>
+                            </tr>
+                        </thead>
+                        <tbody id="threat-ledger-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- Previously Blocked & Eradicated History Table (Full Tracking List) -->
@@ -291,6 +381,217 @@
                             </tr>
                         </thead>
                         <tbody id="blocked-history-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB: SYSTEM DIAGNOSTICS & BASELINE (SystemInfoCheck) -->
+        <!-- ========================================== -->
+        <section id="view-sysinfo" class="tab-content hidden space-y-4">
+            <!-- Header with Refresh Button -->
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div>
+                    <h2 class="text-base font-bold font-mono text-white flex items-center gap-2">
+                        <i data-lucide="cpu" class="w-5 h-5 text-cyan-400"></i>
+                        <span>System Diagnostics & Security Baseline</span>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-600/30 text-cyan-300 border border-cyan-500/40">Hardware & OS Telemetry</span>
+                    </h2>
+                    <p class="text-xs text-slate-400">Comprehensive hardware audit, kernel metrics, memory utilization, network adapters, and security posture baseline.</p>
+                </div>
+                <button onclick="loadSystemInfo()" class="px-3.5 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-black font-bold text-xs font-mono flex items-center gap-1.5 shadow-md shadow-cyan-600/20 transition">
+                    <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh Diagnostics
+                </button>
+            </div>
+
+            <!-- Top 4 Hardware/OS Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 font-mono text-xs">
+                <!-- OS Info Card -->
+                <div class="cyber-card p-4 space-y-2 border-l-4 border-cyan-500">
+                    <div class="flex items-center justify-between text-slate-400">
+                        <span>OPERATING SYSTEM</span>
+                        <i data-lucide="monitor" class="w-4 h-4 text-cyan-400"></i>
+                    </div>
+                    <div id="sys-os-name" class="text-sm font-bold text-white">--</div>
+                    <div class="text-[11px] text-slate-400 space-y-0.5">
+                        <div>Kernel: <span id="sys-kernel" class="text-cyan-300">--</span></div>
+                        <div>Architecture: <span id="sys-arch" class="text-slate-300">--</span></div>
+                        <div>Host: <span id="sys-host" class="text-slate-300">--</span></div>
+                        <div>Uptime: <span id="sys-uptime" class="text-emerald-400 font-bold">--</span></div>
+                    </div>
+                </div>
+
+                <!-- CPU Telemetry Card -->
+                <div class="cyber-card p-4 space-y-2 border-l-4 border-indigo-500">
+                    <div class="flex items-center justify-between text-slate-400">
+                        <span>PROCESSOR (CPU)</span>
+                        <i data-lucide="cpu" class="w-4 h-4 text-indigo-400"></i>
+                    </div>
+                    <div class="flex items-baseline gap-2">
+                        <span id="sys-cpu-load" class="text-2xl font-bold text-indigo-400">--%</span>
+                        <span class="text-xs text-slate-400">Current Load</span>
+                    </div>
+                    <div class="text-[11px] text-slate-400 space-y-0.5">
+                        <div>Physical Cores: <span id="sys-cpu-cores" class="text-white font-bold">--</span></div>
+                        <div>Logical Threads: <span id="sys-cpu-threads" class="text-white font-bold">--</span></div>
+                        <div>Frequency: <span id="sys-cpu-freq" class="text-indigo-300">-- MHz</span></div>
+                        <div>Python: <span id="sys-python-ver" class="text-slate-300">--</span></div>
+                    </div>
+                </div>
+
+                <!-- Memory / RAM Card -->
+                <div class="cyber-card p-4 space-y-2 border-l-4 border-emerald-500">
+                    <div class="flex items-center justify-between text-slate-400">
+                        <span>PHYSICAL MEMORY (RAM)</span>
+                        <i data-lucide="layers" class="w-4 h-4 text-emerald-400"></i>
+                    </div>
+                    <div class="flex items-baseline gap-2">
+                        <span id="sys-ram-used" class="text-2xl font-bold text-emerald-400">-- GB</span>
+                        <span class="text-xs text-slate-400">/ <span id="sys-ram-total">-- GB</span></span>
+                    </div>
+                    <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden mt-1">
+                        <div id="sys-ram-bar" class="bg-gradient-to-r from-emerald-500 to-cyan-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                    <div class="text-[11px] text-slate-400 flex justify-between pt-1">
+                        <span>Free: <span id="sys-ram-free" class="text-slate-200">-- GB</span></span>
+                        <span>Swap: <span id="sys-swap-used" class="text-slate-200">-- GB</span> (<span id="sys-swap-pct">--%</span>)</span>
+                    </div>
+                </div>
+
+                <!-- Security Baseline Card -->
+                <div class="cyber-card p-4 space-y-2 border-l-4 border-rose-500">
+                    <div class="flex items-center justify-between text-slate-400">
+                        <span>SECURITY BASELINE</span>
+                        <i data-lucide="shield-check" class="w-4 h-4 text-rose-400"></i>
+                    </div>
+                    <div id="sys-sec-status" class="text-sm font-bold text-emerald-400 flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span> SECURE POSTURE
+                    </div>
+                    <div class="text-[11px] text-slate-400 space-y-1 pt-1">
+                        <div class="flex items-center justify-between">
+                            <span>Admin Privilege:</span>
+                            <span id="sys-baseline-admin" class="font-bold text-slate-200">--</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>DEP / ASLR Baseline:</span>
+                            <span id="sys-baseline-dep" class="text-emerald-400 font-bold">ENFORCED</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>Netsh Firewall:</span>
+                            <span id="sys-baseline-firewall" class="text-emerald-400 font-bold">ACTIVE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Network Adapters & Hardware Breakdown Table -->
+            <div class="cyber-card p-4 space-y-3">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                    <h3 class="font-mono text-sm font-bold text-cyan-400 flex items-center gap-2">
+                        <i data-lucide="network" class="w-4 h-4"></i> ACTIVE NETWORK ADAPTERS (NICS)
+                    </h3>
+                    <span class="text-xs font-mono text-slate-400">Network Interfaces & Hardware Addresses</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs font-mono">
+                        <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400">
+                            <tr>
+                                <th class="p-2.5">Interface Name</th>
+                                <th class="p-2.5">IPv4 Address</th>
+                                <th class="p-2.5">MAC Address</th>
+                                <th class="p-2.5">Link Speed</th>
+                                <th class="p-2.5">Duplex Mode</th>
+                                <th class="p-2.5 text-right">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sysinfo-adapters-tbody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB: DRIVE ANALYZER & DROPPER HUNTER (DriveOrganiserAndAnalyzer) -->
+        <!-- ========================================== -->
+        <section id="view-drives" class="tab-content hidden space-y-4">
+            <!-- Header with Clean Temp & Deep Scan -->
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div>
+                    <h2 class="text-base font-bold font-mono text-white flex items-center gap-2">
+                        <i data-lucide="hard-drive" class="w-5 h-5 text-amber-400"></i>
+                        <span>Drive Storage & Malware Dropper Staging Analyzer</span>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-amber-600/30 text-amber-300 border border-amber-500/40">DriveOrganiser Integration</span>
+                    </h2>
+                    <p class="text-xs text-slate-400">Monitors partition storage limits and audits high-risk staging zones (%TEMP%, AppData, Windows Temp) for dropped executables and malware.</p>
+                </div>
+                <div class="flex items-center gap-2 font-mono text-xs">
+                    <button onclick="cleanTempDroppers()" class="px-3 py-1.5 rounded-lg bg-red-600/30 hover:bg-red-600 text-red-200 border border-red-500/40 flex items-center gap-1.5 transition" title="Clean temporary files and dropper staging zone in %TEMP%">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5 text-red-400"></i> Clean Temp Droppers
+                    </button>
+                    <button onclick="loadDriveAnalyzer()" class="px-3.5 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-black font-bold flex items-center gap-1.5 shadow-md shadow-amber-600/20 transition">
+                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Rescan Drives
+                    </button>
+                </div>
+            </div>
+
+            <!-- Total Storage Summary & Partitions Grid -->
+            <div class="cyber-card p-4 space-y-4">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                    <div>
+                        <h3 class="font-mono text-sm font-bold text-white flex items-center gap-2">
+                            <i data-lucide="database" class="w-4 h-4 text-cyan-400"></i> PHYSICAL & LOGICAL PARTITIONS
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Overall disk pool capacity, mountpoints, and space allocations.</p>
+                    </div>
+                    <div class="flex items-center gap-4 text-xs font-mono">
+                        <div>Total Capacity: <span id="drive-pool-total" class="text-cyan-400 font-bold">-- GB</span></div>
+                        <div>Used: <span id="drive-pool-used" class="text-amber-400 font-bold">-- GB</span></div>
+                        <div>Free: <span id="drive-pool-free" class="text-emerald-400 font-bold">-- GB</span></div>
+                    </div>
+                </div>
+
+                <!-- Dynamic Drives Cards Grid -->
+                <div id="drives-cards-grid" class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Dropper Staging Zones Hunter -->
+            <div class="cyber-card p-4 space-y-3">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                    <div>
+                        <h3 class="font-mono text-sm font-bold text-rose-400 flex items-center gap-2">
+                            <i data-lucide="alert-octagon" class="w-4 h-4"></i> MALWARE DROPPER STAGING ZONE HUNTER
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-0.5">High-risk executable droppers (.exe, .bat, .ps1, .vbs, .hta, .scr) discovered in %TEMP% and AppData.</p>
+                    </div>
+                    <div class="flex items-center gap-3 text-xs font-mono">
+                        <span class="text-slate-400">Scanned: <span id="dropper-files-scanned" class="text-white font-bold">0</span> files</span>
+                        <span class="px-2 py-0.5 rounded bg-red-600/20 text-red-300 border border-red-500/30">
+                            Found: <span id="dropper-count" class="font-bold">0</span> Droppers (<span id="dropper-mb">0</span> MB)
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Droppers Table -->
+                <div class="overflow-x-auto max-h-[400px] overflow-y-auto">
+                    <table class="w-full text-left text-xs font-mono">
+                        <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400 sticky top-0 z-10">
+                            <tr>
+                                <th class="p-2.5">Staging Zone</th>
+                                <th class="p-2.5">File Name</th>
+                                <th class="p-2.5">Full Path</th>
+                                <th class="p-2.5">Size</th>
+                                <th class="p-2.5">Modified</th>
+                                <th class="p-2.5 text-right">Risk / Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="droppers-table-body">
                             <!-- Populated dynamically -->
                         </tbody>
                     </table>
@@ -1220,6 +1521,8 @@
                 <span class="px-2 py-0.5 rounded bg-slate-900 text-purple-300 border border-slate-800">Web Tracker: ON</span>
                 <span class="px-2 py-0.5 rounded bg-slate-900 text-emerald-300 border border-slate-800">Proc Mon: ON</span>
                 <span class="px-2 py-0.5 rounded bg-slate-900 text-amber-300 border border-slate-800">Netsh Firewall: ON</span>
+                <span class="px-2 py-0.5 rounded bg-slate-900 text-blue-300 border border-slate-800">SysInfo: ON</span>
+                <span class="px-2 py-0.5 rounded bg-slate-900 text-indigo-300 border border-slate-800">DriveHunter: ON</span>
             </div>
 
             <!-- Right: Support with love, author, date, version -->

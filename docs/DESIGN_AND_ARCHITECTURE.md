@@ -372,6 +372,23 @@ Per user directive, intrusive audio chimes on threat detections, process termina
 - **Zero Sound Synthesis:** Web Audio API context and oscillator frequencies are gated by `if (!state.soundEnabled) return;`.
 - **Persistence:** Mute state persisted across page reloads via `localStorage.getItem('aegis_sound')`.
 
+### 8.8 System Diagnostics & Baseline Architecture (SystemInfoCheck Integration)
+- Implemented in `backend/system_info.py` via `SystemInfoEngine`.
+- Exposes `GET /api/system-info` providing OS kernel build, architecture, 24-core CPU loads, RAM and virtual swap statistics, active network adapters (NICs) with IP and MAC bindings, and security posture baseline.
+- Mounted in dashboard view `view-sysinfo` with real-time gauges and 1-click refresh.
+
+### 8.9 Drive Storage & Dropper Staging Analyzer (DriveOrganiser Integration)
+- Implemented in `backend/drive_analyzer.py` via `DriveAnalyzerEngine`.
+- Exposes `GET /api/drives`, `GET /api/drives/dropper-zones`, and `POST /api/drives/clean-temp`.
+- Enumerate partitions (`C:\`, `D:\`), capacity gauges, and audits high-risk staging directories (`%TEMP%`, `AppData\Local\Temp`, `C:\Windows\Temp`, `C:\Users\Public`) for dropped executables and scripts.
+- Provides 1-click temp dropper cleaning with exact file count and MB freed metrics.
+
+### 8.10 Suspicious Threat Heuristic Scoring & Persistent Threat Ledger
+- Flagging heuristic anomalies with risk scores $20 - 74$ (`is_suspicious`) alongside critical threats ($\ge 75$, `is_critical`).
+- Maintains an immutable, persistent chronological tracking ledger (`backend/threat_ledger.py` & `logs/threat_tracking_ledger.json`) recording detection timeline, observation count, PID, path, score, severity, category, reasons, and lifecycle states (`ACTIVE`, `INACTIVE`, `ERADICATED`, `QUARANTINED`).
+- Exposes `GET /api/threats/tracking-ledger` with multi-dimensional filtering toolbar (status, severity, search query) and `POST /api/threats/tracking-ledger/clear`.
+
+
 
 
 

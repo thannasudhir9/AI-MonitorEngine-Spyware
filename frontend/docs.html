@@ -343,6 +343,18 @@
                         <div class="text-xs font-mono font-bold text-red-300">14. Elevated Administrator Eradication & Tracking</div>
                         <img src="/screenshots/14_elevated_kill_modal_and_tracking.png" alt="Elevated Eradication" class="rounded-lg border border-red-500/40 shadow-md hover:scale-[1.02] transition cursor-pointer">
                     </div>
+                    <div class="space-y-1.5">
+                        <div class="text-xs font-mono font-bold text-cyan-300">15. System Diagnostics & Security Baseline (SystemInfoCheck)</div>
+                        <img src="/screenshots/15_system_diagnostics_baseline.png" alt="System Diagnostics" class="rounded-lg border border-cyan-500/40 shadow-md hover:scale-[1.02] transition cursor-pointer">
+                    </div>
+                    <div class="space-y-1.5">
+                        <div class="text-xs font-mono font-bold text-amber-300">16. Drive Storage & Malware Dropper Hunter (DriveOrganiser)</div>
+                        <img src="/screenshots/16_storage_dropper_hunter.png" alt="Drive Storage Droppers" class="rounded-lg border border-amber-500/40 shadow-md hover:scale-[1.02] transition cursor-pointer">
+                    </div>
+                    <div class="space-y-1.5">
+                        <div class="text-xs font-mono font-bold text-indigo-300">17. Persistent Suspicious Threat Tracking Ledger</div>
+                        <img src="/screenshots/17_suspicious_threat_tracking_ledger.png" alt="Threat Tracking Ledger" class="rounded-lg border border-indigo-500/40 shadow-md hover:scale-[1.02] transition cursor-pointer">
+                    </div>
                 </div>
             </section>
 
@@ -406,7 +418,19 @@
                     </div>
                     <div class="p-3 bg-slate-900 border-l-2 border-red-500 rounded-r-lg">
                         <div class="text-slate-400">Prompt: "Tree Kill Failed (pid=5824, name='AnyDesk.exe'), stop and start web app in admin mode with full prviliges"</div>
-                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Upgraded kill_process_tree with multi-tier taskkill /F /T, sc stop, and UAC elevation; cycled background daemon (PID: 88904) and updated admin launchers.</div>
+                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Upgraded kill_process_tree with multi-tier taskkill /F /T, sc stop, and UAC elevation; cycled background daemon and updated admin launchers.</div>
+                    </div>
+                    <div class="p-3 bg-slate-900 border-l-2 border-amber-500 rounded-r-lg">
+                        <div class="text-slate-400">Prompt: "fetch github repo also on this topic - also one of my repo - https://github.com/thannasudhir9/SystemInfoCheck and https://github.com/thannasudhir9/DriveOrganiserAndAnalyzer-AG2.0; add these 2 repos features also into this"</div>
+                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Extracted features from both repos and created backend/system_info.py (OS, CPU, RAM, NICs, Baseline) and backend/drive_analyzer.py (Drive partitions, capacity bars, %TEMP% Dropper Hunter & Cleanup action).</div>
+                    </div>
+                    <div class="p-3 bg-slate-900 border-l-2 border-indigo-500 rounded-r-lg">
+                        <div class="text-slate-400">Prompt: "show suspisious threats also and keep track of them also"</div>
+                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Enhanced detector to score suspicious threats (20-74) alongside critical threats (&ge;75). Created backend/threat_ledger.py with persistent chronological JSON tracking ledger, lifecycle states, observation counts, and interactive filter toolbar.</div>
+                    </div>
+                    <div class="p-3 bg-slate-900 border-l-2 border-cyan-500 rounded-r-lg">
+                        <div class="text-slate-400">Prompt: "ui ux design is bad, improve it using web"</div>
+                        <div class="text-emerald-400 mt-1 font-bold">✓ Implemented: Modernized cybersecurity SOC glassmorphism UI with slate-950 foundation, 6-card top KPI ticker, neon semantic accents, interactive sub-views, and refined micro-interactions.</div>
                     </div>
                 </div>
             </section>
@@ -424,7 +448,7 @@
                         <div class="text-cyan-300 font-bold">start_all_admin.bat</div>
                     </div>
                     <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
-                        <div class="text-slate-400 mb-1"># Run Diagnostic Test Suite (25 Tests)</div>
+                        <div class="text-slate-400 mb-1"># Run Diagnostic Test Suite (46 Tests across 17 Subsystems)</div>
                         <div class="text-emerald-300 font-bold">python tools/test_engine.py</div>
                     </div>
                     <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">

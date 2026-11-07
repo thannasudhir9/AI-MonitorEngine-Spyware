@@ -837,6 +837,213 @@ def render_elevated_kill_modal_view():
     print("[✓] Generated 14_elevated_kill_modal_and_tracking.png")
 
 
+def render_system_diagnostics_view():
+    """Render Screenshot 15: System Diagnostics & Baseline (SystemInfoCheck)."""
+    img = Image.new("RGB", (1600, 1000), color=(8, 12, 20))
+    d = ImageDraw.Draw(img)
+    draw_hud_header(d, "SysInfo")
+
+    # Metrics
+    cards = [
+        ("OPERATING SYSTEM", "Windows 11", "Build 26100 | AMD64 | Uptime: 4d 8h", (6, 182, 212), (255, 255, 255)),
+        ("PROCESSOR (CPU)", "24 Cores", "Load: 12% | 3400 MHz Max", (99, 102, 241), (129, 140, 248)),
+        ("PHYSICAL RAM", "31.4 GB Total", "Used: 22.3 GB (71%) | Swap: 2.1 GB", (16, 185, 129), (52, 211, 153)),
+        ("SECURITY BASELINE", "SECURE POSTURE", "Admin: Active | Defender: Active", (244, 63, 94), (251, 113, 133))
+    ]
+    draw_metric_cards(d, cards)
+
+    # NICs Table Card
+    d.rectangle([(25, 250), (1575, 940)], fill=(15, 23, 42), outline=(30, 41, 59), width=2)
+    d.text((45, 270), "🌐 ACTIVE NETWORK ADAPTERS (NICS) & SECURITY BASELINE AUDIT", fill=(6, 182, 212))
+    d.text((45, 295), "Hardware network interfaces, IPv4 bindings, MAC addresses, and security baseline controls.", fill=(148, 163, 184))
+
+    # Table Header
+    d.rectangle([(45, 330), (1555, 365)], fill=(11, 17, 30), outline=(30, 41, 59))
+    d.text((60, 340), "INTERFACE NAME", fill=(148, 163, 184))
+    d.text((380, 340), "IPV4 ADDRESS", fill=(148, 163, 184))
+    d.text((640, 340), "MAC ADDRESS", fill=(148, 163, 184))
+    d.text((950, 340), "SPEED / DUPLEX", fill=(148, 163, 184))
+    d.text((1250, 340), "LINK STATUS", fill=(148, 163, 184))
+    d.text((1440, 340), "BASELINE", fill=(148, 163, 184))
+
+    nics = [
+        ("Ethernet Controller (Intel I225-V)", "192.168.1.105", "D8:BB:C1:2E:4A:10", "2500 Mbps / Full", "ONLINE (UP)", "PROTECTED"),
+        ("Wi-Fi 6E Adapter (Intel AX211)", "192.168.1.106", "E4:54:E8:8A:2B:99", "1200 Mbps / Full", "ONLINE (UP)", "PROTECTED"),
+        ("vEthernet (Default Switch - Hyper-V)", "172.24.16.1", "00:15:5D:89:12:01", "10000 Mbps / Full", "ONLINE (UP)", "INTERNAL"),
+        ("Bluetooth Device (Personal Area Network)", "169.254.12.8", "E4:54:E8:8A:2B:9D", "3 Mbps / Full", "ONLINE (UP)", "MONITORED"),
+        ("Tailscale Tunnel Interface", "100.82.14.99", "N/A (Virtual Point-to-Point)", "1000 Mbps / Full", "ONLINE (UP)", "ENCRYPTED"),
+        ("Loopback Pseudo-Interface 1", "127.0.0.1", "00:00:00:00:00:00", "Auto / Full", "ONLINE (UP)", "LOCALHOST")
+    ]
+
+    ny = 380
+    for name, ip, mac, spd, stat, base in nics:
+        d.rectangle([(45, ny), (1555, ny + 45)], fill=(19, 28, 49), outline=(30, 41, 59))
+        d.text((60, ny + 12), name, fill=(255, 255, 255))
+        d.text((380, ny + 12), ip, fill=(6, 182, 212))
+        d.text((640, ny + 12), mac, fill=(148, 163, 184))
+        d.text((950, ny + 12), spd, fill=(203, 213, 225))
+        d.text((1250, ny + 12), stat, fill=(52, 211, 153))
+        d.text((1440, ny + 12), base, fill=(129, 140, 248))
+        ny += 55
+
+    # Bottom Baseline Panel
+    d.rectangle([(45, 730), (1555, 920)], fill=(11, 17, 30), outline=(30, 41, 59))
+    d.text((65, 745), "🛡️ SYSTEM SECURITY BASELINE AUDIT SUMMARY", fill=(16, 185, 129))
+    d.text((65, 775), "• Windows Defender Real-Time Antivirus Protection: ACTIVE & UPDATED", fill=(203, 213, 225))
+    d.text((65, 800), "• User Account Control (UAC): LEVEL 3 (Notify when apps make changes)", fill=(203, 213, 225))
+    d.text((65, 825), "• Data Execution Prevention (DEP) & ASLR: HARDWARE ENFORCED", fill=(203, 213, 225))
+    d.text((65, 850), "• Windows Netsh Advanced Firewall: ACTIVE ON ALL THREE PROFILES (Domain, Private, Public)", fill=(203, 213, 225))
+    d.text((65, 875), "• Remote Desktop (RDP) Baseline: PORT 3389 SECURED & FILTERED BY AEGISSHIELD POLICY", fill=(203, 213, 225))
+
+    img.save(SCREENSHOTS_DIR / "15_system_diagnostics_baseline.png")
+    print("[✓] Generated 15_system_diagnostics_baseline.png")
+
+
+def render_storage_dropper_hunter_view():
+    """Render Screenshot 16: Storage & Dropper Hunter (DriveOrganiserAndAnalyzer)."""
+    img = Image.new("RGB", (1600, 1000), color=(8, 12, 20))
+    d = ImageDraw.Draw(img)
+    draw_hud_header(d, "Drives")
+
+    # Metrics
+    cards = [
+        ("STORAGE POOL", "1,882 GB Total", "2 Physical & Logical Partitions", (6, 182, 212), (255, 255, 255)),
+        ("USED CAPACITY", "742.6 GB Used", "Overall Pool: 39.4% Used", (245, 158, 11), (251, 191, 36)),
+        ("FREE CAPACITY", "1,140.2 GB Free", "Safe Storage Pool Threshold", (16, 185, 129), (52, 211, 153)),
+        ("DROPPER STAGING", "CLEAN / AUDITED", "3 High-Risk Zones Monitored", (239, 68, 68), (248, 113, 113))
+    ]
+    draw_metric_cards(d, cards)
+
+    # Drive Partitions
+    d.rectangle([(25, 245), (1575, 430)], fill=(15, 23, 42), outline=(30, 41, 59), width=2)
+    d.text((45, 260), "💾 PHYSICAL & LOGICAL PARTITIONS TELEMETRY", fill=(255, 255, 255))
+
+    # C Drive Card
+    d.rectangle([(45, 290), (785, 410)], fill=(19, 28, 49), outline=(6, 182, 212), width=1)
+    d.text((65, 305), "C:\\ (OS & System Boot Drive - NTFS)", fill=(6, 182, 212))
+    d.text((680, 305), "68% Used", fill=(251, 191, 36))
+    d.rectangle([(65, 335), (765, 350)], fill=(11, 17, 30), outline=(30, 41, 59))
+    d.rectangle([(65, 335), (540, 350)], fill=(6, 182, 212))
+    d.text((65, 365), "Used: 324.2 GB  |  Free: 152.1 GB  |  Total: 476.3 GB", fill=(148, 163, 184))
+
+    # D Drive Card
+    d.rectangle([(815, 290), (1555, 410)], fill=(19, 28, 49), outline=(16, 185, 129), width=1)
+    d.text((835, 305), "D:\\ (Data & Repositories - NTFS)", fill=(52, 211, 153))
+    d.text((1450, 305), "29% Used", fill=(52, 211, 153))
+    d.rectangle([(835, 335), (1535, 350)], fill=(11, 17, 30), outline=(30, 41, 59))
+    d.rectangle([(835, 335), (1038, 350)], fill=(16, 185, 129))
+    d.text((835, 365), "Used: 418.4 GB  |  Free: 988.1 GB  |  Total: 1,406.5 GB", fill=(148, 163, 184))
+
+    # Dropper Staging Zones Hunter Table
+    d.rectangle([(25, 450), (1575, 940)], fill=(15, 23, 42), outline=(239, 68, 68), width=2)
+    d.text((45, 465), "🚨 MALWARE DROPPER STAGING ZONE HUNTER (%TEMP%, APPDATA, WINDOWS TEMP)", fill=(248, 113, 113))
+    d.text((45, 490), "Audits staging directories where trojans and spyware drop secondary payloads before execution.", fill=(148, 163, 184))
+
+    # Clean Button
+    d.rectangle([(1330, 465), (1555, 505)], fill=(239, 68, 68), outline=(239, 68, 68))
+    d.text((1345, 478), "🧹 Clean Temp Droppers", fill=(255, 255, 255))
+
+    # Table Header
+    d.rectangle([(45, 525), (1555, 560)], fill=(11, 17, 30), outline=(30, 41, 59))
+    d.text((60, 535), "STAGING ZONE", fill=(148, 163, 184))
+    d.text((280, 535), "FILE NAME", fill=(148, 163, 184))
+    d.text((580, 535), "FULL SYSTEM PATH", fill=(148, 163, 184))
+    d.text((1050, 535), "SIZE", fill=(148, 163, 184))
+    d.text((1180, 535), "MODIFIED", fill=(148, 163, 184))
+    d.text((1380, 535), "THREAT STATUS / ACTION", fill=(148, 163, 184))
+
+    droppers = [
+        ("User %TEMP%", "payload_dropper_stub.exe", "C:\\Users\\thann\\AppData\\Local\\Temp\\payload_dropper_stub.exe", "1,248 KB", "2026-11-07 09:12", "SUSPICIOUS DROPPER"),
+        ("User %TEMP%", "update_agent_run.bat", "C:\\Users\\thann\\AppData\\Local\\Temp\\update_agent_run.bat", "14 KB", "2026-11-07 08:44", "SCRIPT / LOADER"),
+        ("Public Directory", "reverse_shell_stage.ps1", "C:\\Users\\Public\\reverse_shell_stage.ps1", "38 KB", "2026-11-07 07:30", "SUSPICIOUS SCRIPT"),
+        ("Windows System Temp", "msedge_installer_fak.dll", "C:\\Windows\\Temp\\msedge_installer_fak.dll", "512 KB", "2026-11-07 06:15", "MASQUERADED DLL"),
+        ("User %TEMP%", "cache_helper_temp.vbs", "C:\\Users\\thann\\AppData\\Local\\Temp\\cache_helper_temp.vbs", "8 KB", "2026-11-07 05:02", "VBSCRIPT DROPPER")
+    ]
+
+    dy = 575
+    for zone, fname, fpath, sz, mod, risk in droppers:
+        d.rectangle([(45, dy), (1555, dy + 45)], fill=(19, 28, 49), outline=(30, 41, 59))
+        d.text((60, dy + 12), zone, fill=(6, 182, 212))
+        d.text((280, dy + 12), fname, fill=(255, 255, 255))
+        d.text((580, dy + 12), fpath[:48] + "...", fill=(148, 163, 184))
+        d.text((1050, dy + 12), sz, fill=(203, 213, 225))
+        d.text((1180, dy + 12), mod, fill=(148, 163, 184))
+        d.text((1380, dy + 12), risk, fill=(248, 113, 113))
+        dy += 55
+
+    img.save(SCREENSHOTS_DIR / "16_storage_dropper_hunter.png")
+    print("[✓] Generated 16_storage_dropper_hunter.png")
+
+
+def render_threat_tracking_ledger_view():
+    """Render Screenshot 17: Persistent Suspicious Threat Tracking Ledger."""
+    img = Image.new("RGB", (1600, 1000), color=(8, 12, 20))
+    d = ImageDraw.Draw(img)
+    draw_hud_header(d, "Threats")
+
+    # Metrics
+    cards = [
+        ("ACTIVE PROCS", "148 PIDs", "CPU: 14% | RAM: 68%", (6, 182, 212), (255, 255, 255)),
+        ("CRITICAL THREATS", "2 Severe", "Score ≥ 75 (Eradication Ready)", (239, 68, 68), (248, 113, 113)),
+        ("SUSPICIOUS THREATS", "5 Tracked", "Scores: 20-74 (Heuristic Anomalies)", (245, 158, 11), (251, 191, 36)),
+        ("HEALTH INDEX", "92% Secure", "Immutable Incident Chronicle", (16, 185, 129), (52, 211, 153))
+    ]
+    draw_metric_cards(d, cards)
+
+    # Threat Sub-navigation highlighting Threat Tracking Ledger
+    d.rectangle([(25, 240), (1575, 285)], fill=(11, 17, 30), outline=(30, 41, 59))
+    d.text((45, 252), "All Risks (7)", fill=(148, 163, 184))
+    d.text((180, 252), "🚨 Critical (2)", fill=(248, 113, 113))
+    d.text((320, 252), "⚠️ Suspicious (5)", fill=(251, 191, 36))
+    
+    # Active Ledger Pill
+    d.rectangle([(470, 245), (710, 280)], fill=(99, 102, 241), outline=(99, 102, 241))
+    d.text((485, 252), "📜 Threat Tracking Ledger (12)", fill=(255, 255, 255))
+    d.text((740, 252), "🛡️ Blocked History (21)", fill=(6, 182, 212))
+
+    # Ledger Container
+    d.rectangle([(25, 300), (1575, 940)], fill=(15, 23, 42), outline=(99, 102, 241), width=2)
+    d.text((45, 315), "📜 PERSISTENT THREAT TRACKING & ANOMALY LEDGER (HISTORICAL & ACTIVE)", fill=(129, 140, 248))
+    d.text((45, 340), "Real-time audit log tracking suspicious and critical threats, detection timestamps, anomaly scores, and life cycle states.", fill=(148, 163, 184))
+
+    # Ledger Table Header
+    d.rectangle([(45, 375), (1555, 410)], fill=(11, 17, 30), outline=(30, 41, 59))
+    d.text((60, 385), "TIMELINE (FIRST / LAST)", fill=(148, 163, 184))
+    d.text((280, 385), "PID", fill=(148, 163, 184))
+    d.text((360, 385), "THREAT NAME & EXECUTABLE PATH", fill=(148, 163, 184))
+    d.text((760, 385), "SCORE / SEVERITY", fill=(148, 163, 184))
+    d.text((960, 385), "CATEGORY & ANOMALIES", fill=(148, 163, 184))
+    d.text((1300, 385), "STATUS", fill=(148, 163, 184))
+    d.text((1440, 385), "ACTION", fill=(148, 163, 184))
+
+    ledger_records = [
+        ("08:12 -> 09:44 (8x)", "5824", "AnyDesk.exe (C:\\Program Files (x86)\\AnyDesk\\AnyDesk.exe)", "90 [CRITICAL]", "REMOTE CONTROL (Living-off-the-Land RMM Tool)", "ACTIVE (SYSTEM)", "Kill / Tree"),
+        ("07:45 -> 09:40 (5x)", "14280", "svchost.exe (C:\\Users\\thann\\AppData\\Local\\Temp\\svchost.exe)", "95 [CRITICAL]", "MASQUERADING (Path Anomaly in %TEMP%)", "ACTIVE (FLAGGED)", "Kill Tree"),
+        ("06:30 -> 09:35 (12x)", "21844", "powershell.exe (Encoded Base64 Payload -enc aW52...)", "65 [SUSPICIOUS]", "LOLBIN INVOCATION (Living-off-the-Land execution)", "ACTIVE", "Force Kill"),
+        ("05:10 -> 08:20 (3x)", "19032", "curl_downloader.exe (Unverified signature, port 4444)", "55 [SUSPICIOUS]", "UNVERIFIED PE (Reverse socket outbound probe)", "ACTIVE", "Quarantine"),
+        ("Yesterday 22:15", "8920", "fake_update.bat (C:\\Users\\Public\\fake_update.bat)", "70 [SUSPICIOUS]", "SUSPICIOUS SCRIPT (Executing from Public folder)", "ERADICATED", "Closed"),
+        ("Yesterday 19:40", "1104", "crypto_miner_agent.exe (High CPU, stratum+tcp port)", "85 [CRITICAL]", "CRYPTOMINER (CoinMiner binary detected)", "QUARANTINED", "Isolate"),
+        ("2026-11-05 14:10", "4412", "netcat_listener.exe (Reverse shell socket 127.0.0.1:4444)", "80 [CRITICAL]", "REVERSE TUNNEL (Unauthorized listener socket)", "ERADICATED", "Terminated")
+    ]
+
+    ly = 425
+    for tline, pid, name_path, score, cat, stat, act in ledger_records:
+        d.rectangle([(45, ly), (1555, ly + 50)], fill=(19, 28, 49), outline=(30, 41, 59))
+        d.text((60, ly + 14), tline, fill=(148, 163, 184))
+        d.text((280, ly + 14), pid, fill=(6, 182, 212))
+        d.text((360, ly + 14), name_path[:45] + ("..." if len(name_path) > 45 else ""), fill=(255, 255, 255))
+        d.text((760, ly + 14), score, fill=(248, 113, 113) if "CRITICAL" in score else (251, 191, 36))
+        d.text((960, ly + 14), cat[:38] + "...", fill=(203, 213, 225))
+        
+        stat_col = (239, 68, 68) if "ACTIVE" in stat else ((16, 185, 129) if "ERADICATED" in stat else (139, 92, 246))
+        d.text((1300, ly + 14), stat, fill=stat_col)
+        d.text((1440, ly + 14), act, fill=(6, 182, 212))
+        ly += 60
+
+    img.save(SCREENSHOTS_DIR / "17_suspicious_threat_tracking_ledger.png")
+    print("[✓] Generated 17_suspicious_threat_tracking_ledger.png")
+
+
 def main():
     print("""
     ===============================================================
@@ -854,6 +1061,9 @@ def main():
     render_light_mode_view()
     render_documentation_hub_view()
     render_elevated_kill_modal_view()
+    render_system_diagnostics_view()
+    render_storage_dropper_hunter_view()
+    render_threat_tracking_ledger_view()
 
     pngs = list(SCREENSHOTS_DIR.glob("*.png"))
     print(f"\n[✓] Successfully captured and generated all {len(pngs)} dashboard screenshots!")

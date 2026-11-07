@@ -136,4 +136,60 @@ flowchart LR
 - **Resource Conservation:** Prevents unnecessary allocation of browser `AudioContext` and oscillator audio threads.
 - **Client Persistence:** Selected state stored in `localStorage.getItem('aegis_sound')`.
 
+---
+
+## 6. System Diagnostics & Drive Analyzer Architecture
+
+```mermaid
+flowchart TD
+    subgraph RepoIntegrations [User GitHub Repository Integrations]
+        Repo1["SystemInfoCheck\n(thannasudhir9/SystemInfoCheck)"]
+        Repo2["DriveOrganiserAndAnalyzer-AG2.0\n(thannasudhir9/DriveOrganiserAndAnalyzer-AG2.0)"]
+    end
+
+    subgraph BackendEngines [Integrated Backend Diagnostic Engines]
+        SysInfo["SystemInfoEngine (backend/system_info.py)\nOS Kernel, CPU 24 Cores Load, RAM/Swap, NICs, Security Baseline"]
+        DriveHunter["DriveAnalyzerEngine (backend/drive_analyzer.py)\nPartitions Pool, Space Allocation, %TEMP% Dropper Hunter & Cleanup"]
+        ThreatLedger["ThreatTrackingLedger (backend/threat_ledger.py)\nChronological Anomaly Chronicle, Lifecycles, Deduction Matrix"]
+    end
+
+    subgraph ClientViews [Modernized SOC Cyber UI]
+        SysInfoTab["System Diagnostics View (#view-sysinfo)"]
+        DrivesTab["Storage & Dropper Hunter View (#view-drives)"]
+        LedgerTab["Threat Tracking Ledger View (#threats-ledger-view)"]
+    end
+
+    Repo1 --> SysInfo
+    Repo2 --> DriveHunter
+    SysInfo --> SysInfoTab
+    DriveHunter --> DrivesTab
+    ThreatLedger --> LedgerTab
+```
+
+### SystemInfoEngine Telemetry Pipeline
+1. **OS Kernel & Machine Topology:** Inspects Windows release, platform machine type, Python runtime, boot timestamp, and live uptime counter.
+2. **CPU Multithreading & Frequency:** Queries core frequencies (current and max MHz), per-core execution load percentages across all 24 physical cores / logical threads.
+3. **RAM & Virtual Swap:** Audits total physical RAM, allocated virtual memory, free buffers, and swap utilization with PDH counter fallback.
+4. **Network Adapters (NICs):** Enumerate network interfaces, resolving IPv4 bindings, MAC hardware addresses, duplex modes, and operational link states (`UP`/`DOWN`).
+5. **Security Baseline Posture:** Audits Windows Defender operational state, Netsh Firewall enforcement profiles, and UAC elevation state.
+
+### DriveAnalyzerEngine & Staging Zone Cleaner
+1. **Storage Pool Enumerate:** Discovers physical and logical partitions (`C:\`, `D:\`), reporting capacity, space utilized, and free margins.
+2. **Dropper Staging Zones Audit:** Scans designated high-risk malware dropper landing zones (`%TEMP%`, `AppData\Local\Temp`, `C:\Windows\Temp`, `C:\Users\Public`).
+3. **Executable & Script Hunting:** Identifies high-risk dropper file types (`.exe`, `.scr`, `.bat`, `.ps1`, `.vbs`, `.hta`, `.dll`), calculating file sizes and modification timestamps.
+4. **Zero-Trace Cleanup Action:** Automated purge command targeting dropper artifacts in `%TEMP%`, reporting files eradicated and disk storage reclaimed.
+
+---
+
+## 7. Suspicious Threat Heuristic Scoring & Persistent Ledger Architecture
+
+1. **Dual-Tier Threat Classification:**
+   - **Critical Threats ($\ge 75$):** Known trojans, RATs, CoinMiners, reverse tunnel sockets, and unverified executables masquerading as core system binaries.
+   - **Suspicious Threats ($20 - 74$):** Heuristic anomalies such as executing from temporary directory structures, living-off-the-land command-line arguments (LOLBins), unverified digital signatures, and unusual entropy.
+2. **Persistent Threat Tracking Ledger:**
+   - Stored in `logs/threat_tracking_ledger.json`.
+   - Records: Unique threat ID, first seen timestamp, last seen timestamp, observation counter, target PID, process name, command-line arguments, risk score, severity, category, detection reasons, and lifecycle states (`ACTIVE`, `INACTIVE`, `ERADICATED`, `QUARANTINED`).
+   - Automatically synchronizes with eradication actions triggered from the dashboard.
+
+
 

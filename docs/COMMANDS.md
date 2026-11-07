@@ -237,13 +237,46 @@ curl.exe -X POST http://127.0.0.1:8888/api/admin/restart-as-admin
 Start-Process "http://127.0.0.1:8888/docs.html"
 ```
 
+### 7.5 System Diagnostics & Security Baseline APIs (SystemInfoCheck)
+```powershell
+# Retrieve full hardware specs, OS kernel, CPU, RAM, NICs, and security baseline
+curl.exe http://127.0.0.1:8888/api/system-info
+```
+
+### 7.6 Drive Space & Dropper Staging APIs (DriveOrganiserAndAnalyzer)
+```powershell
+# Query all physical and logical partition capacities
+curl.exe http://127.0.0.1:8888/api/drives
+
+# Audit %TEMP%, AppData, and Windows Temp for dropped executables and scripts
+curl.exe http://127.0.0.1:8888/api/drives/dropper-zones
+
+# Clean temporary files and dropper staging artifacts in user %TEMP%
+curl.exe -X POST http://127.0.0.1:8888/api/drives/clean-temp
+```
+
+### 7.7 Threat Tracking Ledger APIs
+```powershell
+# Retrieve persistent chronological tracking ledger of all suspicious and critical threats
+curl.exe http://127.0.0.1:8888/api/threats/tracking-ledger
+
+# Filter ledger for active threats only
+curl.exe "http://127.0.0.1:8888/api/threats/tracking-ledger?status=ACTIVE"
+
+# Filter ledger for suspicious threats only
+curl.exe "http://127.0.0.1:8888/api/threats/tracking-ledger?severity=SUSPICIOUS"
+
+# Reset / clear threat tracking ledger
+curl.exe -X POST http://127.0.0.1:8888/api/threats/tracking-ledger/clear
+```
+
 ---
 
 ## 8. Continuous Synchronization & Memory Verification Commands
 
 ### 8.1 Diagnostic Test Engine Execution
 ```powershell
-# Execute the automated 35-check diagnostic test suite
+# Execute the automated 46-check diagnostic test suite across all 17 subsystems
 python tools/test_engine.py
 
 # Alternatively, run via batch launcher
@@ -252,7 +285,7 @@ python tools/test_engine.py
 
 ### 8.2 Visual Screenshot Capture Engine
 ```powershell
-# Render all 14 high-definition 1600x1000 UI screenshots
+# Render all 17 high-definition 1600x1000 UI screenshots
 python tools/screenshot_engine.py
 
 # Alternatively, run via batch launcher

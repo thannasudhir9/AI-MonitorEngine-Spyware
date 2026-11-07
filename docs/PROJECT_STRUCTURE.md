@@ -10,6 +10,7 @@ SpywareProcessMon/
 │   ├── adblock_proxy.py                    # Multi-threaded HTTP/HTTPS CONNECT intercepting proxy (:8080)
 │   ├── adblock_rules.py                    # 5000+ domain rules (EasyList, AdGuard, StevenBlack)
 │   ├── detector.py                         # Threat detection engine (masquerading, cmdlines, signatures)
+│   ├── drive_analyzer.py                   # Drive partitions & %TEMP% Dropper Hunter (DriveOrganiser)
 │   ├── email_notifier.py                   # SMTP alerts & responsive HTML executive security reports
 │   ├── network_tracer.py                   # Process network socket auditor & IP genuineness scorer
 │   ├── pe_analyzer.py                      # Portable Executable forensics & Shannon entropy analysis
@@ -20,6 +21,8 @@ SpywareProcessMon/
 │   ├── server.py                           # FastAPI / Starlette REST API & WebSocket server (:8888)
 │   ├── signatures_db.py                    # Malware, Trojan, Ransomware & LOLRMM signature hashes/patterns
 │   ├── simulator.py                        # Safe threat simulator lab (Trojan dropper, LOLBin, RMM)
+│   ├── system_info.py                      # Hardware, OS Kernel, 24 CPU cores & Baseline (SystemInfoCheck)
+│   ├── threat_ledger.py                    # Persistent Chronological Anomaly & Threat Ledger
 │   ├── web_analytics.py                    # Real-time web analytics, bandwidth saved & category distributions
 │   └── web_traffic_logger.py               # Thread-safe persistent logging of all browsed websites
 │
@@ -69,15 +72,21 @@ SpywareProcessMon/
 │   ├── 11_private_mode_stealth.png         # Zero-disk footprint stealth mode console & volatile buffer
 │   ├── 12_light_mode_clean_soc.png         # Clean daylight SOC theme interface view
 │   ├── 13_documentation_hub.png            # Web Documentation Hub and four engines breakdown
-│   └── 14_elevated_kill_modal_and_tracking.png # Interactive UAC elevation modal & tracking ledgers
+│   ├── 14_elevated_kill_modal_and_tracking.png # Interactive UAC elevation modal & tracking ledgers
+│   ├── 15_system_diagnostics_baseline.png  # Hardware, OS kernel, CPU frequency & baseline audit
+│   ├── 16_storage_dropper_hunter.png       # Drive partitions & %TEMP% dropper hunter staging zone
+│   └── 17_suspicious_threat_tracking_ledger.png # Chronological suspicious threat tracking ledger
 │
 ├── tools/                                  # Diagnostic and Visual Engines
-│   ├── screenshot_engine.py                # High-definition Pillow dashboard renderer generating 14 screenshots
-│   └── test_engine.py                      # Master automated diagnostic suite (30/30 unit & integration checks)
+│   ├── screenshot_engine.py                # High-definition Pillow dashboard renderer generating 17 screenshots
+│   └── test_engine.py                      # Master automated diagnostic suite (46/46 unit & integration checks)
 │
 ├── brain_archive/                          # Complete Mirror of Session State & Brain Files
 │   ├── plan.md                             # Initial master development plan
 │   ├── adblocker_plan.md                   # AdBlocker and web inspector development plan
+│   ├── continuous_sync_and_memory_protocol.md # Persistent memory & synchronization protocol
+│   ├── future_scope_and_roadmap_plan.md    # Strategic future roadmap & autonomous defense blueprint
+│   ├── systeminfo_and_drive_integration_plan.md # SystemInfoCheck & DriveOrganiser integration plan
 │   └── .system_generated/                  # Transcripts, logs, steps and task states
 │
 ├── cli_scanner.py                          # Unified Terminal CLI tool for scanning, rules & remediation
@@ -102,6 +111,9 @@ SpywareProcessMon/
 | `backend/server.py` | Exposes REST endpoints & WebSocket telemetry on `127.0.0.1:8888` | All `backend/*` modules | Web UI (`app.js`), External clients |
 | `backend/detector.py` | Scans processes, executes heuristic analysis, scores threat level (0-100) | `signatures_db.py`, `pe_analyzer.py` | `server.py`, `cli_scanner.py`, `test_engine.py` |
 | `backend/remediator.py` | Terminates malicious PIDs, quarantines files, writes audit records | `psutil`, `incident_audit.json` | `server.py`, `cli_scanner.py` |
+| `backend/system_info.py` | Audits hardware, OS kernel, CPU load, RAM/Swap, NICs, Security baseline | `psutil`, `platform` | `server.py`, `test_engine.py` |
+| `backend/drive_analyzer.py` | Scans partitions, disk space, and audits %TEMP% dropper staging zones | `psutil`, `pathlib` | `server.py`, `test_engine.py` |
+| `backend/threat_ledger.py` | Persistent chronological ledger of suspicious & critical threats | `logs/threat_tracking_ledger.json` | `server.py`, `test_engine.py` |
 | `backend/adblock_proxy.py` | Multithreaded HTTP/HTTPS proxy filtering ad/tracker domains on `:8080` | `adblock_rules.py`, `web_traffic_logger.py` | System browsers (Chrome, Edge, Firefox) |
 | `backend/adblock_rules.py` | Curated 5,000+ domain reputation dictionary (ad networks, trackers, telemetry) | Built-in set | `adblock_proxy.py`, `test_engine.py` |
 | `backend/web_traffic_logger.py` | Thread-safe logging of all browsed websites to `web_traffic_logs.json` | `database/web_traffic_logs.json` | `adblock_proxy.py`, `web_analytics.py`, `server.py` |
@@ -109,10 +121,10 @@ SpywareProcessMon/
 | `backend/proxy_controller.py` | Programmatic Windows Internet Settings (`ProxyEnable=1/0`) toggle | Windows Registry (`winreg`) | `server.py`, Web UI |
 | `backend/network_tracer.py` | Audits process sockets, resolves reverse DNS, scores origin genuineness | `database/geo_cache.json` | `server.py`, `cli_scanner.py` |
 | `backend/policy_engine.py` | Manages Whitelist/Blacklist rules and syncs Windows Firewall rules | `database/policy_rules.json`, `netsh` | `detector.py`, `server.py`, `cli_scanner.py` |
-| `backend/email_notifier.py` | Generates executive HTML threat reports and dispatches via SMTP | `database/email_config.json`, `smtplib`| `server.py`, `cli_scanner.py` |
-| `frontend/app.js` | Drives 10 dashboard tabs, handles WebSockets, live charts & user actions | `frontend/index.html` | User / Operator |
-| `tools/test_engine.py` | 22-step automated verification suite testing all subsystems | All backend modules | CI/CD, Quality Assurance |
-| `tools/screenshot_engine.py` | Pillow-based visual engine generating 1600x1000 screenshots | Pillow (`PIL`) | Documentation, Review |
+| `backend/email_notifier.py` | Generates executive HTML threat reports and dispatches via SMTP/Resend | `database/email_config.json`, `smtplib`| `server.py`, `cli_scanner.py` |
+| `frontend/app.js` | Drives 12 dashboard tabs, handles WebSockets, live charts & user actions | `frontend/index.html` | User / Operator |
+| `tools/test_engine.py` | 46-step automated verification suite testing all 17 subsystems | All backend modules | CI/CD, Quality Assurance |
+| `tools/screenshot_engine.py` | Pillow-based visual engine generating 17 HD 1600x1000 screenshots | Pillow (`PIL`) | Documentation, Review |
 
 ---
 

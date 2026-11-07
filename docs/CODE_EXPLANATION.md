@@ -391,6 +391,60 @@ def serve_favicon():
 ### 19.2 Direct Static Screenshot Mounting
 The `screenshots/` directory is mounted at `/screenshots` via `StaticFiles(directory=str(SCREENSHOTS_DIR))` allowing `frontend/docs.html` and Markdown renderers to load 1600x1000 HD UI captures directly without path traversal workarounds.
 
+---
+
+## 20. System Diagnostics Engine (`backend/system_info.py`)
+
+Inspired by the `SystemInfoCheck` repository, `SystemInfoEngine` performs a comprehensive system telemetry audit:
+```python
+class SystemInfoEngine:
+    def get_full_system_info(self) -> Dict[str, Any]:
+        return {
+            "os": self._get_os_info(),
+            "cpu": self._get_cpu_info(),
+            "memory": self._get_memory_info(),
+            "network_adapters": self._get_network_adapters(),
+            "security_baseline": self._get_security_baseline(),
+            "system_uptime": self._get_uptime(),
+            "timestamp": datetime.now().isoformat()
+        }
+```
+1. **CPU Telemetry:** Queries `psutil.cpu_count()` for physical cores and logical threads, current frequency, max frequency, and per-core CPU usage percentages across all 24 execution threads.
+2. **Memory with PDH Counter Fallback:** Calculates physical RAM total, available, used, and percent. Safely wraps `psutil.swap_memory()` with a `try...except` block to gracefully handle environments where Windows PDH performance counters are disabled.
+3. **Network Adapters (NICs):** Combines `psutil.net_if_addrs()` and `psutil.net_if_stats()` to enumerate network interfaces, extracting IPv4 addresses, hardware MAC addresses, link speeds (e.g. 2500 Mbps, 1200 Mbps), and operational link statuses (`is_up`).
+4. **Security Baseline:** Checks Windows Defender real-time protection status, Windows Advanced Firewall profiles, UAC notification level, and administrative token status.
+
+---
+
+## 21. Drive Space & Dropper Staging Analyzer (`backend/drive_analyzer.py`)
+
+Inspired by the `DriveOrganiserAndAnalyzer-AG2.0` repository:
+```python
+class DriveAnalyzerEngine:
+    def __init__(self):
+        self.dropper_extensions = {".exe", ".bat", ".cmd", ".ps1", ".vbs", ".js", ".hta", ".scr", ".dll"}
+```
+1. **Partition Enumerate (`get_drives_overview`):** Iterates over `psutil.disk_partitions()`, resolving mount points (`C:\`, `D:\`), total storage capacity, used bytes, free bytes, and utilization percentage.
+2. **Dropper Staging Zones Audit (`scan_dropper_staging_zones`):** Audits directories where trojans, infostealers, and remote droppers stage secondary payloads:
+   - `%TEMP%` (`C:\Users\<user>\AppData\Local\Temp`)
+   - Alternate AppData Temp
+   - `C:\Users\Public`
+   - `C:\Windows\Temp`
+   Discovers files matching executable and script extensions (`.exe`, `.scr`, `.bat`, `.ps1`, `.vbs`, `.hta`), extracting file sizes, modification dates, and suspicious flags.
+3. **Temp Dropper Zone Purge (`clean_temp_droppers`):** Unlinks temporary files in `%TEMP%`, tracking total files removed and megabytes reclaimed.
+
+---
+
+## 22. Persistent Threat Tracking Ledger (`backend/threat_ledger.py`)
+
+`ThreatTrackingLedger` maintains an immutable, persistent chronological chronicle of all suspicious and critical threats in `logs/threat_tracking_ledger.json`:
+1. **Deduplication Key Generation:** Keys threats by normalized executable path (`exe_<path>`) or process name + command-line hash.
+2. **Continuous Lifecycle Tracking:**
+   - Tracks `first_seen`, `last_seen`, `times_observed`, PID, process name, command-line arguments, risk score, severity, category, and heuristic reasons.
+   - Automatically marks previous entries whose PIDs are no longer active in the process table as `INACTIVE`.
+3. **Remediation Integration:** When a process is terminated or quarantined via `/api/kill`, `/api/kill-tree`, `/api/kill-all-threats`, or `/api/quarantine`, `record_remediation()` transitions the status to `ERADICATED` or `QUARANTINED` and appends an audit record to the threat's timeline.
+
+
 
 
 

@@ -1,12 +1,12 @@
 # 🛡️ AI Monitoring Engine • AdBlocker Engine • Web Tracker • Proc Mon Engine
-### AegisShield EDR v2.5 — Enterprise Endpoint Threat Defense & Web Privacy Suite
+### AegisShield EDR v2.6 — Enterprise Endpoint Threat Defense & Web Privacy Suite
 
-> **Enterprise-Grade Real-Time Endpoint Detection and Response (EDR), Remote Desktop / LOLRMM Hunter, Process Threat Eradicator, System-Wide Network Ad Blocker, Web Traffic Inspector, and Origin Tracer for Windows.**
+> **Enterprise-Grade Real-Time Endpoint Detection and Response (EDR), Remote Desktop / LOLRMM Hunter, Process Threat Eradicator, System-Wide Network Ad Blocker, Web Traffic Inspector, Origin Tracer, System Hardware Diagnostics, and Storage Dropper Hunter for Windows.**
 
 [![Python](https://img.shields.io/badge/Python-3.14%2B-blue.svg?logo=python)](https://python.org)
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011%20%7C%20Server-0078D6.svg?logo=windows)](https://microsoft.com)
 [![License](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-35%2F35%20Passing%20(100%25)-brightgreen.svg)](tools/test_engine.py)
+[![Tests](https://img.shields.io/badge/Tests-46%2F46%20Passing%20(100%25)-brightgreen.svg)](tools/test_engine.py)
 [![Audio](https://img.shields.io/badge/Audio-Silent%20Mode%20Default-slate.svg)](#)
 [![Email Alerting](https://img.shields.io/badge/Email%20Alerts-Resend%20API%20%7C%20SMTP-purple.svg)](https://resend.com)
 [![Port: EDR Dashboard](https://img.shields.io/badge/EDR%20Dashboard-127.0.0.1%3A8888-cyan.svg)](http://127.0.0.1:8888)
@@ -44,6 +44,14 @@
 | View 13: Web Documentation Hub | View 14: Elevated UAC Eradicator & Tracking |
 | :---: | :---: |
 | ![Web Documentation](screenshots/13_documentation_hub.png) | ![Elevated Eradication](screenshots/14_elevated_kill_modal_and_tracking.png) |
+
+| View 15: System Diagnostics & Baseline | View 16: Storage & Dropper Hunter |
+| :---: | :---: |
+| ![System Diagnostics](screenshots/15_system_diagnostics_baseline.png) | ![Storage & Dropper Hunter](screenshots/16_storage_dropper_hunter.png) |
+
+| View 17: Suspicious Threat Tracking Ledger |
+| :---: |
+| ![Threat Tracking Ledger](screenshots/17_suspicious_threat_tracking_ledger.png) |
 
 ---
 
@@ -109,6 +117,29 @@
 - Configurable SMTP dispatch (`smtp.gmail.com`, `smtp.office365.com`, or custom relays) with TLS encryption.
 - Automatically or on-demand sends styled HTML executive briefings containing health scores, active threats, RMM tools, network connections, and remediation receipts.
 
+### 7. 💻 System Diagnostics & Security Baseline (`SystemInfoCheck`)
+- **Integrated from [`thannasudhir9/SystemInfoCheck`](https://github.com/thannasudhir9/SystemInfoCheck)**:
+  - Deep operating system and Windows kernel build forensics.
+  - Real-time CPU telemetry tracking current frequency, max frequency, core count, and per-core multi-threading load across all 24 logical processors.
+  - Physical RAM and swap memory gauges with robust fallback for environments where Windows PDH counters are disabled.
+  - Physical and virtual network adapters (NICs) audit: status, speed (Mbps), duplex mode, MAC addresses, and bound IPv4/IPv6 addresses.
+  - Security baseline audit reporting user token elevation status (`Administrator` vs `Standard User`).
+
+### 8. 💽 Storage & Malware Dropper Staging Hunter (`DriveOrganiserAndAnalyzer`)
+- **Integrated from [`thannasudhir9/DriveOrganiserAndAnalyzer-AG2.0`](https://github.com/thannasudhir9/DriveOrganiserAndAnalyzer-AG2.0)**:
+  - Comprehensive drive partition discovery, filesystem types (NTFS, FAT32), total/free/used metrics, and utilization progress bars.
+  - Specialized **Malware Staging Zone Hunter** scanning high-risk directories: `%TEMP%`, `%LOCALAPPDATA%\Temp`, `C:\Windows\Temp`, and `C:\Users\Public`.
+  - Flags executable payloads and script droppers (`.exe`, `.scr`, `.bat`, `.ps1`, `.vbs`, `.hta`, `.dll`) often deployed by phishing or LOLBins.
+  - **1-Click Temp Dropper Cleaner**: Purges temporary droppers and reclaimed disk space safely with complete error isolation.
+
+### 9. 📋 Suspicious Threat Detection & Persistent Tracking Ledger
+- Dual-tier risk classification: `SUSPICIOUS` ($20 \le \text{Score} < 75$) and `CRITICAL` ($\text{Score} \ge 75$).
+- Persistent JSON tracking ledger at `logs/threat_tracking_ledger.json` storing:
+  - Process name, PID, executable path, risk score, threat category, and anomaly trigger reasons.
+  - Lifecycle state tracking: `ACTIVE`, `INACTIVE`, `ERADICATED`, or `QUARANTINED`.
+  - Chronological observation metrics: first seen timestamp, last seen timestamp, and occurrence frequency counter.
+- Dedicated dashboard sub-view with search filtering and 1-click ledger purge.
+
 ---
 
 ## ⚡ Quick Start
@@ -120,8 +151,8 @@ Double-click any batch launcher in the project root:
 - **`start_dashboard.bat`**: Launches only the EDR Web Dashboard (`http://127.0.0.1:8888`).
 - **`start_dashboard_admin.bat`**: Launches the EDR Dashboard with full Administrator elevation.
 - **`start_adblocker.bat`**: Launches only the AdBlock Proxy on port `8080`.
-- **`run_tests.bat`**: Executes the master diagnostic testing suite (25/25 checks).
-- **`generate_screenshots.bat`**: Re-generates all 12 visual screenshots in `screenshots/`.
+- **`run_tests.bat`**: Executes the master diagnostic testing suite (46/46 checks).
+- **`generate_screenshots.bat`**: Re-generates all 17 visual screenshots in `screenshots/`.
 
 ---
 
@@ -173,7 +204,7 @@ python tools/test_engine.py
 ================================================================
                   DIAGNOSTIC TEST RESULTS
 ================================================================
-  Passed Checks:  35
+  Passed Checks:  46
   Failed Checks:  0
   Success Rate:   100.0%
 ================================================================
@@ -202,13 +233,14 @@ For deep technical specifications, refer to the `docs/` suite:
 
 ```
 SpywareProcessMon/
-├── backend/                  # Python EDR, AdBlocker & Network Engines
+├── backend/                  # Python EDR, AdBlocker, Network, Diagnostics & Dropper Hunter Engines
 ├── frontend/                 # Dark Cyber SOC Web Interface (:8888) & Documentation Hub (:8888/docs.html)
 ├── database/                 # Persistent JSON Datastores
-├── docs/                     # Full 9-Document Engineering Suite
-├── screenshots/              # 14 HD 1600x1000 UI Captures
-├── tools/                    # Automated Test Engine (30 checks) & Screenshot Generator (14 views)
+├── docs/                     # Full 10-Document Engineering Suite
+├── screenshots/              # 17 HD 1600x1000 UI Captures
+├── tools/                    # Automated Test Engine (46 checks) & Screenshot Generator (17 views)
 ├── brain_archive/            # Full Archive of Session States, Plans & Persistent Memory Protocols
+├── logs/                     # Audit & Threat Tracking Ledgers
 ├── cli_scanner.py            # Terminal CLI Tool
 ├── run_server.py             # Web Server Entry Point
 └── requirements.txt          # Dependencies
@@ -223,6 +255,6 @@ Distributed under the MIT License. Built for proactive endpoint defense, network
 
 ### 👨‍💻 Engineering & Support
 **Built with ❤️ by Sudhir Kumar Thanna**  
-**Deployed Version:** `v2.5.0-SOC-Enterprise (Build 2026.11.07-STABLE)`  
+**Deployed Version:** `v2.6.0-Enterprise-Diagnostic (Build 2026.11.07-STABLE)`  
 **Documentation Web Page:** [`http://127.0.0.1:8888/docs.html`](http://127.0.0.1:8888/docs.html)  
-**Last Synchronized:** `2026-11-07 08:35:00 UTC+01:00`
+**Last Synchronized:** `2026-11-07 10:10:00 UTC+01:00`

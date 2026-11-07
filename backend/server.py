@@ -30,6 +30,9 @@ from .adblock_proxy import AdBlockProxyServer
 from .web_traffic_logger import WebTrafficLogger
 from .web_analytics import WebAnalytics
 from .proxy_controller import ProxyController
+from .system_info import SystemInfoEngine
+from .drive_analyzer import DriveAnalyzerEngine
+from .threat_ledger import ThreatTrackingLedger
 
 app = FastAPI(title="AegisShield Cyber Threat & Process Monitor", version="2.0.0")
 
@@ -55,6 +58,11 @@ adblock_proxy.start()
 web_traffic_logger = WebTrafficLogger()
 web_analytics = WebAnalytics()
 proxy_controller = ProxyController(proxy_host="127.0.0.1", proxy_port=8080)
+
+# System Diagnostics, Drive Analyzer & Threat Ledger
+system_info_engine = SystemInfoEngine()
+drive_analyzer_engine = DriveAnalyzerEngine()
+threat_ledger = ThreatTrackingLedger()
 
 FRONTEND_DIR = APP_ROOT / "frontend"
 
@@ -156,12 +164,16 @@ def run_scan(detailed: bool = False):
     procs = detector.scan_all_processes(detailed_pe=detailed)
 
     threats = [p for p in procs if p.get("is_threat")]
-    critical_threats = [p for p in threats if p.get("severity") == "CRITICAL"]
-    high_threats = [p for p in threats if p.get("severity") == "HIGH"]
+    critical_threats = [p for p in threats if p.get("is_critical") or p.get("severity") in ("CRITICAL", "HIGH")]
+    suspicious_threats = [p for p in threats if p.get("is_suspicious") or (p.get("severity") in ("MEDIUM", "LOW") and p.get("threat_score", 0) >= 20)]
     rmm_tools = [p for p in procs if "REMOTE CONTROL" in p.get("primary_category", "") or any("Remote Desktop" in r.get("vector", "") for r in p.get("reasons", []))]
 
+    # Track in persistent threat ledger
+    if threats:
+        threat_ledger.record_threats(threats)
+
     # System Health Index (100 = safe, 0 = critical breach)
-    threat_index = 100 - min(len(critical_threats) * 35 + len(high_threats) * 15, 100)
+    threat_index = 100 - min(len(critical_threats) * 35 + len(suspicious_threats) * 10, 100)
 
     # Auto-dispatch email alert if configured and critical threats exist
     if len(critical_threats) > 0 and email_notifier.get_config().get("auto_email_on_critical"):
@@ -192,10 +204,13 @@ def run_scan(detailed: bool = False):
         "total_processes": len(procs),
         "total_threats": len(threats),
         "critical_count": len(critical_threats),
-        "high_count": len(high_threats),
+        "suspicious_count": len(suspicious_threats),
+        "high_count": len(critical_threats),
         "rmm_count": len(rmm_tools),
         "system_health_index": threat_index,
         "threats": threats,
+        "critical_threats": critical_threats,
+        "suspicious_threats": suspicious_threats,
         "rmm_tools": rmm_tools,
         "processes": procs
     }
@@ -221,6 +236,8 @@ def inspect_single_process(pid: int):
 def kill_process(req: KillRequest):
     """Terminate a single process by PID."""
     result = remediator.kill_process(req.pid, force=req.force, reason=req.reason)
+    if result.get("success"):
+        threat_ledger.record_remediation(req.pid, str(req.pid), "PROCESS_KILLED", result.get("message", "Terminated"))
     return result
 
 
@@ -252,7 +269,10 @@ def get_app_info():
             {"name": "Web Tracker Proxy", "status": "ONLINE", "type": "127.0.0.1:8080 Intercepting Telemetry Engine"},
             {"name": "Proc Mon Engine", "status": "ONLINE", "type": "Real-time Kernel Process Auditor & Remediator"},
             {"name": "Threat Eradicator", "status": "ONLINE", "type": "Multi-tier Force Kill & Quarantine"},
-            {"name": "Firewall Access Controller", "status": "ONLINE", "type": "Windows Netsh Policy Enforcement"}
+            {"name": "Firewall Access Controller", "status": "ONLINE", "type": "Windows Netsh Policy Enforcement"},
+            {"name": "System Diagnostics Engine", "status": "ONLINE", "type": "Hardware, OS Kernel & Security Baseline (SystemInfoCheck)"},
+            {"name": "Drive & Dropper Analyzer", "status": "ONLINE", "type": "Partitions & %TEMP% Dropper Hunter (DriveOrganiser)"},
+            {"name": "Threat Tracking Ledger", "status": "ONLINE", "type": "Persistent Anomaly & Threat Chronicle"}
         ],
         "author": "Sudhir Kumar Thanna",
         "support_message": "Built with ❤️ by Sudhir Kumar Thanna",
@@ -327,6 +347,8 @@ def get_blocked_history(limit: int = 150):
 def kill_process_tree(req: KillRequest):
     """Terminate a parent process and all child processes recursively."""
     result = remediator.kill_process_tree(req.pid, reason=req.reason)
+    if result.get("success"):
+        threat_ledger.record_remediation(req.pid, str(req.pid), "PROCESS_TREE_KILLED", result.get("message", "Process tree eradicated."))
     return result
 
 
@@ -336,6 +358,8 @@ def kill_all_threats(req: KillAllRequest):
     procs = detector.scan_all_processes(detailed_pe=False)
     threats = [p for p in procs if p.get("is_threat")]
     result = remediator.kill_all_threats(threats, min_score=req.min_score)
+    for killed in result.get("killed", []):
+        threat_ledger.record_remediation(killed.get("pid"), killed.get("name"), "BULK_KILLED", "Terminated during bulk eradication.")
     return result
 
 
@@ -343,6 +367,9 @@ def kill_all_threats(req: KillAllRequest):
 def quarantine_binary(req: QuarantineRequest):
     """Quarantine a suspicious executable file."""
     result = remediator.quarantine_file(req.file_path, reason=req.reason)
+    if result.get("success"):
+        threat_ledger.record_remediation(None, req.file_path, "FILE_QUARANTINED", result.get("message", "File quarantined."))
+    return result
     return result
 
 
@@ -399,6 +426,58 @@ def cleanup_simulations():
     """Clean up any active test simulations."""
     result = stop_all_simulations()
     return result
+
+
+# ==============================================================
+# System Diagnostics & Hardware Baseline (SystemInfoCheck)
+# ==============================================================
+
+@app.get("/api/system-info")
+def get_system_info():
+    """Retrieve full hardware specs, OS kernel, CPU, RAM, network adapters, and security baseline."""
+    return system_info_engine.get_full_system_info()
+
+
+# ==============================================================
+# Drive & Dropper Staging Analyzer (DriveOrganiserAndAnalyzer-AG2.0)
+# ==============================================================
+
+@app.get("/api/drives")
+def get_drives_overview():
+    """Retrieve all physical and logical drive partitions, capacities, and space utilization."""
+    return drive_analyzer_engine.get_drives_overview()
+
+
+@app.get("/api/drives/dropper-zones")
+def scan_dropper_zones(max_items: int = 50):
+    """Audit high-risk directories (%TEMP%, AppData, Windows Temp) for dropped executables and scripts."""
+    return drive_analyzer_engine.scan_dropper_staging_zones(max_items=max_items)
+
+
+@app.post("/api/drives/clean-temp")
+def clean_temp_droppers():
+    """Clean temporary files and dropper staging artifacts in user %TEMP%."""
+    res = drive_analyzer_engine.clean_temp_droppers()
+    remediator.log_event("TEMP_DROPPERS_CLEANED", "%TEMP%", None, res.get("message", "Temp cleanup executed."))
+    return res
+
+
+# ==============================================================
+# Threat Tracking Ledger (Persistent Chronological Anomaly History)
+# ==============================================================
+
+@app.get("/api/threats/tracking-ledger")
+def get_threat_tracking_ledger(limit: int = 200, severity: Optional[str] = None, status: Optional[str] = None, q: Optional[str] = None):
+    """Retrieve persistent chronological ledger of all suspicious and critical threats, lifecycles, and scores."""
+    return threat_ledger.get_ledger(limit=limit, severity=severity, status=status, search=q)
+
+
+@app.post("/api/threats/tracking-ledger/clear")
+def clear_threat_tracking_ledger():
+    """Reset persistent threat tracking ledger."""
+    res = threat_ledger.clear_ledger()
+    remediator.log_event("LEDGER_CLEARED", "ThreatTrackingLedger", None, "User cleared threat tracking ledger.")
+    return res
 
 
 # ==============================================================

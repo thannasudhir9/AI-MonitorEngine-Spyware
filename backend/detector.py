@@ -347,7 +347,7 @@ class ThreatDetector:
             primary_cat = "CRYPTOMINER"
         elif "Reverse Tunnel / Proxy" in categories:
             primary_cat = "REVERSE TUNNEL"
-        elif final_score >= SCORE_MEDIUM:
+        elif final_score >= SCORE_LOW or len(reasons) > 0 and not is_allowed:
             primary_cat = "SUSPICIOUS PROCESS"
         else:
             primary_cat = "NORMAL PROCESS"
@@ -361,6 +361,10 @@ class ThreatDetector:
                 expected = sys_info.get("expected_path")
                 if not expected or lower_exe.startswith(expected):
                     is_protected = True
+
+        is_critical = (final_score >= SCORE_HIGH) and not is_allowed
+        is_suspicious = ((final_score >= SCORE_LOW and final_score < SCORE_HIGH) or (len(reasons) > 0 and final_score >= 20)) and not is_allowed and not is_critical
+        is_threat = (is_critical or is_suspicious) and not is_allowed
 
         return {
             "pid": pid,
@@ -378,7 +382,9 @@ class ThreatDetector:
             "categories": list(categories),
             "matched_signatures": matched_signatures,
             "reasons": reasons,
-            "is_threat": final_score >= SCORE_MEDIUM,
+            "is_threat": is_threat,
+            "is_critical": is_critical,
+            "is_suspicious": is_suspicious,
             "is_protected": is_protected,
             "network": network_summary,
             "pe_info": pe_meta

@@ -614,5 +614,126 @@
     "is_genuine": true,
     "is_private": false,
     "confidence": 95
+  },
+  "2603:1026:c0d:c1e::2": {
+    "ip": "2603:1026:c0d:c1e::2",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "2603:1026:c0d:829::2": {
+    "ip": "2603:1026:c0d:829::2",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "2001:4860:4860::8888": {
+    "ip": "2001:4860:4860::8888",
+    "hostname": "dns.google",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "Google / GCP",
+    "verdict": "GENUINE CLOUD / CDN",
+    "is_genuine": true,
+    "is_private": false,
+    "confidence": 95
+  },
+  "2603:1061:14:64::1": {
+    "ip": "2603:1061:14:64::1",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "52.182.143.212": {
+    "ip": "52.182.143.212",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "2a02:26f0:3500:1000::1724:a31f": {
+    "ip": "2a02:26f0:3500:1000::1724:a31f",
+    "hostname": "g2a02-26f0-3500-1000-0000-0000-1724-a31f.deploy.static.akamaitechnologies.com",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "Akamai",
+    "verdict": "GENUINE CLOUD / CDN",
+    "is_genuine": true,
+    "is_private": false,
+    "confidence": 95
+  },
+  "2001:4860:4842:400::": {
+    "ip": "2001:4860:4842:400::",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "2603:1020:206:d::2": {
+    "ip": "2603:1020:206:d::2",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "208.115.231.142": {
+    "ip": "208.115.231.142",
+    "hostname": "relay-9e87d4d9.net.anydesk.com",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "2a00:1450:400c:c09::bc": {
+    "ip": "2a00:1450:400c:c09::bc",
+    "hostname": "wm-in-xbc.1e100.net",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "Google / GCP",
+    "verdict": "GENUINE CLOUD / CDN",
+    "is_genuine": true,
+    "is_private": false,
+    "confidence": 95
+  },
+  "54.76.166.0": {
+    "ip": "54.76.166.0",
+    "hostname": "ec2-54-76-166-0.eu-west-1.compute.amazonaws.com",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "Amazon AWS",
+    "verdict": "GENUINE CLOUD / CDN",
+    "is_genuine": true,
+    "is_private": false,
+    "confidence": 95
   }
 }

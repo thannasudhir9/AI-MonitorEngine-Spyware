@@ -358,6 +358,45 @@ This document records the exact chronological sequence of user prompts, engineer
 5. **Git Synchronization:**
    - Committed clean changes and pushed to upstream repository `origin/main`.
 
+---
+
+### 2.14 User Requests 14–20: Suspicious Threat Tracking, UI/UX Overhaul, and Multi-Repo Integration
+> **User Prompts:**  
+> 1. *"fetch github repo also on this topic - also one of my repo - https://github.com/thannasudhir9"*  
+> 2. *"show suspisious threats also"*  
+> 3. *"and keep track of them also"*  
+> 4. *"ui ux design is bad, improve it using werb"*  
+> 5. *"https://github.com/thannasudhir9/SystemInfoCheck"*  
+> 6. *"https://github.com/thannasudhir9/DriveOrganiserAndAnalyzer-AG2.0"*  
+> 7. *"add these 2 repos features also into this"*  
+
+#### Engineering Response & Systematic Execution:
+1. **GitHub Multi-Repository Integration (`thannasudhir9`):**
+   - Researched user's public repositories via GitHub API & web inspection:
+     - `https://github.com/thannasudhir9/SystemInfoCheck`: Real-time system hardware forensics, OS kernel details, CPU frequency / per-core load (up to 24 cores), RAM and swap memory, physical network NIC interfaces (MAC, IP, speed, duplex), and user elevation security baseline.
+     - `https://github.com/thannasudhir9/DriveOrganiserAndAnalyzer-AG2.0`: Drive partition capacity and utilization, storage visualization gauges, staging zone malware dropper hunting (`%TEMP%`, `AppData\Local\Temp`, `C:\Windows\Temp`, `C:\Users\Public` for `.exe`, `.scr`, `.bat`, `.ps1`, `.vbs`, `.hta`, `.dll`), and safe 1-click temp cleanup.
+   - Built backend engine [`backend/system_info.py`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/backend/system_info.py) with safe PDH counter fallbacks for Windows swap memory.
+   - Built backend engine [`backend/drive_analyzer.py`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/backend/drive_analyzer.py) implementing partition analysis and dropper staging zone hunter.
+   - Mounted API endpoints: `GET /api/system-info`, `GET /api/drives`, `GET /api/drives/dropper-zones`, `POST /api/drives/clean-temp`.
+2. **Suspicious Threat Detection & Tracking Ledger:**
+   - Updated [`backend/detector.py`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/backend/detector.py) scoring calibration to classify risks with score 20–74 as `SUSPICIOUS` (alongside `CRITICAL` at $\ge 75$).
+   - Built [`backend/threat_ledger.py`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/backend/threat_ledger.py) maintaining a persistent chronological ledger at `logs/threat_tracking_ledger.json`.
+   - Recorded first seen, last seen, observation count, PID, path, score, category, anomaly reasons, and lifecycle states (`ACTIVE`, `INACTIVE`, `ERADICATED`, `QUARANTINED`).
+   - Mounted API endpoints: `GET /api/threats/tracking-ledger` and `POST /api/threats/tracking-ledger/clear`.
+3. **UI/UX Design Modernization:**
+   - Replaced fragmented layout with modern SOC Cyber Dark Glassmorphism interface (`slate-950` backdrop, `slate-900/60` glass cards, thin cyan borders, neon semantic badges).
+   - Expanded top KPI ticker to 6 cards: `ACTIVE PROCS`, `CRITICAL THREATS`, `SUSPICIOUS THREATS` (amber), `REMOTE / RMM`, `SYS & STORAGE` (indigo), `HEALTH INDEX`.
+   - Added sub-views for threat management: `All Risks`, `Critical Threats`, `Suspicious Threats`, `Threat Tracking Ledger`, `Blocked History`.
+   - Added dedicated `System Diagnostics` (`view-sysinfo`) and `Storage & Dropper Hunter` (`view-drives`) views with interactive charts, gauges, tables, and cleanup controls.
+4. **Automated Testing & Screenshot Verification:**
+   - Expanded [`tools/test_engine.py`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/tools/test_engine.py) to **46 automated tests across 17 subsystems**, achieving a **100.0% pass rate (46/46 passing)**.
+   - Expanded [`tools/screenshot_engine.py`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/tools/screenshot_engine.py) to render 3 new high-definition views, producing **all 17 HD 1600x1000 screenshots** in `screenshots/`.
+5. **Continuous Memory Protocol & Upstream Push:**
+   - Mirrored integration plans to `brain_archive/systeminfo_and_drive_integration_plan.md`.
+   - Updated all documentation files in `docs/` and root `README.md`.
+   - Committed and pushed upstream to `origin/main`.
+
+
 
 
 
