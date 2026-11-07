@@ -33,6 +33,7 @@ from .proxy_controller import ProxyController
 from .system_info import SystemInfoEngine
 from .drive_analyzer import DriveAnalyzerEngine
 from .threat_ledger import ThreatTrackingLedger
+from .services_manager import WindowsServicesManager
 
 app = FastAPI(title="AegisShield Cyber Threat & Process Monitor", version="2.0.0")
 
@@ -63,6 +64,7 @@ proxy_controller = ProxyController(proxy_host="127.0.0.1", proxy_port=8080)
 system_info_engine = SystemInfoEngine()
 drive_analyzer_engine = DriveAnalyzerEngine()
 threat_ledger = ThreatTrackingLedger()
+services_manager = WindowsServicesManager()
 
 FRONTEND_DIR = APP_ROOT / "frontend"
 
@@ -91,6 +93,10 @@ class PersistenceDisableRequest(BaseModel):
 
 class SimulateRequest(BaseModel):
     type: str = "temp_trojan"
+
+
+class ServiceConfigRequest(BaseModel):
+    startup_type: str  # 'auto' | 'demand' (manual) | 'disabled'
 
 
 class PolicyRuleRequest(BaseModel):
@@ -477,6 +483,87 @@ def clear_threat_tracking_ledger():
     """Reset persistent threat tracking ledger."""
     res = threat_ledger.clear_ledger()
     remediator.log_event("LEDGER_CLEARED", "ThreatTrackingLedger", None, "User cleared threat tracking ledger.")
+    return res
+
+
+# ==============================================================
+# Windows Services Management (services.msc)
+# ==============================================================
+
+@app.get("/api/services")
+def list_windows_services(status: Optional[str] = None, q: Optional[str] = None, force: bool = False):
+    """Retrieve full catalog of installed Windows Services, states, PIDs, startup modes, and threat associations."""
+    services = services_manager.get_services(force_refresh=force)
+    if status and status.lower() != "all":
+        st = status.upper()
+        if st in ("RUNNING", "STOPPED", "PAUSED"):
+            services = [s for s in services if s["status"] == st]
+        elif st in ("AUTOMATIC", "AUTO"):
+            services = [s for s in services if s["start_type"].lower() in ("auto", "automatic")]
+        elif st in ("MANUAL", "DEMAND"):
+            services = [s for s in services if s["start_type"].lower() in ("manual", "demand")]
+        elif st == "DISABLED":
+            services = [s for s in services if s["start_type"].lower() == "disabled"]
+        elif st in ("RMM", "THREAT"):
+            services = [s for s in services if s.get("is_rmm") or s.get("threat_score", 0) > 0]
+
+    if q and q.strip():
+        query = q.strip().lower()
+        services = [
+            s for s in services if
+            query in s["name"].lower() or
+            query in s["display_name"].lower() or
+            query in str(s["pid"]) or
+            query in s["binpath"].lower() or
+            query in s["description"].lower()
+        ]
+    return {
+        "total_count": len(services),
+        "running_count": sum(1 for s in services if s["is_running"]),
+        "stopped_count": sum(1 for s in services if not s["is_running"]),
+        "rmm_count": sum(1 for s in services if s.get("is_rmm")),
+        "services": services
+    }
+
+
+@app.get("/api/services/{name}")
+def get_service_details(name: str):
+    """Retrieve metadata and runtime state for a specific Windows service."""
+    svc = services_manager.get_service(name)
+    if not svc:
+        raise HTTPException(status_code=404, detail=f"Service '{name}' not found.")
+    return svc
+
+
+@app.post("/api/services/{name}/start")
+def start_windows_service(name: str):
+    """Start an installed Windows service."""
+    res = services_manager.start_service(name)
+    remediator.log_event("SERVICE_START", name, None, res["message"], "SUCCESS" if res["success"] else "FAILED")
+    return res
+
+
+@app.post("/api/services/{name}/stop")
+def stop_windows_service(name: str):
+    """Stop an active Windows service."""
+    res = services_manager.stop_service(name)
+    remediator.log_event("SERVICE_STOP", name, None, res["message"], "SUCCESS" if res["success"] else "FAILED")
+    return res
+
+
+@app.post("/api/services/{name}/restart")
+def restart_windows_service(name: str):
+    """Restart a Windows service."""
+    res = services_manager.restart_service(name)
+    remediator.log_event("SERVICE_RESTART", name, None, res["message"], "SUCCESS" if res["success"] else "FAILED")
+    return res
+
+
+@app.post("/api/services/{name}/config")
+def configure_windows_service_startup(name: str, req: ServiceConfigRequest):
+    """Configure startup mode ('auto', 'demand' (manual), or 'disabled') for a Windows service."""
+    res = services_manager.set_startup_type(name, req.startup_type)
+    remediator.log_event("SERVICE_CONFIG", name, None, res["message"], "SUCCESS" if res["success"] else "FAILED")
     return res
 
 

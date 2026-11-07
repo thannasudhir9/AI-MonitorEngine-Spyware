@@ -270,13 +270,43 @@ curl.exe "http://127.0.0.1:8888/api/threats/tracking-ledger?severity=SUSPICIOUS"
 curl.exe -X POST http://127.0.0.1:8888/api/threats/tracking-ledger/clear
 ```
 
+### 7.8 Windows Services Management APIs (services.msc)
+```powershell
+# Retrieve full catalog of installed Windows services, states, PIDs, and metadata
+curl.exe http://127.0.0.1:8888/api/services
+
+# Filter services for running services only
+curl.exe "http://127.0.0.1:8888/api/services?status=RUNNING"
+
+# Filter services for RMM / threat-linked services (AnyDesk, TeamViewer, VNC)
+curl.exe "http://127.0.0.1:8888/api/services?status=RMM"
+
+# Search services by keyword
+curl.exe "http://127.0.0.1:8888/api/services?q=anydesk"
+
+# Query single service details
+curl.exe http://127.0.0.1:8888/api/services/WinDefend
+
+# Start an installed service
+curl.exe -X POST http://127.0.0.1:8888/api/services/WinDefend/start
+
+# Stop a running service
+curl.exe -X POST http://127.0.0.1:8888/api/services/Spooler/stop
+
+# Restart a service
+curl.exe -X POST http://127.0.0.1:8888/api/services/AISpeechService/restart
+
+# Configure service startup mode (auto, demand/manual, disabled)
+curl.exe -X POST http://127.0.0.1:8888/api/services/wuauserv/config -H "Content-Type: application/json" -d "{\"startup_type\": \"auto\"}"
+```
+
 ---
 
 ## 8. Continuous Synchronization & Memory Verification Commands
 
 ### 8.1 Diagnostic Test Engine Execution
 ```powershell
-# Execute the automated 46-check diagnostic test suite across all 17 subsystems
+# Execute the automated 56-check diagnostic test suite across all 19 subsystems
 python tools/test_engine.py
 
 # Alternatively, run via batch launcher
@@ -285,7 +315,7 @@ python tools/test_engine.py
 
 ### 8.2 Visual Screenshot Capture Engine
 ```powershell
-# Render all 17 high-definition 1600x1000 UI screenshots
+# Render all 18 high-definition 1600x1000 UI screenshots
 python tools/screenshot_engine.py
 
 # Alternatively, run via batch launcher

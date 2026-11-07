@@ -25,6 +25,7 @@ flowchart TD
         API["FastAPI / Starlette REST & WS Server\n(backend/server.py :8888)"]
         Detector["Threat Detection Engine\n(backend/detector.py)"]
         Remediator["Threat Remediation Engine\n(backend/remediator.py)"]
+        Services["Windows Services Manager\n(backend/services_manager.py)"]
         Policy["Access Control Engine\n(backend/policy_engine.py)"]
         Tracer["Network Origin Tracer\n(backend/network_tracer.py)"]
         Email["SMTP Alert Dispatcher\n(backend/email_notifier.py)"]
@@ -63,6 +64,7 @@ flowchart TD
 
     API --> Detector
     API --> Remediator
+    API --> Services
     API --> Policy
     API --> Tracer
     API --> Analytics
@@ -260,8 +262,8 @@ sequenceDiagram
 flowchart LR
     DevSession["AI Coding Session\n(Runtime Agent)"] -->|Transcripts & Logs| Brain["Agent Brain\n(.gemini/antigravity/brain)"]
     Brain -->|Auto Sync & Mirror| Archive["brain_archive/\n(Project Folder)"]
-    DevSession -->|Generate & Verify| TestEngine["tools/test_engine.py\n(22/22 Automated Tests)"]
-    DevSession -->|Render 1600x1000 PNGs| ScreenEngine["tools/screenshot_engine.py\n(screenshots/)"]
+    DevSession -->|Generate & Verify| TestEngine["tools/test_engine.py\n(56/56 Automated Tests)"]
+    DevSession -->|Render 1600x1000 PNGs| ScreenEngine["tools/screenshot_engine.py\n(18 Screenshots in screenshots/)"]
     TestEngine --> GitCommit["Git Staging & Commit"]
     ScreenEngine --> GitCommit
     Archive --> GitCommit
@@ -305,9 +307,9 @@ sequenceDiagram
 ```
 
 ### 7.2 Clean Daylight & Dark Cyber SOC Theming
-- **Dark Cyber SOC Theme (Default):** Deep obsidian `#080c14` backdrop with high-contrast neon cyan, crimson, and amber cyber HUD accents.
-- **Light Clean SOC Theme:** Clean daylight palette `#f8fafc` with crisp white card surfaces, slate `#0f172a` typography, and azure `#0284c7` highlights.
-- **State Persistence:** User preference stored in `localStorage.getItem('aegis_theme')` with zero flicker on page load.
+- **Light Clean SOC Theme (Default):** Crisp white surfaces (`#ffffff`), off-white background (`#f8fafc`), high-contrast slate typography (`#0f172a`, `#1e293b`), subtle borders (`#e2e8f0`), and soft semantic alert badges (`badge-critical`, `badge-suspicious`, `badge-safe`).
+- **Dark Cyber SOC Theme:** Deep obsidian `#080c14` backdrop with high-contrast neon cyan, crimson, and amber cyber HUD accents.
+- **State Persistence:** User preference stored in `localStorage.getItem('aegis_theme')` defaulting to `'light'`. Seamless toggle without page flicker.
 
 ---
 
@@ -387,6 +389,23 @@ Per user directive, intrusive audio chimes on threat detections, process termina
 - Flagging heuristic anomalies with risk scores $20 - 74$ (`is_suspicious`) alongside critical threats ($\ge 75$, `is_critical`).
 - Maintains an immutable, persistent chronological tracking ledger (`backend/threat_ledger.py` & `logs/threat_tracking_ledger.json`) recording detection timeline, observation count, PID, path, score, severity, category, reasons, and lifecycle states (`ACTIVE`, `INACTIVE`, `ERADICATED`, `QUARANTINED`).
 - Exposes `GET /api/threats/tracking-ledger` with multi-dimensional filtering toolbar (status, severity, search query) and `POST /api/threats/tracking-ledger/clear`.
+
+### 8.11 Windows Services Control Panel (`services.msc`) Architecture
+- **In-App `services.msc` Replacement:** Full-fledged Windows Services Control Panel embedded directly into the AegisShield web application (`#view-services`).
+- **Discovery Engine (`backend/services_manager.py`):**
+  - **Tier 1 (High Performance):** PowerShell CIM `Get-CimInstance Win32_Service` queries 331+ installed Windows services, mapping `ProcessId`, `StartMode` (`Auto`, `Manual`, `Disabled`), `State` (`Running`, `Stopped`), binary paths, and accounts.
+  - **Tier 2 (Native Command Fallback):** `C:\Windows\System32\sc.exe queryex type= service state= all` provides native command-line fallback if PowerShell CIM execution is restricted.
+  - **Tier 3 (Safety Catalog):** Known critical Windows OS service baseline dictionary ensures resilience.
+  - **Caching:** 3.0-second TTL cache prevents CPU churn and provides instantaneous API responses.
+- **Threat & LOLRMM Cross-Correlation:** Automatically flags dual-use remote management and persistence vectors (AnyDesk, TeamViewer, VNC, ScreenConnect, Atera, Splashtop, RustDesk, ngrok, cloudflared) with `badge-critical` / `badge-suspicious`.
+- **Administrative Lifecycle Control:** Exposes endpoints `POST /api/services/{name}/start`, `/stop`, `/restart`, and `POST /api/services/{name}/config` (setting startup type to `auto`, `demand`, or `disabled`) using `sc.exe`.
+
+### 8.12 Shadcn UI/UX Design System & Default Light Mode
+- **Design Tokens:** Inspired by `shadcn/ui`, featuring clean slate neutrals, subtle 1px borders (`#e2e8f0`), 6px rounded card corners (`rounded-lg`), and crisp typography.
+- **Segmented Pill Navigation (`.shadcn-tabs-nav`):** Encapsulated horizontal tab rail with pill indicators (`.shadcn-tab-item`), active pill backgrounds (`bg-white shadow-sm`), smooth horizontal scrolling, and touch-friendly targets.
+- **Smooth Thin Scrollbars:** Replaced clunky native browser scrollbars with custom 6px webkit scrollbars with pill thumbs (`border-radius: 9999px`) across all data tables and modals.
+- **Sticky Table Headers:** Enabled `sticky top-0 z-10 backdrop-blur` across all tables for continuous column orientation during large data set inspection.
+- **Default Light Clean SOC Mode:** System initializes in Light Mode by default (`class="light theme-light"`), pairing soft background tones with dark slate text for maximum legibility in daylight environments while maintaining instant 1-click toggle to Dark Cyber SOC Mode.
 
 
 

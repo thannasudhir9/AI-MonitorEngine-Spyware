@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="light theme-light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,7 +34,7 @@
     <!-- Custom Cyber Dashboard CSS -->
     <link rel="stylesheet" href="/static/css/dashboard.css">
 </head>
-<body class="bg-cyber-900 text-slate-100 min-h-screen flex flex-col font-sans selection:bg-cyan-500 selection:text-black">
+<body class="theme-light bg-slate-50 text-slate-900 min-h-screen flex flex-col font-sans selection:bg-cyan-500 selection:text-black">
 
     <!-- Top Navigation Header -->
     <header class="border-b border-slate-800 bg-cyber-900/90 backdrop-blur-md sticky top-0 z-40 px-6 py-3.5 flex items-center justify-between">
@@ -209,46 +209,49 @@
             </div>
         </section>
 
-        <!-- Navigation Tabs Bar -->
-        <nav class="flex border-b border-slate-800 gap-1 overflow-x-auto pb-1 text-sm font-mono">
-            <button data-tab="threats" class="tab-btn px-4 py-2.5 rounded-t-lg bg-cyan-500/20 text-cyan-300 border-b-2 border-cyan-500 flex items-center gap-2 font-medium">
-                <i data-lucide="shield-alert" class="w-4 h-4"></i> Active Threats & Remediation
+        <!-- Navigation Tabs Bar (Shadcn Segmented Style) -->
+        <nav class="shadcn-tabs-nav w-full">
+            <button data-tab="threats" class="tab-btn shadcn-tab-item active font-semibold">
+                <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-rose-500"></i> Active Threats
             </button>
-            <button data-tab="sysinfo" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
-                <i data-lucide="cpu" class="w-4 h-4 text-cyan-400"></i> System Diagnostics
+            <button data-tab="services" class="tab-btn shadcn-tab-item font-medium">
+                <i data-lucide="server" class="w-3.5 h-3.5 text-sky-500"></i> Windows Services (services.msc)
             </button>
-            <button data-tab="drives" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
-                <i data-lucide="hard-drive" class="w-4 h-4 text-amber-400"></i> Storage & Dropper Hunter
+            <button data-tab="sysinfo" class="tab-btn shadcn-tab-item font-medium">
+                <i data-lucide="cpu" class="w-3.5 h-3.5 text-cyan-500"></i> System Diagnostics
             </button>
-            <button data-tab="network" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
-                <i data-lucide="globe" class="w-4 h-4 text-emerald-400"></i> Network Radar & Origin Tracer
+            <button data-tab="drives" class="tab-btn shadcn-tab-item font-medium">
+                <i data-lucide="hard-drive" class="w-3.5 h-3.5 text-amber-500"></i> Storage & Dropper Hunter
             </button>
-            <button data-tab="adblock" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
-                <i data-lucide="shield-ban" class="w-4 h-4 text-rose-400"></i> AdBlocker & Web Analytics
+            <button data-tab="network" class="tab-btn shadcn-tab-item font-medium">
+                <i data-lucide="globe" class="w-3.5 h-3.5 text-emerald-500"></i> Network Radar
             </button>
-            <button data-tab="rmm" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
-                <i data-lucide="radio" class="w-4 h-4"></i> Remote Desktop & RAT Hunter
+            <button data-tab="adblock" class="tab-btn shadcn-tab-item font-medium">
+                <i data-lucide="shield-ban" class="w-3.5 h-3.5 text-rose-500"></i> AdBlocker & Proxy
             </button>
-            <button data-tab="processes" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
-                <i data-lucide="list-tree" class="w-4 h-4"></i> Live Process Monitor
+            <button data-tab="rmm" class="tab-btn shadcn-tab-item font-medium">
+                <i data-lucide="radio" class="w-3.5 h-3.5 text-purple-500"></i> Remote Desktop Hunter
             </button>
-            <button data-tab="policy" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
-                <i data-lucide="shield-check" class="w-4 h-4 text-cyan-400"></i> Access Control & Rules
+            <button data-tab="processes" class="tab-btn shadcn-tab-item font-medium">
+                <i data-lucide="list-tree" class="w-3.5 h-3.5 text-blue-500"></i> Process Monitor
             </button>
-            <button data-tab="persistence" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
-                <i data-lucide="rocket" class="w-4 h-4"></i> Persistence & Startup
+            <button data-tab="policy" class="tab-btn shadcn-tab-item font-medium">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-500"></i> Access Rules
             </button>
-            <button data-tab="simulation" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
-                <i data-lucide="flask-conical" class="w-4 h-4 text-purple-400"></i> Simulation Lab
+            <button data-tab="persistence" class="tab-btn shadcn-tab-item font-medium">
+                <i data-lucide="rocket" class="w-3.5 h-3.5 text-orange-500"></i> Persistence
             </button>
-            <button data-tab="email" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
-                <i data-lucide="mail" class="w-4 h-4 text-amber-400"></i> Email Alerts
+            <button data-tab="simulation" class="tab-btn shadcn-tab-item font-medium">
+                <i data-lucide="flask-conical" class="w-3.5 h-3.5 text-violet-500"></i> Simulation Lab
             </button>
-            <button data-tab="audit" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
-                <i data-lucide="history" class="w-4 h-4"></i> Incident Audit Log
+            <button data-tab="email" class="tab-btn shadcn-tab-item font-medium">
+                <i data-lucide="mail" class="w-3.5 h-3.5 text-amber-500"></i> Email Alerts
             </button>
-            <button data-tab="docs" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
-                <i data-lucide="book-open" class="w-4 h-4 text-cyan-400"></i> Documentation Hub
+            <button data-tab="audit" class="tab-btn shadcn-tab-item font-medium">
+                <i data-lucide="history" class="w-3.5 h-3.5 text-slate-500"></i> Audit Log
+            </button>
+            <button data-tab="docs" class="tab-btn shadcn-tab-item font-medium">
+                <i data-lucide="book-open" class="w-3.5 h-3.5 text-cyan-500"></i> Docs Hub
             </button>
         </nav>
 
@@ -593,6 +596,102 @@
                         </thead>
                         <tbody id="droppers-table-body">
                             <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB: WINDOWS SERVICES MANAGEMENT (services.msc) -->
+        <!-- ========================================== -->
+        <section id="view-services" class="tab-content hidden space-y-4">
+            <!-- Header & Action Bar -->
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-white dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-sky-500 animate-pulse"></span>
+                        <h2 class="text-base font-bold font-mono text-slate-900 dark:text-white">Windows Services Control Panel</h2>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-sky-50 text-sky-700 border border-sky-200 dark:bg-sky-500/20 dark:text-sky-300 dark:border-sky-500/30">services.msc</span>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Live Windows Services discovery, process PID mapping, threat linkage, and administrative lifecycle controls.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="loadWindowsServices(true)" class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs font-mono flex items-center gap-1.5 shadow-sm transition">
+                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh Services
+                    </button>
+                </div>
+            </div>
+
+            <!-- Services KPI Metrics Overview -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div class="cyber-card p-3 rounded-xl flex items-center justify-between">
+                    <div>
+                        <div class="text-slate-500 dark:text-slate-400 text-xs font-mono">TOTAL SERVICES</div>
+                        <div id="stat-services-total" class="text-xl font-bold font-mono text-slate-900 dark:text-white mt-1">--</div>
+                    </div>
+                    <div class="p-2 rounded-lg bg-sky-500/10 text-sky-600 dark:text-sky-400"><i data-lucide="server" class="w-5 h-5"></i></div>
+                </div>
+                <div class="cyber-card p-3 rounded-xl flex items-center justify-between">
+                    <div>
+                        <div class="text-slate-500 dark:text-slate-400 text-xs font-mono">RUNNING SERVICES</div>
+                        <div id="stat-services-running" class="text-xl font-bold font-mono text-emerald-600 dark:text-emerald-400 mt-1">--</div>
+                    </div>
+                    <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"><i data-lucide="play-circle" class="w-5 h-5"></i></div>
+                </div>
+                <div class="cyber-card p-3 rounded-xl flex items-center justify-between">
+                    <div>
+                        <div class="text-slate-500 dark:text-slate-400 text-xs font-mono">STOPPED SERVICES</div>
+                        <div id="stat-services-stopped" class="text-xl font-bold font-mono text-slate-600 dark:text-slate-400 mt-1">--</div>
+                    </div>
+                    <div class="p-2 rounded-lg bg-slate-500/10 text-slate-600 dark:text-slate-400"><i data-lucide="stop-circle" class="w-5 h-5"></i></div>
+                </div>
+                <div class="cyber-card p-3 rounded-xl flex items-center justify-between">
+                    <div>
+                        <div class="text-slate-500 dark:text-slate-400 text-xs font-mono">RMM / THREAT LINKED</div>
+                        <div id="stat-services-rmm" class="text-xl font-bold font-mono text-rose-600 dark:text-rose-400 mt-1">0</div>
+                    </div>
+                    <div class="p-2 rounded-lg bg-rose-500/10 text-rose-600 dark:text-rose-400"><i data-lucide="alert-octagon" class="w-5 h-5"></i></div>
+                </div>
+            </div>
+
+            <!-- Search & Filters Toolbar -->
+            <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 bg-white dark:bg-slate-900/60 p-3 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                <!-- Filters -->
+                <div class="flex items-center gap-1.5 overflow-x-auto text-xs font-mono pb-1 md:pb-0">
+                    <button onclick="setServiceFilter('all')" data-svc-filter="all" class="svc-filter-btn px-3 py-1.5 rounded-lg bg-sky-600 text-white font-medium transition shadow-xs">All</button>
+                    <button onclick="setServiceFilter('running')" data-svc-filter="running" class="svc-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium hover:bg-slate-200 transition">Running</button>
+                    <button onclick="setServiceFilter('stopped')" data-svc-filter="stopped" class="svc-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium hover:bg-slate-200 transition">Stopped</button>
+                    <button onclick="setServiceFilter('auto')" data-svc-filter="auto" class="svc-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium hover:bg-slate-200 transition">Automatic</button>
+                    <button onclick="setServiceFilter('manual')" data-svc-filter="manual" class="svc-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium hover:bg-slate-200 transition">Manual</button>
+                    <button onclick="setServiceFilter('disabled')" data-svc-filter="disabled" class="svc-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium hover:bg-slate-200 transition">Disabled</button>
+                    <button onclick="setServiceFilter('rmm')" data-svc-filter="rmm" class="svc-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-rose-600 dark:text-rose-400 font-medium hover:bg-slate-200 transition">RMM / Threats</button>
+                </div>
+                <!-- Search Input -->
+                <div class="relative flex-1 md:max-w-xs">
+                    <i data-lucide="search" class="w-3.5 h-3.5 absolute left-3 top-3 text-slate-400"></i>
+                    <input id="services-search-input" oninput="filterServicesTable()" type="text" placeholder="Search service name, PID, or path..." class="w-full pl-9 pr-3 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs font-mono focus:outline-hidden focus:border-sky-500 transition">
+                </div>
+            </div>
+
+            <!-- Services Data Table (Shadcn Table Card with Smooth Scrolling) -->
+            <div class="shadcn-table-card">
+                <div class="shadcn-table-scroll">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-200 dark:border-slate-800 text-[11px] font-mono uppercase tracking-wider bg-slate-50/90 dark:bg-slate-900/90">
+                                <th class="p-3 w-32">Status</th>
+                                <th class="p-3">Service Name & Display Title</th>
+                                <th class="p-3 w-28">Host PID</th>
+                                <th class="p-3 w-36">Startup Type</th>
+                                <th class="p-3">Executable Path</th>
+                                <th class="p-3 w-48 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="services-table-body" class="text-xs font-mono divide-y divide-slate-100 dark:divide-slate-800/60">
+                            <tr>
+                                <td colspan="6" class="p-8 text-center text-slate-400">Loading Windows services catalog...</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

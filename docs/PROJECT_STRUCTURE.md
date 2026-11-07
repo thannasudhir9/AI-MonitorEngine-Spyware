@@ -19,6 +19,7 @@ SpywareProcessMon/
 │   ├── proxy_controller.py                 # Windows Internet Settings HKCU system proxy toggle
 │   ├── remediator.py                       # Process eradication (SIGKILL), file quarantine & audit logging
 │   ├── server.py                           # FastAPI / Starlette REST API & WebSocket server (:8888)
+│   ├── services_manager.py                 # Windows Service Control Manager (services.msc) & RMM correlation
 │   ├── signatures_db.py                    # Malware, Trojan, Ransomware & LOLRMM signature hashes/patterns
 │   ├── simulator.py                        # Safe threat simulator lab (Trojan dropper, LOLBin, RMM)
 │   ├── system_info.py                      # Hardware, OS Kernel, 24 CPU cores & Baseline (SystemInfoCheck)
@@ -75,11 +76,12 @@ SpywareProcessMon/
 │   ├── 14_elevated_kill_modal_and_tracking.png # Interactive UAC elevation modal & tracking ledgers
 │   ├── 15_system_diagnostics_baseline.png  # Hardware, OS kernel, CPU frequency & baseline audit
 │   ├── 16_storage_dropper_hunter.png       # Drive partitions & %TEMP% dropper hunter staging zone
-│   └── 17_suspicious_threat_tracking_ledger.png # Chronological suspicious threat tracking ledger
+│   ├── 17_suspicious_threat_tracking_ledger.png # Chronological suspicious threat tracking ledger
+│   └── 18_windows_services_control_panel.png # Windows Services Control Panel (services.msc) & lifecycle actions
 │
 ├── tools/                                  # Diagnostic and Visual Engines
-│   ├── screenshot_engine.py                # High-definition Pillow dashboard renderer generating 17 screenshots
-│   └── test_engine.py                      # Master automated diagnostic suite (46/46 unit & integration checks)
+│   ├── screenshot_engine.py                # High-definition Pillow dashboard renderer generating 18 screenshots
+│   └── test_engine.py                      # Master automated diagnostic suite (56/56 unit & integration checks)
 │
 ├── brain_archive/                          # Complete Mirror of Session State & Brain Files
 │   ├── plan.md                             # Initial master development plan
@@ -87,6 +89,7 @@ SpywareProcessMon/
 │   ├── continuous_sync_and_memory_protocol.md # Persistent memory & synchronization protocol
 │   ├── future_scope_and_roadmap_plan.md    # Strategic future roadmap & autonomous defense blueprint
 │   ├── systeminfo_and_drive_integration_plan.md # SystemInfoCheck & DriveOrganiser integration plan
+│   ├── services_control_panel_and_shadcn_ui_plan.md # Windows Services control panel & Shadcn UI plan
 │   └── .system_generated/                  # Transcripts, logs, steps and task states
 │
 ├── cli_scanner.py                          # Unified Terminal CLI tool for scanning, rules & remediation
@@ -109,6 +112,7 @@ SpywareProcessMon/
 | File / Component | Primary Responsibility | Upstream Dependencies | Downstream Consumers |
 | :--- | :--- | :--- | :--- |
 | `backend/server.py` | Exposes REST endpoints & WebSocket telemetry on `127.0.0.1:8888` | All `backend/*` modules | Web UI (`app.js`), External clients |
+| `backend/services_manager.py` | Enumerates 331+ Windows services via CIM/sc.exe, correlates RMM threat indicators, manages service lifecycle | `Get-CimInstance`, `sc.exe`, `psutil` | `server.py`, `test_engine.py` |
 | `backend/detector.py` | Scans processes, executes heuristic analysis, scores threat level (0-100) | `signatures_db.py`, `pe_analyzer.py` | `server.py`, `cli_scanner.py`, `test_engine.py` |
 | `backend/remediator.py` | Terminates malicious PIDs, quarantines files, writes audit records | `psutil`, `incident_audit.json` | `server.py`, `cli_scanner.py` |
 | `backend/system_info.py` | Audits hardware, OS kernel, CPU load, RAM/Swap, NICs, Security baseline | `psutil`, `platform` | `server.py`, `test_engine.py` |
@@ -123,8 +127,8 @@ SpywareProcessMon/
 | `backend/policy_engine.py` | Manages Whitelist/Blacklist rules and syncs Windows Firewall rules | `database/policy_rules.json`, `netsh` | `detector.py`, `server.py`, `cli_scanner.py` |
 | `backend/email_notifier.py` | Generates executive HTML threat reports and dispatches via SMTP/Resend | `database/email_config.json`, `smtplib`| `server.py`, `cli_scanner.py` |
 | `frontend/app.js` | Drives 12 dashboard tabs, handles WebSockets, live charts & user actions | `frontend/index.html` | User / Operator |
-| `tools/test_engine.py` | 46-step automated verification suite testing all 17 subsystems | All backend modules | CI/CD, Quality Assurance |
-| `tools/screenshot_engine.py` | Pillow-based visual engine generating 17 HD 1600x1000 screenshots | Pillow (`PIL`) | Documentation, Review |
+| `tools/test_engine.py` | 56-step automated verification suite testing all 19 subsystems | All backend modules | CI/CD, Quality Assurance |
+| `tools/screenshot_engine.py` | Pillow-based visual engine generating 18 HD 1600x1000 screenshots | Pillow (`PIL`) | Documentation, Review |
 
 ---
 

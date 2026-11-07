@@ -396,6 +396,39 @@ This document records the exact chronological sequence of user prompts, engineer
    - Updated all documentation files in `docs/` and root `README.md`.
    - Committed and pushed upstream to `origin/main`.
 
+---
+
+### 2.15 User Request 21: Windows Services Control Panel (`services.msc`), Shadcn UI/UX Modernization & Default Light Mode
+> **User Prompt:**  
+> *"services.msc*  
+> *also add these services control panel in our web app.*  
+> *improve tabs, scrolling and other ui , ux, use shadcn , improve test and color font formatting in light mode*  
+> *light mode is default"*  
+
+#### Engineering Response & Systematic Execution:
+1. **Windows Services Management Engine (`services.msc`):**
+   - Built [`backend/services_manager.py`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/backend/services_manager.py) querying Windows services via PowerShell `Get-CimInstance Win32_Service` with fallback to `sc.exe queryex`.
+   - Enumerates 331+ Windows services capturing: `name`, `display_name`, `status` (`RUNNING`/`STOPPED`), `start_type` (`Auto`/`Manual`/`Disabled`), `pid` (host process ID), `binpath`, and `description`.
+   - Correlates services with known RMM tools and active threat ledgers (e.g., AnyDesk, TeamViewer, VNC).
+   - Implemented lifecycle controls: `start_service`, `stop_service`, `restart_service`, and `set_startup_type`.
+   - Mounted REST API endpoints in [`backend/server.py`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/backend/server.py): `GET /api/services`, `GET /api/services/{name}`, `POST /api/services/{name}/start`, `POST /api/services/{name}/stop`, `POST /api/services/{name}/restart`, and `POST /api/services/{name}/config`.
+2. **Shadcn UI/UX Redesign & Default Light Mode Configuration:**
+   - **Default Light Mode:** Set root `<html>` and `<body>` to default to `theme-light`, styled with clean daylight zinc/slate palette, soft card surfaces, and high contrast typography.
+   - **Shadcn Segmented Tabs:** Implemented `.shadcn-tabs-nav` and `.shadcn-tab-item` horizontal pill tab strip with active pill badges, smooth hover transitions, and overflow scrolling.
+   - **Modern Thin Scrollbars:** Added custom 6px webkit scrollbars with pill thumbs and sticky table headers across data tables.
+   - **Light Mode Badges & Color Tokens:** Polished `.badge-critical`, `.badge-suspicious`, `.badge-safe`, and `.badge-info` with soft backgrounds and dark legible foregrounds.
+3. **Interactive Frontend Services Control View:**
+   - Added `#view-services` in [`frontend/index.html`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/frontend/index.html) with 4 KPI summary cards (Total, Running, Stopped, RMM/Threats).
+   - Added 7 filter pills (`All`, `Running`, `Stopped`, `Automatic`, `Manual`, `Disabled`, `RMM / Threats`), live search, and startup type selector dropdown.
+   - Wired controllers in [`frontend/js/app.js`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/frontend/js/app.js) with 1-click Start, Stop, and Restart actions with confirmation toasts.
+4. **Diagnostic Test Suite & Visual Verification:**
+   - Expanded [`tools/test_engine.py`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/tools/test_engine.py) to **56 automated tests across 19 subsystems** (**100.0% pass rate**).
+   - Expanded [`tools/screenshot_engine.py`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/tools/screenshot_engine.py) to generate **View 18: `18_windows_services_control_panel.png`** (all 18 HD screenshots verified).
+5. **Continuous Memory Protocol & Upstream Push:**
+   - Created artifact [`brain_archive/services_control_panel_and_shadcn_ui_plan.md`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/brain_archive/services_control_panel_and_shadcn_ui_plan.md).
+   - Updated documentation files in `docs/` and root `README.md`.
+
+
 
 
 

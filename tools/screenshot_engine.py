@@ -1044,6 +1044,97 @@ def render_threat_tracking_ledger_view():
     print("[✓] Generated 17_suspicious_threat_tracking_ledger.png")
 
 
+def render_windows_services_view():
+    """Render View 18: Windows Services Control Panel (services.msc)."""
+    img = Image.new("RGB", (1600, 1000), color=(8, 12, 20))
+    d = ImageDraw.Draw(img)
+    draw_hud_header(d, "Windows Services (services.msc)")
+
+    # Title Bar
+    d.text((45, 135), "WINDOWS SERVICES MANAGEMENT PANEL (services.msc)", fill=(56, 189, 248))
+    d.text((45, 155), "Live Windows Services discovery, process PID mapping, threat linkage, and administrative lifecycle controls.", fill=(148, 163, 184))
+
+    # KPI Summary Cards
+    d.rectangle([(45, 185), (395, 255)], fill=(15, 23, 42), outline=(56, 189, 248), width=1)
+    d.text((60, 195), "TOTAL SERVICES", fill=(148, 163, 184))
+    d.text((60, 218), "331", fill=(255, 255, 255))
+    d.text((280, 210), "⚙️ System", fill=(56, 189, 248))
+
+    d.rectangle([(425, 185), (775, 255)], fill=(15, 23, 42), outline=(16, 185, 129), width=1)
+    d.text((440, 195), "RUNNING SERVICES", fill=(110, 231, 183))
+    d.text((440, 218), "153", fill=(16, 185, 129))
+    d.text((660, 210), "▶ Active", fill=(16, 185, 129))
+
+    d.rectangle([(805, 185), (1155, 255)], fill=(15, 23, 42), outline=(100, 116, 139), width=1)
+    d.text((820, 195), "STOPPED SERVICES", fill=(148, 163, 184))
+    d.text((820, 218), "178", fill=(203, 213, 225))
+    d.text((1040, 210), "⏹ Standby", fill=(148, 163, 184))
+
+    d.rectangle([(1185, 185), (1555, 255)], fill=(15, 23, 42), outline=(239, 68, 68), width=2)
+    d.text((1200, 195), "RMM / THREAT LINKED", fill=(248, 113, 113))
+    d.text((1200, 218), "1 CRITICAL", fill=(239, 68, 68))
+    d.text((1420, 210), "🚨 Alert", fill=(239, 68, 68))
+
+    # Filter Toolbar
+    d.rectangle([(45, 275), (1555, 325)], fill=(15, 23, 42), outline=(30, 41, 59))
+    filter_pills = ["All (331)", "Running (153)", "Stopped (178)", "Automatic (88)", "Manual (182)", "Disabled (61)", "RMM / Threats (1)"]
+    fx = 60
+    for idx, f in enumerate(filter_pills):
+        bg = (2, 132, 199) if idx == 0 else (30, 41, 59)
+        col = (255, 255, 255) if idx == 0 else ((248, 113, 113) if "RMM" in f else (148, 163, 184))
+        d.rectangle([(fx, 287), (fx + 120, 313)], fill=bg, outline=(71, 85, 105))
+        d.text((fx + 10, 294), f, fill=col)
+        fx += 135
+
+    d.rectangle([(1200, 287), (1540, 313)], fill=(11, 17, 30), outline=(56, 189, 248))
+    d.text((1215, 294), "🔍 Search service name, PID, or path...", fill=(100, 116, 139))
+
+    # Services Table Header
+    d.rectangle([(45, 345), (1555, 385)], fill=(15, 23, 42), outline=(30, 41, 59))
+    d.text((60, 357), "STATUS", fill=(148, 163, 184))
+    d.text((220, 357), "SERVICE NAME & DISPLAY TITLE", fill=(148, 163, 184))
+    d.text((640, 357), "HOST PID", fill=(148, 163, 184))
+    d.text((760, 357), "STARTUP TYPE", fill=(148, 163, 184))
+    d.text((920, 357), "EXECUTABLE BINARY PATH", fill=(148, 163, 184))
+    d.text((1420, 357), "ACTIONS", fill=(148, 163, 184))
+
+    # Sample Services Data
+    services_sample = [
+        ("RMM / THREAT", (239, 68, 68), "AnyDesk", "AnyDesk Service", "PID 5824", "Automatic", "C:\\Program Files (x86)\\AnyDesk\\AnyDesk.exe --service", "Stop | Restart"),
+        ("RUNNING", (16, 185, 129), "WinDefend", "Microsoft Defender Antivirus Service", "PID 4820", "Automatic", "C:\\ProgramData\\Microsoft\\Windows Defender\\platform\\MsMpEng.exe", "Stop | Restart"),
+        ("RUNNING", (16, 185, 129), "AISpeechService", "AISpeech Control Service", "PID 5812", "Automatic", "C:\\Windows\\System32\\DriverStore\\FileRepository\\AISControlService.exe", "Stop | Restart"),
+        ("RUNNING", (16, 185, 129), "MpsSvc", "Windows Defender Firewall", "PID 2880", "Automatic", "C:\\Windows\\system32\\svchost.exe -k LocalServiceNoNetworkFirewall -p", "Stop | Restart"),
+        ("STOPPED", (148, 163, 184), "wuauserv", "Windows Update", "—", "Manual", "C:\\Windows\\system32\\svchost.exe -k netsvcs -p", "Start"),
+        ("STOPPED", (148, 163, 184), "Spooler", "Print Spooler", "—", "Automatic", "C:\\Windows\\System32\\spoolsv.exe", "Start"),
+        ("RUNNING", (16, 185, 129), "Appinfo", "Application Information", "PID 6816", "Manual", "C:\\Windows\\system32\\svchost.exe -k netsvcs -p", "Stop | Restart"),
+        ("STOPPED", (148, 163, 184), "AppVClient", "Microsoft App-V Client", "—", "Disabled", "C:\\Windows\\system32\\appvclient.exe", "Start"),
+    ]
+
+    sy = 395
+    for stat_label, stat_color, sname, sdisp, pid_txt, stype, bpath, action_txt in services_sample:
+        d.rectangle([(45, sy), (1555, sy + 62)], fill=(11, 17, 30), outline=(30, 41, 59))
+        d.text((60, sy + 22), stat_label, fill=stat_color)
+        d.text((220, sy + 12), sname, fill=(255, 255, 255))
+        d.text((220, sy + 34), sdisp, fill=(148, 163, 184))
+        d.text((640, sy + 22), pid_txt, fill=(56, 189, 248) if "PID" in pid_txt else (100, 116, 139))
+        d.text((760, sy + 22), f"⚙️ {stype}", fill=(203, 213, 225))
+        d.text((920, sy + 22), bpath[:52] + ("..." if len(bpath) > 52 else ""), fill=(148, 163, 184))
+        
+        # Action Buttons
+        if "Stop" in action_txt:
+            d.rectangle([(1400, sy + 15), (1455, sy + 47)], fill=(239, 68, 68, 40), outline=(239, 68, 68))
+            d.text((1412, sy + 23), "Stop", fill=(248, 113, 113))
+            d.rectangle([(1465, sy + 15), (1535, sy + 47)], fill=(56, 189, 248, 40), outline=(56, 189, 248))
+            d.text((1475, sy + 23), "Restart", fill=(56, 189, 248))
+        else:
+            d.rectangle([(1400, sy + 15), (1465, sy + 47)], fill=(16, 185, 129, 40), outline=(16, 185, 129))
+            d.text((1415, sy + 23), "Start", fill=(110, 231, 183))
+        sy += 72
+
+    img.save(SCREENSHOTS_DIR / "18_windows_services_control_panel.png")
+    print("[✓] Generated 18_windows_services_control_panel.png")
+
+
 def main():
     print("""
     ===============================================================
@@ -1064,6 +1155,7 @@ def main():
     render_system_diagnostics_view()
     render_storage_dropper_hunter_view()
     render_threat_tracking_ledger_view()
+    render_windows_services_view()
 
     pngs = list(SCREENSHOTS_DIR.glob("*.png"))
     print(f"\n[✓] Successfully captured and generated all {len(pngs)} dashboard screenshots!")

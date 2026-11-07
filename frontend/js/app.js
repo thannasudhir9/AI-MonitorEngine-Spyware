@@ -25,7 +25,10 @@ const state = {
     isScanning: false,
     selectedProcess: null,
     threatSubView: 'all',
-    lastLedgerData: []
+    lastLedgerData: [],
+    servicesFilter: 'all',
+    servicesSearchQuery: '',
+    lastServicesData: null
 };
 
 // Web Audio API Synthesizer - Notification Sounds Removed / Silent by Default
@@ -220,9 +223,11 @@ function switchTab(tabName) {
     state.activeTab = tabName;
     document.querySelectorAll('.tab-btn').forEach(btn => {
         if (btn.dataset.tab === tabName) {
+            btn.classList.add('active', 'font-semibold');
             btn.classList.add('bg-cyan-500/20', 'text-cyan-300', 'border-cyan-500');
             btn.classList.remove('text-slate-400', 'border-transparent');
         } else {
+            btn.classList.remove('active', 'font-semibold');
             btn.classList.remove('bg-cyan-500/20', 'text-cyan-300', 'border-cyan-500');
             btn.classList.add('text-slate-400', 'border-transparent');
         }
@@ -235,6 +240,7 @@ function switchTab(tabName) {
     const activeView = document.getElementById(`view-${tabName}`);
     if (activeView) activeView.classList.remove('hidden');
 
+    if (tabName === 'services') loadWindowsServices();
     if (tabName === 'sysinfo') loadSystemInfo();
     if (tabName === 'drives') loadDriveAnalyzer();
     if (tabName === 'threats') {
@@ -929,6 +935,227 @@ async function cleanTempDroppers() {
         loadDriveAnalyzer();
     } catch (e) {
         showToast('Cleanup Error', 'Failed to clean temp directory.', 'danger');
+    }
+}
+
+// ==============================================================
+// Windows Services Management Controller (services.msc)
+// ==============================================================
+
+async function loadWindowsServices(force = false) {
+    const tbody = document.getElementById('services-table-body');
+    if (tbody && !state.lastServicesData) {
+        tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400">Loading Windows services catalog...</td></tr>`;
+    }
+
+    try {
+        const url = `/api/services${force ? '?force=true' : ''}`;
+        const res = await fetch(url);
+        if (!res.ok) return;
+        const data = await res.json();
+        state.lastServicesData = data.services || [];
+
+        // Update KPI metrics
+        const statTotal = document.getElementById('stat-services-total');
+        const statRunning = document.getElementById('stat-services-running');
+        const statStopped = document.getElementById('stat-services-stopped');
+        const statRmm = document.getElementById('stat-services-rmm');
+
+        if (statTotal) statTotal.innerText = data.total_count ?? state.lastServicesData.length;
+        if (statRunning) statRunning.innerText = data.running_count ?? state.lastServicesData.filter(s => s.is_running).length;
+        if (statStopped) statStopped.innerText = data.stopped_count ?? state.lastServicesData.filter(s => !s.is_running).length;
+        if (statRmm) statRmm.innerText = data.rmm_count ?? state.lastServicesData.filter(s => s.is_rmm).length;
+
+        renderServicesTable();
+    } catch (e) {
+        console.error('Failed to load Windows Services:', e);
+        if (tbody) {
+            tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-rose-500 font-mono">Failed to query Windows services catalog.</td></tr>`;
+        }
+    }
+}
+
+function renderServicesTable() {
+    const tbody = document.getElementById('services-table-body');
+    if (!tbody) return;
+
+    let services = state.lastServicesData || [];
+
+    // Apply Filter
+    if (state.servicesFilter === 'running') {
+        services = services.filter(s => s.is_running);
+    } else if (state.servicesFilter === 'stopped') {
+        services = services.filter(s => !s.is_running);
+    } else if (state.servicesFilter === 'auto') {
+        services = services.filter(s => (s.start_type || '').toLowerCase().includes('auto'));
+    } else if (state.servicesFilter === 'manual') {
+        services = services.filter(s => ['manual', 'demand'].includes((s.start_type || '').toLowerCase()));
+    } else if (state.servicesFilter === 'disabled') {
+        services = services.filter(s => (s.start_type || '').toLowerCase() === 'disabled');
+    } else if (state.servicesFilter === 'rmm') {
+        services = services.filter(s => s.is_rmm || (s.threat_score || 0) > 0);
+    }
+
+    // Apply Search
+    if (state.servicesSearchQuery.trim()) {
+        const q = state.servicesSearchQuery.trim().toLowerCase();
+        services = services.filter(s =>
+            (s.name || '').toLowerCase().includes(q) ||
+            (s.display_name || '').toLowerCase().includes(q) ||
+            String(s.pid || '').includes(q) ||
+            (s.binpath || '').toLowerCase().includes(q) ||
+            (s.description || '').toLowerCase().includes(q)
+        );
+    }
+
+    if (services.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400">No Windows services found matching criteria.</td></tr>`;
+        return;
+    }
+
+    tbody.innerHTML = services.map(svc => {
+        const isRunning = svc.is_running;
+        const isRmm = svc.is_rmm;
+        
+        let statusBadge = '';
+        if (isRmm) {
+            statusBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono badge-critical flex items-center gap-1 w-max"><span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span> RMM / THREAT</span>`;
+        } else if (isRunning) {
+            statusBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono badge-safe flex items-center gap-1 w-max"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> RUNNING</span>`;
+        } else {
+            statusBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-slate-100 text-slate-600 border border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700 flex items-center gap-1 w-max">STOPPED</span>`;
+        }
+
+        const pidBadge = svc.pid && svc.pid > 0 ? 
+            `<span class="px-2 py-0.5 rounded text-[11px] font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">PID ${svc.pid}</span>` :
+            `<span class="text-slate-400 text-[11px]">—</span>`;
+
+        return `
+            <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors">
+                <td class="p-3 align-top">${statusBadge}</td>
+                <td class="p-3 align-top">
+                    <div class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <span>${escapeHtml(svc.name)}</span>
+                        ${isRmm ? '<span class="text-[10px] px-1.5 py-0.5 rounded bg-rose-100 text-rose-700 font-bold border border-rose-300">POTENTIAL RAT / RMM</span>' : ''}
+                    </div>
+                    <div class="text-[11px] text-slate-600 dark:text-slate-400 truncate max-w-md font-medium" title="${escapeHtml(svc.display_name)}">
+                        ${escapeHtml(svc.display_name)}
+                    </div>
+                    ${svc.description ? `<div class="text-[10px] text-slate-500 dark:text-slate-500 line-clamp-1 max-w-lg mt-0.5" title="${escapeHtml(svc.description)}">${escapeHtml(svc.description)}</div>` : ''}
+                </td>
+                <td class="p-3 align-top">${pidBadge}</td>
+                <td class="p-3 align-top">
+                    <select onchange="changeServiceStartupType('${escapeHtml(svc.name)}', this.value)" class="text-xs px-2 py-1 rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 focus:outline-hidden cursor-pointer">
+                        <option value="auto" ${(svc.start_type || '').toLowerCase().includes('auto') ? 'selected' : ''}>Automatic</option>
+                        <option value="manual" ${['manual', 'demand'].includes((svc.start_type || '').toLowerCase()) ? 'selected' : ''}>Manual</option>
+                        <option value="disabled" ${(svc.start_type || '').toLowerCase() === 'disabled' ? 'selected' : ''}>Disabled</option>
+                    </select>
+                </td>
+                <td class="p-3 align-top">
+                    <div class="text-[11px] font-mono text-slate-600 dark:text-slate-400 truncate max-w-xs" title="${escapeHtml(svc.binpath || 'Windows Shared Host (svchost)')}">
+                        ${escapeHtml(svc.binpath || 'Windows Shared Host (svchost)')}
+                    </div>
+                </td>
+                <td class="p-3 align-top text-right space-x-1 whitespace-nowrap">
+                    ${isRunning ? `
+                        <button onclick="stopService('${escapeHtml(svc.name)}')" class="px-2 py-1 rounded bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 dark:text-amber-400 border border-amber-300 dark:border-amber-500/30 text-[11px] font-medium transition" title="Stop Service">
+                            Stop
+                        </button>
+                        <button onclick="restartService('${escapeHtml(svc.name)}')" class="px-2 py-1 rounded bg-sky-500/10 hover:bg-sky-500/20 text-sky-700 dark:text-sky-400 border border-sky-300 dark:border-sky-500/30 text-[11px] font-medium transition" title="Restart Service">
+                            Restart
+                        </button>
+                    ` : `
+                        <button onclick="startService('${escapeHtml(svc.name)}')" class="px-2.5 py-1 rounded bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-500/30 text-[11px] font-medium transition" title="Start Service">
+                            Start
+                        </button>
+                    `}
+                </td>
+            </tr>
+        `;
+    }).join('');
+
+    if (window.lucide) lucide.createIcons();
+}
+
+function setServiceFilter(filter) {
+    state.servicesFilter = filter;
+    document.querySelectorAll('.svc-filter-btn').forEach(btn => {
+        if (btn.dataset.svcFilter === filter) {
+            btn.className = 'svc-filter-btn px-3 py-1.5 rounded-lg bg-sky-600 text-white font-medium transition shadow-xs';
+        } else {
+            btn.className = 'svc-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium hover:bg-slate-200 transition';
+        }
+    });
+    renderServicesTable();
+}
+
+function filterServicesTable() {
+    const input = document.getElementById('services-search-input');
+    state.servicesSearchQuery = input ? input.value : '';
+    renderServicesTable();
+}
+
+async function startService(name) {
+    try {
+        const res = await fetch(`/api/services/${encodeURIComponent(name)}/start`, { method: 'POST' });
+        const data = await res.json();
+        showToast(
+            data.success ? 'Service Started' : 'Start Command Sent',
+            data.message || `Started ${name}`,
+            data.success ? 'success' : 'info'
+        );
+        loadWindowsServices(true);
+    } catch (e) {
+        showToast('Error', `Failed to start service ${name}`, 'danger');
+    }
+}
+
+async function stopService(name) {
+    if (!confirm(`Are you sure you want to stop service '${name}'?`)) return;
+    try {
+        const res = await fetch(`/api/services/${encodeURIComponent(name)}/stop`, { method: 'POST' });
+        const data = await res.json();
+        showToast(
+            data.success ? 'Service Stopped' : 'Stop Command Sent',
+            data.message || `Stopped ${name}`,
+            data.success ? 'success' : 'info'
+        );
+        loadWindowsServices(true);
+    } catch (e) {
+        showToast('Error', `Failed to stop service ${name}`, 'danger');
+    }
+}
+
+async function restartService(name) {
+    try {
+        const res = await fetch(`/api/services/${encodeURIComponent(name)}/restart`, { method: 'POST' });
+        const data = await res.json();
+        showToast(
+            data.success ? 'Service Restarted' : 'Restart Command Sent',
+            data.message || `Restarted ${name}`,
+            data.success ? 'success' : 'info'
+        );
+        loadWindowsServices(true);
+    } catch (e) {
+        showToast('Error', `Failed to restart service ${name}`, 'danger');
+    }
+}
+
+async function changeServiceStartupType(name, type) {
+    try {
+        const res = await fetch(`/api/services/${encodeURIComponent(name)}/config`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ startup_type: type })
+        });
+        const data = await res.json();
+        showToast(
+            data.success ? 'Startup Type Updated' : 'Notice',
+            data.message || `Startup type set to ${type}`,
+            data.success ? 'success' : 'warning'
+        );
+    } catch (e) {
+        showToast('Error', `Failed to update startup type for ${name}`, 'danger');
     }
 }
 
@@ -2477,7 +2704,7 @@ async function clearWebTrafficLogs() {
 // ==============================================================
 
 function initTheme() {
-    const savedTheme = localStorage.getItem('aegis_theme') || 'dark';
+    const savedTheme = localStorage.getItem('aegis_theme') || 'light';
     setTheme(savedTheme, false);
 }
 

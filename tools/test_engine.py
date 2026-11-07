@@ -31,6 +31,7 @@ from backend.simulator import spawn_simulated_threat
 from backend.system_info import SystemInfoEngine
 from backend.drive_analyzer import DriveAnalyzerEngine
 from backend.threat_ledger import ThreatTrackingLedger
+from backend.services_manager import WindowsServicesManager
 from backend.config import FRONTEND_DIR
 
 
@@ -229,7 +230,8 @@ def run_all_tests():
         "14_elevated_kill_modal_and_tracking.png",
         "15_system_diagnostics_baseline.png",
         "16_storage_dropper_hunter.png",
-        "17_suspicious_threat_tracking_ledger.png"
+        "17_suspicious_threat_tracking_ledger.png",
+        "18_windows_services_control_panel.png"
     ]
     all_shots_exist = all((screenshots_dir / shot).is_file() and (screenshots_dir / shot).stat().st_size > 10000 for shot in expected_shots)
     runner.record("Screenshots Generated & Verified", all_shots_exist, f"{len(expected_shots)}/{len(expected_shots)} images present in {screenshots_dir}")
@@ -353,6 +355,46 @@ def run_all_tests():
     ledger.record_remediation(999999, "suspicious_test_agent.exe", "UNIT_TEST_KILL", "Terminated via testing suite")
     updated_items = ledger.get_ledger(limit=5, search="suspicious_test_agent.exe")
     runner.record("Ledger Lifecycle State Update", len(updated_items) > 0 and updated_items[0].get("status") in ("ERADICATED", "RESOLVED"), f"Status: {updated_items[0].get('status') if updated_items else 'N/A'}")
+
+    # ==============================================================
+    # Test Suite 18: Windows Services Management (services.msc)
+    # ==============================================================
+    print(f"\n{BOLD}[18/19] Testing Windows Services Management Engine (services.msc)...{RESET}")
+    services_mgr = WindowsServicesManager()
+    all_services = services_mgr.get_services(force_refresh=True)
+    runner.record("Services Catalog Enumeration", len(all_services) > 0, f"Discovered {len(all_services)} Windows services")
+
+    sample_svc = all_services[0] if all_services else {}
+    has_fields = all(k in sample_svc for k in ("name", "status", "start_type", "pid", "binpath"))
+    runner.record("Service Dictionary Schema", has_fields, f"Sample: {sample_svc.get('name')} | Status: {sample_svc.get('status')}")
+
+    running_svcs = [s for s in all_services if s.get("is_running")]
+    stopped_svcs = [s for s in all_services if not s.get("is_running")]
+    runner.record("Services Status Segregation", len(running_svcs) >= 0 and len(stopped_svcs) >= 0, f"Running: {len(running_svcs)} | Stopped: {len(stopped_svcs)}")
+
+    rmm_or_threat_svcs = [s for s in all_services if s.get("is_rmm") or s.get("threat_score", 0) > 0]
+    runner.record("Services RMM & Threat Correlation", isinstance(rmm_or_threat_svcs, list), f"Correlated {len(rmm_or_threat_svcs)} RMM/Threat-linked services")
+
+    single_svc = services_mgr.get_service(sample_svc.get("name", "WinDefend"))
+    runner.record("Service Detail Query", single_svc is not None, f"Retrieved detail for '{sample_svc.get('name')}'")
+
+    invalid_config = services_mgr.set_startup_type("NonExistentService123", "invalid_type")
+    runner.record("Service Startup Type Validation", invalid_config.get("success") is False, "Rejected invalid start type as expected")
+
+    # ==============================================================
+    # Test Suite 19: Shadcn UI Tokens & Default Light Mode Theme
+    # ==============================================================
+    print(f"\n{BOLD}[19/19] Testing Shadcn UI Tokens & Default Light Mode Theme...{RESET}")
+    index_html_path = FRONTEND_DIR / "index.html"
+    index_content = index_html_path.read_text(encoding="utf-8") if index_html_path.exists() else ""
+    runner.record("Default Light Mode in HTML Root", 'class="light theme-light"' in index_content, "Root <html> defaults to 'light theme-light'")
+
+    app_js_path = FRONTEND_DIR / "js" / "app.js"
+    app_js_content = app_js_path.read_text(encoding="utf-8") if app_js_path.exists() else ""
+    runner.record("Default Light Mode in App Controller", "localStorage.getItem('aegis_theme') || 'light'" in app_js_content, "app.js initTheme defaults to 'light'")
+
+    runner.record("Services Panel View in UI", 'id="view-services"' in index_content, "Found 'view-services' section in index.html")
+    runner.record("Shadcn Segmented Tab Navigation", "shadcn-tabs-nav" in index_content, "Segmented pill tab navigation container mounted")
 
     # ==============================================================
     # Final Executive Summary

@@ -1,12 +1,13 @@
 # 🛡️ AI Monitoring Engine • AdBlocker Engine • Web Tracker • Proc Mon Engine
-### AegisShield EDR v2.6 — Enterprise Endpoint Threat Defense & Web Privacy Suite
+### AegisShield EDR v2.7 — Enterprise Endpoint Threat Defense & Web Privacy Suite
 
-> **Enterprise-Grade Real-Time Endpoint Detection and Response (EDR), Remote Desktop / LOLRMM Hunter, Process Threat Eradicator, System-Wide Network Ad Blocker, Web Traffic Inspector, Origin Tracer, System Hardware Diagnostics, and Storage Dropper Hunter for Windows.**
+> **Enterprise-Grade Real-Time Endpoint Detection and Response (EDR), Remote Desktop / LOLRMM Hunter, Process Threat Eradicator, System-Wide Network Ad Blocker, Web Traffic Inspector, Origin Tracer, System Hardware Diagnostics, Storage Dropper Hunter, and Windows Services Control Panel (services.msc) for Windows.**
 
 [![Python](https://img.shields.io/badge/Python-3.14%2B-blue.svg?logo=python)](https://python.org)
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011%20%7C%20Server-0078D6.svg?logo=windows)](https://microsoft.com)
 [![License](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-46%2F46%20Passing%20(100%25)-brightgreen.svg)](tools/test_engine.py)
+[![Tests](https://img.shields.io/badge/Tests-56%2F56%20Passing%20(100%25)-brightgreen.svg)](tools/test_engine.py)
+[![Theme](https://img.shields.io/badge/Theme-Light%20Clean%20SOC%20Default-sky.svg)](#)
 [![Audio](https://img.shields.io/badge/Audio-Silent%20Mode%20Default-slate.svg)](#)
 [![Email Alerting](https://img.shields.io/badge/Email%20Alerts-Resend%20API%20%7C%20SMTP-purple.svg)](https://resend.com)
 [![Port: EDR Dashboard](https://img.shields.io/badge/EDR%20Dashboard-127.0.0.1%3A8888-cyan.svg)](http://127.0.0.1:8888)
@@ -49,9 +50,9 @@
 | :---: | :---: |
 | ![System Diagnostics](screenshots/15_system_diagnostics_baseline.png) | ![Storage & Dropper Hunter](screenshots/16_storage_dropper_hunter.png) |
 
-| View 17: Suspicious Threat Tracking Ledger |
-| :---: |
-| ![Threat Tracking Ledger](screenshots/17_suspicious_threat_tracking_ledger.png) |
+| View 17: Suspicious Threat Tracking Ledger | View 18: Windows Services Control Panel (services.msc) |
+| :---: | :---: |
+| ![Threat Tracking Ledger](screenshots/17_suspicious_threat_tracking_ledger.png) | ![Windows Services Panel](screenshots/18_windows_services_control_panel.png) |
 
 ---
 
@@ -140,6 +141,13 @@
   - Chronological observation metrics: first seen timestamp, last seen timestamp, and occurrence frequency counter.
 - Dedicated dashboard sub-view with search filtering and 1-click ledger purge.
 
+### 10. ⚙️ Windows Services Management Panel (`services.msc`)
+- **Full In-App Control of Windows Services**:
+  - Live discovery and cataloging of 331+ Windows Services.
+  - Telemetry: Service short name, Display Title, Runtime State (`RUNNING`, `STOPPED`, `PAUSED`), Host Process PID, Startup Mode (`Automatic`, `Manual`, `Disabled`), and Executable Binary Path.
+  - **Threat & RMM Correlation:** Automatically flags services hosting remote desktop tools (AnyDesk, TeamViewer, VNC) or associated with active threat ledgers.
+  - **Administrative Lifecycle Actions:** 1-Click interactive controls to Start, Stop, or Restart services, and reconfigure startup modes (`sc config start= auto|demand|disabled`) directly from the browser.
+
 ---
 
 ## ⚡ Quick Start
@@ -151,8 +159,8 @@ Double-click any batch launcher in the project root:
 - **`start_dashboard.bat`**: Launches only the EDR Web Dashboard (`http://127.0.0.1:8888`).
 - **`start_dashboard_admin.bat`**: Launches the EDR Dashboard with full Administrator elevation.
 - **`start_adblocker.bat`**: Launches only the AdBlock Proxy on port `8080`.
-- **`run_tests.bat`**: Executes the master diagnostic testing suite (46/46 checks).
-- **`generate_screenshots.bat`**: Re-generates all 17 visual screenshots in `screenshots/`.
+- **`run_tests.bat`**: Executes the master diagnostic testing suite (56/56 checks).
+- **`generate_screenshots.bat`**: Re-generates all 18 visual screenshots in `screenshots/`.
 
 ---
 
@@ -204,7 +212,7 @@ python tools/test_engine.py
 ================================================================
                   DIAGNOSTIC TEST RESULTS
 ================================================================
-  Passed Checks:  46
+  Passed Checks:  56
   Failed Checks:  0
   Success Rate:   100.0%
 ================================================================
@@ -233,12 +241,12 @@ For deep technical specifications, refer to the `docs/` suite:
 
 ```
 SpywareProcessMon/
-├── backend/                  # Python EDR, AdBlocker, Network, Diagnostics & Dropper Hunter Engines
-├── frontend/                 # Dark Cyber SOC Web Interface (:8888) & Documentation Hub (:8888/docs.html)
+├── backend/                  # Python EDR, AdBlocker, Network, Services Manager & Diagnostics Engines
+├── frontend/                 # Clean Light SOC (Default) & Dark Cyber Interface (:8888) & Documentation Hub (:8888/docs.html)
 ├── database/                 # Persistent JSON Datastores
 ├── docs/                     # Full 10-Document Engineering Suite
-├── screenshots/              # 17 HD 1600x1000 UI Captures
-├── tools/                    # Automated Test Engine (46 checks) & Screenshot Generator (17 views)
+├── screenshots/              # 18 HD 1600x1000 UI Captures
+├── tools/                    # Automated Test Engine (56 checks) & Screenshot Generator (18 views)
 ├── brain_archive/            # Full Archive of Session States, Plans & Persistent Memory Protocols
 ├── logs/                     # Audit & Threat Tracking Ledgers
 ├── cli_scanner.py            # Terminal CLI Tool
@@ -255,6 +263,6 @@ Distributed under the MIT License. Built for proactive endpoint defense, network
 
 ### 👨‍💻 Engineering & Support
 **Built with ❤️ by Sudhir Kumar Thanna**  
-**Deployed Version:** `v2.6.0-Enterprise-Diagnostic (Build 2026.11.07-STABLE)`  
+**Deployed Version:** `v2.7.0-Enterprise-Services (Build 2026.11.07-STABLE)`  
 **Documentation Web Page:** [`http://127.0.0.1:8888/docs.html`](http://127.0.0.1:8888/docs.html)  
-**Last Synchronized:** `2026-11-07 10:10:00 UTC+01:00`
+**Last Synchronized:** `2026-11-07 10:35:00 UTC+01:00`

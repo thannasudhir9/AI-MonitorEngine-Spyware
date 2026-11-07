@@ -191,5 +191,65 @@ flowchart TD
    - Records: Unique threat ID, first seen timestamp, last seen timestamp, observation counter, target PID, process name, command-line arguments, risk score, severity, category, detection reasons, and lifecycle states (`ACTIVE`, `INACTIVE`, `ERADICATED`, `QUARANTINED`).
    - Automatically synchronizes with eradication actions triggered from the dashboard.
 
+---
+
+## 8. Windows Services Management Architecture (`services.msc`)
+
+```mermaid
+flowchart TD
+    subgraph ServiceDiscovery [Discovery & Parsing Engine]
+        CIM["PowerShell CIM\nGet-CimInstance Win32_Service\nJSON Serialization"]
+        SC["Fallback: sc.exe queryex\ntype= service state= all"]
+        Baseline["Safety Baseline Catalog\n(5 Critical System Services)"]
+        CIM -->|On Failure| SC
+        SC -->|On Restriction| Baseline
+    end
+
+    subgraph ServiceEngine [WindowsServicesManager (backend/services_manager.py)]
+        Catalog["Services In-Memory Cache\nTTL: 3.0 seconds"]
+        Correlate["Threat & RMM Correlator\nFlags AnyDesk, TeamViewer, VNC\nCross-references Threat Ledger"]
+        Controller["Administrative Lifecycle Controller\nsc start / sc stop / sc config"]
+    end
+
+    subgraph REST_API [FastAPI Endpoints (backend/server.py)]
+        GET_ALL["GET /api/services (Filter & Search)"]
+        GET_ONE["GET /api/services/{name}"]
+        POST_START["POST /api/services/{name}/start"]
+        POST_STOP["POST /api/services/{name}/stop"]
+        POST_RESTART["POST /api/services/{name}/restart"]
+        POST_CONFIG["POST /api/services/{name}/config"]
+    end
+
+    subgraph UI_UX [Shadcn UI Layer (frontend/)]
+        ServicesTab["Windows Services View (#view-services)"]
+        KPIs["4 Summary KPI Cards"]
+        FilterToolbar["7 Filter Pills & Real-time Search"]
+        TableCard["Shadcn Table Card with Smooth Scrolling"]
+    end
+
+    ServiceDiscovery --> Catalog
+    Catalog --> Correlate
+    Correlate --> REST_API
+    Controller --> REST_API
+    REST_API --> ServicesTab
+    ServicesTab --> KPIs
+    ServicesTab --> FilterToolbar
+    ServicesTab --> TableCard
+```
+
+### 8.1 Multi-Tier Discovery Pipeline
+1. **Primary Layer (CIM JSON):** Executes `Get-CimInstance Win32_Service` serialized to JSON, extracting `Name`, `DisplayName`, `State`, `StartMode`, `ProcessId`, `PathName`, and `Description` in under 3 seconds.
+2. **Secondary Fallback (Native SC):** Parses `C:\Windows\System32\sc.exe queryex type= service state= all` for high-speed fallback in environments where CIM is restricted.
+3. **Tertiary Safety Baseline:** Guarantees deterministic testing and inspection for 5 critical Windows services (`WinDefend`, `wuauserv`, `MpsSvc`, `AnyDesk`, `Spooler`).
+
+### 8.2 RMM & Threat Correlation
+Automatically audits service paths and binary names against known dual-use and remote management software (`anydesk`, `teamviewer`, `screenconnect`, `atera`, `vnc`, `rustdesk`, `splashtop`), annotating services with threat scores and visual warning badges.
+
+### 8.3 Service Lifecycle Execution
+- **Start:** Invokes `sc.exe start <service_name>` with status code validation.
+- **Stop:** Invokes `sc.exe stop <service_name>` with timeout verification.
+- **Restart:** Gracefully sequences stop followed by start.
+- **Startup Mode Configuration:** Validates parameters against `auto`, `demand` (manual), and `disabled`, dispatching `sc.exe config <service_name> start= <mode>`.
+
 
 
