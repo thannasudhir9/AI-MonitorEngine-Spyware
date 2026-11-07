@@ -59,7 +59,7 @@
 - **Integrated External Repositories:**
   1. `https://github.com/thannasudhir9/SystemInfoCheck` (Hardware telemetry, 24 CPU cores, RAM/swap, NIC adapters, security baseline).
   2. `https://github.com/thannasudhir9/DriveOrganiserAndAnalyzer-AG2.0` (Drive partitions, storage capacity gauges, malware dropper staging hunter, 1-click temp cleanup).
-- **Brain Artifact Mirroring:** All 8 brain artifacts synchronized with `brain_archive/`:
+- **Brain Artifact Mirroring:** All 10 brain artifacts synchronized with `brain_archive/`:
   - `plan.md`
   - `adblocker_plan.md`
   - `continuous_sync_and_memory_protocol.md`
@@ -68,6 +68,8 @@
   - `services_control_panel_and_shadcn_ui_plan.md`
   - `light_mode_typography_and_shadcn_css_plan.md`
   - `two_level_nav_and_dark_mode_fix_plan.md`
+  - `table_expansion_and_css_enhancement_plan.md`
+  - `continuous_sync_and_full_parity_plan.md`
 
 ---
 

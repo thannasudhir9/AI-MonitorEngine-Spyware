@@ -3,7 +3,7 @@
 **System Name:** AegisShield Enterprise Cyber Defense Suite  
 **App Title:** AI Monitoring Engine • AdBlocker Engine • Web Tracker • Proc Mon Engine  
 **Author:** Sudhir Kumar Thanna  
-**Version:** v2.5.0-SOC-Enterprise  
+**Version:** v2.9.0-Enterprise-ExpandedTables  
 **Updated:** 2026-11-07  
 
 ---
@@ -272,6 +272,40 @@ Automatically audits service paths and binary names against known dual-use and r
 ### 9.3 All-Pages Table Overhaul & Scrollbar Engine
 - **Custom Thin Scrollbar:** 6px pill-thumb scrollbar with smooth rounded caps (`border-radius: 9999px`) applied globally across `.shadcn-table-scroll` and modal containers.
 - **Sticky Table Headers:** Enabled `sticky top-0 z-10 backdrop-blur-md` across all data tables for constant orientation during large data set inspection.
+
+---
+
+## 10. Expanded Enterprise Data Grid Architecture & Sizing Pipeline
+
+```mermaid
+flowchart TD
+    subgraph DataGridSystem [Enterprise Data Grid Pipeline]
+        DOM_Table["Table Component (13 Views)"]
+        CardWrapper["Shadcn Card Wrapper (.shadcn-table-card)\n14px border-radius | Subdued borders"]
+        ScrollViewport["Expanded Scroll Viewport (.shadcn-table-scroll)\nmin-height: 520px | max-height: calc(100vh - 240px)"]
+        StickyHeader["Frosted Sticky Header (thead th)\nposition: sticky | top: 0 | z-index: 20 | blur(12px)"]
+        ZebraRows["Alternating Zebra Striping (tbody tr)\nEven-row tint | 0.15s hover transition"]
+        PillScrollbar["Custom 8px Pill Scrollbar\nwidth: 8px | border-radius: 9999px"]
+    end
+
+    DOM_Table --> CardWrapper
+    CardWrapper --> ScrollViewport
+    ScrollViewport --> StickyHeader
+    ScrollViewport --> ZebraRows
+    ScrollViewport --> PillScrollbar
+```
+
+### 10.1 Real Estate Maximization
+- **High-Density Viewports:** Replaced arbitrary 400px–500px height caps with dynamic, viewport-aware bounds (`min-height: 520px; max-height: calc(100vh - 240px);`).
+- **Simultaneous Row Visibility:** Displays 20+ live processes, 30+ services, and dozens of network sockets and web traffic requests simultaneously without nested card scrolling.
+
+### 10.2 Frosted Glass Sticky Headers
+- High-performance GPU-accelerated backdrop blur (`backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);`) keeps header labels persistently fixed during deep log analysis.
+- Distinct 2px bottom structural borders (`#e2e8f0` in Light Mode, `#1e293b` in Dark Mode) maintain clear visual hierarchy.
+
+### 10.3 Numerical Tabular Alignment
+- All numeric telemetry (PIDs, ports, memory MB, CPU percentages, and timestamps) are explicitly formatted using `font-variant-numeric: tabular-nums` to guarantee vertical column alignment like a spreadsheet.
+
 
 
 

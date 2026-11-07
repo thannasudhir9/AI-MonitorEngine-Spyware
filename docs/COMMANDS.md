@@ -11,8 +11,8 @@ All batch files are located in the project root directory and can be executed vi
 | **`start_dashboard.bat`** | Starts only the AegisShield EDR Dashboard and REST/WebSocket API server on `127.0.0.1:8888`. | `.\start_dashboard.bat` |
 | **`start_dashboard_admin.bat`**| Starts the EDR Dashboard with full Administrator elevation. | `.\start_dashboard_admin.bat` |
 | **`start_adblocker.bat`** | Starts only the high-speed AdBlock Intercepting Proxy on `127.0.0.1:8080`. | `.\start_adblocker.bat` |
-| **`run_tests.bat`** | Executes the automated diagnostic testing engine verifying all 25 subsystem health checks. | `.\run_tests.bat` |
-| **`generate_screenshots.bat`** | Executes the high-definition Pillow screenshot engine, producing 12 UI captures in `screenshots/`. | `.\generate_screenshots.bat` |
+| **`run_tests.bat`** | Executes the automated diagnostic testing engine verifying all 72 subsystem health checks across 22 suites. | `.\run_tests.bat` |
+| **`generate_screenshots.bat`** | Executes the high-definition Pillow screenshot engine, producing all 18 UI captures in `screenshots/`. | `.\generate_screenshots.bat` |
 
 ---
 

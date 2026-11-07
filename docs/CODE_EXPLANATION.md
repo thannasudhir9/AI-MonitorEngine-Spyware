@@ -501,6 +501,64 @@ RMM_SERVICE_KEYWORDS = [
 - **CSS Strict Overrides:**
   - Implements `html.dark body, body.dark` overrides with `!important` to force obsidian `#080c14` background, deep card glassmorphism, and neon HUD accents when dark mode is activated.
 
+---
+
+## 25. Expanded Enterprise Data Grid Engine (`frontend/css/dashboard.css` & `frontend/js/app.js`)
+
+### 25.1 Viewport Dimension Architecture (`.shadcn-table-scroll`)
+```css
+.shadcn-table-scroll,
+.table-expanded-scroll {
+  min-height: 520px;
+  max-height: calc(100vh - 240px);
+  overflow-y: auto;
+  overflow-x: auto;
+  position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f8fafc;
+}
+```
+- Replaces restrictive fixed heights (`max-h-[400px]`, `max-h-[500px]`) with responsive viewport-based bounds.
+- Guaranteed `min-height: 520px` prevents layout collapse on small data sets.
+- `max-height: calc(100vh - 240px)` maximizes screen real estate utilization on 1080p, 1440p, and 4K displays.
+
+### 25.2 Frosted Glass Sticky Header Styling
+```css
+.shadcn-table-scroll thead th {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 13px 18px;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+```
+- Sticky header remains anchored during deep data scrolling while displaying a frosted glass effect over table records beneath.
+
+### 25.3 Alternating Zebra Striping & Hover Transitions
+```css
+.shadcn-table-scroll tbody tr:nth-child(even) {
+  background-color: rgba(248, 250, 252, 0.55);
+}
+.shadcn-table-scroll tbody tr:hover {
+  background-color: #f1f5f9 !important;
+  transition: background-color 0.15s ease-in-out;
+}
+```
+- Facilitates scanning across wide screens with alternating even-row background tints and smooth hover highlights.
+
+### 25.4 Numerical Tabular Formatting
+```html
+<td class="p-3.5 font-mono text-xs tabular-nums text-slate-400">${p.pid}</td>
+```
+- `font-variant-numeric: tabular-nums` ensures digits have identical character widths, aligning columns vertically.
+
+
 
 
 

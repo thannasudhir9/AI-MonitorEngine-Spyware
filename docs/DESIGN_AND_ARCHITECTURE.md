@@ -418,9 +418,17 @@ Per user directive, intrusive audio chimes on threat detections, process termina
   - Modernized data grids across Windows Services, Process Monitor, Network Radar, AdBlocker Logs, Threat Ledgers, and Dropper Hunter.
   - Pinned sticky headers (`backdrop-blur-md`), compact 10px padding, tabular monospace numerical alignment, and WCAG AAA compliant semantic status badges.
 
-
-
-
-
+### 8.14 Expanded Enterprise Data Grids & Modern CSS Architecture
+- **Real Estate Maximization & Viewport Expansion:**
+  - Standardized all tables onto `.shadcn-table-card` and `.shadcn-table-scroll` architecture with generous bounds (`min-height: 520px; max-height: calc(100vh - 240px);`).
+  - Enables viewing 20+ live processes, 30+ services, and dozens of active network sockets simultaneously.
+- **Frosted Glass Sticky Headers:**
+  - Anchored with `position: sticky; top: 0; z-index: 20; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);` with high-contrast uppercase labels.
+- **Alternating Zebra Striping & Smooth Hover Highlights:**
+  - Subtle alternating even-row background tints with smooth 0.15s hover transitions for both Light and Dark modes.
+- **Custom 8px Ultra-Smooth Rounded Scrollbars:**
+  - Dedicated custom webkit scrollbar rules with rounded pill thumbs (`border-radius: 9999px`) designed specifically for table containers.
+- **Tabular Monospace Figures:**
+  - All numerical telemetry (PIDs, ports, memory metrics, frequencies, timestamps) formatted in `tabular-nums` for crisp column alignment.
 
 

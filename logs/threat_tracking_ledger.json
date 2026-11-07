@@ -4,8 +4,8 @@
     "key": "exe_c:\\users\\temp\\suspicious_test_agent.exe",
     "first_seen": "2026-11-07T09:57:47.818831",
     "first_seen_display": "2026-11-07 09:57:47",
-    "last_seen": "2026-11-07T11:37:12.431341",
-    "last_seen_display": "2026-11-07 11:37:12",
+    "last_seen": "2026-11-07T11:43:42.402159",
+    "last_seen_display": "2026-11-07 11:43:42",
     "pid": 999999,
     "name": "suspicious_test_agent.exe",
     "exe": "C:\\Users\\Temp\\suspicious_test_agent.exe",
@@ -20,7 +20,7 @@
       }
     ],
     "status": "ERADICATED",
-    "times_observed": 5,
+    "times_observed": 6,
     "history": [
       {
         "timestamp": "2026-11-07T09:57:47.818831",
@@ -55,6 +55,12 @@
       {
         "timestamp": "2026-11-07T11:37:12.436359",
         "time_display": "2026-11-07 11:37:12",
+        "action": "UNIT_TEST_KILL",
+        "details": "Terminated via testing suite"
+      },
+      {
+        "timestamp": "2026-11-07T11:43:42.408514",
+        "time_display": "2026-11-07 11:43:42",
         "action": "UNIT_TEST_KILL",
         "details": "Terminated via testing suite"
       }
