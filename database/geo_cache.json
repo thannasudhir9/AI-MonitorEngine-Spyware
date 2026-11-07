@@ -482,5 +482,137 @@
     "is_genuine": false,
     "is_private": false,
     "confidence": 60
+  },
+  "2001:4860:4840:400::": {
+    "ip": "2001:4860:4840:400::",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "72.153.5.131": {
+    "ip": "72.153.5.131",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "185.199.108.133": {
+    "ip": "185.199.108.133",
+    "hostname": "cdn-185-199-108-133.github.com",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "GitHub",
+    "verdict": "GENUINE CLOUD / CDN",
+    "is_genuine": true,
+    "is_private": false,
+    "confidence": 95
+  },
+  "2606:4700::6812:562a": {
+    "ip": "2606:4700::6812:562a",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "2606:4700::6812:12e": {
+    "ip": "2606:4700::6812:12e",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "140.82.112.26": {
+    "ip": "140.82.112.26",
+    "hostname": "lb-140-82-112-26-iad.github.com",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "GitHub",
+    "verdict": "GENUINE CLOUD / CDN",
+    "is_genuine": true,
+    "is_private": false,
+    "confidence": 95
+  },
+  "2606:50c0:8001::215": {
+    "ip": "2606:50c0:8001::215",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "74.151.238.101": {
+    "ip": "74.151.238.101",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "2a00:1450:4001:c15::84": {
+    "ip": "2a00:1450:4001:c15::84",
+    "hostname": "pm-in-f132.1e100.net",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "Google / GCP",
+    "verdict": "GENUINE CLOUD / CDN",
+    "is_genuine": true,
+    "is_private": false,
+    "confidence": 95
+  },
+  "2606:50c0:8000::154": {
+    "ip": "2606:50c0:8000::154",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "2a02:26f0:3500:12::1730:178f": {
+    "ip": "2a02:26f0:3500:12::1730:178f",
+    "hostname": "g2a02-26f0-3500-0012-0000-0000-1730-178f.deploy.static.akamaitechnologies.com",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "Akamai",
+    "verdict": "GENUINE CLOUD / CDN",
+    "is_genuine": true,
+    "is_private": false,
+    "confidence": 95
+  },
+  "2a02:26f0:3500:989::4213": {
+    "ip": "2a02:26f0:3500:989::4213",
+    "hostname": "g2a02-26f0-3500-0989-0000-0000-0000-4213.deploy.static.akamaitechnologies.com",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "Akamai",
+    "verdict": "GENUINE CLOUD / CDN",
+    "is_genuine": true,
+    "is_private": false,
+    "confidence": 95
   }
 }

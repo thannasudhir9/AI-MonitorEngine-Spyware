@@ -278,13 +278,24 @@ def run_all_tests():
     # ==============================================================
     # Test Suite 13: Notification Sound Removal & Silent Mode
     # ==============================================================
-    print(f"\n{BOLD}[13/13] Testing Audio & Notification Sound Removal (Silent Mode)...{RESET}")
+    print(f"\n{BOLD}[13/14] Testing Audio & Notification Sound Removal (Silent Mode)...{RESET}")
     app_js_text = (FRONTEND_DIR / "js" / "app.js").read_text(encoding="utf-8")
     index_html_text = (FRONTEND_DIR / "index.html").read_text(encoding="utf-8")
 
     runner.record("Default Silent Sound Setting", "soundEnabled: false" in app_js_text, "Notification sound disabled by default in state")
     runner.record("Sound Toggle Control in UI", "id=\"btn-sound-toggle\"" in index_html_text, "Silent mode toggle button wired in header")
     runner.record("Silent Chime Gate Enforced", "if (!state.soundEnabled) return;" in app_js_text, "Audio chime gate ensures silence when disabled")
+
+    # ==============================================================
+    # Test Suite 14: Future Scope Roadmap & Browser Favicon
+    # ==============================================================
+    print(f"\n{BOLD}[14/14] Testing Future Scope Roadmap & Browser Favicon Assets...{RESET}")
+    future_scope_file = APP_ROOT / "docs" / "FUTURE_SCOPE.md"
+    future_text = future_scope_file.read_text(encoding="utf-8") if future_scope_file.exists() else ""
+    runner.record("Future Scope Document Exists", future_scope_file.exists() and "MITRE ATT&CK" in future_text, f"Path: docs/FUTURE_SCOPE.md ({len(future_text)} bytes)")
+
+    server_py_text = (APP_ROOT / "backend" / "server.py").read_text(encoding="utf-8")
+    runner.record("Favicon Route Configured", "@app.get(\"/favicon.ico\")" in server_py_text, "In-memory cyber shield SVG favicon mounted")
 
     # ==============================================================
     # Final Executive Summary

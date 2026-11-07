@@ -14,7 +14,7 @@ from typing import Dict, List, Any, Optional
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, Response
 from pydantic import BaseModel
 
 from .config import SERVER_HOST, SERVER_PORT, APP_ROOT, SCORE_MEDIUM
@@ -670,4 +670,9 @@ if FRONTEND_DIR.exists():
         if docs_file.exists():
             return FileResponse(docs_file)
         return FileResponse(FRONTEND_DIR / "index.html")
+
+    @app.get("/favicon.ico")
+    def serve_favicon():
+        svg = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00f0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>"""
+        return Response(content=svg, media_type="image/svg+xml")
 

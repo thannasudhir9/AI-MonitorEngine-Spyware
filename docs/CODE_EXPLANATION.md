@@ -375,6 +375,23 @@ const CyberAudio = {
 - **LocalStorage Storage:** Remembers user preference across sessions via `localStorage.getItem('aegis_sound')`.
 - **UI Controller:** `updateSoundUI()` dynamically updates icon (`volume-x` vs `volume-2`) and label (`Silent` vs `Sound ON`).
 
+---
+
+## 19. Browser Favicon & Static Screenshot Routing (`backend/server.py`)
+
+### 19.1 In-Memory SVG Favicon Route
+Browsers automatically probe `/favicon.ico` on load, producing 404 error noise in server access logs when unhandled. `backend/server.py` implements an in-memory cyber shield SVG responder:
+```python
+@app.get("/favicon.ico")
+def serve_favicon():
+    svg = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00f0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>"""
+    return Response(content=svg, media_type="image/svg+xml")
+```
+
+### 19.2 Direct Static Screenshot Mounting
+The `screenshots/` directory is mounted at `/screenshots` via `StaticFiles(directory=str(SCREENSHOTS_DIR))` allowing `frontend/docs.html` and Markdown renderers to load 1600x1000 HD UI captures directly without path traversal workarounds.
+
+
 
 
 

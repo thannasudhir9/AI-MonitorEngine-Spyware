@@ -1,12 +1,22 @@
 [
   {
-    "id": "evt_1794038203962",
-    "timestamp": "2026-11-07T08:56:43.962649",
-    "time_display": "2026-11-07 08:56:43",
+    "id": "evt_1794038811432",
+    "timestamp": "2026-11-07T09:06:51.432393",
+    "time_display": "2026-11-07 09:06:51",
     "action": "PROCESS_KILLED",
     "target": "python.exe",
-    "pid": 68640,
+    "pid": 76312,
     "details": "Test Engine Kill. Successfully terminated.",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "evt_1794038701813",
+    "timestamp": "2026-11-07T09:05:01.813522",
+    "time_display": "2026-11-07 09:05:01",
+    "action": "EMAIL_TEST",
+    "target": "SMTP Server",
+    "pid": null,
+    "details": "Security report successfully dispatched to ethstk911@gmail.com via Resend API (ID: 01a1b50a-22b1-7540-8a49-40cd6c27c90e).",
     "status": "SUCCESS"
   },
   {

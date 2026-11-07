@@ -243,7 +243,7 @@ Start-Process "http://127.0.0.1:8888/docs.html"
 
 ### 8.1 Diagnostic Test Engine Execution
 ```powershell
-# Execute the automated 30-check diagnostic test suite
+# Execute the automated 35-check diagnostic test suite
 python tools/test_engine.py
 
 # Alternatively, run via batch launcher

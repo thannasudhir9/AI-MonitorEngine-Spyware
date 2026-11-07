@@ -6,7 +6,7 @@
 [![Python](https://img.shields.io/badge/Python-3.14%2B-blue.svg?logo=python)](https://python.org)
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011%20%7C%20Server-0078D6.svg?logo=windows)](https://microsoft.com)
 [![License](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-33%2F33%20Passing%20(100%25)-brightgreen.svg)](tools/test_engine.py)
+[![Tests](https://img.shields.io/badge/Tests-35%2F35%20Passing%20(100%25)-brightgreen.svg)](tools/test_engine.py)
 [![Audio](https://img.shields.io/badge/Audio-Silent%20Mode%20Default-slate.svg)](#)
 [![Email Alerting](https://img.shields.io/badge/Email%20Alerts-Resend%20API%20%7C%20SMTP-purple.svg)](https://resend.com)
 [![Port: EDR Dashboard](https://img.shields.io/badge/EDR%20Dashboard-127.0.0.1%3A8888-cyan.svg)](http://127.0.0.1:8888)
@@ -173,7 +173,7 @@ python tools/test_engine.py
 ================================================================
                   DIAGNOSTIC TEST RESULTS
 ================================================================
-  Passed Checks:  33
+  Passed Checks:  35
   Failed Checks:  0
   Success Rate:   100.0%
 ================================================================
@@ -188,6 +188,7 @@ For deep technical specifications, refer to the `docs/` suite:
 - 📐 [**Design Specification**](docs/DESIGN.md): Visual UI, themes, navigation matrix, and modal design.
 - 🏗️ [**System Architecture**](docs/ARCHITECTURE.md): Component topology, token elevation, and process boundaries.
 - 📑 [**Combined Design & Architecture**](docs/DESIGN_AND_ARCHITECTURE.md): Combined architectural topology, component hierarchy, and dataflow diagrams.
+- 🚀 [**Future Scope & Technical Roadmap**](docs/FUTURE_SCOPE.md): Strategic 2026-2027 enterprise roadmap, Windows Kernel ETW, eBPF sensors, AMTD in-memory defense, and local edge SLM AI.
 - 🗂️ [**Project Structure**](docs/PROJECT_STRUCTURE.md): Detailed directory tree, file mappings, and database JSON schemas.
 - 🔬 [**Code Explanation**](docs/CODE_EXPLANATION.md): Deep-dive into heuristic algorithms, PE forensics, entropy mathematics, service discovery, and proxy filtering logic.
 - ⌨️ [**Commands & API Reference**](docs/COMMANDS.md): Full CLI guide, batch launchers, REST endpoints, WebSocket schema, and Windows administration commands.

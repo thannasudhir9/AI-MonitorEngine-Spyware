@@ -41,6 +41,7 @@ SpywareProcessMon/
 │   ├── DESIGN.md                           # System and UX design specification
 │   ├── ARCHITECTURE.md                     # Deep system architecture & process boundaries
 │   ├── DESIGN_AND_ARCHITECTURE.md          # Combined architecture overview, diagrams & data flows
+│   ├── FUTURE_SCOPE.md                     # Strategic 2026-2027 enterprise roadmap, ETW & eBPF research
 │   ├── PROJECT_STRUCTURE.md                # File-by-file mapping, roles, and schema specifications
 │   ├── CODE_EXPLANATION.md                 # Deep-dive into classes, methods, heuristics & algorithms
 │   ├── COMMANDS.md                         # CLI reference, batch launchers, REST API & WebSocket schemas
@@ -51,7 +52,8 @@ SpywareProcessMon/
 ├── brain_archive/                          # Persistent Mirrored Brain Artifacts
 │   ├── plan.md                             # Original system implementation plan
 │   ├── adblocker_plan.md                   # AdBlocker and web tracking engine plan
-│   └── continuous_sync_and_memory_protocol.md # Persistent memory & synchronization protocol
+│   ├── continuous_sync_and_memory_protocol.md # Persistent memory & synchronization protocol
+│   └── future_scope_and_roadmap_plan.md    # Strategic future roadmap & autonomous defense blueprint
 │
 ├── screenshots/                            # High-Definition 1600x1000 UI Screenshots
 │   ├── 01_active_threats_remediation.png   # Active threats, severity badges, and 1-click eradication

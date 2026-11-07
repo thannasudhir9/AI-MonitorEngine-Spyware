@@ -4,8 +4,8 @@
 **Host Environment:** Windows (x64)  
 **Shell Environment:** PowerShell / cmd.exe  
 **Active Project Directory:** `c:\Users\thann\Downloads\AntiGravity\SpywareProcessMon`  
-**Current Active Server Daemon:** Task `f941cc48-3dd0-4ea9-a4df-91daf625a4db/task-1403`  
-**Current Process & PID:** `python.exe` (PID: 88904)  
+**Current Active Server Daemon:** Task `f941cc48-3dd0-4ea9-a4df-91daf625a4db/task-1522`  
+**Current Process & PID:** `python.exe` (PID: 89608)  
 **Assigned Listening Ports:**
 - Port `8888`: AegisShield EDR Web Dashboard, REST API & WebSockets (`http://127.0.0.1:8888`)
 - Port `8080`: AegisShield AdBlock & Web Tracker Intercepting Proxy (`127.0.0.1:8080`)
