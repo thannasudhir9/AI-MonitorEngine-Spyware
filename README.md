@@ -148,6 +148,17 @@
   - **Threat & RMM Correlation:** Automatically flags services hosting remote desktop tools (AnyDesk, TeamViewer, VNC) or associated with active threat ledgers.
   - **Administrative Lifecycle Actions:** 1-Click interactive controls to Start, Stop, or Restart services, and reconfigure startup modes (`sc config start= auto|demand|disabled`) directly from the browser.
 
+### 11. 🧭 Two-Level (Level 1 / Level 2) Structured Navigation & Resilient Dual Theming
+- **Zero Horizontal Scrolling Architecture:**
+  - **Level 1 (5 High-Level SOC Engines):** `Threat Defense & Intel`, `Endpoint & Services`, `Network & AdBlocker`, `Policies & Lab`, `Reports & Docs`.
+  - **Level 2 (Active Sub-Tabs):** Instantly accessible secondary segmented pill strip rendering only the relevant sub-tabs for the selected engine.
+- **Resilient Dual Theming (Fixed Dark / Light Mode Switch):**
+  - Seamless bidirectional toggling between **Light Clean SOC Mode** (Default daylight palette with high-contrast slate-900 typography) and **Dark Cyber SOC Mode** (Obsidian `#080c14` glassmorphism backdrop with neon telemetry accents).
+  - Synchronizes `dark`, `theme-dark`, `light`, and `theme-light` classes on both `<html>` and `<body>` with zero theme lock.
+- **Enhanced Data Grids & Ultra-Thin Scrollbars:**
+  - Sticky table headers with subtle blur and borders across all 10+ data tables.
+  - Custom 6px pill-thumb scrollbars (`border-radius: 9999px`) preventing layout shifting.
+
 ---
 
 ## ⚡ Quick Start
@@ -159,7 +170,7 @@ Double-click any batch launcher in the project root:
 - **`start_dashboard.bat`**: Launches only the EDR Web Dashboard (`http://127.0.0.1:8888`).
 - **`start_dashboard_admin.bat`**: Launches the EDR Dashboard with full Administrator elevation.
 - **`start_adblocker.bat`**: Launches only the AdBlock Proxy on port `8080`.
-- **`run_tests.bat`**: Executes the master diagnostic testing suite (56/56 checks).
+- **`run_tests.bat`**: Executes the master diagnostic testing suite (67/67 checks passing).
 - **`generate_screenshots.bat`**: Re-generates all 18 visual screenshots in `screenshots/`.
 
 ---

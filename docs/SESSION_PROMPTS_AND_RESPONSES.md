@@ -428,6 +428,34 @@ This document records the exact chronological sequence of user prompts, engineer
    - Created artifact [`brain_archive/services_control_panel_and_shadcn_ui_plan.md`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/brain_archive/services_control_panel_and_shadcn_ui_plan.md).
    - Updated documentation files in `docs/` and root `README.md`.
 
+---
+
+### 2.16 User Requests 22 & 23: Level 1 & Level 2 Structured Navigation, Dark Mode Switch Fix & Table Overhaul
+> **User Prompt:**  
+> *"improve the tables in all pages, improve text and color formatting issues, improve design, improve scroll bars.*  
+> *the diffrernt sections , sub tabs should be visible in level 1 , level 2 , instead of scrolling"*  
+> *"unable to sswitch to dark mode , fix it also"*  
+
+#### Engineering Response & Systematic Execution:
+1. **Dark Mode Toggle Fix (`setTheme` / `toggleTheme`):**
+   - *Root Cause:* `setTheme` previously only manipulated `theme-light` on `document.body` and `<html>` without adding the literal `dark` class required by Tailwind CSS (`darkMode: 'class'`). Additionally, CSS lacked high-priority dark mode overrides.
+   - *Fix:* Re-engineered `setTheme()` in [`frontend/js/app.js`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/frontend/js/app.js) and `applyDocTheme()` in [`frontend/docs.html`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/frontend/docs.html) to synchronize both `dark`/`theme-dark` and `light`/`theme-light` across both `<html>` and `<body>`.
+   - Added explicit `html.dark body` and `body.dark` CSS blocks in [`frontend/css/dashboard.css`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/frontend/css/dashboard.css) guaranteeing obsidian `#080c14` background and cyber card glassmorphism.
+2. **Two-Level Structured Navigation (Level 1 Categories $\to$ Level 2 Sub-Tabs):**
+   - Replaced single 14-tab horizontal overflow strip with a non-scrolling two-tier navigation structure:
+     - **Level 1 (5 High-Level SOC Categories):** `Threat Defense & Intel`, `Endpoint & Services`, `Network & AdBlocker`, `Policies & Lab`, `Reports & Docs`.
+     - **Level 2 (Active Sub-Tab Strips):** Secondary segmented pill containers (`#subnav-threats`, `#subnav-endpoint`, `#subnav-network`, `#subnav-policy`, `#subnav-reports`) that dynamically display only the sub-tabs for the selected category.
+   - Built `switchCategory()` and bidirectional mapping `TAB_TO_CATEGORY` in `frontend/js/app.js`.
+3. **Table Overhaul & Custom Scrollbars:**
+   - Standardized table styling across all 10+ views with sticky headers (`backdrop-blur-md`), compact cell padding, tabular monospace numbers for PIDs and ports, and soft semantic badges.
+   - Designed custom 6px ultra-thin webkit scrollbars with pill thumbs (`border-radius: 9999px`) preventing layout shifting.
+4. **Verification & Testing:**
+   - Expanded [`tools/test_engine.py`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/tools/test_engine.py) to **67 automated tests across 21 subsystems** (**100.0% pass rate**).
+   - Re-generated all **18 HD 1600x1000 screenshots** in `screenshots/` with Two-Level navigation via [`tools/screenshot_engine.py`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/tools/screenshot_engine.py).
+5. **Continuous Sync & Brain Mirroring:**
+   - Created plans: [`brain_archive/two_level_nav_and_dark_mode_fix_plan.md`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/brain_archive/two_level_nav_and_dark_mode_fix_plan.md) and [`brain_archive/light_mode_typography_and_shadcn_css_plan.md`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/brain_archive/light_mode_typography_and_shadcn_css_plan.md).
+
+
 
 
 

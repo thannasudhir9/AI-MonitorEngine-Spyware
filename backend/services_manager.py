@@ -313,3 +313,4 @@ class WindowsServicesManager:
             }
         except Exception as e:
             return {"success": False, "name": name, "message": str(e)}
+

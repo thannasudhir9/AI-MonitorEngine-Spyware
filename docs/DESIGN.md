@@ -56,11 +56,22 @@ AegisShield adopts clean, minimalist design principles inspired by **shadcn/ui**
 - **Sticky Table Headers:** `sticky top-0 z-10 backdrop-blur` keeps column headers in view during deep table exploration.
 - **High-Contrast Light Mode Badges:** Soft pastel backgrounds (`#fff1f2`, `#fffbeb`, `#f0fdf4`, `#f0f9ff`) with dark, readable font foregrounds.
 
-### 1.9 Windows Services Management (`services.msc`) UX Design
-- **KPI Metrics Header:** Summary cards displaying Total Services (331), Running Services (153), Stopped Services (178), and RMM / Threat Linked Services (1).
-- **Search & Filter Strip:** 7 Filter pills (`All`, `Running`, `Stopped`, `Automatic`, `Manual`, `Disabled`, `RMM / Threats`) paired with instantaneous search across service names, display titles, PIDs, and paths.
-- **Direct Interactive Controls:** Inline dropdown selectors to modify startup modes and 1-click Start, Stop, and Restart buttons with immediate toast confirmations.
-- **Immediate Eradication Controls:** Direct in-table `Kill`, `Tree Kill`, and `Quarantine` actions.
+### 1.10 Two-Level Structured Navigation (Level 1 Categories -> Level 2 Sub-Tabs)
+Eliminates horizontal overflow scrolling across all 14 views by introducing a hierarchical, non-scrolling two-tier navigation structure:
+- **Level 1 (5 Core SOC Engine Categories):**
+  1. `🛡️ Threat Defense & Intel`: Active Threats, Remote Desktop / RMM, Incident Eradication Audit.
+  2. `🖥️ Endpoint & System Monitor`: Windows Services (`services.msc`), Live Process Monitor, System Diagnostics (`SystemInfoCheck`), Storage & Dropper Hunter (`DriveOrganiser`).
+  3. `🌐 Network & AdBlocker`: Network Radar & Sockets, AdBlocker & Traffic Analytics.
+  4. `⚙️ Policies & Lab`: Access Rules & Firewall, Persistence & Startup, Threat Simulation Lab.
+  5. `📑 Reports & Docs`: Email Alerts & Posture Reports, Documentation Hub.
+- **Level 2 (Active Sub-Tab Strips):** Contextual secondary segmented pill navigation automatically synchronized with the chosen Level 1 engine category, eliminating the need to scroll a long 14-button strip horizontally.
+
+### 1.11 Resilient Dual-Theme Architecture (Dark Cyber SOC vs Light Clean SOC)
+- **Bidirectional Class Sync:** Ensures seamless toggling by synchronizing `dark`/`theme-dark` vs `light`/`theme-light` classes on both `<html>` and `<body>` with `localStorage.getItem('aegis_theme')`.
+- **WCAG AAA Contrast in Light Mode:** Slate-900 high-contrast headings, slate-700 body copy, rich semantic text (`#b91c1c` red, `#b45309` amber, `#15803d` green, `#0284c7` sky), and crisp white card elevation.
+- **Dark Cyber SOC Mode:** Obsidian `#080c14` backdrop, deep slate glassmorphism cards (`rgba(19, 28, 49, 0.75)`), and vibrant neon HUD telemetry accents.
+- **Smooth Ultra-Thin Scrollbars:** 6px pill-thumb webkit scrollbars across all tables, avoiding intrusive browser scrollbars and layout shifting.
+
 
 
 ### 1.4 Elevated Administrator Remediation Modal (`#elevated-kill-modal`)

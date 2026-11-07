@@ -35,13 +35,20 @@
     <link rel="stylesheet" href="/static/css/dashboard.css">
     <style>
         .doc-nav-item.active {
+            background-color: #f0f9ff;
+            color: #0284c7;
+            border-left: 3px solid #0284c7;
+            font-weight: 600;
+        }
+        .dark .doc-nav-item.active {
             background-color: rgba(6, 182, 212, 0.15);
             color: #06b6d4;
             border-left: 3px solid #06b6d4;
             font-weight: 700;
         }
         pre code {
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-variant-numeric: tabular-nums;
         }
     </style>
 </head>
@@ -607,9 +614,34 @@
         if (window.lucide) lucide.createIcons();
 
         function toggleDocTheme() {
-            document.documentElement.classList.toggle('dark');
-            document.documentElement.classList.toggle('theme-light');
+            const isDark = document.documentElement.classList.contains('dark') || 
+                           document.body.classList.contains('dark') ||
+                           document.body.classList.contains('theme-dark');
+            const newTheme = isDark ? 'light' : 'dark';
+            applyDocTheme(newTheme);
         }
+
+        function applyDocTheme(theme) {
+            const html = document.documentElement;
+            const body = document.body;
+            if (theme === 'dark') {
+                html.classList.remove('light', 'theme-light');
+                html.classList.add('dark', 'theme-dark');
+                body.classList.remove('light', 'theme-light', 'bg-slate-50', 'text-slate-900');
+                body.classList.add('dark', 'theme-dark', 'bg-slate-900', 'text-slate-100');
+                localStorage.setItem('aegis_theme', 'dark');
+            } else {
+                html.classList.remove('dark', 'theme-dark');
+                html.classList.add('light', 'theme-light');
+                body.classList.remove('dark', 'theme-dark', 'bg-slate-900', 'text-slate-100');
+                body.classList.add('light', 'theme-light', 'bg-slate-50', 'text-slate-900');
+                localStorage.setItem('aegis_theme', 'light');
+            }
+            if (window.lucide) lucide.createIcons();
+        }
+
+        // Apply saved theme on load
+        applyDocTheme(localStorage.getItem('aegis_theme') || 'light');
 
         // Live clock
         function updateDocClock() {

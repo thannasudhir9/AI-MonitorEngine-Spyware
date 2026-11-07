@@ -209,51 +209,101 @@
             </div>
         </section>
 
-        <!-- Navigation Tabs Bar (Shadcn Segmented Style) -->
-        <nav class="shadcn-tabs-nav w-full">
-            <button data-tab="threats" class="tab-btn shadcn-tab-item active font-semibold">
-                <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-rose-500"></i> Active Threats
-            </button>
-            <button data-tab="services" class="tab-btn shadcn-tab-item font-medium">
-                <i data-lucide="server" class="w-3.5 h-3.5 text-sky-500"></i> Windows Services (services.msc)
-            </button>
-            <button data-tab="sysinfo" class="tab-btn shadcn-tab-item font-medium">
-                <i data-lucide="cpu" class="w-3.5 h-3.5 text-cyan-500"></i> System Diagnostics
-            </button>
-            <button data-tab="drives" class="tab-btn shadcn-tab-item font-medium">
-                <i data-lucide="hard-drive" class="w-3.5 h-3.5 text-amber-500"></i> Storage & Dropper Hunter
-            </button>
-            <button data-tab="network" class="tab-btn shadcn-tab-item font-medium">
-                <i data-lucide="globe" class="w-3.5 h-3.5 text-emerald-500"></i> Network Radar
-            </button>
-            <button data-tab="adblock" class="tab-btn shadcn-tab-item font-medium">
-                <i data-lucide="shield-ban" class="w-3.5 h-3.5 text-rose-500"></i> AdBlocker & Proxy
-            </button>
-            <button data-tab="rmm" class="tab-btn shadcn-tab-item font-medium">
-                <i data-lucide="radio" class="w-3.5 h-3.5 text-purple-500"></i> Remote Desktop Hunter
-            </button>
-            <button data-tab="processes" class="tab-btn shadcn-tab-item font-medium">
-                <i data-lucide="list-tree" class="w-3.5 h-3.5 text-blue-500"></i> Process Monitor
-            </button>
-            <button data-tab="policy" class="tab-btn shadcn-tab-item font-medium">
-                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-500"></i> Access Rules
-            </button>
-            <button data-tab="persistence" class="tab-btn shadcn-tab-item font-medium">
-                <i data-lucide="rocket" class="w-3.5 h-3.5 text-orange-500"></i> Persistence
-            </button>
-            <button data-tab="simulation" class="tab-btn shadcn-tab-item font-medium">
-                <i data-lucide="flask-conical" class="w-3.5 h-3.5 text-violet-500"></i> Simulation Lab
-            </button>
-            <button data-tab="email" class="tab-btn shadcn-tab-item font-medium">
-                <i data-lucide="mail" class="w-3.5 h-3.5 text-amber-500"></i> Email Alerts
-            </button>
-            <button data-tab="audit" class="tab-btn shadcn-tab-item font-medium">
-                <i data-lucide="history" class="w-3.5 h-3.5 text-slate-500"></i> Audit Log
-            </button>
-            <button data-tab="docs" class="tab-btn shadcn-tab-item font-medium">
-                <i data-lucide="book-open" class="w-3.5 h-3.5 text-cyan-500"></i> Docs Hub
-            </button>
-        </nav>
+        <!-- ============================================================== -->
+        <!-- TWO-LEVEL STRUCTURED NAVIGATION (LEVEL 1 CATEGORIES -> LEVEL 2 SUB-TABS) -->
+        <!-- ============================================================== -->
+        <div class="space-y-2.5">
+            <!-- Level 1: Core SOC Engine Categories (Zero Horizontal Scrolling) -->
+            <div class="flex items-center justify-between p-1.5 bg-slate-100 dark:bg-slate-900/90 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm w-full">
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-1.5 w-full">
+                    <button data-category="threats" onclick="switchCategory('threats')" class="category-btn active flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-bold transition">
+                        <i data-lucide="shield-alert" class="w-4 h-4 text-rose-500"></i>
+                        <span>Threat Defense & Intel</span>
+                    </button>
+                    <button data-category="endpoint" onclick="switchCategory('endpoint')" class="category-btn flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium transition">
+                        <i data-lucide="server" class="w-4 h-4 text-sky-500"></i>
+                        <span>Endpoint & Services</span>
+                    </button>
+                    <button data-category="network" onclick="switchCategory('network')" class="category-btn flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium transition">
+                        <i data-lucide="globe" class="w-4 h-4 text-emerald-500"></i>
+                        <span>Network & AdBlocker</span>
+                    </button>
+                    <button data-category="policy" onclick="switchCategory('policy')" class="category-btn flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium transition">
+                        <i data-lucide="shield-check" class="w-4 h-4 text-purple-500"></i>
+                        <span>Policies & Lab</span>
+                    </button>
+                    <button data-category="reports" onclick="switchCategory('reports')" class="category-btn flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium transition col-span-2 sm:col-span-1">
+                        <i data-lucide="book-open" class="w-4 h-4 text-amber-500"></i>
+                        <span>Reports & Docs</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Level 2: Sub-Nav Containers (Dynamically Visible by Category) -->
+            <div id="subnav-container" class="w-full">
+                <!-- Level 2: Category 1 - Threat Defense & Intel -->
+                <nav id="subnav-threats" class="level2-subnav shadcn-tabs-nav w-full flex items-center gap-1.5">
+                    <button data-tab="threats" class="tab-btn shadcn-tab-item active font-semibold">
+                        <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-rose-500"></i> Active Threats
+                    </button>
+                    <button data-tab="rmm" class="tab-btn shadcn-tab-item font-medium">
+                        <i data-lucide="radio" class="w-3.5 h-3.5 text-purple-500"></i> Remote Desktop / RMM Hunter
+                    </button>
+                    <button data-tab="audit" class="tab-btn shadcn-tab-item font-medium">
+                        <i data-lucide="history" class="w-3.5 h-3.5 text-slate-500"></i> Incident Eradication Audit
+                    </button>
+                </nav>
+
+                <!-- Level 2: Category 2 - Endpoint Systems & Services -->
+                <nav id="subnav-endpoint" class="level2-subnav shadcn-tabs-nav w-full hidden flex items-center gap-1.5">
+                    <button data-tab="services" class="tab-btn shadcn-tab-item font-semibold">
+                        <i data-lucide="server" class="w-3.5 h-3.5 text-sky-500"></i> Windows Services (services.msc)
+                    </button>
+                    <button data-tab="processes" class="tab-btn shadcn-tab-item font-medium">
+                        <i data-lucide="list-tree" class="w-3.5 h-3.5 text-blue-500"></i> Live Process Monitor
+                    </button>
+                    <button data-tab="sysinfo" class="tab-btn shadcn-tab-item font-medium">
+                        <i data-lucide="cpu" class="w-3.5 h-3.5 text-cyan-500"></i> System Diagnostics (SystemInfoCheck)
+                    </button>
+                    <button data-tab="drives" class="tab-btn shadcn-tab-item font-medium">
+                        <i data-lucide="hard-drive" class="w-3.5 h-3.5 text-amber-500"></i> Storage & Dropper Hunter (DriveOrganiser)
+                    </button>
+                </nav>
+
+                <!-- Level 2: Category 3 - Network Security & AdBlocker -->
+                <nav id="subnav-network" class="level2-subnav shadcn-tabs-nav w-full hidden flex items-center gap-1.5">
+                    <button data-tab="network" class="tab-btn shadcn-tab-item font-medium">
+                        <i data-lucide="globe" class="w-3.5 h-3.5 text-emerald-500"></i> Network Radar & Origin Tracer
+                    </button>
+                    <button data-tab="adblock" class="tab-btn shadcn-tab-item font-medium">
+                        <i data-lucide="shield-ban" class="w-3.5 h-3.5 text-rose-500"></i> AdBlocker & Traffic Analytics
+                    </button>
+                </nav>
+
+                <!-- Level 2: Category 4 - Policies, Persistence & Lab -->
+                <nav id="subnav-policy" class="level2-subnav shadcn-tabs-nav w-full hidden flex items-center gap-1.5">
+                    <button data-tab="policy" class="tab-btn shadcn-tab-item font-medium">
+                        <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-500"></i> Access Rules & Firewall
+                    </button>
+                    <button data-tab="persistence" class="tab-btn shadcn-tab-item font-medium">
+                        <i data-lucide="rocket" class="w-3.5 h-3.5 text-orange-500"></i> Persistence & Startup Hunter
+                    </button>
+                    <button data-tab="simulation" class="tab-btn shadcn-tab-item font-medium">
+                        <i data-lucide="flask-conical" class="w-3.5 h-3.5 text-violet-500"></i> Threat Simulation Lab
+                    </button>
+                </nav>
+
+                <!-- Level 2: Category 5 - Reports & Knowledge -->
+                <nav id="subnav-reports" class="level2-subnav shadcn-tabs-nav w-full hidden flex items-center gap-1.5">
+                    <button data-tab="email" class="tab-btn shadcn-tab-item font-medium">
+                        <i data-lucide="mail" class="w-3.5 h-3.5 text-amber-500"></i> Email Alerts & Posture Reports
+                    </button>
+                    <button data-tab="docs" class="tab-btn shadcn-tab-item font-medium">
+                        <i data-lucide="book-open" class="w-3.5 h-3.5 text-cyan-500"></i> Documentation Hub
+                    </button>
+                </nav>
+            </div>
+        </div>
 
         <!-- ========================================== -->
         <!-- TAB 1: ACTIVE THREATS & REMEDIATION -->

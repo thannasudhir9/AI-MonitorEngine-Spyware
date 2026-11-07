@@ -15,68 +15,94 @@ SCREENSHOTS_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def draw_hud_header(draw, active_tab_title: str):
-    """Render top cyber SOC navigation header and status badges."""
+    """Render top cyber SOC navigation header with Two-Level (Level 1 / Level 2) structured navigation."""
     # Top bar
-    draw.rectangle([(0, 0), (1600, 75)], fill=(11, 17, 30), outline=(30, 41, 59))
+    draw.rectangle([(0, 0), (1600, 72)], fill=(11, 17, 30), outline=(30, 41, 59))
     
     # Brand
-    draw.rectangle([(25, 18), (65, 58)], fill=(15, 23, 42), outline=(6, 182, 212), width=2)
-    draw.text((33, 24), "🛡", fill=(6, 182, 212))
-    draw.text((80, 20), "AI Monitoring Engine • AdBlocker Engine • Web Tracker • Proc Mon Engine", fill=(255, 255, 255))
-    draw.text((80, 44), "AEGISSHIELD EDR v2.5 | Autonomous Threat Hunter, Proxy Interceptor & Kernel Remediator", fill=(148, 163, 184))
+    draw.rectangle([(25, 16), (65, 56)], fill=(15, 23, 42), outline=(6, 182, 212), width=2)
+    draw.text((33, 22), "🛡", fill=(6, 182, 212))
+    draw.text((80, 18), "AI Monitoring Engine • AdBlocker Engine • Web Tracker • Proc Mon Engine", fill=(255, 255, 255))
+    draw.text((80, 42), "AEGISSHIELD EDR v2.5 | Autonomous Threat Hunter, Proxy Interceptor & Kernel Remediator", fill=(148, 163, 184))
 
     # Center Pill
-    draw.rectangle([(800, 22), (1040, 52)], fill=(16, 185, 129, 30), outline=(16, 185, 129), width=1)
-    draw.ellipse([(815, 33), (823, 41)], fill=(16, 185, 129))
-    draw.text((835, 28), "SYSTEM SECURE | 2026-11-07", fill=(110, 231, 183))
+    draw.rectangle([(800, 20), (1040, 50)], fill=(16, 185, 129, 30), outline=(16, 185, 129), width=1)
+    draw.ellipse([(815, 31), (823, 39)], fill=(16, 185, 129))
+    draw.text((835, 26), "SYSTEM SECURE | 2026-11-07", fill=(110, 231, 183))
 
     # Silent Mode Badge (Notification Sound Removed)
-    draw.rectangle([(1050, 22), (1135, 52)], fill=(30, 41, 59), outline=(71, 85, 105), width=1)
-    draw.text((1060, 29), "🔇 Silent", fill=(148, 163, 184))
+    draw.rectangle([(1050, 20), (1135, 50)], fill=(30, 41, 59), outline=(71, 85, 105), width=1)
+    draw.text((1060, 27), "🔇 Silent", fill=(148, 163, 184))
 
     # Action buttons
-    draw.rectangle([(1145, 22), (1240, 52)], fill=(139, 92, 246, 40), outline=(139, 92, 246), width=1)
-    draw.text((1157, 29), "📧 Email", fill=(216, 180, 254))
+    draw.rectangle([(1145, 20), (1240, 50)], fill=(139, 92, 246, 40), outline=(139, 92, 246), width=1)
+    draw.text((1157, 27), "📧 Email", fill=(216, 180, 254))
 
-    draw.rectangle([(1255, 22), (1350, 52)], fill=(6, 182, 212, 40), outline=(6, 182, 212))
-    draw.text((1268, 29), "📚 Docs", fill=(103, 232, 249))
+    draw.rectangle([(1255, 20), (1350, 50)], fill=(6, 182, 212, 40), outline=(6, 182, 212))
+    draw.text((1268, 27), "📚 Docs", fill=(103, 232, 249))
 
-    draw.rectangle([(1365, 22), (1455, 52)], fill=(6, 182, 212), outline=(6, 182, 212))
-    draw.text((1378, 29), "⚡ Scan", fill=(8, 12, 20))
+    draw.rectangle([(1365, 20), (1455, 50)], fill=(6, 182, 212), outline=(6, 182, 212))
+    draw.text((1378, 27), "⚡ Scan", fill=(8, 12, 20))
 
-    draw.rectangle([(1470, 22), (1575, 52)], fill=(239, 68, 68), outline=(239, 68, 68))
-    draw.text((1482, 29), "🚨 KILL ALL", fill=(255, 255, 255))
+    draw.rectangle([(1470, 20), (1575, 50)], fill=(239, 68, 68), outline=(239, 68, 68))
+    draw.text((1482, 27), "🚨 KILL ALL", fill=(255, 255, 255))
 
-    # Secondary Navigation Tab Bar
-    draw.rectangle([(0, 75), (1600, 120)], fill=(8, 12, 20), outline=(30, 41, 59))
-    tabs = [
-        ("Threats", "Active Threats"),
-        ("Network", "Network Radar"),
-        ("AdBlock", "AdBlocker"),
-        ("RMM", "RMM Hunter"),
-        ("Processes", "Process Mon"),
-        ("Policy", "Access Control"),
-        ("Persistence", "Startup & Run"),
-        ("Simulation", "Simulation Lab"),
-        ("Email", "Email Alerts"),
-        ("Audit", "Incident Audit"),
-        ("Docs", "Documentation")
+    # Determine Active Category & Sub-Tabs
+    t_lower = active_tab_title.lower()
+    if any(k in t_lower for k in ["threat", "rmm", "audit"]):
+        active_cat = "threats"
+    elif any(k in t_lower for k in ["service", "process", "sys", "drive"]):
+        active_cat = "endpoint"
+    elif any(k in t_lower for k in ["network", "adblock"]):
+        active_cat = "network"
+    elif any(k in t_lower for k in ["policy", "persistence", "simulation"]):
+        active_cat = "policy"
+    else:
+        active_cat = "reports"
+
+    # Level 1 Categories Bar
+    draw.rectangle([(0, 72), (1600, 104)], fill=(15, 23, 42), outline=(30, 41, 59))
+    cat_items = [
+        ("threats", "🛡️ Threat Defense & Intel"),
+        ("endpoint", "🖥️ Endpoint & Services"),
+        ("network", "🌐 Network & AdBlocker"),
+        ("policy", "⚙️ Policies & Lab"),
+        ("reports", "📑 Reports & Docs")
     ]
+    cx = 25
+    for cid, clabel in cat_items:
+        is_act = (cid == active_cat)
+        bg = (30, 41, 59) if is_act else (15, 23, 42)
+        bdr = (6, 182, 212) if is_act else (30, 41, 59)
+        col = (6, 182, 212) if is_act else (148, 163, 184)
+        draw.rectangle([(cx, 76), (cx + 295, 100)], fill=bg, outline=bdr, width=1)
+        draw.text((cx + 15, 82), clabel, fill=col)
+        cx += 310
 
-    x = 25
-    for tid, tlabel in tabs:
-        is_active = (tid.lower() in active_tab_title.lower())
-        bg_col = (19, 28, 49) if is_active else (8, 12, 20)
-        border_col = (6, 182, 212) if is_active else (30, 41, 59)
-        text_col = (6, 182, 212) if is_active else (148, 163, 184)
-
-        draw.rectangle([(x, 83), (x + 130, 119)], fill=bg_col, outline=border_col, width=2 if is_active else 1)
-        draw.text((x + 10, 92), tlabel[:16], fill=text_col)
-        x += 140
+    # Level 2 Sub-Nav Bar (Filtered by Active Category)
+    draw.rectangle([(0, 105), (1600, 137)], fill=(8, 12, 20), outline=(30, 41, 59))
+    sub_map = {
+        "threats": [("Threats", "Active Threats"), ("RMM", "RMM Hunter"), ("Audit", "Incident Audit")],
+        "endpoint": [("Services", "Windows Services (services.msc)"), ("Processes", "Live Process Mon"), ("SysInfo", "System Diagnostics"), ("Drives", "Storage & Droppers")],
+        "network": [("Network", "Network Radar & Sockets"), ("AdBlock", "AdBlocker & Proxy")],
+        "policy": [("Policy", "Access Rules & Firewall"), ("Persistence", "Startup & Autoruns"), ("Simulation", "Simulation Lab")],
+        "reports": [("Email", "Email Alerts & Reports"), ("Docs", "Documentation Hub")]
+    }
+    subs = sub_map.get(active_cat, sub_map["threats"])
+    sx = 25
+    for sid, slabel in subs:
+        is_sub_act = (sid.lower() in t_lower) or (len(subs) == 1)
+        sbg = (19, 28, 49) if is_sub_act else (8, 12, 20)
+        sbdr = (6, 182, 212) if is_sub_act else (30, 41, 59)
+        scol = (6, 182, 212) if is_sub_act else (148, 163, 184)
+        sw = 230 if len(slabel) > 16 else 180
+        draw.rectangle([(sx, 109), (sx + sw, 133)], fill=sbg, outline=sbdr, width=1)
+        draw.text((sx + 12, 115), slabel, fill=scol)
+        sx += sw + 10
 
     # SOC Enterprise Footer Bar
     draw.rectangle([(0, 965), (1600, 1000)], fill=(11, 17, 30), outline=(30, 41, 59))
-    draw.text((25, 975), "Process: python.exe (PID: 69360) | Ports: 8888, 8080 | Sub-Apps: AI Monitor: ON, AdBlock: ON, Web Tracker: ON, Proc Mon: ON", fill=(148, 163, 184))
+    draw.text((25, 975), "Process: python.exe (PID: 96080) | Ports: 8888, 8080 | Sub-Apps: AI Monitor: ON, AdBlock: ON, Web Tracker: ON, Proc Mon: ON", fill=(148, 163, 184))
     draw.text((1080, 975), "Support with ❤️ - Sudhir Kumar Thanna | v2.5.0-SOC-Enterprise", fill=(6, 182, 212))
 
 
@@ -639,7 +665,7 @@ def render_private_mode_view():
 
 
 def render_light_mode_view():
-    """Render 12: Light Clean SOC Mode (Daylight Theme)."""
+    """Render 12: Light Clean SOC Mode (Daylight Theme with Shadcn UI & Modern Fonts)."""
     img = Image.new("RGB", (1600, 1000), color=(248, 250, 252))
     d = ImageDraw.Draw(img)
 
@@ -647,76 +673,103 @@ def render_light_mode_view():
     d.rectangle([(0, 0), (1600, 75)], fill=(255, 255, 255), outline=(226, 232, 240))
     d.rectangle([(25, 18), (65, 58)], fill=(241, 245, 249), outline=(2, 132, 199), width=2)
     d.text((33, 24), "🛡", fill=(2, 132, 199))
-    d.text((80, 22), "AEGISSHIELD EDR v2.0 (LIGHT SOC MODE)", fill=(15, 23, 42))
-    d.text((80, 44), "Daylight Clean SOC Theme - All Subsystems Operational", fill=(100, 116, 139))
+    d.text((80, 22), "AI Monitoring Engine • AdBlocker • Web Tracker • Proc Mon | AEGISSHIELD", fill=(15, 23, 42))
+    d.text((80, 44), "Daylight Clean SOC Theme • Shadcn & Bootstrap Design Tokens • WCAG AAA High Contrast", fill=(71, 85, 105))
 
     # Center Pill
-    d.rectangle([(620, 22), (980, 52)], fill=(236, 253, 245), outline=(16, 185, 129), width=1)
-    d.ellipse([(635, 33), (643, 41)], fill=(16, 185, 129))
-    d.text((655, 28), "SYSTEM PROTECTED & SECURE | 2026-11-07 07:55:00", fill=(5, 150, 105))
+    d.rectangle([(750, 22), (1050, 52)], fill=(240, 253, 244), outline=(187, 247, 208), width=1)
+    d.ellipse([(765, 33), (773, 41)], fill=(22, 163, 74))
+    d.text((785, 28), "SYSTEM PROTECTED & SECURE", fill=(21, 128, 61))
 
-    # Header Buttons
-    d.rectangle([(1020, 22), (1130, 52)], fill=(254, 243, 199), outline=(245, 158, 11))
-    d.text((1035, 29), "🌙 Dark Mode", fill=(180, 83, 9))
+    # Header Action Buttons (Shadcn Outline Style)
+    d.rectangle([(1065, 22), (1165, 52)], fill=(255, 255, 255), outline=(226, 232, 240))
+    d.text((1078, 29), "🌙 Dark Mode", fill=(15, 23, 42))
 
-    d.rectangle([(1145, 22), (1265, 52)], fill=(243, 232, 255), outline=(168, 85, 247))
-    d.text((1158, 29), "📧 Email Report", fill=(126, 34, 206))
+    d.rectangle([(1175, 22), (1255, 52)], fill=(255, 255, 255), outline=(226, 232, 240))
+    d.text((1188, 29), "🔇 Silent", fill=(71, 85, 105))
 
-    d.rectangle([(1280, 22), (1390, 52)], fill=(2, 132, 199), outline=(2, 132, 199))
-    d.text((1295, 29), "⚡ Deep Scan", fill=(255, 255, 255))
+    d.rectangle([(1265, 22), (1375, 52)], fill=(255, 255, 255), outline=(226, 232, 240))
+    d.text((1278, 29), "📧 Email Report", fill=(15, 23, 42))
 
-    d.rectangle([(1405, 22), (1575, 52)], fill=(239, 68, 68), outline=(220, 38, 38))
-    d.text((1420, 29), "🚨 KILL ALL THREATS", fill=(255, 255, 255))
+    d.rectangle([(1385, 22), (1475, 52)], fill=(2, 132, 199), outline=(2, 132, 199))
+    d.text((1398, 29), "⚡ Deep Scan", fill=(255, 255, 255))
 
-    # Tab bar
-    d.rectangle([(0, 75), (1600, 120)], fill=(241, 245, 249), outline=(226, 232, 240))
-    d.text((45, 90), "[Active Threats]", fill=(2, 132, 199))
-    d.text((180, 90), "Network Radar", fill=(100, 116, 139))
-    d.text((315, 90), "AdBlocker & Analytics", fill=(100, 116, 139))
-    d.text((490, 90), "Remote Control Hunter", fill=(100, 116, 139))
-    d.text((670, 90), "Process Monitor", fill=(100, 116, 139))
+    d.rectangle([(1485, 22), (1575, 52)], fill=(220, 38, 38), outline=(185, 28, 28))
+    d.text((1495, 29), "🚨 KILL ALL", fill=(255, 255, 255))
 
-    # Metric Cards in Light Mode
+    # Shadcn Segmented Tab Navigation Bar
+    d.rectangle([(25, 83), (1575, 123)], fill=(241, 245, 249), outline=(226, 232, 240))
+    tabs = [
+        ("Active Threats", True),
+        ("Services (services.msc)", False),
+        ("System Diagnostics", False),
+        ("Storage & Dropper", False),
+        ("Network Radar", False),
+        ("AdBlocker", False),
+        ("RMM Hunter", False),
+        ("Process Mon", False),
+        ("Access Rules", False),
+        ("Docs Hub", False)
+    ]
+    tx = 32
+    for tname, is_act in tabs:
+        tw = 145 if "services" in tname.lower() else (125 if "diagnostics" in tname.lower() or "dropper" in tname.lower() else 110)
+        if is_act:
+            d.rectangle([(tx, 88), (tx + tw, 118)], fill=(255, 255, 255), outline=(203, 213, 225), width=1)
+            d.text((tx + 10, 95), tname, fill=(2, 132, 199))
+        else:
+            d.text((tx + 10, 95), tname, fill=(71, 85, 105))
+        tx += tw + 8
+
+    # Metric Cards in Light Mode (6 KPI Grid)
     cards = [
-        ("ACTIVE THREATS", "0 DETECTED", "All Host Trees Clean", (5, 150, 105)),
-        ("SYSTEM HEALTH", "100%", "Optimal Security Integrity", (5, 150, 105)),
-        ("ACTIVE PROCESSES", "144 RUNNING", "Verified Executable Paths", (2, 132, 199)),
-        ("NETWORK SOCKETS", "18 MONITORED", "Legitimate CDN Endpoints", (2, 132, 199))
+        ("ACTIVE PROCS", "152 PIDs", "CPU: 4.8% | RAM: 64%", (226, 232, 240), (15, 23, 42)),
+        ("CRITICAL THREATS", "0 Severe", "Risk Score >= 75", (254, 202, 202), (185, 28, 28)),
+        ("SUSPICIOUS", "0 Anomalies", "Heuristics & Droppers", (253, 230, 138), (180, 83, 9)),
+        ("REMOTE / RMM", "0 Active", "AnyDesk, TeamViewer", (186, 230, 253), (3, 105, 161)),
+        ("SYS & STORAGE", "46% Used", "951 GB Disk Pool", (199, 210, 254), (67, 56, 202)),
+        ("HEALTH INDEX", "100% Secure", "Verified Audit Trail", (187, 247, 208), (21, 128, 61))
     ]
     cx = 25
-    for title, val, sub, col in cards:
-        d.rectangle([(cx, 140), (cx + 365, 235)], fill=(255, 255, 255), outline=(226, 232, 240))
-        d.text((cx + 20, 155), title, fill=(100, 116, 139))
-        d.text((cx + 20, 180), val, fill=col)
-        d.text((cx + 20, 210), sub, fill=(148, 163, 184))
-        cx += 395
+    for title, val, sub, border_col, val_col in cards:
+        d.rectangle([(cx, 135), (cx + 245, 225)], fill=(255, 255, 255), outline=border_col, width=1)
+        d.text((cx + 15, 147), title, fill=(71, 85, 105))
+        d.text((cx + 15, 169), val, fill=val_col)
+        d.text((cx + 15, 199), sub, fill=(100, 116, 139))
+        cx += 260
 
-    # Main Table
-    d.rectangle([(25, 260), (1575, 960)], fill=(255, 255, 255), outline=(226, 232, 240))
-    d.rectangle([(25, 260), (1575, 305)], fill=(241, 245, 249), outline=(226, 232, 240))
+    # Main Data Table Card (Shadcn Table Style)
+    d.rectangle([(25, 240), (1575, 955)], fill=(255, 255, 255), outline=(226, 232, 240))
+    d.rectangle([(25, 240), (1575, 280)], fill=(248, 250, 252), outline=(226, 232, 240))
 
-    d.text((45, 275), "PID & BINARY NAME", fill=(71, 85, 105))
-    d.text((350, 275), "EXECUTABLE PATH & USER", fill=(71, 85, 105))
-    d.text((1050, 275), "THREAT SCORE & HEURISTIC CLASSIFICATION", fill=(71, 85, 105))
-    d.text((1420, 275), "STATUS BADGE", fill=(71, 85, 105))
+    d.text((45, 254), "PID & PROCESS NAME", fill=(71, 85, 105))
+    d.text((320, 254), "EXECUTABLE PATH & USER INTEGRITY", fill=(71, 85, 105))
+    d.text((900, 254), "HEURISTIC & BEHAVIORAL VERDICT", fill=(71, 85, 105))
+    d.text((1350, 254), "STATUS BADGE", fill=(71, 85, 105))
 
     procs = [
-        ("system (PID: 4)", "C:\\Windows\\System32\\ntoskrnl.exe | NT AUTHORITY\\SYSTEM", "Score: 0 - Verified OS Kernel Component", "SAFE", (5, 150, 105)),
-        ("svchost.exe (PID: 1240)", "C:\\Windows\\System32\\svchost.exe | NETWORK SERVICE", "Score: 0 - Legitimate RPC Host Service", "SAFE", (5, 150, 105)),
-        ("chrome.exe (PID: 4890)", "C:\\Program Files\\Google\\Chrome\\chrome.exe | User", "Score: 5 - Verified Digital Authenticode", "SAFE", (5, 150, 105)),
-        ("python.exe (PID: 35612)", "C:\\Python314\\python.exe | User", "Score: 0 - AegisShield Daemon Process", "SAFE", (5, 150, 105))
+        ("system (PID: 4)", "C:\\Windows\\System32\\ntoskrnl.exe | NT AUTHORITY\\SYSTEM", "Score: 0 - Verified OS Kernel Component", "SAFE", (240, 253, 244), (187, 247, 208), (21, 128, 61)),
+        ("svchost.exe (PID: 1240)", "C:\\Windows\\System32\\svchost.exe | NETWORK SERVICE", "Score: 0 - Legitimate RPC Host Service", "SAFE", (240, 253, 244), (187, 247, 208), (21, 128, 61)),
+        ("chrome.exe (PID: 4890)", "C:\\Program Files\\Google\\Chrome\\chrome.exe | User", "Score: 5 - Verified Digital Authenticode", "SAFE", (240, 253, 244), (187, 247, 208), (21, 128, 61)),
+        ("python.exe (PID: 96080)", "C:\\Python314\\python.exe | User (Port 8888, 8080)", "Score: 0 - AegisShield EDR Active Daemon", "SAFE", (240, 253, 244), (187, 247, 208), (21, 128, 61)),
+        ("SearchHost.exe (PID: 8820)", "C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS | User", "Score: 0 - Windows Desktop Search Indexer", "SAFE", (240, 253, 244), (187, 247, 208), (21, 128, 61))
     ]
 
-    ry = 320
-    for p1, p2, p3, badge, col in procs:
+    ry = 295
+    for p1, p2, p3, badge, bg_col, bdr_col, text_col in procs:
         d.line([(25, ry), (1575, ry)], fill=(241, 245, 249))
-        d.text((45, ry + 15), p1, fill=(15, 23, 42))
-        d.text((350, ry + 15), p2, fill=(51, 65, 85))
-        d.text((1050, ry + 15), p3, fill=col)
+        d.text((45, ry + 12), p1, fill=(15, 23, 42))
+        d.text((320, ry + 12), p2, fill=(51, 65, 85))
+        d.text((900, ry + 12), p3, fill=text_col)
 
-        d.rectangle([(1420, ry + 8), (1540, ry + 36)], fill=(236, 253, 245), outline=col)
-        d.text((1445, ry + 14), badge, fill=col)
-        ry += 55
+        d.rectangle([(1350, ry + 6), (1450, ry + 32)], fill=bg_col, outline=bdr_col)
+        d.text((1375, ry + 11), badge, fill=text_col)
+        ry += 48
+
+    # SOC Footer Bar
+    d.rectangle([(0, 965), (1600, 1000)], fill=(255, 255, 255), outline=(226, 232, 240))
+    d.text((25, 975), "Process: python.exe (PID: 96080) | Ports: 8888, 8080 | Sub-Apps: AI Monitor: ON, AdBlock: ON, Web Tracker: ON, Proc Mon: ON", fill=(71, 85, 105))
+    d.text((1180, 975), "Support with ❤️ - Sudhir Kumar Thanna | v2.5.0-SOC-Enterprise", fill=(2, 132, 199))
 
     img.save(SCREENSHOTS_DIR / "12_light_mode_clean_soc.png")
     print("[✓] Generated 12_light_mode_clean_soc.png")

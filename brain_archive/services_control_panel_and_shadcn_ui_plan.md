@@ -61,3 +61,4 @@ Provides comprehensive inspection and control of Windows Services (equivalent to
 4. **Docs Hub Update:** Add Services Panel and View 18 screenshot to `frontend/docs.html`.
 5. **Testing & Verification:** Run `tools/test_engine.py` (verify 100% pass) and `tools/screenshot_engine.py`.
 6. **Documentation & Git:** Synchronize all docs and push upstream to GitHub `origin/main`.
+

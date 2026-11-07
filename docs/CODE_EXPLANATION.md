@@ -481,6 +481,27 @@ RMM_SERVICE_KEYWORDS = [
 - **`restart_service(name)`**: Sequences `stop_service()` followed by a 1.0-second delay and `start_service()`.
 - **`set_startup_type(name, start_type)`**: Maps input strings (`auto`, `manual`/`demand`, `disabled`) and executes `sc.exe config <name> start= <mode>`.
 
+---
+
+## 24. Two-Level Navigation & Dark Mode State Engine (`frontend/js/app.js` & `frontend/css/dashboard.css`)
+
+### 24.1 Two-Level Hierarchical Navigation Controller
+- **Level 1 Routing (`switchCategory(category, defaultTab)`):**
+  - Manages active state across 5 primary engines: `threats`, `endpoint`, `network`, `policy`, `reports`.
+  - Toggles the `.level2-subnav` containers, exposing only the active category's sub-tabs with zero horizontal overflow scrolling.
+- **Level 2 Sub-Nav Coordinator (`switchTab(tabName)`):**
+  - Maps any sub-tab (`services`, `processes`, `sysinfo`, `drives`, etc.) back to its parent category via `TAB_TO_CATEGORY`.
+  - Dynamically activates target view (`#view-{tabName}`) and triggers specialized data loaders.
+
+### 24.2 Resilient Dark Mode Toggle Engine (`setTheme(theme, notify)`)
+- **DOM Class Synchronization:**
+  - When switching to `'dark'`: Removes `light` and `theme-light` from both `document.documentElement` and `document.body`; adds `dark` and `theme-dark`.
+  - When switching to `'light'`: Removes `dark` and `theme-dark`; adds `light` and `theme-light`.
+  - Stores user preference in `localStorage.setItem('aegis_theme', theme)`.
+- **CSS Strict Overrides:**
+  - Implements `html.dark body, body.dark` overrides with `!important` to force obsidian `#080c14` background, deep card glassmorphism, and neon HUD accents when dark mode is activated.
+
+
 
 
 

@@ -251,5 +251,28 @@ Automatically audits service paths and binary names against known dual-use and r
 - **Restart:** Gracefully sequences stop followed by start.
 - **Startup Mode Configuration:** Validates parameters against `auto`, `demand` (manual), and `disabled`, dispatching `sc.exe config <service_name> start= <mode>`.
 
+---
+
+## 9. Two-Level Structured Navigation & Dual Theme Architecture
+
+### 9.1 Two-Level Non-Scrolling Navigation Pipeline
+- **State Machine:** Maintained by `state.activeCategory` and `state.activeTab` in `frontend/js/app.js`.
+- **Level 1 Category Dispatcher (`switchCategory`):**
+  - Routes requests across 5 primary engines: `threats`, `endpoint`, `network`, `policy`, and `reports`.
+  - Automatically switches visibility of corresponding `#subnav-{category}` containers with zero horizontal scroll overflow.
+- **Level 2 Sub-Nav Coordinator (`switchTab`):**
+  - Coordinates individual view activation (`#view-{tab}`), synchronizes parent category states, and triggers background data loaders (`loadWindowsServices`, `loadSystemInfo`, `loadDriveAnalyzer`, `loadThreatLedger`).
+
+### 9.2 Dual Theme State Synchronizer (`setTheme` / `toggleTheme`)
+- **Bidirectional Class Sync:** Corrected theme toggle mechanics by updating both `document.documentElement` and `document.body`:
+  - **Dark Mode:** Adds `dark` and `theme-dark`; removes `light` and `theme-light`; sets toggle label to `'Light Mode'` and icon to `'sun'`.
+  - **Light Mode:** Adds `light` and `theme-light`; removes `dark` and `theme-dark`; sets toggle label to `'Dark Mode'` and icon to `'moon'`.
+- **CSS Hierarchy Priority:** Implemented explicit `html.dark body` and `body.dark` CSS blocks to guarantee obsidian dark styling when `.dark` is added, preventing style bleed from default light tokens.
+
+### 9.3 All-Pages Table Overhaul & Scrollbar Engine
+- **Custom Thin Scrollbar:** 6px pill-thumb scrollbar with smooth rounded caps (`border-radius: 9999px`) applied globally across `.shadcn-table-scroll` and modal containers.
+- **Sticky Table Headers:** Enabled `sticky top-0 z-10 backdrop-blur-md` across all data tables for constant orientation during large data set inspection.
+
+
 
 

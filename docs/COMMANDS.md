@@ -306,7 +306,7 @@ curl.exe -X POST http://127.0.0.1:8888/api/services/wuauserv/config -H "Content-
 
 ### 8.1 Diagnostic Test Engine Execution
 ```powershell
-# Execute the automated 56-check diagnostic test suite across all 19 subsystems
+# Execute the automated 67-check diagnostic test suite across all 21 subsystems
 python tools/test_engine.py
 
 # Alternatively, run via batch launcher

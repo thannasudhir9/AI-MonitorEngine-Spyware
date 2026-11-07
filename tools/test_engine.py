@@ -397,6 +397,30 @@ def run_all_tests():
     runner.record("Shadcn Segmented Tab Navigation", "shadcn-tabs-nav" in index_content, "Segmented pill tab navigation container mounted")
 
     # ==============================================================
+    # Test Suite 20: Modern Typography, Font Formatting & CSS Engine
+    # ==============================================================
+    print(f"\n{BOLD}[20/20] Testing Typography, Font Formatting & Light Mode CSS Engine...{RESET}")
+    css_path = FRONTEND_DIR / "css" / "dashboard.css"
+    css_content = css_path.read_text(encoding="utf-8") if css_path.exists() else ""
+    
+    runner.record("Plus Jakarta & Inter Font Imports", "Plus+Jakarta+Sans" in css_content and "Inter" in css_content, "Imported Inter, JetBrains Mono & Plus Jakarta Sans")
+    runner.record("Font Smoothing & Tabular Numerics", "optimizeLegibility" in css_content and "tabular-nums" in css_content, "Font smoothing & tabular numeric features active")
+    runner.record("High Contrast Light Mode Text Remapping", "body.theme-light .text-amber-400" in css_content and "body.theme-light .text-cyan-400" in css_content, "WCAG AAA dark semantic text mapped in light mode")
+    runner.record("Solid Button Crisp White Text Rule", "body.theme-light .bg-red-600" in css_content and "color: #ffffff !important" in css_content, "Solid colored action buttons enforce crisp white text")
+    runner.record("Shadcn Light Semantic Badges", "body.theme-light .badge-critical" in css_content and "#fef2f2" in css_content, "Soft pastel backgrounds & rich dark text configured for badges")
+
+    # ==============================================================
+    # Test Suite 21: Two-Level Navigation & Dark Mode Toggle Resilience
+    # ==============================================================
+    print(f"\n{BOLD}[21/21] Testing Two-Level Navigation & Dark Mode Toggle Resilience...{RESET}")
+    runner.record("Level 1 Category Navigation Buttons", "category-btn" in index_content and "data-category=\"threats\"" in index_content, "Level 1 Category buttons mounted")
+    runner.record("Level 2 Sub-Nav Containers", "level2-subnav" in index_content and "id=\"subnav-endpoint\"" in index_content, "Level 2 Sub-Nav containers mounted for each category")
+    runner.record("Two-Level JavaScript Controller", "function switchCategory" in app_js_content and "TAB_TO_CATEGORY" in app_js_content, "switchCategory & TAB_TO_CATEGORY active in app.js")
+    runner.record("Dark Mode Class Switching", "html.classList.add('dark', 'theme-dark')" in app_js_content, "setTheme correctly adds dark/theme-dark classes")
+    runner.record("Dark Mode Strict CSS Priority", "html.dark body" in css_content and "body.theme-dark" in css_content, "Strict .dark overrides present in CSS")
+    runner.record("Custom Table Scrollbars & Styling", ".shadcn-table-scroll" in css_content and "position: sticky" in css_content, "Custom thin scrollbars & sticky headers active")
+
+    # ==============================================================
     # Final Executive Summary
     # ==============================================================
     print(f"\n{CYAN}{BOLD}" + "=" * 64)

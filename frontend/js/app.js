@@ -188,7 +188,7 @@ function initWebSocket() {
             const data = JSON.parse(event.data);
             updateTelemetryDisplay(data);
         };
-        state.telemetryWs.onerror = () => {};
+        state.telemetryWs.onerror = () => { };
     } catch (e) {
         console.warn('WebSocket fallback to polling', e);
     }
@@ -208,6 +208,58 @@ function updateTelemetryDisplay(data) {
     }
 }
 
+// Category and Two-Level Navigation Mappings
+const CATEGORY_DEFAULT_TABS = {
+    threats: 'threats',
+    endpoint: 'services',
+    network: 'network',
+    policy: 'policy',
+    reports: 'email'
+};
+
+const TAB_TO_CATEGORY = {
+    threats: 'threats',
+    rmm: 'threats',
+    audit: 'threats',
+    services: 'endpoint',
+    processes: 'endpoint',
+    sysinfo: 'endpoint',
+    drives: 'endpoint',
+    network: 'network',
+    adblock: 'network',
+    policy: 'policy',
+    persistence: 'policy',
+    simulation: 'policy',
+    email: 'reports',
+    docs: 'reports'
+};
+
+function switchCategory(category, defaultTab = null) {
+    state.activeCategory = category;
+
+    // 1. Level 1 Active Category Buttons
+    document.querySelectorAll('.category-btn').forEach(btn => {
+        if (btn.dataset.category === category) {
+            btn.classList.add('active', 'font-bold');
+            btn.classList.remove('font-medium');
+        } else {
+            btn.classList.remove('active', 'font-bold');
+            btn.classList.add('font-medium');
+        }
+    });
+
+    // 2. Show Target Level 2 Sub-Nav Container
+    document.querySelectorAll('.level2-subnav').forEach(nav => {
+        nav.classList.add('hidden');
+    });
+    const subnav = document.getElementById(`subnav-${category}`);
+    if (subnav) subnav.classList.remove('hidden');
+
+    // 3. Switch to Target Tab
+    const targetTab = defaultTab || CATEGORY_DEFAULT_TABS[category] || 'threats';
+    switchTab(targetTab);
+}
+
 // Tab Switching
 function initTabs() {
     const tabButtons = document.querySelectorAll('.tab-btn');
@@ -221,18 +273,37 @@ function initTabs() {
 
 function switchTab(tabName) {
     state.activeTab = tabName;
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        if (btn.dataset.tab === tabName) {
-            btn.classList.add('active', 'font-semibold');
-            btn.classList.add('bg-cyan-500/20', 'text-cyan-300', 'border-cyan-500');
-            btn.classList.remove('text-slate-400', 'border-transparent');
+    const cat = TAB_TO_CATEGORY[tabName] || 'threats';
+    state.activeCategory = cat;
+
+    // 1. Sync Level 1 Category Active State
+    document.querySelectorAll('.category-btn').forEach(btn => {
+        if (btn.dataset.category === cat) {
+            btn.classList.add('active', 'font-bold');
+            btn.classList.remove('font-medium');
         } else {
-            btn.classList.remove('active', 'font-semibold');
-            btn.classList.remove('bg-cyan-500/20', 'text-cyan-300', 'border-cyan-500');
-            btn.classList.add('text-slate-400', 'border-transparent');
+            btn.classList.remove('active', 'font-bold');
+            btn.classList.add('font-medium');
         }
     });
 
+    // 2. Show Matching Level 2 Sub-Nav
+    document.querySelectorAll('.level2-subnav').forEach(nav => {
+        nav.classList.add('hidden');
+    });
+    const subnav = document.getElementById(`subnav-${cat}`);
+    if (subnav) subnav.classList.remove('hidden');
+
+    // 3. Update Level 2 Sub-Tab Button Active States
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        if (btn.dataset.tab === tabName) {
+            btn.classList.add('active', 'font-semibold');
+        } else {
+            btn.classList.remove('active', 'font-semibold');
+        }
+    });
+
+    // 4. Hide all Views, Display Active View
     document.querySelectorAll('.tab-content').forEach(view => {
         view.classList.add('hidden');
     });
@@ -240,6 +311,7 @@ function switchTab(tabName) {
     const activeView = document.getElementById(`view-${tabName}`);
     if (activeView) activeView.classList.remove('hidden');
 
+    // 5. Data Loaders
     if (tabName === 'services') loadWindowsServices();
     if (tabName === 'sysinfo') loadSystemInfo();
     if (tabName === 'drives') loadDriveAnalyzer();
@@ -1016,7 +1088,7 @@ function renderServicesTable() {
     tbody.innerHTML = services.map(svc => {
         const isRunning = svc.is_running;
         const isRmm = svc.is_rmm;
-        
+
         let statusBadge = '';
         if (isRmm) {
             statusBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono badge-critical flex items-center gap-1 w-max"><span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span> RMM / THREAT</span>`;
@@ -1026,7 +1098,7 @@ function renderServicesTable() {
             statusBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-slate-100 text-slate-600 border border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700 flex items-center gap-1 w-max">STOPPED</span>`;
         }
 
-        const pidBadge = svc.pid && svc.pid > 0 ? 
+        const pidBadge = svc.pid && svc.pid > 0 ?
             `<span class="px-2 py-0.5 rounded text-[11px] font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">PID ${svc.pid}</span>` :
             `<span class="text-slate-400 text-[11px]">—</span>`;
 
@@ -1465,7 +1537,7 @@ function renderProcessTable(processes) {
 
     if (state.searchQuery.trim()) {
         const q = state.searchQuery.toLowerCase();
-        filtered = filtered.filter(p => 
+        filtered = filtered.filter(p =>
             p.name.toLowerCase().includes(q) ||
             p.pid.toString().includes(q) ||
             p.exe.toLowerCase().includes(q) ||
@@ -2448,8 +2520,8 @@ function toggleAutoRefresh() {
     state.autoRefresh = !state.autoRefresh;
     const btn = document.getElementById('btn-auto-refresh');
     if (btn) {
-        btn.innerHTML = state.autoRefresh ? 
-            `<i data-lucide="refresh-cw" class="w-4 h-4 text-emerald-400 animate-spin"></i> Auto-Refresh: ON` : 
+        btn.innerHTML = state.autoRefresh ?
+            `<i data-lucide="refresh-cw" class="w-4 h-4 text-emerald-400 animate-spin"></i> Auto-Refresh: ON` :
             `<i data-lucide="pause" class="w-4 h-4 text-slate-400"></i> Auto-Refresh: PAUSED`;
         if (window.lucide) lucide.createIcons();
     }
@@ -2480,11 +2552,11 @@ async function loadAdBlockDashboard() {
         const proxyBtnText = document.getElementById('proxy-btn-text');
 
         if (pill) {
-            pill.className = status.system_proxy_enabled ? 
-                'px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center gap-1.5' : 
+            pill.className = status.system_proxy_enabled ?
+                'px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center gap-1.5' :
                 'px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700';
-            pill.innerHTML = status.system_proxy_enabled ? 
-                '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Proxy: Active (All Browsers Protected)' : 
+            pill.innerHTML = status.system_proxy_enabled ?
+                '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Proxy: Active (All Browsers Protected)' :
                 'Proxy: Port 8080 Active (Direct Connection)';
         }
 
@@ -2629,8 +2701,8 @@ function renderTrafficTable(traffic) {
     }
 
     tbody.innerHTML = filtered.slice(0, 150).map(r => {
-        const statusBadge = r.is_blocked ? 
-            '<span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold badge-critical">BLOCKED</span>' : 
+        const statusBadge = r.is_blocked ?
+            '<span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold badge-critical">BLOCKED</span>' :
             '<span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold badge-safe">ALLOWED</span>';
 
         return `
@@ -2709,8 +2781,10 @@ function initTheme() {
 }
 
 function toggleTheme() {
-    const currentTheme = document.body.classList.contains('theme-light') ? 'light' : 'dark';
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    const isDark = document.documentElement.classList.contains('dark') || 
+                   document.body.classList.contains('dark') ||
+                   document.body.classList.contains('theme-dark');
+    const newTheme = isDark ? 'light' : 'dark';
     setTheme(newTheme, true);
 }
 
@@ -2719,20 +2793,29 @@ function setTheme(theme, notify = true) {
     const label = document.getElementById('theme-toggle-label');
     const icon = document.getElementById('theme-toggle-icon');
 
-    if (theme === 'light') {
-        document.body.classList.add('theme-light');
-        document.documentElement.classList.add('theme-light');
-        if (label) label.innerText = 'Dark Mode';
-        if (icon) icon.setAttribute('data-lucide', 'moon');
-        localStorage.setItem('aegis_theme', 'light');
-        if (notify) showToast('Light Mode Activated', 'Clean daylight SOC interface applied', 'info');
-    } else {
-        document.body.classList.remove('theme-light');
-        document.documentElement.classList.remove('theme-light');
+    const html = document.documentElement;
+    const body = document.body;
+
+    if (theme === 'dark') {
+        html.classList.remove('light', 'theme-light');
+        html.classList.add('dark', 'theme-dark');
+        body.classList.remove('light', 'theme-light', 'bg-slate-50', 'text-slate-900');
+        body.classList.add('dark', 'theme-dark', 'bg-slate-900', 'text-slate-100');
+
         if (label) label.innerText = 'Light Mode';
         if (icon) icon.setAttribute('data-lucide', 'sun');
         localStorage.setItem('aegis_theme', 'dark');
         if (notify) showToast('Dark Mode Activated', 'Dark cyber SOC theme restored', 'info');
+    } else {
+        html.classList.remove('dark', 'theme-dark');
+        html.classList.add('light', 'theme-light');
+        body.classList.remove('dark', 'theme-dark', 'bg-slate-900', 'text-slate-100');
+        body.classList.add('light', 'theme-light', 'bg-slate-50', 'text-slate-900');
+
+        if (label) label.innerText = 'Dark Mode';
+        if (icon) icon.setAttribute('data-lucide', 'moon');
+        localStorage.setItem('aegis_theme', 'light');
+        if (notify) showToast('Light Mode Activated', 'Clean daylight SOC interface applied', 'info');
     }
     if (window.lucide) lucide.createIcons();
 }

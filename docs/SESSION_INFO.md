@@ -13,7 +13,7 @@
 **Upstream GitHub Remote:** `https://github.com/thannasudhir9/AI-MonitorEngine-Spyware.git` (Branch: `main`)  
 **Lead Security Engineer & Author:** Sudhir Kumar Thanna  
 **Author Attribution:** `Support with ❤️ - Sudhir Kumar Thanna`  
-**Current Deployed Version:** `v2.7.0-Enterprise-Services (Build 2026.11.07-STABLE)`  
+**Current Deployed Version:** `v2.8.0-Enterprise-TwoLevelNav (Build 2026.11.07-STABLE)`  
 **Operating Policy:** `create, update, append - always`  
 
 ---
@@ -54,18 +54,20 @@
 
 ## 3. Automated Verification & Artifact Metrics
 
-- **Diagnostic Test Engine (`tools/test_engine.py`):** **56/56 Passed (100.0% Success Rate)** across 19 distinct subsystem test suites.
+- **Diagnostic Test Engine (`tools/test_engine.py`):** **67/67 Passed (100.0% Success Rate)** across 21 distinct subsystem test suites.
 - **High-Definition Screenshot Engine (`tools/screenshot_engine.py`):** **18 HD 1600x1000 PNG screenshots** generated in `screenshots/`.
 - **Integrated External Repositories:**
   1. `https://github.com/thannasudhir9/SystemInfoCheck` (Hardware telemetry, 24 CPU cores, RAM/swap, NIC adapters, security baseline).
   2. `https://github.com/thannasudhir9/DriveOrganiserAndAnalyzer-AG2.0` (Drive partitions, storage capacity gauges, malware dropper staging hunter, 1-click temp cleanup).
-- **Brain Artifact Mirroring:** All 6 brain artifacts synchronized with `brain_archive/`:
+- **Brain Artifact Mirroring:** All 8 brain artifacts synchronized with `brain_archive/`:
   - `plan.md`
   - `adblocker_plan.md`
   - `continuous_sync_and_memory_protocol.md`
   - `future_scope_and_roadmap_plan.md`
   - `systeminfo_and_drive_integration_plan.md`
   - `services_control_panel_and_shadcn_ui_plan.md`
+  - `light_mode_typography_and_shadcn_css_plan.md`
+  - `two_level_nav_and_dark_mode_fix_plan.md`
 
 ---
 

@@ -81,7 +81,7 @@ SpywareProcessMon/
 │
 ├── tools/                                  # Diagnostic and Visual Engines
 │   ├── screenshot_engine.py                # High-definition Pillow dashboard renderer generating 18 screenshots
-│   └── test_engine.py                      # Master automated diagnostic suite (56/56 unit & integration checks)
+│   └── test_engine.py                      # Master automated diagnostic suite (67/67 unit & integration checks)
 │
 ├── brain_archive/                          # Complete Mirror of Session State & Brain Files
 │   ├── plan.md                             # Initial master development plan
@@ -90,6 +90,8 @@ SpywareProcessMon/
 │   ├── future_scope_and_roadmap_plan.md    # Strategic future roadmap & autonomous defense blueprint
 │   ├── systeminfo_and_drive_integration_plan.md # SystemInfoCheck & DriveOrganiser integration plan
 │   ├── services_control_panel_and_shadcn_ui_plan.md # Windows Services control panel & Shadcn UI plan
+│   ├── light_mode_typography_and_shadcn_css_plan.md # Light mode typography & modern CSS plan
+│   ├── two_level_nav_and_dark_mode_fix_plan.md # Two-Level navigation & Dark Mode toggle fix plan
 │   └── .system_generated/                  # Transcripts, logs, steps and task states
 │
 ├── cli_scanner.py                          # Unified Terminal CLI tool for scanning, rules & remediation
@@ -126,8 +128,8 @@ SpywareProcessMon/
 | `backend/network_tracer.py` | Audits process sockets, resolves reverse DNS, scores origin genuineness | `database/geo_cache.json` | `server.py`, `cli_scanner.py` |
 | `backend/policy_engine.py` | Manages Whitelist/Blacklist rules and syncs Windows Firewall rules | `database/policy_rules.json`, `netsh` | `detector.py`, `server.py`, `cli_scanner.py` |
 | `backend/email_notifier.py` | Generates executive HTML threat reports and dispatches via SMTP/Resend | `database/email_config.json`, `smtplib`| `server.py`, `cli_scanner.py` |
-| `frontend/app.js` | Drives 12 dashboard tabs, handles WebSockets, live charts & user actions | `frontend/index.html` | User / Operator |
-| `tools/test_engine.py` | 56-step automated verification suite testing all 19 subsystems | All backend modules | CI/CD, Quality Assurance |
+| `frontend/app.js` | Drives Two-Level (Level 1 / Level 2) non-scrolling nav, dark/light theme, WebSockets & actions | `frontend/index.html` | User / Operator |
+| `tools/test_engine.py` | 67-step automated verification suite testing all 21 subsystems | All backend modules | CI/CD, Quality Assurance |
 | `tools/screenshot_engine.py` | Pillow-based visual engine generating 18 HD 1600x1000 screenshots | Pillow (`PIL`) | Documentation, Review |
 
 ---

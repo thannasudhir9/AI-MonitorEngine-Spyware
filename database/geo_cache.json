@@ -790,5 +790,93 @@
     "is_genuine": false,
     "is_private": false,
     "confidence": 60
+  },
+  "2001:4860:4821:600::": {
+    "ip": "2001:4860:4821:600::",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "51.132.193.106": {
+    "ip": "51.132.193.106",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "2a02:26f0:3500:12::1730:1794": {
+    "ip": "2a02:26f0:3500:12::1730:1794",
+    "hostname": "g2a02-26f0-3500-0012-0000-0000-1730-1794.deploy.static.akamaitechnologies.com",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "Akamai",
+    "verdict": "GENUINE CLOUD / CDN",
+    "is_genuine": true,
+    "is_private": false,
+    "confidence": 95
+  },
+  "20.184.175.6": {
+    "ip": "20.184.175.6",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "2.18.64.33": {
+    "ip": "2.18.64.33",
+    "hostname": "a2-18-64-33.deploy.static.akamaitechnologies.com",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "Akamai",
+    "verdict": "GENUINE CLOUD / CDN",
+    "is_genuine": true,
+    "is_private": false,
+    "confidence": 95
+  },
+  "2a02:26f0:3500:1003::1732:830c": {
+    "ip": "2a02:26f0:3500:1003::1732:830c",
+    "hostname": "g2a02-26f0-3500-1003-0000-0000-1732-830c.deploy.static.akamaitechnologies.com",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "Akamai",
+    "verdict": "GENUINE CLOUD / CDN",
+    "is_genuine": true,
+    "is_private": false,
+    "confidence": 95
+  },
+  "2a02:26f0:3500:1001::1732:83cf": {
+    "ip": "2a02:26f0:3500:1001::1732:83cf",
+    "hostname": "g2a02-26f0-3500-1001-0000-0000-1732-83cf.deploy.static.akamaitechnologies.com",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "Akamai",
+    "verdict": "GENUINE CLOUD / CDN",
+    "is_genuine": true,
+    "is_private": false,
+    "confidence": 95
+  },
+  "2a00:1450:4001:c25::5e": {
+    "ip": "2a00:1450:4001:c25::5e",
+    "hostname": "lcfraw-in-f94.1e100.net",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "Google / GCP",
+    "verdict": "GENUINE CLOUD / CDN",
+    "is_genuine": true,
+    "is_private": false,
+    "confidence": 95
   }
 }

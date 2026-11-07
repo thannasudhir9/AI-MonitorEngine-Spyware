@@ -262,7 +262,7 @@ sequenceDiagram
 flowchart LR
     DevSession["AI Coding Session\n(Runtime Agent)"] -->|Transcripts & Logs| Brain["Agent Brain\n(.gemini/antigravity/brain)"]
     Brain -->|Auto Sync & Mirror| Archive["brain_archive/\n(Project Folder)"]
-    DevSession -->|Generate & Verify| TestEngine["tools/test_engine.py\n(56/56 Automated Tests)"]
+    DevSession -->|Generate & Verify| TestEngine["tools/test_engine.py\n(67/67 Automated Tests)"]
     DevSession -->|Render 1600x1000 PNGs| ScreenEngine["tools/screenshot_engine.py\n(18 Screenshots in screenshots/)"]
     TestEngine --> GitCommit["Git Staging & Commit"]
     ScreenEngine --> GitCommit
@@ -406,6 +406,18 @@ Per user directive, intrusive audio chimes on threat detections, process termina
 - **Smooth Thin Scrollbars:** Replaced clunky native browser scrollbars with custom 6px webkit scrollbars with pill thumbs (`border-radius: 9999px`) across all data tables and modals.
 - **Sticky Table Headers:** Enabled `sticky top-0 z-10 backdrop-blur` across all tables for continuous column orientation during large data set inspection.
 - **Default Light Clean SOC Mode:** System initializes in Light Mode by default (`class="light theme-light"`), pairing soft background tones with dark slate text for maximum legibility in daylight environments while maintaining instant 1-click toggle to Dark Cyber SOC Mode.
+
+### 8.13 Two-Level (Level 1 / Level 2) Structured Navigation & Resilient Theming Architecture
+- **Non-Scrolling Two-Tier Nav Architecture:**
+  - **Level 1 (5 High-Level SOC Categories):** `Threat Defense & Intel`, `Endpoint & System Monitor`, `Network & AdBlocker`, `Policies & Lab`, `Reports & Docs`.
+  - **Level 2 (Active Sub-Tab Containers):** Contextual secondary pill strip immediately visible below Level 1, dynamically activated based on parent selection. Eliminates horizontal overflow scrolling across all 14 application views.
+- **Dark Mode Toggle Fix Architecture:**
+  - Resolved theme lock by synchronizing both `dark`/`theme-dark` and `light`/`theme-light` classes across `document.documentElement` and `document.body`.
+  - Implemented explicit `.dark` overrides in `frontend/css/dashboard.css` ensuring obsidian background `#080c14`, deep card glassmorphism (`rgba(19, 28, 49, 0.75)`), and neon cyber HUD accents activate instantaneously upon clicking the theme toggle.
+- **All-Pages Table Overhaul:**
+  - Modernized data grids across Windows Services, Process Monitor, Network Radar, AdBlocker Logs, Threat Ledgers, and Dropper Hunter.
+  - Pinned sticky headers (`backdrop-blur-md`), compact 10px padding, tabular monospace numerical alignment, and WCAG AAA compliant semantic status badges.
+
 
 
 

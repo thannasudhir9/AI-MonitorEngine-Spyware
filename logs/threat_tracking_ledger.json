@@ -59,8 +59,8 @@
     "key": "exe_c:\\program files (x86)\\anydesk\\anydesk.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:40:34.796326",
-    "last_seen_display": "2026-11-07 10:40:34",
+    "last_seen": "2026-11-07T11:08:01.639744",
+    "last_seen_display": "2026-11-07 11:08:01",
     "pid": 5824,
     "name": "AnyDesk.exe",
     "exe": "C:\\Program Files (x86)\\AnyDesk\\AnyDesk.exe",
@@ -89,7 +89,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 71,
+    "times_observed": 161,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -104,8 +104,8 @@
     "key": "exe_c:\\windows\\system32\\cmd.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:40:34.796326",
-    "last_seen_display": "2026-11-07 10:40:34",
+    "last_seen": "2026-11-07T11:08:01.639744",
+    "last_seen_display": "2026-11-07 11:08:01",
     "pid": 22948,
     "name": "cmd.exe",
     "exe": "C:\\Windows\\System32\\cmd.exe",
@@ -122,7 +122,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 73,
+    "times_observed": 169,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -137,8 +137,8 @@
     "key": "exe_c:\\windows\\system32\\wininit.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 1840,
     "name": "wininit.exe",
     "exe": "C:\\Windows\\System32\\wininit.exe",
@@ -155,7 +155,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -170,8 +170,8 @@
     "key": "exe_c:\\windows\\system32\\services.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 1892,
     "name": "services.exe",
     "exe": "C:\\Windows\\System32\\services.exe",
@@ -188,7 +188,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -203,8 +203,8 @@
     "key": "exe_c:\\windows\\system32\\nahimicservice.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 5480,
     "name": "NahimicService.exe",
     "exe": "C:\\Windows\\System32\\NahimicService.exe",
@@ -221,7 +221,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -236,8 +236,8 @@
     "key": "exe_c:\\windows\\system32\\conhost.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 90788,
     "name": "conhost.exe",
     "exe": "C:\\Windows\\System32\\conhost.exe",
@@ -254,7 +254,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 9,
+    "times_observed": 36,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -269,8 +269,8 @@
     "key": "exe_c:\\program files (x86)\\360\\total security\\safemon\\qhsafetray.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 17300,
     "name": "QHSafeTray.exe",
     "exe": "C:\\Program Files (x86)\\360\\Total Security\\safemon\\QHSafeTray.exe",
@@ -287,7 +287,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -302,8 +302,8 @@
     "key": "exe_c:\\program files (x86)\\360\\total security\\softmgr\\safesvr.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 21168,
     "name": "safesvr.exe",
     "exe": "C:\\Program Files (x86)\\360\\Total Security\\softmgr\\safesvr.exe",
@@ -320,7 +320,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -335,9 +335,9 @@
     "key": "exe_c:\\windows\\system32\\searchprotocolhost.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
-    "pid": 26360,
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
+    "pid": 99752,
     "name": "SearchProtocolHost.exe",
     "exe": "C:\\Windows\\System32\\SearchProtocolHost.exe",
     "cmdline": "",
@@ -353,7 +353,7 @@
       }
     ],
     "status": "INACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -366,6 +366,18 @@
         "time_display": "2026-11-07 10:20:17",
         "action": "PROCESS_TERMINATED",
         "details": "Process (PID: 26360) no longer present in process table."
+      },
+      {
+        "timestamp": "2026-11-07T11:02:22.732680",
+        "time_display": "2026-11-07 11:02:22",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 97424) no longer present in process table."
+      },
+      {
+        "timestamp": "2026-11-07T11:06:25.445843",
+        "time_display": "2026-11-07 11:06:25",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 99752) no longer present in process table."
       }
     ]
   },
@@ -374,8 +386,8 @@
     "key": "exe_c:\\windows\\system32\\winlogon.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 45284,
     "name": "winlogon.exe",
     "exe": "C:\\Windows\\System32\\winlogon.exe",
@@ -392,7 +404,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -407,8 +419,8 @@
     "key": "exe_c:\\windows\\system32\\nahimicsvc64.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 23132,
     "name": "NahimicSvc64.exe",
     "exe": "C:\\Windows\\System32\\NahimicSvc64.exe",
@@ -425,7 +437,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -440,8 +452,8 @@
     "key": "exe_c:\\windows\\system32\\driverstore\\filerepository\\lenovofnandfunctionkeys.inf_amd64_5e21bf389d23855a\\fnhotkeyutility.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 23528,
     "name": "FnHotkeyUtility.exe",
     "exe": "C:\\Windows\\System32\\DriverStore\\FileRepository\\lenovofnandfunctionkeys.inf_amd64_5e21bf389d23855a\\FnHotkeyUtility.exe",
@@ -458,7 +470,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -473,8 +485,8 @@
     "key": "exe_c:\\program files\\intel\\sur\\queencreek\\x64\\esrv_svc.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 65544,
     "name": "esrv_svc.exe",
     "exe": "C:\\Program Files\\Intel\\SUR\\QUEENCREEK\\x64\\esrv_svc.exe",
@@ -491,7 +503,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -506,8 +518,8 @@
     "key": "exe_c:\\windows\\system32\\smss.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 992,
     "name": "smss.exe",
     "exe": "C:\\Windows\\System32\\smss.exe",
@@ -524,7 +536,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -539,8 +551,8 @@
     "key": "exe_c:\\program files\\lenovo\\smartengine\\ls_se\\1.4.156.04085\\lenovosmartservice.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 2772,
     "name": "LenovoSmartService.exe",
     "exe": "C:\\Program Files\\Lenovo\\SmartEngine\\ls_se\\1.4.156.04085\\LenovoSmartService.exe",
@@ -557,7 +569,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -572,8 +584,8 @@
     "key": "exe_c:\\windows\\system32\\spoolsv.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 5252,
     "name": "spoolsv.exe",
     "exe": "C:\\Windows\\System32\\spoolsv.exe",
@@ -590,7 +602,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -605,8 +617,8 @@
     "key": "exe_c:\\windows\\system32\\driverstore\\filerepository\\aispeechapo.inf_amd64_16a4b147f70b656b\\aiscontrolservice.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 5812,
     "name": "AISControlService.exe",
     "exe": "C:\\Windows\\System32\\DriverStore\\FileRepository\\aispeechapo.inf_amd64_16a4b147f70b656b\\AISControlService.exe",
@@ -629,7 +641,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -644,8 +656,8 @@
     "key": "exe_c:\\program files\\lenovo\\gamingai\\2.2.0105.1301\\gaservice.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 5876,
     "name": "GAService.exe",
     "exe": "C:\\Program Files\\Lenovo\\GamingAI\\2.2.0105.1301\\GAService.exe",
@@ -662,7 +674,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -677,8 +689,8 @@
     "key": "exe_c:\\program files\\intel\\intel graphics software\\intelgraphicssoftware.service.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 5904,
     "name": "IntelGraphicsSoftware.Service.exe",
     "exe": "C:\\Program Files\\Intel\\Intel Graphics Software\\IntelGraphicsSoftware.Service.exe",
@@ -701,7 +713,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -716,8 +728,8 @@
     "key": "exe_c:\\windows\\system32\\driverstore\\filerepository\\lenovofnandfunctionkeys.inf_amd64_5e21bf389d23855a\\lenovoutilityservice.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 6012,
     "name": "LenovoUtilityService.exe",
     "exe": "C:\\Windows\\System32\\DriverStore\\FileRepository\\lenovofnandfunctionkeys.inf_amd64_5e21bf389d23855a\\LenovoUtilityService.exe",
@@ -734,7 +746,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -749,8 +761,8 @@
     "key": "exe_c:\\windows\\system32\\dashost.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 12144,
     "name": "dasHost.exe",
     "exe": "C:\\Windows\\System32\\dasHost.exe",
@@ -767,7 +779,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 2,
+    "times_observed": 8,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -782,8 +794,8 @@
     "key": "exe_c:\\program files (x86)\\neat download manager\\neatdm.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 22376,
     "name": "NeatDM.exe",
     "exe": "C:\\Program Files (x86)\\Neat Download Manager\\NeatDM.exe",
@@ -800,7 +812,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -815,8 +827,8 @@
     "key": "exe_c:\\windows\\system32\\dwm.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 30700,
     "name": "dwm.exe",
     "exe": "C:\\Windows\\System32\\dwm.exe",
@@ -833,7 +845,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -848,8 +860,8 @@
     "key": "exe_c:\\program files\\intel\\intel graphics software\\intelgraphicssoftware.service.graphics.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 43880,
     "name": "IntelGraphicsSoftware.Service.Graphics.exe",
     "exe": "C:\\Program Files\\Intel\\Intel Graphics Software\\IntelGraphicsSoftware.Service.Graphics.exe",
@@ -872,7 +884,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -887,13 +899,13 @@
     "key": "exe_c:\\users\\thann\\appdata\\local\\microsoft\\onedrive\\26.195.1006.0007\\onedrive.sync.service.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 80140,
     "name": "OneDrive.Sync.Service.exe",
     "exe": "C:\\Users\\thann\\AppData\\Local\\Microsoft\\OneDrive\\26.195.1006.0007\\OneDrive.Sync.Service.exe",
     "cmdline": "C:\\Users\\thann\\AppData\\Local\\Microsoft\\OneDrive\\26.195.1006.0007\\OneDrive.Sync.Service.exe /silentConfig",
-    "threat_score": 35,
+    "threat_score": 50,
     "severity": "LOW",
     "primary_category": "SUSPICIOUS PROCESS",
     "reasons": [
@@ -905,7 +917,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -920,8 +932,8 @@
     "key": "exe_c:\\windows\\system32\\driverstore\\filerepository\\nvlti.inf_amd64_7566d6b2a7331e4e\\display.nvcontainer\\nvdisplay.container.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 35384,
     "name": "NVDisplay.Container.exe",
     "exe": "C:\\Windows\\System32\\DriverStore\\FileRepository\\nvlti.inf_amd64_7566d6b2a7331e4e\\Display.NvContainer\\NVDisplay.Container.exe",
@@ -938,7 +950,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 2,
+    "times_observed": 8,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -953,9 +965,9 @@
     "key": "exe_c:\\windows\\system32\\svchost.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
-    "pid": 92964,
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
+    "pid": 96628,
     "name": "svchost.exe",
     "exe": "C:\\Windows\\System32\\svchost.exe",
     "cmdline": "",
@@ -971,13 +983,19 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 98,
+    "times_observed": 389,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 20 [SAFE] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T10:43:35.312737",
+        "time_display": "2026-11-07 10:43:35",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 92964) no longer present in process table."
       }
     ]
   },
@@ -986,77 +1004,11 @@
     "key": "exe_c:\\program files (x86)\\360\\total security\\safemon\\qhactivedefense.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 4396,
     "name": "QHActiveDefense.exe",
     "exe": "C:\\Program Files (x86)\\360\\Total Security\\safemon\\QHActiveDefense.exe",
-    "cmdline": "",
-    "threat_score": 20,
-    "severity": "SAFE",
-    "primary_category": "SUSPICIOUS PROCESS",
-    "reasons": [
-      {
-        "vector": "Suspicious API Imports",
-        "severity": "MEDIUM",
-        "score": 20,
-        "detail": "Binary imports dangerous APIs (OpenProcessToken, IsDebuggerPresent)."
-      }
-    ],
-    "status": "ACTIVE",
-    "times_observed": 1,
-    "history": [
-      {
-        "timestamp": "2026-11-07T10:19:25.538882",
-        "time_display": "2026-11-07 10:19:25",
-        "action": "FLAGGED",
-        "details": "First detected with risk score 20 [SAFE] (SUSPICIOUS PROCESS)"
-      }
-    ]
-  },
-  "exe_c:\\program files\\asus\\rog usb-be92 setup\\wifiautoinstallsrv.exe": {
-    "id": "threat_1794043165539_30",
-    "key": "exe_c:\\program files\\asus\\rog usb-be92 setup\\wifiautoinstallsrv.exe",
-    "first_seen": "2026-11-07T10:19:25.538882",
-    "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
-    "pid": 6020,
-    "name": "WifiAutoInstallSrv.exe",
-    "exe": "C:\\Program Files\\ASUS\\ROG USB-BE92 Setup\\WifiAutoInstallSrv.exe",
-    "cmdline": "",
-    "threat_score": 20,
-    "severity": "SAFE",
-    "primary_category": "SUSPICIOUS PROCESS",
-    "reasons": [
-      {
-        "vector": "Suspicious API Imports",
-        "severity": "MEDIUM",
-        "score": 20,
-        "detail": "Binary imports dangerous APIs (OpenProcessToken, IsDebuggerPresent)."
-      }
-    ],
-    "status": "ACTIVE",
-    "times_observed": 1,
-    "history": [
-      {
-        "timestamp": "2026-11-07T10:19:25.538882",
-        "time_display": "2026-11-07 10:19:25",
-        "action": "FLAGGED",
-        "details": "First detected with risk score 20 [SAFE] (SUSPICIOUS PROCESS)"
-      }
-    ]
-  },
-  "exe_c:\\program files\\nvidia corporation\\nvcontainer\\nvcontainer.exe": {
-    "id": "threat_1794043165539_31",
-    "key": "exe_c:\\program files\\nvidia corporation\\nvcontainer\\nvcontainer.exe",
-    "first_seen": "2026-11-07T10:19:25.538882",
-    "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
-    "pid": 17568,
-    "name": "nvcontainer.exe",
-    "exe": "C:\\Program Files\\NVIDIA Corporation\\NvContainer\\nvcontainer.exe",
     "cmdline": "",
     "threat_score": 20,
     "severity": "SAFE",
@@ -1080,13 +1032,79 @@
       }
     ]
   },
+  "exe_c:\\program files\\asus\\rog usb-be92 setup\\wifiautoinstallsrv.exe": {
+    "id": "threat_1794043165539_30",
+    "key": "exe_c:\\program files\\asus\\rog usb-be92 setup\\wifiautoinstallsrv.exe",
+    "first_seen": "2026-11-07T10:19:25.538882",
+    "first_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
+    "pid": 6020,
+    "name": "WifiAutoInstallSrv.exe",
+    "exe": "C:\\Program Files\\ASUS\\ROG USB-BE92 Setup\\WifiAutoInstallSrv.exe",
+    "cmdline": "",
+    "threat_score": 20,
+    "severity": "SAFE",
+    "primary_category": "SUSPICIOUS PROCESS",
+    "reasons": [
+      {
+        "vector": "Suspicious API Imports",
+        "severity": "MEDIUM",
+        "score": 20,
+        "detail": "Binary imports dangerous APIs (OpenProcessToken, IsDebuggerPresent)."
+      }
+    ],
+    "status": "ACTIVE",
+    "times_observed": 4,
+    "history": [
+      {
+        "timestamp": "2026-11-07T10:19:25.538882",
+        "time_display": "2026-11-07 10:19:25",
+        "action": "FLAGGED",
+        "details": "First detected with risk score 20 [SAFE] (SUSPICIOUS PROCESS)"
+      }
+    ]
+  },
+  "exe_c:\\program files\\nvidia corporation\\nvcontainer\\nvcontainer.exe": {
+    "id": "threat_1794043165539_31",
+    "key": "exe_c:\\program files\\nvidia corporation\\nvcontainer\\nvcontainer.exe",
+    "first_seen": "2026-11-07T10:19:25.538882",
+    "first_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
+    "pid": 17568,
+    "name": "nvcontainer.exe",
+    "exe": "C:\\Program Files\\NVIDIA Corporation\\NvContainer\\nvcontainer.exe",
+    "cmdline": "",
+    "threat_score": 20,
+    "severity": "SAFE",
+    "primary_category": "SUSPICIOUS PROCESS",
+    "reasons": [
+      {
+        "vector": "Suspicious API Imports",
+        "severity": "MEDIUM",
+        "score": 20,
+        "detail": "Binary imports dangerous APIs (OpenProcessToken, IsDebuggerPresent)."
+      }
+    ],
+    "status": "ACTIVE",
+    "times_observed": 16,
+    "history": [
+      {
+        "timestamp": "2026-11-07T10:19:25.538882",
+        "time_display": "2026-11-07 10:19:25",
+        "action": "FLAGGED",
+        "details": "First detected with risk score 20 [SAFE] (SUSPICIOUS PROCESS)"
+      }
+    ]
+  },
   "exe_c:\\program files\\common files\\zoom\\support\\cptservice.exe": {
     "id": "threat_1794043165539_32",
     "key": "exe_c:\\program files\\common files\\zoom\\support\\cptservice.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 6212,
     "name": "CptService.exe",
     "exe": "C:\\Program Files\\Common Files\\Zoom\\Support\\CptService.exe",
@@ -1103,7 +1121,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -1118,8 +1136,8 @@
     "key": "exe_c:\\windows\\rtuwpsrvcmain.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 7564,
     "name": "RTUWPSrvcMain.exe",
     "exe": "C:\\Windows\\RTUWPSrvcMain.exe",
@@ -1136,7 +1154,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -1151,8 +1169,8 @@
     "key": "exe_c:\\windows\\system32\\ngciso.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 7568,
     "name": "NgcIso.exe",
     "exe": "C:\\Windows\\System32\\NgcIso.exe",
@@ -1169,7 +1187,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -1184,9 +1202,9 @@
     "key": "exe_c:\\windows\\system32\\wbem\\wmiprvse.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
-    "pid": 93844,
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
+    "pid": 96144,
     "name": "WmiPrvSE.exe",
     "exe": "C:\\Windows\\System32\\wbem\\WmiPrvSE.exe",
     "cmdline": "",
@@ -1201,8 +1219,8 @@
         "detail": "Binary imports dangerous APIs (OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "INACTIVE",
-    "times_observed": 2,
+    "status": "ACTIVE",
+    "times_observed": 8,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -1223,8 +1241,8 @@
     "key": "exe_c:\\windows\\system32\\driverstore\\filerepository\\ipf_cpu.inf_amd64_b1b7fa888ee1cf4a\\ipf_helper.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 21328,
     "name": "ipf_helper.exe",
     "exe": "C:\\Windows\\System32\\DriverStore\\FileRepository\\ipf_cpu.inf_amd64_b1b7fa888ee1cf4a\\ipf_helper.exe",
@@ -1241,7 +1259,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -1256,8 +1274,8 @@
     "key": "exe_c:\\windows\\system32\\systemuwplauncher.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 23920,
     "name": "SystemUWPLauncher.exe",
     "exe": "C:\\Windows\\System32\\SystemUWPLauncher.exe",
@@ -1274,7 +1292,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -1289,8 +1307,8 @@
     "key": "exe_c:\\windows\\syswow64\\wbem\\wmiprvse.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 26072,
     "name": "WmiPrvSE.exe",
     "exe": "C:\\Windows\\SysWOW64\\wbem\\WmiPrvSE.exe",
@@ -1307,7 +1325,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -1322,8 +1340,8 @@
     "key": "exe_c:\\windows\\syswow64\\nahimicsvc32.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 35388,
     "name": "NahimicSvc32.exe",
     "exe": "C:\\Windows\\SysWOW64\\NahimicSvc32.exe",
@@ -1340,7 +1358,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -1355,8 +1373,8 @@
     "key": "exe_c:\\windows\\system32\\searchindexer.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 66140,
     "name": "SearchIndexer.exe",
     "exe": "C:\\Windows\\System32\\SearchIndexer.exe",
@@ -1373,7 +1391,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -1388,8 +1406,8 @@
     "key": "exe_c:\\program files\\common files\\microsoft shared\\clicktorun\\appvshnotify.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 68128,
     "name": "AppVShNotify.exe",
     "exe": "C:\\Program Files\\Common Files\\microsoft shared\\ClickToRun\\AppVShNotify.exe",
@@ -1406,7 +1424,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -1421,8 +1439,8 @@
     "key": "exe_c:\\program files\\windowsapps\\microsoft.mixedrealitylink_26.10270.10130.0_x64__8wekyb3d8bbwe\\platform\\mixedrealitylinksvc.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 70572,
     "name": "MixedRealityLinkSvc.exe",
     "exe": "C:\\Program Files\\WindowsApps\\Microsoft.MixedRealityLink_26.10270.10130.0_x64__8wekyb3d8bbwe\\Platform\\MixedRealityLinkSvc.exe",
@@ -1439,7 +1457,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
@@ -1454,8 +1472,8 @@
     "key": "exe_c:\\windows\\system32\\audiodg.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T10:19:25.538882",
-    "last_seen_display": "2026-11-07 10:19:25",
+    "last_seen": "2026-11-07T11:05:06.364265",
+    "last_seen_display": "2026-11-07 11:05:06",
     "pid": 81932,
     "name": "audiodg.exe",
     "exe": "C:\\Windows\\System32\\audiodg.exe",
@@ -1472,7 +1490,7 @@
       }
     ],
     "status": "ACTIVE",
-    "times_observed": 1,
+    "times_observed": 4,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
