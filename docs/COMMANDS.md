@@ -237,5 +237,42 @@ curl.exe -X POST http://127.0.0.1:8888/api/admin/restart-as-admin
 Start-Process "http://127.0.0.1:8888/docs.html"
 ```
 
+---
+
+## 8. Continuous Synchronization & Memory Verification Commands
+
+### 8.1 Diagnostic Test Engine Execution
+```powershell
+# Execute the automated 30-check diagnostic test suite
+python tools/test_engine.py
+
+# Alternatively, run via batch launcher
+.\run_tests.bat
+```
+
+### 8.2 Visual Screenshot Capture Engine
+```powershell
+# Render all 14 high-definition 1600x1000 UI screenshots
+python tools/screenshot_engine.py
+
+# Alternatively, run via batch launcher
+.\generate_screenshots.bat
+```
+
+### 8.3 Brain Archive Mirroring & Safe Upstream Sync
+```powershell
+# Mirror all brain artifacts to the local repository archive
+Copy-Item -Path "$env:USERPROFILE\.gemini\antigravity\brain\*\*.md" -Destination "brain_archive\" -Force
+
+# Verify git working tree and secret protection
+git status
+
+# Commit and push updates to GitHub
+git add .
+git commit -m "Update & sync: Continuous memory sync, tests passing, screenshots updated"
+git push origin main
+```
+
+
 
 

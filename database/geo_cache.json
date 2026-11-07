@@ -306,5 +306,181 @@
     "is_genuine": false,
     "is_private": false,
     "confidence": 60
+  },
+  "2a06:98c1:3120::3": {
+    "ip": "2a06:98c1:3120::3",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "2a00:1450:4001:c21::5f": {
+    "ip": "2a00:1450:4001:c21::5f",
+    "hostname": "lcfrai-in-f95.1e100.net",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "Google / GCP",
+    "verdict": "GENUINE CLOUD / CDN",
+    "is_genuine": true,
+    "is_private": false,
+    "confidence": 95
+  },
+  "140.82.114.26": {
+    "ip": "140.82.114.26",
+    "hostname": "lb-140-82-114-26-iad.github.com",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "GitHub",
+    "verdict": "GENUINE CLOUD / CDN",
+    "is_genuine": true,
+    "is_private": false,
+    "confidence": 95
+  },
+  "57.144.248.145": {
+    "ip": "57.144.248.145",
+    "hostname": "edge-dgw-shv-01-fra3.facebook.com",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "2a02:26f0:3500:12::1730:179a": {
+    "ip": "2a02:26f0:3500:12::1730:179a",
+    "hostname": "g2a02-26f0-3500-0012-0000-0000-1730-179a.deploy.static.akamaitechnologies.com",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "Akamai",
+    "verdict": "GENUINE CLOUD / CDN",
+    "is_genuine": true,
+    "is_private": false,
+    "confidence": 95
+  },
+  "2001:4860:4846:400::": {
+    "ip": "2001:4860:4846:400::",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "2001:4860:4847:400::": {
+    "ip": "2001:4860:4847:400::",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "2a03:2880:f37c:91:face:b00c:0:6206": {
+    "ip": "2a03:2880:f37c:91:face:b00c:0:6206",
+    "hostname": "edge-dgw6-shv-01-fra3.facebook.com",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "2600:9000:2096:a000:c:174a:c400:93a1": {
+    "ip": "2600:9000:2096:a000:c:174a:c400:93a1",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "2606:4700:10::6814:145e": {
+    "ip": "2606:4700:10::6814:145e",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "2600:1901:0:47fc::": {
+    "ip": "2600:1901:0:47fc::",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "2606:4700:20::ac43:440b": {
+    "ip": "2606:4700:20::ac43:440b",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "2a06:98c1:3121::3": {
+    "ip": "2a06:98c1:3121::3",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "100.24.195.127": {
+    "ip": "100.24.195.127",
+    "hostname": "ec2-100-24-195-127.compute-1.amazonaws.com",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "Amazon AWS",
+    "verdict": "GENUINE CLOUD / CDN",
+    "is_genuine": true,
+    "is_private": false,
+    "confidence": 95
+  },
+  "2606:4700:10::6814:19f7": {
+    "ip": "2606:4700:10::6814:19f7",
+    "hostname": "Unresolved Host",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
+  },
+  "2a03:2880:f37a:c0:face:b00c:0:43fe": {
+    "ip": "2a03:2880:f37a:c0:face:b00c:0:43fe",
+    "hostname": "instagram-p36-shv-01-fra5.fbcdn.net",
+    "country": "Global Internet",
+    "country_code": "NET",
+    "org": "External Host / ISP",
+    "verdict": "UNVERIFIED EXTERNAL",
+    "is_genuine": false,
+    "is_private": false,
+    "confidence": 60
   }
 }

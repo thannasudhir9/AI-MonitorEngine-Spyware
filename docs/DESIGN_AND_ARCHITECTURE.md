@@ -309,5 +309,62 @@ sequenceDiagram
 - **Light Clean SOC Theme:** Clean daylight palette `#f8fafc` with crisp white card surfaces, slate `#0f172a` typography, and azure `#0284c7` highlights.
 - **State Persistence:** User preference stored in `localStorage.getItem('aegis_theme')` with zero flicker on page load.
 
+---
+
+## 8. Enterprise Four-Engine Suite & Elevated Eradication Architecture (v2.5)
+
+### 8.1 Unified Four-Engine Rebranding
+AegisShield EDR v2.5 consolidates four autonomous defensive engines under a single enterprise interface:
+1. **AI Monitoring Engine:** Multi-stage heuristic analysis, living-off-the-land binary (LOLBin) detection, Shannon entropy packer analysis, and parent-child process tree anomaly tracing.
+2. **AdBlocker Engine:** Local intercepting proxy engine operating on `127.0.0.1:8080`, applying 5,000+ EasyList, AdGuard, and StevenBlack privacy filter rules.
+3. **Web Tracker Engine:** Real-time HTTP/HTTPS telemetry inspection, DNS resolution logging, foreign IP genuineness classification, and anti-tracking header enforcement.
+4. **Proc Mon Engine:** Deep Windows process explorer, kernel handle tracking, socket origin identification, and remote desktop (LOLRMM) auditing.
+
+### 8.2 Top Navigation & Cross-Tab Blocked Tracking Ledgers
+When operators click **FLAGGED THREATS** or **CRITICAL THREATS** in the top KPI summary bar, the dashboard automatically navigates to Threat Intelligence and displays the historical tracking ledger. Every core tab provides dual views:
+- **Threat Intelligence (`view-threats`):** Active threat detections $\longleftrightarrow$ Terminated & Quarantined Threats Tracking Ledger.
+- **Process Monitor (`view-processes`):** Live running processes $\longleftrightarrow$ Terminated & Blocked History Tracking Ledger.
+- **Remote Desktop / RMM (`view-rmm`):** Active remote control sessions $\longleftrightarrow$ Eradicated RMM Tools Tracking.
+- **Network Radar (`view-network`):** Active network sockets $\longleftrightarrow$ Blocked Remote IPs & Netsh Firewall Blocklist.
+- **AdBlocker (`view-adblock`):** Live web traffic feed $\longleftrightarrow$ Blocked Ads & Trackers History Ledger.
+
+### 8.3 Multi-Tier Process Eradication & Windows Service Disarm Architecture
+To resolve `KILL_FAILED: Access denied. Elevated administrator rights required.` (e.g. PID 5824 owned by SYSTEM / protected services):
+```mermaid
+flowchart TD
+    KillReq["Process Termination Requested (PID)"] --> Tier1["Tier 1: Standard psutil terminate / kill Process Tree"]
+    Tier1 -->|Success| TermSuccess["Process Eradicated (Status: KILLED)"]
+    Tier1 -->|Access Denied / Not Killed| Tier2["Tier 2: Native taskkill /F /T /PID"]
+    Tier2 -->|Success| TermSuccess
+    Tier2 -->|Access Denied| Tier3["Tier 3: PowerShell Stop-Process -Force"]
+    Tier3 -->|Success| TermSuccess
+    Tier3 -->|Access Denied| SvcCheck{"Is PID Hosted by Windows Service?"}
+    SvcCheck -->|Yes| SvcStop["Execute sc stop <service_name>"]
+    SvcStop -->|Service Stopped| TermSuccess
+    SvcCheck -->|No / Svc Stop Denied| UACPrompt["Tier 4: Elevated UAC Execution\nStart-Process taskkill -ArgumentList '/F /T /PID <pid>' -Verb RunAs -Wait"]
+    UACPrompt -->|Admin Confirmed| TermSuccess
+    UACPrompt -->|Declined / Cancelled| ModalUI["Interactive Elevated Admin Modal (#elevated-kill-modal)\nShow Exact Diagnostics & 1-Click Batch Launchers"]
+```
+
+### 8.4 Enterprise SOC Footer Architecture
+Connected dynamically to `GET /api/app-info`:
+- **Active Process:** Reports running executable (`python.exe`) and PID (`69360`).
+- **Bound Ports:** Port `8888` (Dashboard/REST/WebSockets) and Port `8080` (AdBlock Proxy).
+- **Sub-App States:** `AI Monitor: ON | AdBlock: ON | Web Tracker: ON | Proc Mon: ON | Netsh Firewall: ON`.
+- **Attribution:** `Support with ❤️ - Sudhir Kumar Thanna`.
+- **Temporal Synchronization:** Live ticking UTC/Local clock with ISO 8601 timestamps.
+- **Deployed Version:** `v2.5.0-SOC-Enterprise (Build 2026.11.07-STABLE)`.
+
+### 8.5 Resend HTTP API Email Delivery Engine
+- Direct HTTPS dispatch over port 443 to `https://api.resend.com/emails`.
+- Spoofs standard browser User-Agent (`Mozilla/5.0 ... AegisShield-EDR/2.5`) to navigate Cloudflare WAF protections.
+- Default recipient `ethstk911@gmail.com` via verified sender `onboarding@resend.dev`.
+- GitHub push protection compliant: API keys loaded dynamically from `os.environ` or gitignored `database/email_config.json`.
+
+### 8.6 Web-Based Documentation Hub Integration (`frontend/docs.html`)
+- Standalone, highly responsive single-page documentation portal mounted directly on backend route `GET /docs.html` and tab `view-docs`.
+- Features 9 comprehensive technical chapters, Mermaid architecture diagrams, interactive screenshot previews, and dynamic code copy blocks.
+
+
 
 

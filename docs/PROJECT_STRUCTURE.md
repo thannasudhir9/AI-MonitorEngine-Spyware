@@ -38,11 +38,20 @@ SpywareProcessMon/
 │   └── web_traffic_logs.json               # Browsed websites history, timestamps, domains & block status
 │
 ├── docs/                                   # Complete Engineering Documentation Suite
-│   ├── DESIGN_AND_ARCHITECTURE.md          # Architecture overview, component diagrams & data flows
+│   ├── DESIGN.md                           # System and UX design specification
+│   ├── ARCHITECTURE.md                     # Deep system architecture & process boundaries
+│   ├── DESIGN_AND_ARCHITECTURE.md          # Combined architecture overview, diagrams & data flows
 │   ├── PROJECT_STRUCTURE.md                # File-by-file mapping, roles, and schema specifications
 │   ├── CODE_EXPLANATION.md                 # Deep-dive into classes, methods, heuristics & algorithms
 │   ├── COMMANDS.md                         # CLI reference, batch launchers, REST API & WebSocket schemas
-│   └── SESSION_PROMPTS_AND_RESPONSES.md    # Chronological history of user prompts & engineering solutions
+│   ├── SESSION_INFO.md                     # Session metadata, environment parameters & active daemons
+│   ├── SESSION_PROMPTS_AND_RESPONSES.md    # Chronological history of user prompts & engineering solutions
+│   └── ANTIGRAVITY_MEMORY.md               # Persistent memory protocol ('create, update, append - always')
+│
+├── brain_archive/                          # Persistent Mirrored Brain Artifacts
+│   ├── plan.md                             # Original system implementation plan
+│   ├── adblocker_plan.md                   # AdBlocker and web tracking engine plan
+│   └── continuous_sync_and_memory_protocol.md # Persistent memory & synchronization protocol
 │
 ├── screenshots/                            # High-Definition 1600x1000 UI Screenshots
 │   ├── 01_active_threats_remediation.png   # Active threats, severity badges, and 1-click eradication

@@ -270,4 +270,82 @@ In accordance with the "Update & Append Always" directive:
 - Every execution cycle preserves agent state and session artifacts into `brain_archive/`.
 - All architectural updates, CLI commands, and database structures are maintained across `docs/` and synced upstream to GitHub.
 
+---
+
+## 14. Multi-Tier Eradication & Windows Service Disarm Pipeline (`backend/remediator.py`)
+
+### 14.1 Windows Service Association Discovery
+When encountering `Access Denied` on process termination (e.g., PID 5824 running under SYSTEM), `remediator.py` determines if the process is hosted inside a Windows Service:
+```python
+def get_service_for_pid(self, pid: int) -> Optional[dict]:
+    cmd = [
+        "powershell.exe", "-NoProfile", "-Command",
+        f"Get-CimInstance Win32_Service | Where-Object {{ $_.ProcessId -eq {pid} }} | Select-Object Name, DisplayName, State, StartMode | ConvertTo-Json"
+    ]
+    res = subprocess.run(cmd, capture_output=True, text=True, timeout=5)
+    # Returns service metadata or None if standalone user process
+```
+
+### 14.2 Multi-Stage Escalation Ladder
+The eradication function `kill_process_tree(pid)` follows an escalating escalation ladder:
+1. **Tier 1:** Native Python `psutil.Process(pid).terminate()` $\to$ `kill()`.
+2. **Tier 2:** `taskkill.exe /F /T /PID <pid>`.
+3. **Tier 3:** `Stop-Process -Id <pid> -Force`.
+4. **Tier 4 (Interactive UAC):** `Start-Process taskkill -ArgumentList '/F /T /PID <pid>' -Verb RunAs -Wait`. The `-Wait` argument prevents race conditions where the process status check occurs before the user approves the UAC prompt.
+5. **Tier 5 (Service Disarm):** When a service is identified, `sc.exe stop <service_name>` is invoked to gracefully shut down the service host.
+
+---
+
+## 15. Resend HTTP API Email Client (`backend/email_notifier.py`)
+
+### 15.1 Direct HTTPS Transport Architecture
+Rather than relying solely on traditional SMTP which may be blocked on restricted networks (ports 25, 587, 465), `email_notifier.py` implements native HTTPS dispatch via the Resend REST API:
+```python
+def send_via_resend(self, to_email: str, subject: str, html_body: str) -> dict:
+    url = "https://api.resend.com/emails"
+    headers = {
+        "Authorization": f"Bearer {self.resend_api_key}",
+        "Content-Type": "application/json",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AegisShield-EDR/2.5"
+    }
+    payload = {
+        "from": self.resend_from_email,
+        "to": [to_email],
+        "subject": subject,
+        "html": html_body
+    }
+```
+
+### 15.2 Cloudflare Anti-Bot (Error 1010) Mitigation
+Standard Python `urllib` user agents are flagged and blocked by Cloudflare Edge WAFs with `HTTP 403 Forbidden (Error 1010)`. Explicitly configuring an enterprise browser `User-Agent` allows HTTPS requests to pass through cleanly and complete email dispatch in under 800ms.
+
+---
+
+## 16. Cross-Tab Blocked Tracking Architecture (`frontend/js/app.js`)
+
+### 16.1 Top KPI Action Routing
+Clicking the **FLAGGED THREATS** or **CRITICAL THREATS** header KPI cards invokes `focusThreatsView(mode)`:
+- Activates the `view-threats` section.
+- Toggles the active sub-tab between live threats (`#threats-active-view`) and the historical tracking ledger (`#threats-history-view`).
+- Smoothly scrolls the viewport to the relevant table card.
+
+### 16.2 Cross-Tab Historical Sub-Views
+All core tabs feature dual-mode views toggled via sub-navigation pills:
+- **Threat Intelligence:** `switchThreatSubView('active' | 'history')`
+- **Process Monitor:** `switchProcessSubView('active' | 'history')`
+- **Remote Desktop / RMM:** `switchRmmSubView('active' | 'history')`
+- **Network Radar:** `switchNetworkSubView('active' | 'blocked')`
+- **AdBlocker:** Filterable traffic stream showing live telemetry alongside blocked requests.
+
+---
+
+## 17. Interactive Documentation Hub (`frontend/docs.html` & `backend/server.py`)
+
+### 17.1 Web-Based Documentation Delivery
+Mounted on the Starlette application server:
+- `GET /docs.html`: Serves the comprehensive documentation portal.
+- `GET /screenshots/{filename}`: Serves rendered high-definition system previews.
+- Dashboard Tab 10 (`view-docs`): Embeds the documentation directly into the dashboard navigation with an iframe and quick external opening link.
+
+
 

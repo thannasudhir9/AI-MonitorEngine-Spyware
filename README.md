@@ -172,7 +172,7 @@ python tools/test_engine.py
 ================================================================
                   DIAGNOSTIC TEST RESULTS
 ================================================================
-  Passed Checks:  22
+  Passed Checks:  30
   Failed Checks:  0
   Success Rate:   100.0%
 ================================================================
@@ -184,11 +184,15 @@ python tools/test_engine.py
 ## 📚 Complete Engineering Documentation
 
 For deep technical specifications, refer to the `docs/` suite:
-- 📐 [**Design & Architecture**](docs/DESIGN_AND_ARCHITECTURE.md): Architectural topology, component hierarchy, and dataflow diagrams.
+- 📐 [**Design Specification**](docs/DESIGN.md): Visual UI, themes, navigation matrix, and modal design.
+- 🏗️ [**System Architecture**](docs/ARCHITECTURE.md): Component topology, token elevation, and process boundaries.
+- 📑 [**Combined Design & Architecture**](docs/DESIGN_AND_ARCHITECTURE.md): Combined architectural topology, component hierarchy, and dataflow diagrams.
 - 🗂️ [**Project Structure**](docs/PROJECT_STRUCTURE.md): Detailed directory tree, file mappings, and database JSON schemas.
-- 🔬 [**Code Explanation**](docs/CODE_EXPLANATION.md): Deep-dive into heuristic algorithms, PE forensics, entropy mathematics, and proxy filtering logic.
-- ⌨️ [**Commands & API Reference**](docs/COMMANDS.md): Full CLI guide, REST endpoints, WebSocket schema, and Windows administration commands.
+- 🔬 [**Code Explanation**](docs/CODE_EXPLANATION.md): Deep-dive into heuristic algorithms, PE forensics, entropy mathematics, service discovery, and proxy filtering logic.
+- ⌨️ [**Commands & API Reference**](docs/COMMANDS.md): Full CLI guide, batch launchers, REST endpoints, WebSocket schema, and Windows administration commands.
+- ℹ️ [**Session Information**](docs/SESSION_INFO.md): Runtime environment, active process PIDs, port bindings, daemons, and datastore states.
 - 📜 [**Session Prompts & Responses**](docs/SESSION_PROMPTS_AND_RESPONSES.md): Complete chronological record of user requests and technical solutions.
+- 🧠 [**Antigravity Memory Rules**](docs/ANTIGRAVITY_MEMORY.md): Persistent operational memory protocol (`create, update, append - always`).
 
 ---
 
@@ -197,12 +201,12 @@ For deep technical specifications, refer to the `docs/` suite:
 ```
 SpywareProcessMon/
 ├── backend/                  # Python EDR, AdBlocker & Network Engines
-├── frontend/                 # Dark Cyber SOC Web Interface (:8888)
+├── frontend/                 # Dark Cyber SOC Web Interface (:8888) & Documentation Hub (:8888/docs.html)
 ├── database/                 # Persistent JSON Datastores
-├── docs/                     # Full Documentation Suite
-├── screenshots/              # 10 HD 1600x1000 UI Captures
-├── tools/                    # Automated Test Engine & Screenshot Generator
-├── brain_archive/            # Full Archive of Session States & Plans
+├── docs/                     # Full 9-Document Engineering Suite
+├── screenshots/              # 14 HD 1600x1000 UI Captures
+├── tools/                    # Automated Test Engine (30 checks) & Screenshot Generator (14 views)
+├── brain_archive/            # Full Archive of Session States, Plans & Persistent Memory Protocols
 ├── cli_scanner.py            # Terminal CLI Tool
 ├── run_server.py             # Web Server Entry Point
 └── requirements.txt          # Dependencies
