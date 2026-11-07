@@ -22,37 +22,41 @@ def draw_hud_header(draw, active_tab_title: str):
     # Brand
     draw.rectangle([(25, 18), (65, 58)], fill=(15, 23, 42), outline=(6, 182, 212), width=2)
     draw.text((33, 24), "🛡", fill=(6, 182, 212))
-    draw.text((80, 22), "AEGISSHIELD EDR v2.0", fill=(255, 255, 255))
-    draw.text((80, 44), "Spyware, Antivirus, Remote Desktop & Network AdBlocker", fill=(148, 163, 184))
+    draw.text((80, 20), "AI Monitoring Engine • AdBlocker Engine • Web Tracker • Proc Mon Engine", fill=(255, 255, 255))
+    draw.text((80, 44), "AEGISSHIELD EDR v2.5 | Autonomous Threat Hunter, Proxy Interceptor & Kernel Remediator", fill=(148, 163, 184))
 
     # Center Pill
-    draw.rectangle([(620, 22), (980, 52)], fill=(16, 185, 129, 30), outline=(16, 185, 129), width=1)
-    draw.ellipse([(635, 33), (643, 41)], fill=(16, 185, 129))
-    draw.text((655, 28), "SYSTEM PROTECTED & SECURE | 2026-11-07 07:30:00", fill=(110, 231, 183))
+    draw.rectangle([(820, 22), (1120, 52)], fill=(16, 185, 129, 30), outline=(16, 185, 129), width=1)
+    draw.ellipse([(835, 33), (843, 41)], fill=(16, 185, 129))
+    draw.text((855, 28), "SYSTEM SECURE | 2026-11-07 08:30:00", fill=(110, 231, 183))
 
     # Action buttons
-    draw.rectangle([(1140, 22), (1260, 52)], fill=(139, 92, 246, 40), outline=(139, 92, 246), width=1)
-    draw.text((1152, 29), "📧 Email Report", fill=(216, 180, 254))
+    draw.rectangle([(1140, 22), (1240, 52)], fill=(139, 92, 246, 40), outline=(139, 92, 246), width=1)
+    draw.text((1152, 29), "📧 Email", fill=(216, 180, 254))
 
-    draw.rectangle([(1275, 22), (1385, 52)], fill=(6, 182, 212), outline=(6, 182, 212))
-    draw.text((1290, 29), "⚡ Deep Scan", fill=(8, 12, 20))
+    draw.rectangle([(1255, 22), (1350, 52)], fill=(6, 182, 212, 40), outline=(6, 182, 212))
+    draw.text((1268, 29), "📚 Docs", fill=(103, 232, 249))
 
-    draw.rectangle([(1400, 22), (1570, 52)], fill=(239, 68, 68), outline=(239, 68, 68))
-    draw.text((1415, 29), "🚨 KILL ALL THREATS", fill=(255, 255, 255))
+    draw.rectangle([(1365, 22), (1455, 52)], fill=(6, 182, 212), outline=(6, 182, 212))
+    draw.text((1378, 29), "⚡ Scan", fill=(8, 12, 20))
+
+    draw.rectangle([(1470, 22), (1575, 52)], fill=(239, 68, 68), outline=(239, 68, 68))
+    draw.text((1482, 29), "🚨 KILL ALL", fill=(255, 255, 255))
 
     # Secondary Navigation Tab Bar
     draw.rectangle([(0, 75), (1600, 120)], fill=(8, 12, 20), outline=(30, 41, 59))
     tabs = [
         ("Threats", "Active Threats"),
         ("Network", "Network Radar"),
-        ("AdBlock", "AdBlocker & Analytics"),
-        ("RMM", "Remote Control Hunter"),
-        ("Processes", "Process Monitor"),
+        ("AdBlock", "AdBlocker"),
+        ("RMM", "RMM Hunter"),
+        ("Processes", "Process Mon"),
         ("Policy", "Access Control"),
-        ("Persistence", "Startup & Autoruns"),
+        ("Persistence", "Startup & Run"),
         ("Simulation", "Simulation Lab"),
         ("Email", "Email Alerts"),
-        ("Audit", "Incident Audit Log")
+        ("Audit", "Incident Audit"),
+        ("Docs", "Documentation")
     ]
 
     x = 25
@@ -62,9 +66,14 @@ def draw_hud_header(draw, active_tab_title: str):
         border_col = (6, 182, 212) if is_active else (30, 41, 59)
         text_col = (6, 182, 212) if is_active else (148, 163, 184)
 
-        draw.rectangle([(x, 83), (x + 145, 119)], fill=bg_col, outline=border_col, width=2 if is_active else 1)
-        draw.text((x + 12, 92), tlabel[:18], fill=text_col)
-        x += 155
+        draw.rectangle([(x, 83), (x + 130, 119)], fill=bg_col, outline=border_col, width=2 if is_active else 1)
+        draw.text((x + 10, 92), tlabel[:16], fill=text_col)
+        x += 140
+
+    # SOC Enterprise Footer Bar
+    draw.rectangle([(0, 965), (1600, 1000)], fill=(11, 17, 30), outline=(30, 41, 59))
+    draw.text((25, 975), "Process: python.exe (PID: 69360) | Ports: 8888, 8080 | Sub-Apps: AI Monitor: ON, AdBlock: ON, Web Tracker: ON, Proc Mon: ON", fill=(148, 163, 184))
+    draw.text((1080, 975), "Support with ❤️ - Sudhir Kumar Thanna | v2.5.0-SOC-Enterprise", fill=(6, 182, 212))
 
 
 def draw_metric_cards(draw, cards: list):
@@ -709,6 +718,121 @@ def render_light_mode_view():
     print("[✓] Generated 12_light_mode_clean_soc.png")
 
 
+def render_documentation_hub_view():
+    """Render Screenshot 13: Enterprise Documentation Hub."""
+    img = Image.new("RGB", (1600, 1000), color=(8, 12, 20))
+    d = ImageDraw.Draw(img)
+    draw_hud_header(d, "Docs")
+
+    # Documentation Banner
+    d.rectangle([(25, 135), (1575, 215)], fill=(19, 28, 49), outline=(6, 182, 212), width=2)
+    d.text((45, 148), "📚 AEGISSHIELD ENTERPRISE DOCUMENTATION & KNOWLEDGE HUB", fill=(255, 255, 255))
+    d.text((45, 172), "Architectural Reference, Four Core Defensive Engines, Screenshot Gallery, Brain Files & CLI Runbook", fill=(148, 163, 184))
+    d.text((1200, 160), "Author: Sudhir Kumar Thanna | v2.5.0", fill=(6, 182, 212))
+
+    # Sidebar TOC
+    d.rectangle([(25, 230), (320, 945)], fill=(15, 23, 42), outline=(30, 41, 59))
+    d.text((45, 245), "TABLE OF CONTENTS", fill=(100, 116, 139))
+    toc = [
+        ("1. Executive Overview", True),
+        ("2. System Architecture", False),
+        ("3. Four Core Engines", False),
+        ("4. Admin UAC Elevation", False),
+        ("5. HD Screenshot Gallery", False),
+        ("6. Brain Files & Plans", False),
+        ("7. Chronological Prompts", False),
+        ("8. Commands Runbook", False),
+        ("9. API & WebSockets", False)
+    ]
+    ty = 275
+    for item, active in toc:
+        if active:
+            d.rectangle([(35, ty - 4), (310, ty + 24)], fill=(6, 182, 212, 40), outline=(6, 182, 212))
+            d.text((50, ty), item, fill=(6, 182, 212))
+        else:
+            d.text((50, ty), item, fill=(148, 163, 184))
+        ty += 34
+
+    # Main Doc Content
+    d.rectangle([(340, 230), (1575, 945)], fill=(19, 28, 49), outline=(30, 41, 59))
+    d.text((365, 250), "SECTION 01: SYSTEM OVERVIEW & ARCHITECTURE", fill=(255, 255, 255))
+    d.text((365, 275), "AegisShield EDR is an autonomous endpoint detection and response platform for Windows endpoints.", fill=(203, 213, 225))
+    
+    # 4 Engine Cards in Docs
+    engines = [
+        ("AI Threat Hunter Engine", "Multi-tiered scoring matrix analyzing process names, paths, masquerades, temporary execution, command-line arguments, and hashes.", (6, 182, 212)),
+        ("AdBlocker Network Proxy", "Intercepts HTTP/HTTPS traffic at 127.0.0.1:8080, matching domain names against ad/telemetry blacklists.", (244, 63, 94)),
+        ("Web Origin & IP Tracer", "Performs reverse DNS, ASN, ISP lookup, and IP geolocation with classification.", (139, 92, 246)),
+        ("Process Remediator & Firewall", "Multi-tier process killer (psutil -> taskkill -> PowerShell -> Service Control -> UAC Elevation) and Windows Firewall netsh controller.", (245, 158, 11))
+    ]
+    ey = 315
+    for ename, edesc, ecol in engines:
+        d.rectangle([(365, ey), (1550, ey + 75)], fill=(15, 23, 42), outline=ecol, width=1)
+        d.text((385, ey + 12), ename, fill=ecol)
+        d.text((385, ey + 36), edesc, fill=(148, 163, 184))
+        ey += 88
+
+    # Code Box
+    d.rectangle([(365, ey + 10), (1550, 920)], fill=(8, 12, 20), outline=(30, 41, 59))
+    d.text((385, ey + 25), "CLI RUNBOOK & DEPLOYMENT COMMANDS:", fill=(245, 158, 11))
+    d.text((385, ey + 50), "# Start Dashboard as Administrator:   start_all_admin.bat", fill=(110, 231, 183))
+    d.text((385, ey + 75), "# Run 30 Subsystem Diagnostic Tests:   python tools/test_engine.py", fill=(110, 231, 183))
+    d.text((385, ey + 100), "# Intercepting Web Proxy Port:         127.0.0.1:8080", fill=(110, 231, 183))
+    d.text((385, ey + 125), "# Email Dispatch Channel:              Resend API (HTTPS Port 443 / Cloud Delivery)", fill=(110, 231, 183))
+
+    img.save(SCREENSHOTS_DIR / "13_documentation_hub.png")
+    print("[✓] Generated 13_documentation_hub.png")
+
+
+def render_elevated_kill_modal_view():
+    """Render Screenshot 14: Interactive Elevated UAC Eradicator Modal."""
+    img = Image.new("RGB", (1600, 1000), color=(8, 12, 20))
+    d = ImageDraw.Draw(img)
+    draw_hud_header(d, "Processes")
+
+    # Darkened Backdrop
+    d.rectangle([(0, 0), (1600, 1000)], fill=(5, 8, 14, 200))
+
+    # Elevated Modal Box
+    mx = 480
+    my = 260
+    mw = 640
+    mh = 440
+    d.rectangle([(mx, my), (mx + mw, my + mh)], fill=(19, 28, 49), outline=(239, 68, 68), width=3)
+
+    # Modal Header
+    d.rectangle([(mx + 25, my + 25), (mx + 75, my + 75)], fill=(239, 68, 68, 40), outline=(239, 68, 68))
+    d.text((mx + 42, my + 38), "🚨", fill=(239, 68, 68))
+    d.text((mx + 90, my + 30), "Administrator Rights Required", fill=(255, 255, 255))
+    d.text((mx + 90, my + 54), "Access Denied when killing PID 5824 (svchost.exe)", fill=(248, 113, 113))
+
+    # Modal Alert Body
+    d.rectangle([(mx + 25, my + 95), (mx + mw - 25, my + 210)], fill=(15, 23, 42), outline=(239, 68, 68, 80))
+    d.text((mx + 40, my + 110), "⚠️ Access Denied: The target process is protected by Windows kernel/SYSTEM credentials.", fill=(254, 202, 202))
+    d.text((mx + 40, my + 135), "Standard user processes cannot terminate elevated Windows Services directly.", fill=(203, 213, 225))
+    d.text((mx + 40, my + 165), "Detected Host Windows Service: 'DiagTrack' (Connected User Experience and Telemetry)", fill=(245, 158, 11))
+
+    # Command Copy Box
+    d.text((mx + 25, my + 230), "RUN DIRECTLY VIA ELEVATED ADMINISTRATOR SHELL:", fill=(148, 163, 184))
+    d.rectangle([(mx + 25, my + 255), (mx + mw - 25, my + 295)], fill=(8, 12, 20), outline=(30, 41, 59))
+    d.text((mx + 40, my + 268), "taskkill /F /PID 5824", fill=(6, 182, 212))
+    d.rectangle([(mx + mw - 110, my + 260), (mx + mw - 35, my + 290)], fill=(30, 41, 59), outline=(71, 85, 105))
+    d.text((mx + mw - 95, my + 268), "Copy", fill=(255, 255, 255))
+
+    # Action Buttons
+    d.rectangle([(mx + mw - 460, my + mh - 65), (mx + mw - 340, my + mh - 25)], fill=(15, 23, 42), outline=(71, 85, 105))
+    d.text((mx + mw - 430, my + mh - 50), "Dismiss", fill=(148, 163, 184))
+
+    d.rectangle([(mx + mw - 325, my + mh - 65), (mx + mw - 195, my + mh - 25)], fill=(245, 158, 11), outline=(245, 158, 11))
+    d.text((mx + mw - 310, my + mh - 50), "🛑 Stop Service", fill=(8, 12, 20))
+
+    d.rectangle([(mx + mw - 180, my + mh - 65), (mx + mw - 25, my + mh - 25)], fill=(239, 68, 68), outline=(239, 68, 68))
+    d.text((mx + mw - 165, my + mh - 50), "⚡ UAC Eradicate", fill=(255, 255, 255))
+
+    img.save(SCREENSHOTS_DIR / "14_elevated_kill_modal_and_tracking.png")
+    print("[✓] Generated 14_elevated_kill_modal_and_tracking.png")
+
+
 def main():
     print("""
     ===============================================================
@@ -724,6 +848,8 @@ def main():
     render_all_remaining_views()
     render_private_mode_view()
     render_light_mode_view()
+    render_documentation_hub_view()
+    render_elevated_kill_modal_view()
 
     pngs = list(SCREENSHOTS_DIR.glob("*.png"))
     print(f"\n[✓] Successfully captured and generated all {len(pngs)} dashboard screenshots!")

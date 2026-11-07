@@ -1,9 +1,0 @@
-Command exited with code 0.
-
-Command output:
-
-Status SignerCertificate                                                                                               
------- -----------------                                                                                               
- Valid [Subject]...                                                                                                    
-
-

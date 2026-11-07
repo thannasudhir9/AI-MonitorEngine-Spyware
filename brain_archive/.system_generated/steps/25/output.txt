@@ -1,8 +1,0 @@
-Command exited with code 0.
-
-Command output:
-Total processes accessible: 4
-0 System Idle Process
-14328 powershell.exe
-77948 python.exe
-78520 agy.exe

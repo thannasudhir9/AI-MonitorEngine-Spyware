@@ -1,2 +1,0 @@
-<string>:5: DeprecationWarning: connections() is deprecated and will be removed; use net_connections() instead
-proc.connections error: GetExtendedTcpTable failed

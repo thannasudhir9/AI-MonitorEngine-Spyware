@@ -1,4 +1,0 @@
-Command exited with code 0.
-
-Command output:
-{"private_mode":false,"zero_disk_footprint":false,"anti_tracking_headers":false,"anonymize_client_ip":false,"volatile_entries_count":0}

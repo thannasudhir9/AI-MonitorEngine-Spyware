@@ -1,13 +1,16 @@
-# 🛡️ AegisShield EDR & Network AdBlocker Suite
+# 🛡️ AI Monitoring Engine • AdBlocker Engine • Web Tracker • Proc Mon Engine
+### AegisShield EDR v2.5 — Enterprise Endpoint Threat Defense & Web Privacy Suite
 
 > **Enterprise-Grade Real-Time Endpoint Detection and Response (EDR), Remote Desktop / LOLRMM Hunter, Process Threat Eradicator, System-Wide Network Ad Blocker, Web Traffic Inspector, and Origin Tracer for Windows.**
 
 [![Python](https://img.shields.io/badge/Python-3.14%2B-blue.svg?logo=python)](https://python.org)
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011%20%7C%20Server-0078D6.svg?logo=windows)](https://microsoft.com)
 [![License](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-25%2F25%20Passing%20(100%25)-brightgreen.svg)](tools/test_engine.py)
+[![Tests](https://img.shields.io/badge/Tests-30%2F30%20Passing%20(100%25)-brightgreen.svg)](tools/test_engine.py)
+[![Email Alerting](https://img.shields.io/badge/Email%20Alerts-Resend%20API%20%7C%20SMTP-purple.svg)](https://resend.com)
 [![Port: EDR Dashboard](https://img.shields.io/badge/EDR%20Dashboard-127.0.0.1%3A8888-cyan.svg)](http://127.0.0.1:8888)
 [![Port: AdBlock Proxy](https://img.shields.io/badge/AdBlock%20Proxy-127.0.0.1%3A8080-purple.svg)](http://127.0.0.1:8080)
+[![Documentation Hub](https://img.shields.io/badge/Docs-Web%20Documentation%20Hub-blue.svg)](http://127.0.0.1:8888/docs.html)
 
 ---
 
@@ -29,13 +32,17 @@
 | :---: | :---: |
 | ![Persistence](screenshots/07_persistence_startup.png) | ![Simulation Lab](screenshots/08_threat_simulation_lab.png) |
 
-| View 09: SMTP Email Alerts & Reports | View 10: Incident Audit Trail |
+| View 09: Resend & SMTP Email Alerts | View 10: Incident Audit Trail |
 | :---: | :---: |
 | ![Email Alerts](screenshots/09_email_alerts_config.png) | ![Audit Trail](screenshots/10_incident_audit_trail.png) |
 
 | View 11: Private Stealth Mode Console | View 12: Light Clean SOC Daylight Mode |
 | :---: | :---: |
 | ![Private Stealth Mode](screenshots/11_private_mode_stealth.png) | ![Light Clean SOC Mode](screenshots/12_light_mode_clean_soc.png) |
+
+| View 13: Web Documentation Hub | View 14: Elevated UAC Eradicator & Tracking |
+| :---: | :---: |
+| ![Web Documentation](screenshots/13_documentation_hub.png) | ![Elevated Eradication](screenshots/14_elevated_kill_modal_and_tracking.png) |
 
 ---
 
@@ -203,5 +210,13 @@ SpywareProcessMon/
 
 ---
 
-## 🛡️ License
+## 🛡️ License & Author
 Distributed under the MIT License. Built for proactive endpoint defense, network privacy, and SOC transparency.
+
+---
+
+### 👨‍💻 Engineering & Support
+**Built with ❤️ by Sudhir Kumar Thanna**  
+**Deployed Version:** `v2.5.0-SOC-Enterprise (Build 2026.11.07-STABLE)`  
+**Documentation Web Page:** [`http://127.0.0.1:8888/docs.html`](http://127.0.0.1:8888/docs.html)  
+**Last Synchronized:** `2026-11-07 08:35:00 UTC+01:00`

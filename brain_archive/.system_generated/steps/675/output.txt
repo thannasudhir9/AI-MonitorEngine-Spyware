@@ -1,1 +1,0 @@
-Made 1 replacement in c:\Users\thann\Downloads\AntiGravity\SpywareProcessMon\frontend\js\app.js starting at line 386 (+2/-0 lines).

@@ -98,13 +98,15 @@ class IPBlockRequest(BaseModel):
 
 
 class EmailConfigRequest(BaseModel):
-    smtp_server: str
-    smtp_port: int
+    provider: Optional[str] = "resend"  # "resend" or "smtp"
+    resend_api_key: Optional[str] = None
+    smtp_server: Optional[str] = "smtp.gmail.com"
+    smtp_port: Optional[int] = 587
     use_tls: bool = True
-    sender_email: str
+    sender_email: Optional[str] = "onboarding@resend.dev"
     sender_password: Optional[str] = ""
-    recipient_email: str
-    auto_email_on_critical: bool = False
+    recipient_email: str = "ethstk911@gmail.com"
+    auto_email_on_critical: bool = True
 
 
 class EmailSendReportRequest(BaseModel):
@@ -222,24 +224,96 @@ def kill_process(req: KillRequest):
     return result
 
 
+@app.get("/api/app-info")
+def get_app_info():
+    """Retrieve full application metadata, active engines, ports, and execution environment."""
+    is_admin = False
+    try:
+        import ctypes
+        is_admin = bool(ctypes.windll.shell32.IsUserAnAdmin())
+    except Exception:
+        pass
+
+    return {
+        "app_name": "AI Monitoring Engine • AdBlocker Engine • Web Tracker • Proc Mon Engine",
+        "short_name": "AegisShield EDR",
+        "tagline": "AI Autonomous Threat Hunter, Deep Process Monitor & Web Privacy Guardian",
+        "process_name": "python.exe",
+        "server_pid": os.getpid(),
+        "is_admin": is_admin,
+        "ports": {
+            "dashboard_and_api": 8888,
+            "adblock_proxy": 8080,
+            "websocket_telemetry": 8888
+        },
+        "sub_apps": [
+            {"name": "AI Monitoring Engine", "status": "ONLINE", "type": "Behavioral Heuristics & Signature Hunter"},
+            {"name": "AdBlocker Engine", "status": "ONLINE", "type": "System-Wide DNS / HTTP Network Blocker"},
+            {"name": "Web Tracker Proxy", "status": "ONLINE", "type": "127.0.0.1:8080 Intercepting Telemetry Engine"},
+            {"name": "Proc Mon Engine", "status": "ONLINE", "type": "Real-time Kernel Process Auditor & Remediator"},
+            {"name": "Threat Eradicator", "status": "ONLINE", "type": "Multi-tier Force Kill & Quarantine"},
+            {"name": "Firewall Access Controller", "status": "ONLINE", "type": "Windows Netsh Policy Enforcement"}
+        ],
+        "author": "Sudhir Kumar Thanna",
+        "support_message": "Built with ❤️ by Sudhir Kumar Thanna",
+        "version": "v2.5.0-SOC-Enterprise (Build 2026.11.07-STABLE)",
+        "deployed_time": "2026-11-07 08:25:00",
+        "default_email_recipient": "ethstk911@gmail.com",
+        "email_provider": email_notifier.get_config().get("provider", "resend")
+    }
+
+
 @app.post("/api/admin/elevate-kill/{pid}")
 def elevate_kill_process(pid: int):
     """Trigger Windows Administrator UAC elevation dialog to terminate a protected/SYSTEM process."""
-    cmd = f"Start-Process taskkill -ArgumentList '/F /PID {pid}' -Verb RunAs -WindowStyle Hidden"
+    # Check if target PID belongs to a service first
+    svc = remediator.get_service_for_pid(pid)
+    if svc:
+        try:
+            subprocess.run(["sc", "stop", svc], capture_output=True, text=True, timeout=2.5)
+        except Exception:
+            pass
+
+    cmd = f"Start-Process taskkill -ArgumentList '/F /T /PID {pid}' -Verb RunAs -Wait -WindowStyle Hidden"
     subprocess.run(["powershell", "-NoProfile", "-Command", cmd], capture_output=True, text=True)
-    time.sleep(1.2)
+    time.sleep(0.8)
     is_dead = not psutil.pid_exists(pid)
     remediator.log_event(
         "ELEVATED_KILL_ATTEMPT",
         str(pid),
         pid,
-        f"Admin UAC kill triggered for PID {pid}. Dead: {is_dead}",
+        f"Admin UAC kill triggered for PID {pid} (Service: {svc or 'None'}). Dead: {is_dead}",
         "SUCCESS" if is_dead else "PENDING_UAC"
     )
     return {
         "success": is_dead,
         "pid": pid,
+        "service_name": svc,
+        "admin_command": f"taskkill /F /PID {pid}",
         "message": f"UAC Administrator elevation triggered for PID {pid}." if not is_dead else f"PID {pid} successfully eradicated via Administrator UAC."
+    }
+
+
+@app.post("/api/admin/stop-service/{service_name}")
+def stop_windows_service(service_name: str):
+    """Attempt to stop a specific Windows Service via Service Control (sc.exe)."""
+    try:
+        res = subprocess.run(["sc", "stop", service_name], capture_output=True, text=True, timeout=3.0)
+        remediator.log_event("SERVICE_STOP_ATTEMPT", service_name, None, f"sc stop {service_name}: {res.stdout.strip()}", "SUCCESS" if res.returncode == 0 else "FAILED")
+        return {"success": res.returncode == 0, "output": res.stdout.strip()}
+    except Exception as e:
+        return {"success": False, "message": str(e)}
+
+
+@app.post("/api/admin/restart-as-admin")
+def restart_as_admin():
+    """Trigger Windows UAC prompt to relaunch AegisShield server with full Administrator privileges."""
+    script_path = str(Path(__file__).parent.parent / "start_all_admin.bat")
+    cmd = f"Start-Process cmd -ArgumentList '/c \"{script_path}\"' -Verb RunAs"
+    subprocess.Popen(["powershell", "-NoProfile", "-Command", cmd], shell=True)
+    return {
+        "success": True,
+        "message": "Elevated Administrator launch triggered. Please accept the Windows UAC security prompt on your screen."
     }
 
 
@@ -573,8 +647,12 @@ async def websocket_telemetry(websocket: WebSocket):
 
 
 # ==============================================================
-# Mount Static Frontend
+# Mount Static Frontend & Screenshots
 # ==============================================================
+
+screenshots_dir = Path(__file__).parent.parent / "screenshots"
+if screenshots_dir.exists():
+    app.mount("/screenshots", StaticFiles(directory=str(screenshots_dir)), name="screenshots")
 
 if FRONTEND_DIR.exists():
     app.mount("/static", StaticFiles(directory=str(FRONTEND_DIR)), name="static")
@@ -585,4 +663,11 @@ if FRONTEND_DIR.exists():
         if index_file.exists():
             return FileResponse(index_file)
         return JSONResponse({"status": "AegisShield Backend Running", "message": "Frontend UI file missing"})
+
+    @app.get("/docs.html")
+    def serve_docs():
+        docs_file = FRONTEND_DIR / "docs.html"
+        if docs_file.exists():
+            return FileResponse(docs_file)
+        return FileResponse(FRONTEND_DIR / "index.html")
 

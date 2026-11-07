@@ -200,4 +200,42 @@ git push origin main
 git pull origin main
 ```
 
+---
+
+## 7. App Info, Resend Email & Documentation Commands (v2.5.0)
+
+### 7.1 Application Metadata & Sub-App Health
+```powershell
+# Retrieve application metadata, PID, ports, and sub-engine status
+curl.exe http://127.0.0.1:8888/api/app-info
+```
+
+### 7.2 Resend API Email Telemetry Dispatch
+```powershell
+# Send verification incident alert via Resend API
+curl.exe -X POST http://127.0.0.1:8888/api/email/send-test
+
+# Send full executive threat report to default recipient (ethstk911@gmail.com)
+curl.exe -X POST http://127.0.0.1:8888/api/email/send-report -H "Content-Type: application/json" -d "{}"
+```
+
+### 7.3 Multi-Tier Administrator Eradication
+```powershell
+# Trigger interactive UAC prompt for elevated or SYSTEM PIDs
+curl.exe -X POST http://127.0.0.1:8888/api/admin/elevate-kill/5824
+
+# Stop host Windows Service holding a process
+curl.exe -X POST http://127.0.0.1:8888/api/admin/stop-service/DiagTrack
+
+# Relaunch entire AegisShield suite as Administrator
+curl.exe -X POST http://127.0.0.1:8888/api/admin/restart-as-admin
+```
+
+### 7.4 Web Documentation Hub
+```powershell
+# Open standalone Web Documentation in default browser
+Start-Process "http://127.0.0.1:8888/docs.html"
+```
+
+
 

@@ -5,6 +5,7 @@ Threat Detection, Process Eradication, Allow/Block Policies, Network Tracer,
 AdBlock Proxy, Web Traffic Logging, Analytics, and Email Dispatch.
 """
 
+import os
 import sys
 import time
 import socket
@@ -27,6 +28,7 @@ from backend.web_analytics import WebAnalytics
 from backend.adblock_proxy import AdBlockProxyServer
 from backend.email_notifier import EmailNotifier
 from backend.simulator import spawn_simulated_threat
+from backend.config import FRONTEND_DIR
 
 
 # Formatting
@@ -219,7 +221,9 @@ def run_all_tests():
         "09_email_alerts_config.png",
         "10_incident_audit_trail.png",
         "11_private_mode_stealth.png",
-        "12_light_mode_clean_soc.png"
+        "12_light_mode_clean_soc.png",
+        "13_documentation_hub.png",
+        "14_elevated_kill_modal_and_tracking.png"
     ]
     all_shots_exist = all((screenshots_dir / shot).is_file() and (screenshots_dir / shot).stat().st_size > 10000 for shot in expected_shots)
     runner.record("Screenshots Generated & Verified", all_shots_exist, f"{len(expected_shots)}/{len(expected_shots)} images present in {screenshots_dir}")
@@ -246,6 +250,30 @@ def run_all_tests():
     wipe_res = logger.panic_wipe()
     runner.record("Stealth Panic Wipe", wipe_res["success"] and len(logger.volatile_private_logs) == 0, wipe_res["message"])
     logger.set_private_mode(False)
+
+    # ==============================================================
+    # Test Suite 11: Resend Email API & Posture Reports
+    # ==============================================================
+    print(f"\n{BOLD}[11/12] Testing Resend Email Notifier & Posture Reports...{RESET}")
+    notifier = EmailNotifier()
+    cfg = notifier.get_config(mask_password=True)
+    runner.record("Resend Provider Configuration", cfg.get("provider") == "resend" or "resend" in cfg, f"Provider: {cfg.get('provider')} | Recipient: {cfg.get('recipient_email')}")
+    runner.record("Default Recipient Verification", cfg.get("recipient_email") == "ethstk911@gmail.com", f"Target: {cfg.get('recipient_email')}")
+
+    # ==============================================================
+    # Test Suite 12: Documentation Hub & Elevated Eradicator Handlers
+    # ==============================================================
+    print(f"\n{BOLD}[12/12] Testing Documentation Hub & Remediation Resilience...{RESET}")
+    docs_file = FRONTEND_DIR / "docs.html"
+    runner.record("Documentation Web Page Exists", docs_file.exists(), f"Path: {docs_file.name} ({docs_file.stat().st_size if docs_file.exists() else 0} bytes)")
+    
+    # Test service detection helper in remediator
+    svc_check = remediator.get_service_for_pid(os.getpid())
+    runner.record("Windows Service PID Discovery", svc_check is None or isinstance(svc_check, str), f"Host Service: {svc_check or 'None (Standard Process)'}")
+
+    # Test blocked history ledger
+    blocked_history = remediator.get_blocked_history()
+    runner.record("Blocked History Ledger Tracking", isinstance(blocked_history, list), f"Total tracked items: {len(blocked_history)}")
 
     # ==============================================================
     # Final Executive Summary

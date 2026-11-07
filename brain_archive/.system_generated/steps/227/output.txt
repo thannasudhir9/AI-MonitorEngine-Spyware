@@ -1,7 +1,0 @@
-Command exited with code 1.
-
-Command output:
-  File "<string>", line 25
-    print(' ', r['date_time'], r['domain'], '->', r['status'], f'({r[" category\]})')
-                                                                     ^
-SyntaxError: unterminated string literal (detected at line 25)

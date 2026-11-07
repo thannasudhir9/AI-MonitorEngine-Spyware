@@ -1,4 +1,0 @@
-Command exited with code 0.
-
-Command output:
-Entropy test: 3.8785848023501854

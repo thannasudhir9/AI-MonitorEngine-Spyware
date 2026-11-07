@@ -11,6 +11,7 @@ APP_ROOT = Path(__file__).resolve().parent.parent
 LOGS_DIR = APP_ROOT / "logs"
 QUARANTINE_DIR = APP_ROOT / "quarantine"
 DATABASE_DIR = APP_ROOT / "database"
+FRONTEND_DIR = APP_ROOT / "frontend"
 
 # Ensure directories exist
 LOGS_DIR.mkdir(parents=True, exist_ok=True)

@@ -1,1 +1,0 @@
-Made 1 replacement in c:\Users\thann\Downloads\AntiGravity\SpywareProcessMon\docs\CODE_EXPLANATION.md starting at line 220 (+41/-0 lines).

@@ -118,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initTabs();
     initWebSocket();
     checkPrivacyStatus();
+    loadAppInfo();
     runScan(true);
 
     // Auto-refresh interval (every 6 seconds)
@@ -129,14 +130,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 6000);
 });
 
+// App & Sub-Systems Info Loader
+async function loadAppInfo() {
+    try {
+        const res = await fetch('/api/app-info');
+        if (!res.ok) return;
+        const data = await res.json();
+        const pidEl = document.getElementById('footer-pid');
+        const adminText = document.getElementById('footer-admin-text');
+        const adminBadge = document.getElementById('footer-admin-badge');
+
+        if (pidEl) pidEl.textContent = data.server_pid || '--';
+        if (adminText && adminBadge) {
+            if (data.is_admin) {
+                adminText.textContent = 'Administrator: ACTIVE';
+                adminBadge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 cursor-default';
+            } else {
+                adminText.textContent = 'Standard User (Elevation Available)';
+                adminBadge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 cursor-pointer hover:bg-amber-500/30';
+            }
+        }
+    } catch (e) {
+        console.warn('App info fetch error', e);
+    }
+}
+
 // Real-Time Clock
 function initClock() {
     function update() {
         const now = new Date();
         const timeEl = document.getElementById('live-time');
-        if (timeEl) {
-            timeEl.textContent = now.toLocaleTimeString() + ' | ' + now.toLocaleDateString();
-        }
+        const footerTimeEl = document.getElementById('footer-live-time');
+        const formatted = now.toLocaleTimeString() + ' | ' + now.toLocaleDateString();
+        if (timeEl) timeEl.textContent = formatted;
+        if (footerTimeEl) footerTimeEl.textContent = formatted + ' (Local SOC)';
     }
     update();
     setInterval(update, 1000);
@@ -210,6 +237,7 @@ function switchTab(tabName) {
     if (tabName === 'persistence') loadPersistence();
     if (tabName === 'email') loadEmailConfig();
     if (tabName === 'audit') loadAuditLog();
+    if (tabName === 'docs') switchDocSection('overview');
     if (window.lucide) lucide.createIcons();
 }
 
@@ -224,6 +252,254 @@ function navigateToTab(tabName) {
 function navigateToThreatsTab(subView = 'active') {
     navigateToTab('threats');
     switchThreatsSubView(subView);
+}
+
+function navigateToProcessTab(subView = 'active') {
+    navigateToTab('processes');
+    switchProcessSubView(subView);
+}
+
+function navigateToRMMTab(subView = 'active') {
+    navigateToTab('rmm');
+    switchRMMSubView(subView);
+}
+
+function navigateToNetworkTab(subView = 'active') {
+    navigateToTab('network');
+    switchNetworkSubView(subView);
+}
+
+function switchProcessSubView(subView) {
+    const activeContainer = document.getElementById('procs-active-container');
+    const historyView = document.getElementById('processes-history-view');
+    const btnActive = document.getElementById('btn-procs-active');
+    const btnHistory = document.getElementById('btn-procs-history');
+
+    if (subView === 'blocked') {
+        if (activeContainer) activeContainer.classList.add('hidden');
+        if (historyView) historyView.classList.remove('hidden');
+        if (btnActive) {
+            btnActive.classList.remove('bg-cyan-600', 'text-white');
+            btnActive.classList.add('text-slate-400');
+        }
+        if (btnHistory) {
+            btnHistory.classList.add('bg-cyan-600', 'text-white');
+            btnHistory.classList.remove('text-slate-400');
+        }
+        loadProcessHistory();
+    } else {
+        if (activeContainer) activeContainer.classList.remove('hidden');
+        if (historyView) historyView.classList.add('hidden');
+        if (btnActive) {
+            btnActive.classList.add('bg-cyan-600', 'text-white');
+            btnActive.classList.remove('text-slate-400');
+        }
+        if (btnHistory) {
+            btnHistory.classList.remove('bg-cyan-600', 'text-white');
+            btnHistory.classList.add('text-slate-400');
+        }
+    }
+    if (window.lucide) lucide.createIcons();
+}
+
+async function loadProcessHistory() {
+    try {
+        const res = await fetch('/api/blocked-history');
+        const history = await res.json();
+        const tbody = document.getElementById('procs-history-table-body');
+        const countBadge = document.getElementById('sub-procs-killed-count');
+
+        const procEvents = (history || []).filter(e => (e.action || '').includes('KILL') || (e.action || '').includes('PROCESS'));
+        if (countBadge) countBadge.textContent = procEvents.length;
+        if (!tbody) return;
+
+        if (procEvents.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400 text-xs">No processes terminated yet. Terminated processes will be tracked here.</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = procEvents.map(item => {
+            const statusClass = item.status === 'SUCCESS' ? 'text-emerald-400 font-bold' : (item.status === 'FAILED' ? 'text-red-400 font-bold' : 'text-amber-400 font-bold');
+            const canElevate = item.status === 'FAILED' || (item.details || '').includes('Access denied');
+            return `
+                <tr class="border-b border-slate-800/60 hover:bg-slate-800/30 transition">
+                    <td class="p-3 text-slate-400">${escapeHtml(item.time_display || item.timestamp || '')}</td>
+                    <td class="p-3 font-bold text-white">${escapeHtml(item.target || 'N/A')}</td>
+                    <td class="p-3 text-slate-300 font-mono">${item.pid || '-'}</td>
+                    <td class="p-3">
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold border ${item.status === 'SUCCESS' ? 'bg-emerald-600/20 text-emerald-300 border-emerald-500/30' : 'bg-red-600/20 text-red-300 border-red-500/30'}">
+                            ${escapeHtml(item.action)}
+                        </span>
+                    </td>
+                    <td class="p-3 text-slate-300">${escapeHtml(item.details || '')}</td>
+                    <td class="p-3 text-right">
+                        <span class="${statusClass} mr-2">${escapeHtml(item.status)}</span>
+                        ${canElevate && item.pid ? `<button onclick="showElevatedKillModal(${item.pid}, '${escapeHtml(item.target)}', '${escapeHtml(item.details)}', null, 'taskkill /F /PID ${item.pid}')" class="px-2 py-0.5 rounded bg-red-600 hover:bg-red-500 text-white font-bold text-[10px]">⚡ Elevate</button>` : ''}
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    } catch (e) {
+        console.error('Failed to load process history:', e);
+    }
+}
+
+function switchRMMSubView(subView) {
+    const activeContainer = document.getElementById('rmm-active-container');
+    const historyView = document.getElementById('rmm-history-view');
+    const btnActive = document.getElementById('btn-rmm-active');
+    const btnHistory = document.getElementById('btn-rmm-history');
+
+    if (subView === 'blocked') {
+        if (activeContainer) activeContainer.classList.add('hidden');
+        if (historyView) historyView.classList.remove('hidden');
+        if (btnActive) {
+            btnActive.classList.remove('bg-cyan-600', 'text-white');
+            btnActive.classList.add('text-slate-400');
+        }
+        if (btnHistory) {
+            btnHistory.classList.add('bg-cyan-600', 'text-white');
+            btnHistory.classList.remove('text-slate-400');
+        }
+        loadRMMHistory();
+    } else {
+        if (activeContainer) activeContainer.classList.remove('hidden');
+        if (historyView) historyView.classList.add('hidden');
+        if (btnActive) {
+            btnActive.classList.add('bg-cyan-600', 'text-white');
+            btnActive.classList.remove('text-slate-400');
+        }
+        if (btnHistory) {
+            btnHistory.classList.remove('bg-cyan-600', 'text-white');
+            btnHistory.classList.add('text-slate-400');
+        }
+    }
+    if (window.lucide) lucide.createIcons();
+}
+
+async function loadRMMHistory() {
+    try {
+        const res = await fetch('/api/blocked-history');
+        const history = await res.json();
+        const tbody = document.getElementById('rmm-history-table-body');
+        const countBadge = document.getElementById('sub-rmm-blocked-count');
+
+        const rmmNames = ['anydesk', 'teamviewer', 'rustdesk', 'vnc', 'screenconnect', 'logmein', 'parsec', 'splashtop', 'ngrok', 'frp'];
+        const rmmEvents = (history || []).filter(e => {
+            const targetLower = (e.target || '').toLowerCase();
+            const detailsLower = (e.details || '').toLowerCase();
+            return rmmNames.some(r => targetLower.includes(r) || detailsLower.includes(r));
+        });
+
+        if (countBadge) countBadge.textContent = rmmEvents.length;
+        if (!tbody) return;
+
+        if (rmmEvents.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400 text-xs">No RMM tools or remote control sessions terminated yet.</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = rmmEvents.map(item => `
+            <tr class="border-b border-slate-800/60 hover:bg-slate-800/30 transition">
+                <td class="p-3 text-slate-400">${escapeHtml(item.time_display || item.timestamp || '')}</td>
+                <td class="p-3 font-bold text-cyan-300">${escapeHtml(item.target || 'N/A')}</td>
+                <td class="p-3 text-slate-300">${item.pid || '-'}</td>
+                <td class="p-3 font-mono text-xs text-red-300">${escapeHtml(item.action)}</td>
+                <td class="p-3 text-slate-300">${escapeHtml(item.details || '')}</td>
+                <td class="p-3 text-right font-bold text-emerald-400">${escapeHtml(item.status)}</td>
+            </tr>
+        `).join('');
+    } catch (e) {
+        console.error('Failed to load RMM history:', e);
+    }
+}
+
+function switchNetworkSubView(subView) {
+    const activeContainer = document.getElementById('net-active-container');
+    const blockedView = document.getElementById('net-blocked-view');
+    const btnActive = document.getElementById('btn-net-active');
+    const btnBlocked = document.getElementById('btn-net-blocked');
+
+    if (subView === 'blocked') {
+        if (activeContainer) activeContainer.classList.add('hidden');
+        if (blockedView) blockedView.classList.remove('hidden');
+        if (btnActive) {
+            btnActive.classList.remove('bg-emerald-600', 'text-white');
+            btnActive.classList.add('text-slate-400');
+        }
+        if (btnBlocked) {
+            btnBlocked.classList.add('bg-emerald-600', 'text-white');
+            btnBlocked.classList.remove('text-slate-400');
+        }
+        loadNetworkBlockedHistory();
+    } else {
+        if (activeContainer) activeContainer.classList.remove('hidden');
+        if (blockedView) blockedView.classList.add('hidden');
+        if (btnActive) {
+            btnActive.classList.add('bg-emerald-600', 'text-white');
+            btnActive.classList.remove('text-slate-400');
+        }
+        if (btnBlocked) {
+            btnBlocked.classList.remove('bg-emerald-600', 'text-white');
+            btnBlocked.classList.add('text-slate-400');
+        }
+    }
+    if (window.lucide) lucide.createIcons();
+}
+
+async function loadNetworkBlockedHistory() {
+    try {
+        const res = await fetch('/api/policy/rules');
+        const rules = await res.json();
+        const tbody = document.getElementById('net-blocked-table-body');
+        const countBadge = document.getElementById('sub-net-blocked-count');
+
+        const blockedIPs = (rules.blocked_ips || []);
+        if (countBadge) countBadge.textContent = blockedIPs.length;
+        if (!tbody) return;
+
+        if (blockedIPs.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400 text-xs">No remote IPs currently blocked in Windows Firewall. Click 'Block New IP' to add one.</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = blockedIPs.map(rule => `
+            <tr class="border-b border-slate-800/60 hover:bg-slate-800/30 transition">
+                <td class="p-3 text-slate-400">${escapeHtml(rule.created_at || 'Active')}</td>
+                <td class="p-3 font-bold text-red-400 font-mono">${escapeHtml(rule.value || rule.ip)}</td>
+                <td class="p-3 text-slate-300">${escapeHtml(rule.comment || 'Blocked Inbound/Outbound')}</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-mono bg-red-600/20 text-red-300 border border-red-500/30">Netsh Blocked</span></td>
+                <td class="p-3 text-slate-400 text-xs">Firewall rule enforced via Windows Netsh API</td>
+                <td class="p-3 text-right">
+                    <button onclick="removePolicyRule('${rule.id}')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-red-600 text-slate-300 hover:text-white text-xs transition">Unblock</button>
+                </td>
+            </tr>
+        `).join('');
+    } catch (e) {
+        console.error('Failed to load network blocked history:', e);
+    }
+}
+
+function switchDocSection(sec) {
+    const sections = ['overview', 'engines', 'elevation', 'gallery', 'brain', 'commands'];
+    sections.forEach(s => {
+        const el = document.getElementById(`doc-sec-${s}`);
+        const btn = document.getElementById(`doc-tab-${s}`);
+        if (s === sec) {
+            if (el) el.classList.remove('hidden');
+            if (btn) {
+                btn.classList.add('bg-cyan-600', 'text-white', 'font-bold');
+                btn.classList.remove('bg-slate-800', 'text-slate-300');
+            }
+        } else {
+            if (el) el.classList.add('hidden');
+            if (btn) {
+                btn.classList.remove('bg-cyan-600', 'text-white', 'font-bold');
+                btn.classList.add('bg-slate-800', 'text-slate-300');
+            }
+        }
+    });
+    if (window.lucide) lucide.createIcons();
 }
 
 function switchThreatsSubView(subView) {
@@ -1066,6 +1342,88 @@ function openEmailModal() {
 // Process Killer & Eradication Controls
 // ==============================================================
 
+// Elevated Admin Eradication State
+let elevatedTarget = { pid: null, name: null, service: null };
+
+function showElevatedKillModal(pid, name, message, serviceName, adminCmd) {
+    elevatedTarget = { pid, name, service: serviceName };
+    const modal = document.getElementById('elevated-kill-modal');
+    const pidEl = document.getElementById('elev-modal-pid');
+    const nameEl = document.getElementById('elev-modal-name');
+    const msgEl = document.getElementById('elev-modal-message');
+    const cmdEl = document.getElementById('elev-modal-command');
+    const svcContainer = document.getElementById('elev-modal-service-container');
+    const svcNameEl = document.getElementById('elev-modal-service-name');
+    const btnStopSvc = document.getElementById('btn-elev-stop-service');
+
+    if (pidEl) pidEl.textContent = pid;
+    if (nameEl) nameEl.textContent = name || 'Process';
+    if (msgEl) msgEl.textContent = message || `Target process PID ${pid} is protected by Windows SYSTEM or Administrator rights.`;
+    if (cmdEl) cmdEl.value = adminCmd || `taskkill /F /PID ${pid}`;
+
+    if (serviceName) {
+        if (svcContainer) svcContainer.classList.remove('hidden');
+        if (svcNameEl) svcNameEl.textContent = serviceName;
+        if (btnStopSvc) btnStopSvc.classList.remove('hidden');
+    } else {
+        if (svcContainer) svcContainer.classList.add('hidden');
+        if (btnStopSvc) btnStopSvc.classList.add('hidden');
+    }
+
+    if (modal) modal.classList.remove('hidden');
+    if (window.lucide) lucide.createIcons();
+}
+
+function closeElevatedKillModal() {
+    const modal = document.getElementById('elevated-kill-modal');
+    if (modal) modal.classList.add('hidden');
+}
+
+async function triggerElevatedUACKill() {
+    if (!elevatedTarget.pid) return;
+    const { pid, name } = elevatedTarget;
+    closeElevatedKillModal();
+    await elevateKillProcess(pid, name);
+}
+
+async function stopElevatedService() {
+    if (!elevatedTarget.service) return;
+    try {
+        showToast('Stopping Service', `Sending stop signal to Windows Service '${elevatedTarget.service}'...`, 'info');
+        const res = await fetch(`/api/admin/stop-service/${encodeURIComponent(elevatedTarget.service)}`, { method: 'POST' });
+        const data = await res.json();
+        if (data.success) {
+            showToast('Service Stopped', `Successfully stopped Windows Service '${elevatedTarget.service}'.`, 'success');
+            closeElevatedKillModal();
+            runScan(true);
+        } else {
+            showToast('Service Stop Notice', data.output || 'Unable to stop service.', 'warning');
+        }
+    } catch (e) {
+        showToast('Error', 'Failed to communicate with service manager', 'danger');
+    }
+}
+
+function copyElevatedCommand() {
+    const cmdEl = document.getElementById('elev-modal-command');
+    if (cmdEl) {
+        cmdEl.select();
+        navigator.clipboard.writeText(cmdEl.value);
+        showToast('Command Copied', `Copied to clipboard: ${cmdEl.value}`, 'success');
+    }
+}
+
+async function restartAsAdminPrompt() {
+    if (!confirm("Would you like to relaunch AegisShield with Full Administrator Privileges?\n\nThis will trigger the Windows UAC confirmation dialog and allow terminating protected Windows system PIDs.")) return;
+    try {
+        const res = await fetch('/api/admin/restart-as-admin', { method: 'POST' });
+        const data = await res.json();
+        showToast('Elevation Triggered', data.message || 'Please accept the Windows UAC dialog on your screen.', 'info');
+    } catch (e) {
+        showToast('Error', 'Unable to invoke elevated restart.', 'danger');
+    }
+}
+
 async function killProcess(pid, name) {
     if (!confirm(`Are you sure you want to terminate process '${name}' (PID: ${pid})?`)) return;
 
@@ -1083,11 +1441,8 @@ async function killProcess(pid, name) {
             if (state.activeTab === 'network') loadNetworkTracer();
         } else {
             if (data.requires_admin || (data.message && data.message.includes('Access denied'))) {
-                const doElevate = confirm(`${data.message}\n\nWould you like AegisShield to trigger a Windows Administrator UAC Elevation Prompt to terminate PID ${pid}?`);
-                if (doElevate) {
-                    elevateKillProcess(pid, name);
-                    return;
-                }
+                showElevatedKillModal(pid, name, data.message, data.service_name, data.admin_command);
+                return;
             }
             showToast('Kill Failed', data.message, 'danger');
         }

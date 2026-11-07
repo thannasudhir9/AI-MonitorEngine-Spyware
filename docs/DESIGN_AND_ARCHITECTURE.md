@@ -211,14 +211,22 @@ sequenceDiagram
 
 ---
 
-### 3.7 SMTP Email Alerting & Reports
-- Configurable SMTP dispatch (`smtp.gmail.com`, `smtp.office365.com`, or custom relay) supporting TLS/SSL.
+### 3.7 Incident Email Alerting & Reports (Resend API & SMTP)
+- **Cloud Resend API:** Dispatches incident reports directly over HTTPS port 443 to `ethstk911@gmail.com` using Resend API Key (`re_hsxz••••••••••••••••••••••••`) with custom User-Agent headers, bypassing SMTP port throttling.
+- **SMTP Relay Fallback:** Supports TLS/SSL (`smtp.gmail.com`, `smtp.office365.com`, or custom relays).
 - Sends executive security briefings formatted with responsive dark-theme HTML tables containing:
   - System Security Health Score
   - Active Threat Breakdown (PID, Path, Severity, Heuristic Reasons)
   - Remote Desktop & RMM Tool Inventory
   - Active Network Sockets & Remote Endpoints
   - Remediation Action Log
+
+---
+
+### 3.8 Web Documentation Hub (`frontend/docs.html` & `view-docs`)
+- Dedicated full-page documentation web portal and in-app navigation tab.
+- Contains executive overview, architecture graphs, four core engines breakdown, high-definition screenshot gallery (14 views), brain files archive, chronological prompts ledger, CLI runbook, and API reference.
+- Built by Sudhir Kumar Thanna with live system metadata and deployed version `v2.5.0-SOC-Enterprise`.
 
 ---
 

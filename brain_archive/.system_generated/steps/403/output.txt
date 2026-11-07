@@ -1,4 +1,0 @@
-Command exited with code 1.
-
-Command output:
-fatal: unable to access 'https://github.com/thannasudhir9/AI-MonitorEngine-Spyware.git/': Failed to connect to github.com:443 over proxy 127.0.0.1 after 2 ms: Could not connect to server

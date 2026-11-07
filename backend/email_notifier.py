@@ -7,6 +7,8 @@ critical threat alerts, and network telemetry audits.
 import os
 import json
 import smtplib
+import urllib.request
+import urllib.error
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from datetime import datetime
@@ -19,21 +21,23 @@ EMAIL_CONFIG_FILE = DATABASE_DIR / "email_config.json"
 
 
 class EmailNotifier:
-    """Handles SMTP configuration, HTML report formatting, and email dispatch."""
+    """Handles Resend HTTP API and SMTP configuration, HTML report formatting, and email dispatch."""
 
     def __init__(self):
         self._config = self._load_config()
 
     def _load_config(self) -> Dict[str, Any]:
-        """Load SMTP settings from disk."""
+        """Load Email dispatch settings from disk."""
         default_config = {
+            "provider": "resend",  # "resend" or "smtp"
+            "resend_api_key": os.environ.get("RESEND_API_KEY", ""),
             "smtp_server": "smtp.gmail.com",
             "smtp_port": 587,
             "use_tls": True,
-            "sender_email": "",
+            "sender_email": "onboarding@resend.dev",
             "sender_password": "",
-            "recipient_email": "",
-            "auto_email_on_critical": False,
+            "recipient_email": "ethstk911@gmail.com",
+            "auto_email_on_critical": True,
             "last_sent": None
         }
 
@@ -50,7 +54,7 @@ class EmailNotifier:
         return default_config
 
     def _save_config(self):
-        """Persist SMTP configuration to disk."""
+        """Persist Email configuration to disk."""
         try:
             with open(EMAIL_CONFIG_FILE, "w", encoding="utf-8") as f:
                 json.dump(self._config, f, indent=2)
@@ -62,12 +66,16 @@ class EmailNotifier:
         cfg = dict(self._config)
         if mask_password and cfg.get("sender_password"):
             cfg["sender_password"] = "••••••••••••"
+        if mask_password and cfg.get("resend_api_key"):
+            key = cfg["resend_api_key"]
+            if len(key) > 8:
+                cfg["resend_api_key_masked"] = key[:6] + "••••••••" + key[-4:]
         return cfg
 
     def update_config(self, new_settings: Dict[str, Any]) -> Dict[str, Any]:
-        """Update SMTP settings."""
-        for key in ["smtp_server", "smtp_port", "use_tls", "sender_email", "recipient_email", "auto_email_on_critical"]:
-            if key in new_settings:
+        """Update Email settings."""
+        for key in ["provider", "resend_api_key", "smtp_server", "smtp_port", "use_tls", "sender_email", "recipient_email", "auto_email_on_critical"]:
+            if key in new_settings and new_settings[key] is not None:
                 self._config[key] = new_settings[key]
 
         # Only update password if a non-masked value is provided
@@ -270,19 +278,83 @@ class EmailNotifier:
         """
         return html
 
-    def send_email(self, subject: str, html_content: str, recipient: Optional[str] = None) -> Dict[str, Any]:
-        """Dispatch email using configured SMTP settings."""
+    def send_via_resend(self, subject: str, html_content: str, recipient: Optional[str] = None) -> Dict[str, Any]:
+        """Dispatch email using Resend HTTP API (HTTPS port 443 with Zero SMTP blocking)."""
         cfg = self._config
+        api_key = cfg.get("resend_api_key") or os.environ.get("RESEND_API_KEY", "")
+        to_email = recipient or cfg.get("recipient_email") or "ethstk911@gmail.com"
+        from_email = cfg.get("sender_email") or "onboarding@resend.dev"
+        
+        # Resend test domain format compliance
+        if "onboarding@resend.dev" in from_email or not from_email:
+            from_sender = "AegisShield SOC <onboarding@resend.dev>"
+        else:
+            from_sender = f"AegisShield SOC <{from_email}>" if "<" not in from_email else from_email
+
+        payload = {
+            "from": from_sender,
+            "to": [to_email],
+            "subject": subject,
+            "html": html_content
+        }
+
+        req = urllib.request.Request(
+            "https://api.resend.com/emails",
+            data=json.dumps(payload).encode("utf-8"),
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AegisShield-EDR/2.5"
+            }
+        )
+
+        try:
+            with urllib.request.urlopen(req, timeout=12) as resp:
+                body = json.loads(resp.read().decode("utf-8"))
+                self._config["last_sent"] = datetime.now().isoformat()
+                self._save_config()
+                return {
+                    "success": True,
+                    "provider": "resend",
+                    "resend_id": body.get("id"),
+                    "message": f"Security report successfully dispatched to {to_email} via Resend API (ID: {body.get('id')})."
+                }
+        except urllib.error.HTTPError as e:
+            err_body = e.read().decode("utf-8", errors="ignore")
+            return {
+                "success": False,
+                "provider": "resend",
+                "message": f"Resend API Error (HTTP {e.code}): {err_body}"
+            }
+        except Exception as e:
+            return {
+                "success": False,
+                "provider": "resend",
+                "message": f"Resend Dispatch Exception: {str(e)}"
+            }
+
+    def send_email(self, subject: str, html_content: str, recipient: Optional[str] = None) -> Dict[str, Any]:
+        """Dispatch email using configured Resend API or SMTP settings."""
+        cfg = self._config
+        provider = (cfg.get("provider") or "resend").lower()
+        to_email = recipient or cfg.get("recipient_email") or "ethstk911@gmail.com"
+
+        # If provider is Resend or Resend API key is present, prefer Resend
+        if provider == "resend" or cfg.get("resend_api_key"):
+            resend_result = self.send_via_resend(subject, html_content, to_email)
+            if resend_result["success"] or provider == "resend":
+                return resend_result
+
+        # SMTP Fallback
         server_host = cfg.get("smtp_server")
         server_port = int(cfg.get("smtp_port", 587))
         sender = cfg.get("sender_email")
         password = cfg.get("sender_password")
-        to_email = recipient or cfg.get("recipient_email")
 
         if not server_host or not sender or not to_email:
             return {
                 "success": False,
-                "message": "Incomplete SMTP configuration. Please configure SMTP Server, Sender Email, and Recipient in Settings."
+                "message": "Incomplete Email configuration. Resend API key or SMTP Server and Sender required."
             }
 
         try:
@@ -315,28 +387,49 @@ class EmailNotifier:
 
             return {
                 "success": True,
-                "message": f"Security report successfully dispatched to {to_email}."
+                "provider": "smtp",
+                "message": f"Security report successfully dispatched to {to_email} via SMTP."
             }
 
         except smtplib.SMTPAuthenticationError:
             return {
                 "success": False,
+                "provider": "smtp",
                 "message": "SMTP Authentication failed. For Gmail, please use an 'App Password' rather than your regular account password."
             }
         except Exception as e:
             return {
                 "success": False,
+                "provider": "smtp",
                 "message": f"SMTP Dispatch Error: {str(e)}"
             }
 
-    def send_test_email(self) -> Dict[str, Any]:
+    def send_test_email(self, recipient: Optional[str] = None) -> Dict[str, Any]:
         """Send verification test email."""
-        test_html = """
-        <div style="font-family: Arial, sans-serif; background: #0f172a; color: #ffffff; padding: 20px; border-radius: 8px;">
-            <h2 style="color: #06b6d4;">🛡️ AegisShield SMTP Test Verification</h2>
-            <p>This is a test notification confirming that your AegisShield EDR alerting and email configuration is operating properly.</p>
-            <p style="color: #10b981; font-weight: bold;">[✓] SMTP Connection and Authentication Verified.</p>
+        target = recipient or self._config.get("recipient_email") or "ethstk911@gmail.com"
+        test_html = f"""
+        <div style="font-family: Arial, sans-serif; background: #0f172a; color: #ffffff; padding: 24px; border-radius: 12px; border: 1px solid #1e293b; max-width: 650px; margin: 0 auto;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+                <h2 style="color: #06b6d4; margin: 0;">🛡️ AegisShield EDR - Security Telemetry Alert & Test Report</h2>
+            </div>
+            <p style="color: #94a3b8; font-size: 14px; line-height: 1.6;">
+                This confirms that your <strong>AegisShield EDR</strong> notification engine is active and communicating over Resend API / SMTP.
+            </p>
+            <div style="background: #111a2e; border: 1px solid #06b6d4; border-radius: 8px; padding: 16px; margin: 20px 0;">
+                <p style="margin: 0 0 8px 0; color: #10b981; font-weight: bold; font-size: 14px;">
+                    ✓ Dispatch Channel: RESEND HTTP API (Port 443 / Cloud Delivery)
+                </p>
+                <p style="margin: 0; color: #cbd5e1; font-size: 13px;">
+                    <strong>Recipient:</strong> {target}<br>
+                    <strong>Engines Active:</strong> AI Monitoring Engine, AdBlocker Engine, Web Tracker, Proc Mon Engine<br>
+                    <strong>Timestamp:</strong> {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}<br>
+                    <strong>Deployment:</strong> v2.5.0-SOC-Enterprise (Built with ❤️ by Sudhir Kumar Thanna)
+                </p>
+            </div>
+            <p style="color: #64748b; font-size: 12px; border-top: 1px solid #1e293b; padding-top: 12px; margin-top: 20px;">
+                AegisShield Autonomous SOC Defense Engine. Keep this receipt for security posture auditing.
+            </p>
         </div>
         """
-        return self.send_email("AegisShield EDR - SMTP Test Verification", test_html)
+        return self.send_email("🛡️ AegisShield EDR - Incident Alert Verification", test_html, target)
 

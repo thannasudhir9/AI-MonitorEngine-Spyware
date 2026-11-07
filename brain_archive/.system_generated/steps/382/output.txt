@@ -1,4 +1,0 @@
-Command exited with code 0.
-
-Command output:
-Initialized empty Git repository in C:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/.git/

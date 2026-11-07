@@ -1,1 +1,0 @@
-Made 1 replacement in c:\Users\thann\Downloads\AntiGravity\SpywareProcessMon\backend\remediator.py starting at line 7 (+45/-0 lines).

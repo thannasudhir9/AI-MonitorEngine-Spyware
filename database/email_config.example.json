@@ -1,0 +1,12 @@
+{
+  "provider": "resend",
+  "resend_api_key": "YOUR_RESEND_API_KEY",
+  "smtp_server": "smtp.gmail.com",
+  "smtp_port": 587,
+  "use_tls": true,
+  "sender_email": "onboarding@resend.dev",
+  "sender_password": "",
+  "recipient_email": "ethstk911@gmail.com",
+  "auto_email_on_critical": true,
+  "last_sent": null
+}

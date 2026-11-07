@@ -199,9 +199,15 @@ This ensures instant operating-system level packet dropping before any applicati
 
 ---
 
-## 9. SMTP Email Alerts & Reports (`backend/email_notifier.py`)
+## 9. Email Alerting: Resend HTTP API & SMTP (`backend/email_notifier.py`)
 
-### 9.1 Report Generation
+### 9.1 Resend API Cloud Delivery
+`EmailNotifier.send_via_resend(subject, html_content, recipient)` dispatches incident reports directly over HTTPS port 443 via `https://api.resend.com/emails`:
+- Avoids ISP port 587/465 blocks and eliminating complex App Password requirements.
+- Configured with Resend API Key (`re_hsxz••••••••••••••••••••••••` / `RESEND_API_KEY` env var) and default recipient `ethstk911@gmail.com`.
+- Injects standard Windows/Chrome `User-Agent` headers to guarantee delivery through Cloudflare edge filters.
+
+### 9.2 Report Generation
 `EmailNotifier.generate_html_report(data)` compiles a responsive, dark-themed HTML email containing:
 - Executive Summary Badge (System Health Index, Active Threat Count).
 - Detailed Threat Remediation Table (Process Name, PID, File Path, Threat Score, Heuristic Triggers).
@@ -209,8 +215,8 @@ This ensures instant operating-system level packet dropping before any applicati
 - High-Risk Network Sockets and Remote Endpoints.
 - Remediation Audit History.
 
-### 9.2 Dispatch Pipeline
-- Connects securely via `smtplib.SMTP(host, port)`.
+### 9.3 SMTP Fallback Pipeline
+- Connects securely via `smtplib.SMTP(host, port)` or SSL port 465.
 - Upgrades to TLS encryption with `server.starttls()`.
 - Authenticates using credentials from `database/email_config.json`.
 - Sends MIME multipart message (`text/plain` fallback and `text/html`).

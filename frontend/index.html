@@ -38,18 +38,20 @@
     <!-- Top Navigation Header -->
     <header class="border-b border-slate-800 bg-cyber-900/90 backdrop-blur-md sticky top-0 z-40 px-6 py-3.5 flex items-center justify-between">
         <!-- Brand & Shield Indicator -->
-        <div class="flex items-center gap-4">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-emerald-500 p-0.5 shadow-lg shadow-cyan-500/20 flex items-center justify-center">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-emerald-500 p-0.5 shadow-lg shadow-cyan-500/20 flex items-center justify-center flex-shrink-0">
                 <div class="w-full h-full bg-cyber-900 rounded-[10px] flex items-center justify-center text-cyan-400">
                     <i data-lucide="shield-alert" class="w-5 h-5"></i>
                 </div>
             </div>
             <div>
-                <div class="flex items-center gap-2">
-                    <h1 class="font-extrabold text-lg tracking-wider font-mono text-white">AEGIS<span class="text-cyan-400">SHIELD</span></h1>
-                    <span class="px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-[10px] font-mono font-bold">EDR v2.0</span>
+                <div class="flex items-center gap-2 flex-wrap">
+                    <h1 class="font-extrabold text-sm md:text-base tracking-wide font-mono text-white">
+                        AI Monitoring Engine <span class="text-cyan-400">•</span> AdBlocker Engine <span class="text-emerald-400">•</span> Web Tracker <span class="text-purple-400">•</span> Proc Mon Engine
+                    </h1>
+                    <span class="px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-[10px] font-mono font-bold">AEGISSHIELD v2.5</span>
                 </div>
-                <p class="text-xs text-slate-400">Spyware, Antivirus, Remote Desktop & Network Origin Hunter</p>
+                <p class="text-xs text-slate-400">Autonomous Threat Detection, Kernel Remediator, System-Wide DNS/HTTP AdBlocker & Origin Hunter</p>
             </div>
         </div>
 
@@ -77,6 +79,11 @@
             <button onclick="openEmailModal()" class="px-3 py-1.5 rounded-lg bg-purple-600/30 hover:bg-purple-600 text-purple-200 text-xs font-mono border border-purple-500/40 flex items-center gap-1.5 transition">
                 <i data-lucide="mail" class="w-3.5 h-3.5"></i> Email Report
             </button>
+
+            <!-- Documentation Link Button -->
+            <a href="/docs.html" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-mono text-cyan-300 border border-cyan-500/30 flex items-center gap-1.5 transition shadow-sm" title="Open Full Screen Documentation Hub">
+                <i data-lucide="book-open" class="w-3.5 h-3.5 text-cyan-400"></i> Docs
+            </a>
 
             <!-- Auto-Refresh Toggle -->
             <button id="btn-auto-refresh" onclick="toggleAutoRefresh()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-mono text-slate-300 border border-slate-700 flex items-center gap-2 transition">
@@ -217,6 +224,9 @@
             <button data-tab="audit" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
                 <i data-lucide="history" class="w-4 h-4"></i> Incident Audit Log
             </button>
+            <button data-tab="docs" class="tab-btn px-4 py-2.5 rounded-t-lg text-slate-400 border-b-2 border-transparent hover:text-white flex items-center gap-2 font-medium">
+                <i data-lucide="book-open" class="w-4 h-4 text-cyan-400"></i> Documentation Hub
+            </button>
         </nav>
 
         <!-- ========================================== -->
@@ -310,9 +320,18 @@
                 </div>
             </div>
 
-            <!-- Network Filter Controls -->
+            <!-- Network Sub-View Toggle & Filter Controls -->
             <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
-                <div class="relative w-full sm:w-80">
+                <div class="flex items-center gap-1.5 font-mono text-xs bg-slate-900 p-1 rounded-lg border border-slate-800">
+                    <button id="btn-net-active" onclick="switchNetworkSubView('active')" class="px-3 py-1.5 rounded-md bg-emerald-600 text-white font-bold flex items-center gap-1.5 transition">
+                        <i data-lucide="globe" class="w-3.5 h-3.5"></i> Live Network Sockets
+                    </button>
+                    <button id="btn-net-blocked" onclick="switchNetworkSubView('blocked')" class="px-3 py-1.5 rounded-md text-slate-400 hover:text-white flex items-center gap-1.5 transition">
+                        <i data-lucide="shield-ban" class="w-3.5 h-3.5 text-red-400"></i> Blocked IPs & Firewall (<span id="sub-net-blocked-count">0</span>)
+                    </button>
+                </div>
+
+                <div class="relative w-full sm:w-72">
                     <i data-lucide="search" class="w-4 h-4 text-slate-500 absolute left-3 top-2.5"></i>
                     <input 
                         type="text" 
@@ -328,15 +347,14 @@
                     <button onclick="setNetFilter('external')" data-net-filter="external" class="net-filter-btn px-3 py-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white">Public External</button>
                     <button onclick="setNetFilter('suspicious')" data-net-filter="suspicious" class="net-filter-btn px-3 py-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white">Suspicious</button>
                     <button onclick="setNetFilter('genuine')" data-net-filter="genuine" class="net-filter-btn px-3 py-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white">Verified CDNs</button>
-                    <button onclick="setNetFilter('listening')" data-net-filter="listening" class="net-filter-btn px-3 py-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white">Listening Daemons</button>
                     <button onclick="loadNetworkTracer()" class="px-3 py-1.5 rounded-lg bg-slate-800 text-cyan-400 hover:bg-slate-700 flex items-center gap-1">
                         <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- Network Table -->
-            <div class="cyber-card overflow-hidden">
+            <!-- Live Network Sockets Table Container -->
+            <div id="net-active-container" class="cyber-card overflow-hidden">
                 <div class="overflow-x-auto max-h-[550px] overflow-y-auto">
                     <table class="w-full text-left text-xs font-mono">
                         <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400 sticky top-0 z-10">
@@ -351,6 +369,38 @@
                             </tr>
                         </thead>
                         <tbody id="net-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Blocked Remote IPs & Netsh Firewall Tracking Table -->
+            <div id="net-blocked-view" class="cyber-card overflow-hidden hidden space-y-3 p-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <div>
+                        <h3 class="text-sm font-bold font-mono text-red-400 flex items-center gap-2">
+                            <i data-lucide="shield-ban" class="w-4 h-4"></i> Blocked Remote IP Addresses & Windows Firewall Rules
+                        </h3>
+                        <p class="text-xs text-slate-400">Persistent tracking list of all inbound and outbound IP addresses blocked at the OS firewall level.</p>
+                    </div>
+                    <button onclick="openAddRuleModal()" class="px-3 py-1.5 bg-red-600/30 hover:bg-red-600 text-red-200 border border-red-500/40 text-xs font-mono rounded flex items-center gap-1.5">
+                        <i data-lucide="plus" class="w-3.5 h-3.5"></i> Block New IP
+                    </button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs font-mono">
+                        <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400">
+                            <tr>
+                                <th class="p-3">Timestamp Blocked</th>
+                                <th class="p-3">Blocked Remote IP</th>
+                                <th class="p-3">Reverse DNS / ISP</th>
+                                <th class="p-3">Firewall Rule (Netsh)</th>
+                                <th class="p-3">Reason / Details</th>
+                                <th class="p-3 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="net-blocked-table-body">
                             <!-- Populated dynamically -->
                         </tbody>
                     </table>
@@ -516,14 +566,23 @@
         <!-- TAB 3: REMOTE DESKTOP & RAT HUNTER -->
         <!-- ========================================== -->
         <section id="view-rmm" class="tab-content hidden space-y-4">
-            <div class="flex items-center justify-between">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <div>
                     <h2 class="text-base font-bold font-mono text-cyan-300">Remote Desktop, VNC, RMM & RAT Monitor</h2>
                     <p class="text-xs text-slate-400">Tracks AnyDesk, TeamViewer, RustDesk, ScreenConnect, VNC, and reverse ingress tunnels (LOLRMM).</p>
                 </div>
+                <div class="flex items-center gap-1.5 font-mono text-xs bg-slate-900 p-1 rounded-lg border border-slate-800">
+                    <button id="btn-rmm-active" onclick="switchRMMSubView('active')" class="px-3 py-1.5 rounded-md bg-cyan-600 text-white font-bold flex items-center gap-1.5 transition">
+                        <i data-lucide="radio" class="w-3.5 h-3.5"></i> Active RMM (<span id="sub-rmm-active-count">0</span>)
+                    </button>
+                    <button id="btn-rmm-history" onclick="switchRMMSubView('blocked')" class="px-3 py-1.5 rounded-md text-slate-400 hover:text-white flex items-center gap-1.5 transition">
+                        <i data-lucide="history" class="w-3.5 h-3.5 text-red-400"></i> Blocked & Eradicated (<span id="sub-rmm-blocked-count">0</span>)
+                    </button>
+                </div>
             </div>
 
-            <div class="cyber-card overflow-hidden">
+            <!-- Active RMM Sessions Container -->
+            <div id="rmm-active-container" class="cyber-card overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs font-mono">
                         <thead class="bg-slate-900/80 border-b border-slate-800 text-slate-400">
@@ -542,15 +601,42 @@
                     </table>
                 </div>
             </div>
+
+            <!-- Blocked & Eradicated RMM History Tracking Container -->
+            <div id="rmm-history-view" class="cyber-card overflow-hidden hidden space-y-3 p-4">
+                <div class="border-b border-slate-800 pb-2">
+                    <h3 class="text-sm font-bold font-mono text-red-400 flex items-center gap-2">
+                        <i data-lucide="shield-alert" class="w-4 h-4"></i> Eradicated & Blocked Remote Access Tools Tracking
+                    </h3>
+                    <p class="text-xs text-slate-400">Audit trail of remote control and tunneling binaries terminated or blocked by AegisShield.</p>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs font-mono">
+                        <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400">
+                            <tr>
+                                <th class="p-3">Termination Time</th>
+                                <th class="p-3">Tool / Target</th>
+                                <th class="p-3">PID</th>
+                                <th class="p-3">Remediation Action</th>
+                                <th class="p-3">Audit Details</th>
+                                <th class="p-3 text-right">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rmm-history-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </section>
 
         <!-- ========================================== -->
         <!-- TAB 4: LIVE PROCESS MONITOR -->
         <!-- ========================================== -->
         <section id="view-processes" class="tab-content hidden space-y-4">
-            <!-- Search & Filter Controls -->
+            <!-- Search & Filter Controls with Tracking Toggle -->
             <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
-                <div class="relative w-full sm:w-96">
+                <div class="relative w-full sm:w-80">
                     <i data-lucide="search" class="w-4 h-4 text-slate-500 absolute left-3 top-2.5"></i>
                     <input 
                         type="text" 
@@ -567,10 +653,19 @@
                     <button onclick="setProcessFilter('rmm')" data-filter="rmm" class="proc-filter-btn px-3 py-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white">Remote Control</button>
                     <button onclick="setProcessFilter('high_cpu')" data-filter="high_cpu" class="proc-filter-btn px-3 py-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white">High CPU</button>
                 </div>
+
+                <div class="flex items-center gap-1.5 font-mono text-xs bg-slate-900 p-1 rounded-lg border border-slate-800">
+                    <button id="btn-procs-active" onclick="switchProcessSubView('active')" class="px-3 py-1.5 rounded-md bg-cyan-600 text-white font-bold flex items-center gap-1.5 transition">
+                        <i data-lucide="cpu" class="w-3.5 h-3.5"></i> Live (<span id="sub-procs-active-count">0</span>)
+                    </button>
+                    <button id="btn-procs-history" onclick="switchProcessSubView('blocked')" class="px-3 py-1.5 rounded-md text-slate-400 hover:text-white flex items-center gap-1.5 transition">
+                        <i data-lucide="history" class="w-3.5 h-3.5 text-amber-400"></i> Terminated (<span id="sub-procs-killed-count">0</span>)
+                    </button>
+                </div>
             </div>
 
-            <!-- Process Explorer Table -->
-            <div class="cyber-card overflow-hidden">
+            <!-- Active Process Explorer Table -->
+            <div id="procs-active-container" class="cyber-card overflow-hidden">
                 <div class="overflow-x-auto max-h-[550px] overflow-y-auto">
                     <table class="w-full text-left text-xs">
                         <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400 font-mono sticky top-0 z-10">
@@ -585,6 +680,35 @@
                             </tr>
                         </thead>
                         <tbody id="process-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Terminated & Blocked Processes History Tracking Table -->
+            <div id="processes-history-view" class="cyber-card overflow-hidden hidden space-y-3 p-4">
+                <div class="border-b border-slate-800 pb-2 flex items-center justify-between">
+                    <div>
+                        <h3 class="text-sm font-bold font-mono text-amber-400 flex items-center gap-2">
+                            <i data-lucide="history" class="w-4 h-4"></i> Terminated & Blocked Processes Tracking Ledger
+                        </h3>
+                        <p class="text-xs text-slate-400">Complete historical record of all processes terminated, force-killed, or quarantined with exit receipts.</p>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs font-mono">
+                        <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400">
+                            <tr>
+                                <th class="p-3">Termination Time</th>
+                                <th class="p-3">Process Name</th>
+                                <th class="p-3">PID</th>
+                                <th class="p-3">Action Type</th>
+                                <th class="p-3">Remediation Details</th>
+                                <th class="p-3 text-right">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="procs-history-table-body">
                             <!-- Populated dynamically -->
                         </tbody>
                     </table>
@@ -842,6 +966,123 @@
             </div>
         </section>
 
+        <!-- ========================================== -->
+        <!-- TAB 10: IN-APP DOCUMENTATION HUB -->
+        <!-- ========================================== -->
+        <section id="view-docs" class="tab-content hidden space-y-4 font-mono text-xs">
+            <div class="cyber-card p-5 space-y-4">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2.5 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
+                            <i data-lucide="book-open" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-base font-bold font-mono text-white">AegisShield EDR Knowledge & Documentation Hub</h2>
+                            <p class="text-xs text-slate-400">Complete architectural guide, four engines breakdown, screenshot gallery, brain files, and commands runbook.</p>
+                        </div>
+                    </div>
+                    <a href="/docs.html" target="_blank" class="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-black font-bold rounded flex items-center gap-1.5 transition">
+                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Open Full Page Docs
+                    </a>
+                </div>
+
+                <!-- Sub-nav for In-App Docs -->
+                <div class="flex flex-wrap items-center gap-2 border-b border-slate-800/80 pb-3">
+                    <button onclick="switchDocSection('overview')" id="doc-tab-overview" class="doc-tab-btn px-3 py-1.5 rounded bg-cyan-600 text-white font-bold">1. Overview</button>
+                    <button onclick="switchDocSection('engines')" id="doc-tab-engines" class="doc-tab-btn px-3 py-1.5 rounded bg-slate-800 text-slate-300 hover:text-white">2. Four Engines</button>
+                    <button onclick="switchDocSection('elevation')" id="doc-tab-elevation" class="doc-tab-btn px-3 py-1.5 rounded bg-slate-800 text-slate-300 hover:text-white">3. Admin Elevation</button>
+                    <button onclick="switchDocSection('gallery')" id="doc-tab-gallery" class="doc-tab-btn px-3 py-1.5 rounded bg-slate-800 text-slate-300 hover:text-white">4. HD Screenshots</button>
+                    <button onclick="switchDocSection('brain')" id="doc-tab-brain" class="doc-tab-btn px-3 py-1.5 rounded bg-slate-800 text-slate-300 hover:text-white">5. Brain Files & Prompts</button>
+                    <button onclick="switchDocSection('commands')" id="doc-tab-commands" class="doc-tab-btn px-3 py-1.5 rounded bg-slate-800 text-slate-300 hover:text-white">6. Commands Runbook</button>
+                </div>
+
+                <!-- In-App Doc Sections -->
+                <div id="doc-sec-overview" class="space-y-3 font-sans text-xs text-slate-300 leading-relaxed">
+                    <h3 class="font-mono text-sm font-bold text-cyan-300">Executive Summary</h3>
+                    <p>
+                        AegisShield EDR is an enterprise cybersecurity SOC dashboard that actively protects endpoints by identifying and neutralizing threats (spyware, masquerading binaries, unauthorized remote control tools, persistence items, and network origin anomalies).
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-xs pt-2">
+                        <div class="p-3 bg-slate-900 rounded border border-slate-800">
+                            <span class="text-cyan-400 font-bold">Port 8888</span>
+                            <p class="text-slate-400 text-[11px] mt-1">FastAPI REST API, WebSockets telemetry, EDR engine</p>
+                        </div>
+                        <div class="p-3 bg-slate-900 rounded border border-slate-800">
+                            <span class="text-emerald-400 font-bold">Port 8080</span>
+                            <p class="text-slate-400 text-[11px] mt-1">AdBlocker & Web Intercepting Proxy</p>
+                        </div>
+                        <div class="p-3 bg-slate-900 rounded border border-slate-800">
+                            <span class="text-purple-400 font-bold">Private Stealth Mode</span>
+                            <p class="text-slate-400 text-[11px] mt-1">Zero-disk volatile memory logging + Anti-tracking headers</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="doc-sec-engines" class="hidden space-y-3 font-mono text-xs">
+                    <div class="p-3 bg-slate-900 rounded border border-cyan-500/30">
+                        <span class="text-cyan-400 font-bold">1. AI Threat Hunter Engine:</span> Multi-tiered scoring matrix analyzing process names, paths, masquerades, temporary execution, command-line arguments, and hashes.
+                    </div>
+                    <div class="p-3 bg-slate-900 rounded border border-rose-500/30">
+                        <span class="text-rose-400 font-bold">2. AdBlocker Network Proxy:</span> Intercepts HTTP/HTTPS traffic at 127.0.0.1:8080, matching domain names against ad/telemetry blacklists.
+                    </div>
+                    <div class="p-3 bg-slate-900 rounded border border-purple-500/30">
+                        <span class="text-purple-400 font-bold">3. Web Origin & IP Tracer:</span> Performs reverse DNS, ASN, ISP lookup, and IP geolocation with classification.
+                    </div>
+                    <div class="p-3 bg-slate-900 rounded border border-amber-500/30">
+                        <span class="text-amber-400 font-bold">4. Process Remediator & Access Controller:</span> Multi-tier process killer (psutil -> taskkill -> PowerShell -> Service Control -> UAC Elevation) and Windows Firewall netsh controller.
+                    </div>
+                </div>
+
+                <div id="doc-sec-elevation" class="hidden space-y-3 font-sans text-xs text-slate-300">
+                    <h3 class="font-mono text-sm font-bold text-red-400">Windows UAC Elevation Handling</h3>
+                    <p>
+                        When a target process (such as PID 5824) is protected by SYSTEM or kernel tokens, standard user processes cannot terminate it. AegisShield acquires <code>SeDebugPrivilege</code> and provides an interactive <strong>Elevated UAC Eradicator</strong> that invokes <code>Start-Process taskkill -ArgumentList '/F /T /PID &lt;pid&gt;' -Verb RunAs -Wait</code>, presenting the Windows UAC confirmation dialog to kill elevated malware cleanly.
+                    </p>
+                    <div class="p-3 bg-slate-950 font-mono text-xs rounded border border-slate-800 text-amber-300">
+                        Command: taskkill /F /PID &lt;PID&gt; (or double click start_all_admin.bat)
+                    </div>
+                </div>
+
+                <div id="doc-sec-gallery" class="hidden space-y-3">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <img src="/screenshots/01_active_threats_remediation.png" class="rounded border border-slate-700 shadow hover:scale-105 transition" alt="Threat Remediation">
+                        <img src="/screenshots/02_network_radar_ip_tracer.png" class="rounded border border-slate-700 shadow hover:scale-105 transition" alt="Network Radar">
+                        <img src="/screenshots/03_adblocker_web_analytics.png" class="rounded border border-slate-700 shadow hover:scale-105 transition" alt="AdBlocker">
+                        <img src="/screenshots/04_remote_desktop_rmm_hunter.png" class="rounded border border-slate-700 shadow hover:scale-105 transition" alt="RMM Hunter">
+                        <img src="/screenshots/05_live_process_monitor.png" class="rounded border border-slate-700 shadow hover:scale-105 transition" alt="Process Monitor">
+                        <img src="/screenshots/06_access_control_rules.png" class="rounded border border-slate-700 shadow hover:scale-105 transition" alt="Access Control">
+                        <img src="/screenshots/11_private_mode_stealth.png" class="rounded border border-purple-500/40 shadow hover:scale-105 transition" alt="Private Mode">
+                        <img src="/screenshots/12_light_mode_clean_soc.png" class="rounded border border-slate-700 shadow hover:scale-105 transition" alt="Light Mode">
+                    </div>
+                </div>
+
+                <div id="doc-sec-brain" class="hidden space-y-3 font-mono text-xs">
+                    <p class="text-slate-300">All agent brain files, plans, session logs, and prompts are permanently archived under <code>brain_archive/</code>:</p>
+                    <ul class="list-disc list-inside space-y-1 text-slate-400">
+                        <li><code>brain_archive/adblocker_plan.md</code>: System-wide Proxy & Web Tracking Architecture</li>
+                        <li><code>brain_archive/plan.md</code>: EDR Master Design & Anomaly Scoring Engine</li>
+                        <li><code>docs/SESSION_PROMPTS_AND_RESPONSES.md</code>: Full Chronological Prompts Ledger</li>
+                        <li><code>docs/CODE_EXPLANATION.md</code>: Comprehensive Module Documentation</li>
+                    </ul>
+                </div>
+
+                <div id="doc-sec-commands" class="hidden space-y-3 font-mono text-xs">
+                    <div class="p-3 bg-slate-950 rounded border border-slate-800 text-slate-300 space-y-1">
+                        <div class="text-cyan-400 font-bold"># Launch as Administrator:</div>
+                        <div>start_all_admin.bat</div>
+                    </div>
+                    <div class="p-3 bg-slate-950 rounded border border-slate-800 text-slate-300 space-y-1">
+                        <div class="text-emerald-400 font-bold"># Run Automated Test Suite:</div>
+                        <div>python tools/test_engine.py</div>
+                    </div>
+                    <div class="p-3 bg-slate-950 rounded border border-slate-800 text-slate-300 space-y-1">
+                        <div class="text-purple-400 font-bold"># Capture Screenshots:</div>
+                        <div>python tools/screenshot_engine.py</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <!-- Deep Process Inspection Modal -->
@@ -897,6 +1138,101 @@
             </form>
         </div>
     </div>
+
+    <!-- Elevated Administrator Eradication Modal -->
+    <div id="elevated-kill-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="cyber-card max-w-lg w-full p-6 border border-red-500/60 shadow-2xl shadow-red-900/50 space-y-4">
+            <div class="flex items-start justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-400">
+                        <i data-lucide="shield-alert" class="w-6 h-6 animate-pulse"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base text-white">Administrator Rights Required</h3>
+                        <p class="text-xs text-red-400 font-mono">Access Denied for PID <span id="elev-modal-pid">--</span> (<span id="elev-modal-name">--</span>)</p>
+                    </div>
+                </div>
+                <button onclick="closeElevatedKillModal()" class="text-slate-400 hover:text-white text-sm">✕</button>
+            </div>
+
+            <div class="p-3 bg-red-950/30 border border-red-900/50 rounded-lg text-xs font-mono text-slate-300 space-y-2">
+                <p id="elev-modal-message">The target process is protected by Windows SYSTEM or kernel privileges and cannot be killed by a standard user token.</p>
+                <div id="elev-modal-service-container" class="hidden pt-1 text-amber-300">
+                    <span class="font-bold">Detected Windows Service:</span> <span id="elev-modal-service-name"></span>
+                </div>
+            </div>
+
+            <div class="space-y-2 text-xs font-mono">
+                <label class="text-slate-400">Run Command Directly via Elevated Administrator Shell:</label>
+                <div class="flex items-center gap-2">
+                    <input type="text" id="elev-modal-command" readonly class="flex-1 bg-slate-900 border border-slate-800 rounded px-3 py-1.5 text-cyan-300 text-xs font-mono select-all">
+                    <button onclick="copyElevatedCommand()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded border border-slate-700 transition">
+                        Copy
+                    </button>
+                </div>
+            </div>
+
+            <div class="pt-3 border-t border-slate-800 flex flex-wrap items-center justify-end gap-2">
+                <button type="button" onclick="closeElevatedKillModal()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded transition">
+                    Dismiss
+                </button>
+                <button id="btn-elev-stop-service" onclick="stopElevatedService()" class="hidden px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-black font-bold text-xs rounded transition">
+                    🛑 Stop Service
+                </button>
+                <button onclick="triggerElevatedUACKill()" class="px-4 py-1.5 bg-red-600 hover:bg-red-500 text-white font-bold text-xs rounded flex items-center gap-1.5 shadow-lg shadow-red-900/50 transition">
+                    <i data-lucide="zap" class="w-3.5 h-3.5"></i> Trigger Elevated UAC Eradicator
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SOC Enterprise Footer -->
+    <footer class="border-t border-slate-800 bg-cyber-card/90 backdrop-blur-md px-6 py-4 mt-12 text-xs font-mono text-slate-400">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <!-- Left: App process info & ports -->
+            <div class="flex flex-col sm:flex-row items-center gap-3">
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span class="text-white font-bold">Process:</span>
+                    <span id="footer-proc-name" class="text-cyan-400 bg-slate-900/80 px-2 py-0.5 rounded border border-slate-800">python.exe (PID: <span id="footer-pid">--</span>)</span>
+                </div>
+                <div class="text-slate-600 hidden sm:inline">|</div>
+                <div class="flex items-center gap-1.5">
+                    <span class="text-white font-bold">Ports:</span>
+                    <span class="text-emerald-400 bg-slate-900/80 px-2 py-0.5 rounded border border-slate-800">8888 (Dashboard & EDR)</span>
+                    <span class="text-purple-400 bg-slate-900/80 px-2 py-0.5 rounded border border-slate-800">8080 (AdBlock Proxy)</span>
+                </div>
+                <div id="footer-admin-badge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 cursor-pointer" onclick="restartAsAdminPrompt()" title="Click to elevate or check Administrator status">
+                    <i data-lucide="shield" class="w-3 h-3 inline"></i> <span id="footer-admin-text">Standard User (Elevation Available)</span>
+                </div>
+            </div>
+
+            <!-- Center: Active Sub-apps / Engines -->
+            <div class="flex flex-wrap items-center justify-center gap-1.5 text-[11px]">
+                <span class="px-2 py-0.5 rounded bg-slate-900 text-cyan-300 border border-slate-800">AI Monitor: ON</span>
+                <span class="px-2 py-0.5 rounded bg-slate-900 text-rose-300 border border-slate-800">AdBlock: ON</span>
+                <span class="px-2 py-0.5 rounded bg-slate-900 text-purple-300 border border-slate-800">Web Tracker: ON</span>
+                <span class="px-2 py-0.5 rounded bg-slate-900 text-emerald-300 border border-slate-800">Proc Mon: ON</span>
+                <span class="px-2 py-0.5 rounded bg-slate-900 text-amber-300 border border-slate-800">Netsh Firewall: ON</span>
+            </div>
+
+            <!-- Right: Support with love, author, date, version -->
+            <div class="flex flex-col sm:flex-row items-center gap-3 text-right">
+                <div>
+                    <span class="text-slate-300 font-medium">Support with ❤️</span>
+                    <span class="text-cyan-400 font-bold ml-1">Sudhir Kumar Thanna</span>
+                </div>
+                <div class="text-slate-600 hidden sm:inline">|</div>
+                <div class="text-slate-400">
+                    <span id="footer-live-time">2026-11-07 08:35:00 UTC+01:00</span>
+                </div>
+                <div class="text-slate-600 hidden sm:inline">|</div>
+                <div class="px-2 py-0.5 rounded bg-cyan-950/60 text-cyan-300 border border-cyan-500/30 font-bold">
+                    v2.5.0-SOC-Enterprise
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <!-- Toast Notification Container -->
     <div id="toast-container"></div>

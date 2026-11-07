@@ -1,13 +1,63 @@
 [
   {
-    "id": "evt_1794034974143",
-    "timestamp": "2026-11-07T08:02:54.143502",
-    "time_display": "2026-11-07 08:02:54",
+    "id": "evt_1794036732292",
+    "timestamp": "2026-11-07T08:32:12.292129",
+    "time_display": "2026-11-07 08:32:12",
     "action": "PROCESS_KILLED",
     "target": "python.exe",
-    "pid": 19628,
+    "pid": 84048,
     "details": "Test Engine Kill. Successfully terminated.",
     "status": "SUCCESS"
+  },
+  {
+    "id": "evt_1794036603918",
+    "timestamp": "2026-11-07T08:30:03.918563",
+    "time_display": "2026-11-07 08:30:03",
+    "action": "PROCESS_KILLED",
+    "target": "python.exe",
+    "pid": 85812,
+    "details": "Test Engine Kill. Successfully terminated.",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "evt_1794036587719",
+    "timestamp": "2026-11-07T08:29:47.719190",
+    "time_display": "2026-11-07 08:29:47",
+    "action": "PROCESS_KILLED",
+    "target": "python.exe",
+    "pid": 83400,
+    "details": "Test Engine Kill. Successfully terminated.",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "evt_1794036550825",
+    "timestamp": "2026-11-07T08:29:10.825483",
+    "time_display": "2026-11-07 08:29:10",
+    "action": "PROCESS_KILLED",
+    "target": "python.exe",
+    "pid": 79292,
+    "details": "Test Engine Kill. Successfully terminated.",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "evt_1794036527131",
+    "timestamp": "2026-11-07T08:28:47.131120",
+    "time_display": "2026-11-07 08:28:47",
+    "action": "PROCESS_KILLED",
+    "target": "python.exe",
+    "pid": 78012,
+    "details": "Test Engine Kill. Successfully terminated.",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "evt_1794035793166",
+    "timestamp": "2026-11-07T08:16:33.167006",
+    "time_display": "2026-11-07 08:16:33",
+    "action": "KILL_FAILED",
+    "target": "AnyDesk.exe",
+    "pid": 5824,
+    "details": "Access denied. Process is protected by Windows kernel/service token.",
+    "status": "FAILED"
   },
   {
     "id": "evt_1794034607573",

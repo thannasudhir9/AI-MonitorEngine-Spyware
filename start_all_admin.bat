@@ -14,3 +14,4 @@ if %errorLevel% neq 0 (
 )
 
 call start_all.bat
+

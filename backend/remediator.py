@@ -143,9 +143,19 @@ class ThreatRemediator:
             pass
         return False
 
+    def get_service_for_pid(self, pid: int) -> Optional[str]:
+        """Detect if target PID belongs to a registered Windows Service."""
+        try:
+            cmd = f"Get-CimInstance Win32_Service | Where-Object {{ $_.ProcessId -eq {pid} }} | Select-Object -ExpandProperty Name"
+            res = subprocess.run(["powershell", "-NoProfile", "-Command", cmd], capture_output=True, text=True, timeout=2.5)
+            svc = res.stdout.strip()
+            return svc if svc else None
+        except Exception:
+            return None
+
     def kill_process(self, pid: int, force: bool = True, reason: str = "Manual Eradication") -> Dict[str, Any]:
         """
-        Safely terminate a single process by PID.
+        Safely terminate a single process by PID with multi-tier failover and UAC elevation handling.
         """
         try:
             if not psutil.pid_exists(pid):
@@ -162,15 +172,33 @@ class ThreatRemediator:
                     "message": f"Cannot terminate '{name}' (PID: {pid}). This is a protected Windows core system process."
                 }
 
+            # Check if this PID is managed by a Windows Service
+            svc_name = self.get_service_for_pid(pid)
+            if svc_name:
+                try:
+                    subprocess.run(["sc", "stop", svc_name], capture_output=True, text=True, timeout=2.5)
+                    time.sleep(0.4)
+                    if not psutil.pid_exists(pid):
+                        self.log_event("PROCESS_KILLED", name, pid, f"{reason}. Stopped host Windows Service '{svc_name}'.", "SUCCESS")
+                        return {
+                            "success": True,
+                            "message": f"Successfully stopped Windows Service '{svc_name}' hosting process '{name}' (PID: {pid}).",
+                            "pid": pid,
+                            "name": name,
+                            "service_name": svc_name
+                        }
+                except Exception:
+                    pass
+
             # Attempt termination via psutil
             try:
                 proc.terminate()
                 try:
-                    proc.wait(timeout=1.0)
+                    proc.wait(timeout=0.8)
                 except psutil.TimeoutExpired:
                     if force:
                         proc.kill()
-                        proc.wait(timeout=1.0)
+                        proc.wait(timeout=0.8)
             except (psutil.AccessDenied, psutil.TimeoutExpired):
                 # Fallback Tier 1: Windows Native Taskkill
                 tk_res = subprocess.run(["taskkill", "/F", "/PID", str(pid)], capture_output=True, text=True)
@@ -184,7 +212,7 @@ class ThreatRemediator:
                         "name": name
                     }
 
-                # Fallback Tier 2: PowerShell Stop-Process
+                # Fallback Tier 2: PowerShell Stop-Process -Force
                 ps_cmd = f"Stop-Process -Id {pid} -Force -ErrorAction SilentlyContinue"
                 subprocess.run(["powershell", "-NoProfile", "-Command", ps_cmd], capture_output=True, text=True)
                 time.sleep(0.3)
@@ -197,10 +225,10 @@ class ThreatRemediator:
                         "name": name
                     }
 
-                # Fallback Tier 3: Trigger UAC Elevation Dialog
-                uac_cmd = f"Start-Process taskkill -ArgumentList '/F /PID {pid}' -Verb RunAs -WindowStyle Hidden"
-                elev_res = subprocess.run(["powershell", "-NoProfile", "-Command", uac_cmd], capture_output=True, text=True)
-                time.sleep(1.0)
+                # Fallback Tier 3: Trigger UAC Elevation Dialog with -Wait
+                uac_cmd = f"Start-Process taskkill -ArgumentList '/F /T /PID {pid}' -Verb RunAs -Wait -WindowStyle Hidden"
+                subprocess.run(["powershell", "-NoProfile", "-Command", uac_cmd], capture_output=True, text=True)
+                time.sleep(0.8)
                 if not psutil.pid_exists(pid):
                     self.log_event("PROCESS_KILLED", name, pid, f"{reason}. Terminated via Administrator UAC.", "SUCCESS")
                     return {
@@ -210,13 +238,19 @@ class ThreatRemediator:
                         "name": name
                     }
 
-                # If still alive, report clear elevation guidance
-                self.log_event("KILL_FAILED", name, pid, "Access denied. Process is protected by Windows kernel/service token.", "FAILED")
+                # If still alive, report actionable elevation guidance
+                details_msg = f"Access denied. Process '{name}' (PID: {pid}) is protected by Windows SYSTEM/Service token."
+                if svc_name:
+                    details_msg += f" Hosted in Windows Service: '{svc_name}'."
+                self.log_event("KILL_FAILED", name, pid, details_msg, "FAILED")
                 return {
                     "success": False,
-                    "message": f"Process '{name}' (PID: {pid}) is running as elevated SYSTEM/Protected Service. Please run AegisShield with 'Run as Administrator' or click 'Elevate UAC Kill'.",
+                    "message": f"Access denied for process '{name}' (PID: {pid}). Elevated administrator rights required.",
                     "requires_admin": True,
-                    "pid": pid
+                    "pid": pid,
+                    "name": name,
+                    "service_name": svc_name,
+                    "admin_command": f"taskkill /F /PID {pid}"
                 }
 
             self.log_event("PROCESS_KILLED", name, pid, f"{reason}. Successfully terminated.", "SUCCESS")
@@ -237,17 +271,19 @@ class ThreatRemediator:
                 return {"success": True, "message": f"Terminated PID {pid} using native taskkill."}
 
             # Prompt UAC
-            uac_cmd = f"Start-Process taskkill -ArgumentList '/F /PID {pid}' -Verb RunAs -WindowStyle Hidden"
+            uac_cmd = f"Start-Process taskkill -ArgumentList '/F /T /PID {pid}' -Verb RunAs -Wait -WindowStyle Hidden"
             subprocess.run(["powershell", "-NoProfile", "-Command", uac_cmd], capture_output=True, text=True)
-            time.sleep(1.0)
+            time.sleep(0.8)
             if not psutil.pid_exists(pid):
                 return {"success": True, "message": f"Terminated PID {pid} via Administrator UAC elevation."}
 
             self.log_event("KILL_FAILED", str(pid), pid, "Access denied. Elevated administrator rights required.", "FAILED")
             return {
                 "success": False,
-                "message": f"Access denied when killing PID {pid}. Please run AegisShield as Administrator.",
-                "requires_admin": True
+                "message": f"Access denied when killing PID {pid}. Elevated administrator rights required.",
+                "requires_admin": True,
+                "pid": pid,
+                "admin_command": f"taskkill /F /PID {pid}"
             }
         except Exception as e:
             self.log_event("KILL_ERROR", str(pid), pid, str(e), "ERROR")

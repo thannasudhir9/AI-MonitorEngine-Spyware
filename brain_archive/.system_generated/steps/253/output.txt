@@ -1,5 +1,0 @@
-Command exited with code 0.
-
-Command output:
-Browser found: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
-Browser found: C:\Program Files\Google\Chrome\Application\chrome.exe

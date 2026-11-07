@@ -12,6 +12,11 @@ venv/
 quarantine/*
 !quarantine/.gitkeep
 logs/test_*.log
+database/email_config.json
+
+# Runtime Brain System Logs & Transcripts
+brain_archive/.system_generated/
+.gemini/
 
 # OS / Editor Artifacts
 .DS_Store

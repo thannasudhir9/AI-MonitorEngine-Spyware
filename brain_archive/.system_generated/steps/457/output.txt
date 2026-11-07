@@ -1,4 +1,0 @@
-Command exited with code 0.
-
-Command output:
-{"proxy_running":true,"proxy_port":8080,"system_proxy_enabled":false,"total_requests":2,"total_blocked":1,"total_allowed":1,"block_rate_percent":50.0,"estimated_mb_saved":0.25}

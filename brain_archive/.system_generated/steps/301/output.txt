@@ -1,1 +1,0 @@
-Made 1 replacement in c:\Users\thann\Downloads\AntiGravity\SpywareProcessMon\tools\screenshot_engine.py starting at line 538 (+15/-11 lines).

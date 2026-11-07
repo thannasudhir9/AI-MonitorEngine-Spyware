@@ -1,5 +1,0 @@
-Command exited with code 0.
-
-Command output:
-To https://github.com/thannasudhir9/AI-MonitorEngine-Spyware.git
-   71c7a44..a448774  main -> main

@@ -56,11 +56,13 @@ SpywareProcessMon/
 │   ├── 09_email_alerts_config.png          # SMTP configuration & manual report dispatch
 │   ├── 10_incident_audit_trail.png         # Chronological eradication and policy enforcement audit trail
 │   ├── 11_private_mode_stealth.png         # Zero-disk footprint stealth mode console & volatile buffer
-│   └── 12_light_mode_clean_soc.png         # Clean daylight SOC theme interface view
+│   ├── 12_light_mode_clean_soc.png         # Clean daylight SOC theme interface view
+│   ├── 13_documentation_hub.png            # Web Documentation Hub and four engines breakdown
+│   └── 14_elevated_kill_modal_and_tracking.png # Interactive UAC elevation modal & tracking ledgers
 │
 ├── tools/                                  # Diagnostic and Visual Engines
-│   ├── screenshot_engine.py                # High-definition Pillow dashboard renderer generating screenshots
-│   └── test_engine.py                      # Master automated diagnostic suite (25/25 unit & integration checks)
+│   ├── screenshot_engine.py                # High-definition Pillow dashboard renderer generating 14 screenshots
+│   └── test_engine.py                      # Master automated diagnostic suite (30/30 unit & integration checks)
 │
 ├── brain_archive/                          # Complete Mirror of Session State & Brain Files
 │   ├── plan.md                             # Initial master development plan
@@ -70,7 +72,9 @@ SpywareProcessMon/
 ├── cli_scanner.py                          # Unified Terminal CLI tool for scanning, rules & remediation
 ├── run_server.py                           # Standalone backend server entry point (:8888)
 ├── start_all.bat                           # 1-Click launcher starting both EDR Server and AdBlock Proxy
+├── start_all_admin.bat                     # 1-Click elevated Administrator launcher
 ├── start_dashboard.bat                     # Launcher starting only the EDR Web Dashboard
+├── start_dashboard_admin.bat               # Launcher starting EDR Web Dashboard as Administrator
 ├── start_adblocker.bat                     # Launcher starting only the AdBlock Proxy server
 ├── run_tests.bat                           # Launcher running the master test diagnostic engine
 ├── generate_screenshots.bat                # Launcher executing the screenshot capture engine
