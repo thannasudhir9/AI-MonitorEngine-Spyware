@@ -1,5 +1,25 @@
 [
   {
+    "id": "evt_1794047140601",
+    "timestamp": "2026-11-07T11:25:40.601141",
+    "time_display": "2026-11-07 11:25:40",
+    "action": "PROCESS_KILLED",
+    "target": "python.exe",
+    "pid": 102732,
+    "details": "Test Engine Kill. Successfully terminated.",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "evt_1794047022743",
+    "timestamp": "2026-11-07T11:23:42.743641",
+    "time_display": "2026-11-07 11:23:42",
+    "action": "PROCESS_KILLED",
+    "target": "python.exe",
+    "pid": 52748,
+    "details": "Test Engine Kill. Successfully terminated.",
+    "status": "SUCCESS"
+  },
+  {
     "id": "evt_1794046317242",
     "timestamp": "2026-11-07T11:11:57.242832",
     "time_display": "2026-11-07 11:11:57",

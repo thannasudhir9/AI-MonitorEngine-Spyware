@@ -754,31 +754,31 @@ function filterThreatLedger() {
 
         return `
             <tr class="border-b border-slate-800/60 hover:bg-slate-800/30 transition">
-                <td class="p-3 text-slate-400 text-[11px]">
+                <td class="p-3.5 text-slate-400 text-[11px]">
                     <div><span class="text-slate-500">First:</span> ${escapeHtml(firstSeen)}</div>
                     <div><span class="text-slate-500">Last:</span> ${escapeHtml(lastSeen)}</div>
                     <div class="text-[10px] text-cyan-400 mt-0.5">Observed: ${item.times_observed || 1}x</div>
                 </td>
-                <td class="p-3 text-slate-300 font-mono">${item.pid || '-'}</td>
-                <td class="p-3">
+                <td class="p-3.5 text-slate-300 font-mono tabular-nums">${item.pid || '-'}</td>
+                <td class="p-3.5">
                     <div class="font-bold text-white">${escapeHtml(item.name || 'Unknown')}</div>
                     <div class="text-slate-400 text-[11px] truncate max-w-xs" title="${escapeHtml(item.exe || '')}">${escapeHtml(item.exe || 'In-Memory')}</div>
                 </td>
-                <td class="p-3">
-                    <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold border ${badgeClass}">
+                <td class="p-3.5">
+                    <span class="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold border ${badgeClass}">
                         ${item.threat_score || 0} [${escapeHtml(item.severity || 'LOW')}]
                     </span>
                 </td>
-                <td class="p-3 max-w-sm">
+                <td class="p-3.5 max-w-sm">
                     <div class="font-semibold text-slate-200 text-xs">${escapeHtml(item.primary_category || 'SUSPICIOUS')}</div>
                     ${reasonsHtml}
                 </td>
-                <td class="p-3">
-                    <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${statusBadge}">
+                <td class="p-3.5">
+                    <span class="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold ${statusBadge}">
                         ${escapeHtml(item.status || 'ACTIVE')}
                     </span>
                 </td>
-                <td class="p-3 text-right">
+                <td class="p-3.5 text-right">
                     <div class="flex items-center justify-end gap-1">
                         ${item.pid ? `
                             <button onclick="killProcess(${item.pid}, '${escapeHtml(item.name)}')" class="px-2 py-1 bg-red-600/80 hover:bg-red-500 text-white rounded text-[11px] font-bold" title="Kill PID ${item.pid}">
@@ -1104,8 +1104,8 @@ function renderServicesTable() {
 
         return `
             <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors">
-                <td class="p-3 align-top">${statusBadge}</td>
-                <td class="p-3 align-top">
+                <td class="p-3.5 align-top">${statusBadge}</td>
+                <td class="p-3.5 align-top">
                     <div class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
                         <span>${escapeHtml(svc.name)}</span>
                         ${isRmm ? '<span class="text-[10px] px-1.5 py-0.5 rounded bg-rose-100 text-rose-700 font-bold border border-rose-300">POTENTIAL RAT / RMM</span>' : ''}
@@ -1115,20 +1115,20 @@ function renderServicesTable() {
                     </div>
                     ${svc.description ? `<div class="text-[10px] text-slate-500 dark:text-slate-500 line-clamp-1 max-w-lg mt-0.5" title="${escapeHtml(svc.description)}">${escapeHtml(svc.description)}</div>` : ''}
                 </td>
-                <td class="p-3 align-top">${pidBadge}</td>
-                <td class="p-3 align-top">
+                <td class="p-3.5 align-top">${pidBadge}</td>
+                <td class="p-3.5 align-top">
                     <select onchange="changeServiceStartupType('${escapeHtml(svc.name)}', this.value)" class="text-xs px-2 py-1 rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 focus:outline-hidden cursor-pointer">
                         <option value="auto" ${(svc.start_type || '').toLowerCase().includes('auto') ? 'selected' : ''}>Automatic</option>
                         <option value="manual" ${['manual', 'demand'].includes((svc.start_type || '').toLowerCase()) ? 'selected' : ''}>Manual</option>
                         <option value="disabled" ${(svc.start_type || '').toLowerCase() === 'disabled' ? 'selected' : ''}>Disabled</option>
                     </select>
                 </td>
-                <td class="p-3 align-top">
+                <td class="p-3.5 align-top">
                     <div class="text-[11px] font-mono text-slate-600 dark:text-slate-400 truncate max-w-xs" title="${escapeHtml(svc.binpath || 'Windows Shared Host (svchost)')}">
                         ${escapeHtml(svc.binpath || 'Windows Shared Host (svchost)')}
                     </div>
                 </td>
-                <td class="p-3 align-top text-right space-x-1 whitespace-nowrap">
+                <td class="p-3.5 align-top text-right space-x-1 whitespace-nowrap">
                     ${isRunning ? `
                         <button onclick="stopService('${escapeHtml(svc.name)}')" class="px-2 py-1 rounded bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 dark:text-amber-400 border border-amber-300 dark:border-amber-500/30 text-[11px] font-medium transition" title="Stop Service">
                             Stop
@@ -1573,18 +1573,18 @@ function renderProcessTable(processes) {
 
         html += `
             <tr class="border-b border-slate-800/40 hover:bg-slate-800/30 transition">
-                <td class="p-3 font-mono text-xs text-slate-400">${p.pid}</td>
-                <td class="p-3">
+                <td class="p-3.5 font-mono text-xs text-slate-400 tabular-nums">${p.pid}</td>
+                <td class="p-3.5">
                     <div class="font-mono font-semibold text-white text-sm hover:text-cyan-400 cursor-pointer" onclick="inspectProcess(${p.pid})">
                         ${escapeHtml(p.name)}
                     </div>
                     <div class="text-[11px] text-slate-500 font-mono truncate max-w-sm" title="${escapeHtml(p.exe)}">${escapeHtml(p.exe || 'Protected/System')}</div>
                 </td>
-                <td class="p-3">${badge}</td>
-                <td class="p-3 font-mono text-xs ${p.cpu_percent > 10 ? 'text-amber-400 font-bold' : 'text-slate-300'}">${p.cpu_percent}%</td>
-                <td class="p-3 font-mono text-xs text-slate-300">${p.memory_mb} MB</td>
-                <td class="p-3 font-mono text-xs text-slate-400 truncate max-w-[120px]">${escapeHtml(p.username)}</td>
-                <td class="p-3 text-right">
+                <td class="p-3.5">${badge}</td>
+                <td class="p-3.5 font-mono text-xs tabular-nums ${p.cpu_percent > 10 ? 'text-amber-400 font-bold' : 'text-slate-300'}">${p.cpu_percent}%</td>
+                <td class="p-3.5 font-mono text-xs tabular-nums text-slate-300">${p.memory_mb} MB</td>
+                <td class="p-3.5 font-mono text-xs text-slate-400 truncate max-w-[120px]">${escapeHtml(p.username)}</td>
+                <td class="p-3.5 text-right">
                     <div class="flex items-center justify-end gap-1.5">
                         <button onclick="quickAllowProcess('${escapeHtml(p.name)}', '${escapeHtml(p.exe)}')" class="px-2 py-0.5 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 text-[11px] font-mono rounded border border-emerald-500/30" title="Allow/Whitelist">
                             Allow
@@ -1688,24 +1688,24 @@ function renderNetworkTable(conns) {
 
         html += `
             <tr class="border-b border-slate-800/40 hover:bg-slate-800/30 transition">
-                <td class="p-3">
+                <td class="p-3.5">
                     <span class="font-bold text-white">${escapeHtml(c.process_name)}</span>
                     <span class="text-xs text-slate-500">(${c.pid})</span>
                 </td>
-                <td class="p-3 font-mono text-xs text-slate-300">${escapeHtml(c.local_addr)}</td>
-                <td class="p-3 font-mono text-xs text-cyan-400 font-semibold">${escapeHtml(c.remote_addr)}</td>
-                <td class="p-3 text-xs">
+                <td class="p-3.5 font-mono text-xs tabular-nums text-slate-300">${escapeHtml(c.local_addr)}</td>
+                <td class="p-3.5 font-mono text-xs tabular-nums text-cyan-400 font-semibold">${escapeHtml(c.remote_addr)}</td>
+                <td class="p-3.5 text-xs">
                     <div class="text-slate-200 truncate max-w-xs" title="${escapeHtml(c.trace?.hostname)}">${escapeHtml(c.trace?.hostname || 'Unknown Host')}</div>
                     <div class="text-[10px] text-slate-500">${escapeHtml(c.trace?.org || 'Unverified')}</div>
                 </td>
-                <td class="p-3">
-                    <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${badgeClass}">
+                <td class="p-3.5">
+                    <span class="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold ${badgeClass}">
                         ${c.trace?.verdict || 'UNVERIFIED'}
                     </span>
                     ${c.threat_note ? `<div class="text-[10px] text-red-400 mt-0.5 font-bold">${escapeHtml(c.threat_note)}</div>` : ''}
                 </td>
-                <td class="p-3 font-mono text-xs font-bold ${stateColor}">${c.status}</td>
-                <td class="p-3 text-right">
+                <td class="p-3.5 font-mono text-xs font-bold ${stateColor}">${c.status}</td>
+                <td class="p-3.5 text-right">
                     <div class="flex items-center justify-end gap-1.5">
                         ${c.remote_ip && !c.is_private ? `
                             <button onclick="deepTraceIP('${escapeHtml(c.remote_ip)}')" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-xs text-cyan-300 rounded border border-slate-700" title="Trace IP intelligence">
@@ -2707,23 +2707,23 @@ function renderTrafficTable(traffic) {
 
         return `
             <tr class="border-b border-slate-800/40 hover:bg-slate-800/30 transition">
-                <td class="p-3 font-mono text-xs text-slate-400">${escapeHtml(r.date_time)}</td>
-                <td class="p-3">
+                <td class="p-3.5 font-mono text-xs tabular-nums text-slate-400">${escapeHtml(r.date_time)}</td>
+                <td class="p-3.5">
                     <div class="font-mono font-semibold text-white text-xs ${r.is_blocked ? 'text-rose-300' : 'text-slate-200'}">
                         ${escapeHtml(r.domain)}
                     </div>
                     <div class="text-[10px] text-slate-500 truncate max-w-sm" title="${escapeHtml(r.reason)}">${escapeHtml(r.reason)}</div>
                 </td>
-                <td class="p-3 font-mono text-xs text-cyan-400">${escapeHtml(r.method)}:${r.port}</td>
-                <td class="p-3 font-mono text-xs text-slate-300">${escapeHtml(r.category)}</td>
-                <td class="p-3">${statusBadge}</td>
-                <td class="p-3 text-right">
+                <td class="p-3.5 font-mono text-xs text-cyan-400">${escapeHtml(r.method)}:${r.port}</td>
+                <td class="p-3.5 font-mono text-xs text-slate-300">${escapeHtml(r.category)}</td>
+                <td class="p-3.5">${statusBadge}</td>
+                <td class="p-3.5 text-right">
                     ${r.is_blocked ? `
-                        <button onclick="quickAllowProcess('${escapeHtml(r.domain)}', 'Domain Whitelist')" class="px-2 py-1 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 text-[11px] rounded border border-emerald-500/30">
+                        <button onclick="quickAllowProcess('${escapeHtml(r.domain)}', 'Domain Whitelist')" class="px-2.5 py-1 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 text-[11px] rounded border border-emerald-500/30">
                             Allow Domain
                         </button>
                     ` : `
-                        <button onclick="quickBlockProcess('${escapeHtml(r.domain)}', 'Domain Blocklist')" class="px-2 py-1 bg-red-600/20 hover:bg-red-600/30 text-red-300 text-[11px] rounded border border-red-500/30">
+                        <button onclick="quickBlockProcess('${escapeHtml(r.domain)}', 'Domain Blocklist')" class="px-2.5 py-1 bg-red-600/20 hover:bg-red-600/30 text-red-300 text-[11px] rounded border border-red-500/30">
                             Block Domain
                         </button>
                     `}

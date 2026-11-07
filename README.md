@@ -6,7 +6,7 @@
 [![Python](https://img.shields.io/badge/Python-3.14%2B-blue.svg?logo=python)](https://python.org)
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011%20%7C%20Server-0078D6.svg?logo=windows)](https://microsoft.com)
 [![License](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-67%2F67%20Passing%20(100%25)-brightgreen.svg)](tools/test_engine.py)
+[![Tests](https://img.shields.io/badge/Tests-72%2F72%20Passing%20(100%25)-brightgreen.svg)](tools/test_engine.py)
 [![Theme](https://img.shields.io/badge/Theme-Light%20Clean%20SOC%20Default-sky.svg)](#)
 [![Audio](https://img.shields.io/badge/Audio-Silent%20Mode%20Default-slate.svg)](#)
 [![Email Alerting](https://img.shields.io/badge/Email%20Alerts-Resend%20API%20%7C%20SMTP-purple.svg)](https://resend.com)
@@ -155,9 +155,19 @@
 - **Resilient Dual Theming (Fixed Dark / Light Mode Switch):**
   - Seamless bidirectional toggling between **Light Clean SOC Mode** (Default daylight palette with high-contrast slate-900 typography) and **Dark Cyber SOC Mode** (Obsidian `#080c14` glassmorphism backdrop with neon telemetry accents).
   - Synchronizes `dark`, `theme-dark`, `light`, and `theme-light` classes on both `<html>` and `<body>` with zero theme lock.
-- **Enhanced Data Grids & Ultra-Thin Scrollbars:**
-  - Sticky table headers with subtle blur and borders across all 10+ data tables.
-  - Custom 6px pill-thumb scrollbars (`border-radius: 9999px`) preventing layout shifting.
+
+### 12. 📊 Expanded Table Architecture & Modern Enterprise CSS Data Grids
+- **Generous Viewport Height & Full Width:**
+  - Standardized all tables onto the `.shadcn-table-card` and `.shadcn-table-scroll` architecture with expansive heights (`min-height: 520px; max-height: calc(100vh - 240px)`).
+  - Permits 20+ live processes, 30+ services, and dozens of network sockets and traffic logs in full view simultaneously.
+- **Frosted Glass Sticky Headers (`backdrop-filter: blur(12px)`):**
+  - Frosted glass effect keeping table headers continuously anchored with clean borders and high-contrast uppercase labels.
+- **Alternating Zebra Striping & Smooth Hover Highlights:**
+  - Soft alternating row tints and smooth hover transitions (`hover:bg-slate-100/90` in Light Mode, `hover:bg-slate-800/75` in Dark Mode).
+- **Custom 8px Ultra-Smooth Rounded Scrollbars:**
+  - Dedicated custom webkit scrollbar rules with rounded pill thumbs (`border-radius: 9999px`) designed specifically for table containers.
+- **Tabular Monospace Figures:**
+  - All numerical telemetry (PIDs, ports, memory metrics, frequencies, timestamps) formatted in `tabular-nums` for crisp column alignment.
 
 ---
 
@@ -170,7 +180,7 @@ Double-click any batch launcher in the project root:
 - **`start_dashboard.bat`**: Launches only the EDR Web Dashboard (`http://127.0.0.1:8888`).
 - **`start_dashboard_admin.bat`**: Launches the EDR Dashboard with full Administrator elevation.
 - **`start_adblocker.bat`**: Launches only the AdBlock Proxy on port `8080`.
-- **`run_tests.bat`**: Executes the master diagnostic testing suite (67/67 checks passing).
+- **`run_tests.bat`**: Executes the master diagnostic testing suite (72/72 checks passing).
 - **`generate_screenshots.bat`**: Re-generates all 18 visual screenshots in `screenshots/`.
 
 ---
@@ -223,7 +233,7 @@ python tools/test_engine.py
 ================================================================
                   DIAGNOSTIC TEST RESULTS
 ================================================================
-  Passed Checks:  67
+  Passed Checks:  72
   Failed Checks:  0
   Success Rate:   100.0%
 ================================================================
@@ -257,7 +267,7 @@ SpywareProcessMon/
 ├── database/                 # Persistent JSON Datastores
 ├── docs/                     # Full 10-Document Engineering Suite
 ├── screenshots/              # 18 HD 1600x1000 UI Captures
-├── tools/                    # Automated Test Engine (67 checks) & Screenshot Generator (18 views)
+├── tools/                    # Automated Test Engine (72 checks) & Screenshot Generator (18 views)
 ├── brain_archive/            # Full Archive of Session States, Plans & Persistent Memory Protocols
 ├── logs/                     # Audit & Threat Tracking Ledgers
 ├── cli_scanner.py            # Terminal CLI Tool

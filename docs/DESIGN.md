@@ -72,6 +72,13 @@ Eliminates horizontal overflow scrolling across all 14 views by introducing a hi
 - **Dark Cyber SOC Mode:** Obsidian `#080c14` backdrop, deep slate glassmorphism cards (`rgba(19, 28, 49, 0.75)`), and vibrant neon HUD telemetry accents.
 - **Smooth Ultra-Thin Scrollbars:** 6px pill-thumb webkit scrollbars across all tables, avoiding intrusive browser scrollbars and layout shifting.
 
+### 1.12 Expanded Enterprise Data Grid Architecture & Modern CSS Styling
+- **Expanded Viewport Heights:** Standardized all table containers onto `.shadcn-table-card` and `.shadcn-table-scroll` with generous heights (`min-height: 520px; max-height: calc(100vh - 240px);`).
+- **Frosted Glass Sticky Headers:** Anchored with `position: sticky; top: 0; z-index: 20; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);` with distinct 2px borders and high-contrast uppercase labels.
+- **Alternating Zebra Striping & Smooth Hover Highlights:** Subtle even-row background tint with smooth hover transitions (`0.15s ease-in-out`) in both Light and Dark modes.
+- **Custom 8px Ultra-Smooth Rounded Scrollbars:** Dedicated custom webkit scrollbars with pill thumbs (`border-radius: 9999px`) preventing layout shifting and blending with the card container.
+- **Spacious Cell Padding & Tabular Numerics:** Standardized cell padding (`13px 18px` / `p-3.5`) and tabular monospace figures (`font-variant-numeric: tabular-nums`) for clean column alignment.
+
 
 
 ### 1.4 Elevated Administrator Remediation Modal (`#elevated-kill-modal`)

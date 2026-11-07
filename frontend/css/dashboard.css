@@ -804,52 +804,167 @@ body.theme-light .category-btn.active {
   font-weight: 700;
 }
 
-/* Enhanced Table Styling Across All Pages */
-.shadcn-table-card {
+/* ==============================================================
+   EXPANDED TABLE ARCHITECTURE & MODERN SHADCN DATA GRIDS
+   ============================================================== */
+.shadcn-table-card,
+.cyber-table-container {
   border: 1px solid #e2e8f0;
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
   background-color: #ffffff;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+  transition: all 0.2s ease-in-out;
+  width: 100%;
 }
 
-.dark .shadcn-table-card {
+.dark .shadcn-table-card,
+.dark .cyber-table-container {
   border-color: #1e293b;
-  background-color: rgba(17, 26, 46, 0.7);
+  background-color: rgba(17, 26, 46, 0.85);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
 }
 
-.shadcn-table-scroll {
-  max-height: calc(100vh - 310px);
+/* Expanded Table Viewport Height (Occupies generous vertical screen estate) */
+.shadcn-table-scroll,
+.table-expanded-scroll {
+  min-height: 520px;
+  max-height: calc(100vh - 240px);
   overflow-y: auto;
   overflow-x: auto;
+  position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f8fafc;
 }
 
-.shadcn-table-scroll table {
+.dark .shadcn-table-scroll,
+.dark .table-expanded-scroll {
+  scrollbar-color: #334155 #0b111e;
+}
+
+/* Custom 8px Rounded Scrollbars on Table Containers */
+.shadcn-table-scroll::-webkit-scrollbar,
+.table-expanded-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.shadcn-table-scroll::-webkit-scrollbar-track,
+.table-expanded-scroll::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+
+.shadcn-table-scroll::-webkit-scrollbar-thumb,
+.table-expanded-scroll::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+  border: 2px solid #f8fafc;
+}
+
+.shadcn-table-scroll::-webkit-scrollbar-thumb:hover,
+.table-expanded-scroll::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.dark .shadcn-table-scroll::-webkit-scrollbar-track,
+.dark .table-expanded-scroll::-webkit-scrollbar-track {
+  background: #0b111e;
+}
+
+.dark .shadcn-table-scroll::-webkit-scrollbar-thumb,
+.dark .table-expanded-scroll::-webkit-scrollbar-thumb {
+  background: #25334d;
+  border-radius: 9999px;
+  border: 2px solid #0b111e;
+}
+
+.dark .shadcn-table-scroll::-webkit-scrollbar-thumb:hover,
+.dark .table-expanded-scroll::-webkit-scrollbar-thumb:hover {
+  background: #0284c7;
+}
+
+/* Expanded Table Structure & Typography */
+.shadcn-table-scroll table,
+.table-expanded-scroll table,
+table.expanded-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
+  font-variant-numeric: tabular-nums;
 }
 
-.shadcn-table-scroll th {
-  padding: 10px 14px;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  white-space: nowrap;
-}
-
-.shadcn-table-scroll td {
-  padding: 10px 14px;
-  font-size: 13px;
-  vertical-align: middle;
-}
-
-.shadcn-table-scroll thead th {
+/* Sticky Header with Frosted Glassmorphism Blur */
+.shadcn-table-scroll thead th,
+.table-expanded-scroll thead th,
+table.expanded-table thead th {
   position: sticky;
   top: 0;
-  z-index: 10;
-  backdrop-filter: blur(8px);
+  z-index: 20;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 13px 18px;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  background-color: rgba(248, 250, 252, 0.95);
+  color: #334155;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.dark .shadcn-table-scroll thead th,
+.dark .table-expanded-scroll thead th,
+.dark table.expanded-table thead th {
+  background-color: rgba(15, 23, 42, 0.96) !important;
+  color: #94a3b8 !important;
+  border-bottom: 2px solid #1e293b !important;
+}
+
+/* Table Cells (Spacious Padding & Clean Alignment) */
+.shadcn-table-scroll td,
+.table-expanded-scroll td,
+table.expanded-table td {
+  padding: 13px 18px;
+  font-size: 13px;
+  line-height: 1.5;
+  vertical-align: middle;
+  border-bottom: 1px solid #f1f5f9;
+  color: #1e293b;
+}
+
+.dark .shadcn-table-scroll td,
+.dark .table-expanded-scroll td,
+.dark table.expanded-table td {
+  border-bottom: 1px solid rgba(30, 41, 59, 0.6) !important;
+  color: #e2e8f0 !important;
+}
+
+/* Alternating Zebra Striping & Smooth Hover Highlights */
+.shadcn-table-scroll tbody tr:nth-child(even),
+.table-expanded-scroll tbody tr:nth-child(even),
+table.expanded-table tbody tr:nth-child(even) {
+  background-color: rgba(248, 250, 252, 0.55);
+}
+
+.shadcn-table-scroll tbody tr:hover,
+.table-expanded-scroll tbody tr:hover,
+table.expanded-table tbody tr:hover {
+  background-color: #f1f5f9 !important;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.dark .shadcn-table-scroll tbody tr:nth-child(even),
+.dark .table-expanded-scroll tbody tr:nth-child(even),
+.dark table.expanded-table tbody tr:nth-child(even) {
+  background-color: rgba(15, 23, 42, 0.45);
+}
+
+.dark .shadcn-table-scroll tbody tr:hover,
+.dark .table-expanded-scroll tbody tr:hover,
+.dark table.expanded-table tbody tr:hover {
+  background-color: rgba(30, 41, 59, 0.75) !important;
+  transition: background-color 0.15s ease-in-out;
 }
 
 /* ==============================================================
@@ -946,9 +1061,11 @@ body.dark .shadcn-tabs-nav {
 }
 
 html.dark body .shadcn-table-card,
-body.dark .shadcn-table-card {
+html.dark body .cyber-table-container,
+body.dark .shadcn-table-card,
+body.dark .cyber-table-container {
   border-color: #1e293b !important;
-  background-color: rgba(17, 26, 46, 0.7) !important;
+  background-color: rgba(17, 26, 46, 0.85) !important;
 }
 
 

@@ -386,24 +386,26 @@
                     </div>
                 </div>
 
-                <!-- Ledger Records Table -->
-                <div class="overflow-x-auto max-h-[520px] overflow-y-auto">
-                    <table class="w-full text-left text-xs font-mono">
-                        <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400 sticky top-0 z-10">
-                            <tr>
-                                <th class="p-3 w-40">Timeline (First / Last)</th>
-                                <th class="p-3 w-20">PID</th>
-                                <th class="p-3">Threat Name & Binary Path</th>
-                                <th class="p-3 w-28">Risk Score</th>
-                                <th class="p-3">Category & Anomalies</th>
-                                <th class="p-3 w-28">Status</th>
-                                <th class="p-3 w-32 text-right">Eradicate</th>
-                            </tr>
-                        </thead>
-                        <tbody id="threat-ledger-table-body">
-                            <!-- Populated dynamically -->
-                        </tbody>
-                    </table>
+                <!-- Ledger Records Table (Expanded Shadcn Card) -->
+                <div class="shadcn-table-card">
+                    <div class="shadcn-table-scroll">
+                        <table class="w-full text-left text-xs font-mono">
+                            <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400 sticky top-0 z-10">
+                                <tr>
+                                    <th class="p-3.5 w-44">Timeline (First / Last)</th>
+                                    <th class="p-3.5 w-24">PID</th>
+                                    <th class="p-3.5">Threat Name & Binary Path</th>
+                                    <th class="p-3.5 w-28">Risk Score</th>
+                                    <th class="p-3.5">Category & Anomalies</th>
+                                    <th class="p-3.5 w-28">Status</th>
+                                    <th class="p-3.5 w-32 text-right">Eradicate</th>
+                                </tr>
+                            </thead>
+                            <tbody id="threat-ledger-table-body">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -421,22 +423,24 @@
                     </button>
                 </div>
 
-                <div class="overflow-x-auto max-h-[500px] overflow-y-auto">
-                    <table class="w-full text-left text-xs font-mono">
-                        <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400 sticky top-0 z-10">
-                            <tr>
-                                <th class="p-3 w-44">Date & Time</th>
-                                <th class="p-3 w-36">Action Taken</th>
-                                <th class="p-3">Target / Binary Name</th>
-                                <th class="p-3 w-24">PID</th>
-                                <th class="p-3">Details & Eradication Method</th>
-                                <th class="p-3 w-28 text-right">Result</th>
-                            </tr>
-                        </thead>
-                        <tbody id="blocked-history-table-body">
-                            <!-- Populated dynamically -->
-                        </tbody>
-                    </table>
+                <div class="shadcn-table-card">
+                    <div class="shadcn-table-scroll">
+                        <table class="w-full text-left text-xs font-mono">
+                            <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400 sticky top-0 z-10">
+                                <tr>
+                                    <th class="p-3.5 w-48">Date & Time</th>
+                                    <th class="p-3.5 w-40">Action Taken</th>
+                                    <th class="p-3.5">Target / Binary Name</th>
+                                    <th class="p-3.5 w-24">PID</th>
+                                    <th class="p-3.5">Details & Eradication Method</th>
+                                    <th class="p-3.5 w-32 text-right">Result</th>
+                                </tr>
+                            </thead>
+                            <tbody id="blocked-history-table-body">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>
@@ -540,7 +544,7 @@
                 </div>
             </div>
 
-            <!-- Network Adapters & Hardware Breakdown Table -->
+            <!-- Network Adapters & Hardware Breakdown Table (Expanded Shadcn Card) -->
             <div class="cyber-card p-4 space-y-3">
                 <div class="flex items-center justify-between border-b border-slate-800 pb-2">
                     <h3 class="font-mono text-sm font-bold text-cyan-400 flex items-center gap-2">
@@ -548,22 +552,24 @@
                     </h3>
                     <span class="text-xs font-mono text-slate-400">Network Interfaces & Hardware Addresses</span>
                 </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs font-mono">
-                        <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400">
-                            <tr>
-                                <th class="p-2.5">Interface Name</th>
-                                <th class="p-2.5">IPv4 Address</th>
-                                <th class="p-2.5">MAC Address</th>
-                                <th class="p-2.5">Link Speed</th>
-                                <th class="p-2.5">Duplex Mode</th>
-                                <th class="p-2.5 text-right">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="sysinfo-adapters-tbody">
-                            <!-- Populated dynamically -->
-                        </tbody>
-                    </table>
+                <div class="shadcn-table-card">
+                    <div class="shadcn-table-scroll" style="min-height: 280px; max-height: 480px;">
+                        <table class="w-full text-left text-xs font-mono">
+                            <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400 sticky top-0 z-10">
+                                <tr>
+                                    <th class="p-3.5">Interface Name</th>
+                                    <th class="p-3.5">IPv4 Address</th>
+                                    <th class="p-3.5">MAC Address</th>
+                                    <th class="p-3.5">Link Speed</th>
+                                    <th class="p-3.5">Duplex Mode</th>
+                                    <th class="p-3.5 text-right">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sysinfo-adapters-tbody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>
@@ -631,23 +637,25 @@
                     </div>
                 </div>
 
-                <!-- Droppers Table -->
-                <div class="overflow-x-auto max-h-[400px] overflow-y-auto">
-                    <table class="w-full text-left text-xs font-mono">
-                        <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400 sticky top-0 z-10">
-                            <tr>
-                                <th class="p-2.5">Staging Zone</th>
-                                <th class="p-2.5">File Name</th>
-                                <th class="p-2.5">Full Path</th>
-                                <th class="p-2.5">Size</th>
-                                <th class="p-2.5">Modified</th>
-                                <th class="p-2.5 text-right">Risk / Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="droppers-table-body">
-                            <!-- Populated dynamically -->
-                        </tbody>
-                    </table>
+                <!-- Droppers Table (Expanded Shadcn Card) -->
+                <div class="shadcn-table-card">
+                    <div class="shadcn-table-scroll" style="min-height: 480px; max-height: 720px;">
+                        <table class="w-full text-left text-xs font-mono">
+                            <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400 sticky top-0 z-10">
+                                <tr>
+                                    <th class="p-3.5 w-44">Staging Zone</th>
+                                    <th class="p-3.5 w-48">File Name</th>
+                                    <th class="p-3.5">Full Path</th>
+                                    <th class="p-3.5 w-24">Size</th>
+                                    <th class="p-3.5 w-36">Modified</th>
+                                    <th class="p-3.5 w-36 text-right">Risk / Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="droppers-table-body">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>
@@ -809,19 +817,19 @@
                 </div>
             </div>
 
-            <!-- Live Network Sockets Table Container -->
-            <div id="net-active-container" class="cyber-card overflow-hidden">
-                <div class="overflow-x-auto max-h-[550px] overflow-y-auto">
+            <!-- Live Network Sockets Table Container (Expanded Shadcn Card) -->
+            <div id="net-active-container" class="shadcn-table-card">
+                <div class="shadcn-table-scroll">
                     <table class="w-full text-left text-xs font-mono">
                         <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400 sticky top-0 z-10">
                             <tr>
-                                <th class="p-3">Process (PID)</th>
-                                <th class="p-3">Local Socket</th>
-                                <th class="p-3">Remote Endpoint</th>
-                                <th class="p-3">Reverse DNS / Organization</th>
-                                <th class="p-3">Genuineness Verdict</th>
-                                <th class="p-3">State</th>
-                                <th class="p-3 text-right">Actions</th>
+                                <th class="p-3.5 w-40">Process (PID)</th>
+                                <th class="p-3.5 w-36">Local Socket</th>
+                                <th class="p-3.5 w-44">Remote Endpoint</th>
+                                <th class="p-3.5">Reverse DNS / Organization</th>
+                                <th class="p-3.5 w-36">Genuineness Verdict</th>
+                                <th class="p-3.5 w-24">State</th>
+                                <th class="p-3.5 w-32 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="net-table-body">
@@ -844,22 +852,24 @@
                         <i data-lucide="plus" class="w-3.5 h-3.5"></i> Block New IP
                     </button>
                 </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs font-mono">
-                        <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400">
-                            <tr>
-                                <th class="p-3">Timestamp Blocked</th>
-                                <th class="p-3">Blocked Remote IP</th>
-                                <th class="p-3">Reverse DNS / ISP</th>
-                                <th class="p-3">Firewall Rule (Netsh)</th>
-                                <th class="p-3">Reason / Details</th>
-                                <th class="p-3 text-right">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="net-blocked-table-body">
-                            <!-- Populated dynamically -->
-                        </tbody>
-                    </table>
+                <div class="shadcn-table-card">
+                    <div class="shadcn-table-scroll" style="min-height: 420px; max-height: 650px;">
+                        <table class="w-full text-left text-xs font-mono">
+                            <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400 sticky top-0 z-10">
+                                <tr>
+                                    <th class="p-3.5 w-44">Timestamp Blocked</th>
+                                    <th class="p-3.5 w-40">Blocked Remote IP</th>
+                                    <th class="p-3.5">Reverse DNS / ISP</th>
+                                    <th class="p-3.5 w-44">Firewall Rule (Netsh)</th>
+                                    <th class="p-3.5">Reason / Details</th>
+                                    <th class="p-3.5 w-28 text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="net-blocked-table-body">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>
@@ -977,9 +987,9 @@
                 </div>
             </div>
 
-            <!-- Live Web Browsing Feed Table -->
-            <div class="cyber-card overflow-hidden">
-                <div class="p-3 border-b border-slate-800 bg-slate-900/60 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <!-- Live Web Browsing Feed Table (Expanded Shadcn Card) -->
+            <div class="shadcn-table-card overflow-hidden">
+                <div class="p-3 border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/60 flex flex-col sm:flex-row items-center justify-between gap-3">
                     <div class="relative w-full sm:w-80">
                         <i data-lucide="search" class="w-4 h-4 text-slate-500 absolute left-3 top-2.5"></i>
                         <input 
@@ -987,27 +997,27 @@
                             id="traffic-search" 
                             oninput="filterTrafficTable()" 
                             placeholder="Search browsed websites..." 
-                            class="w-full bg-slate-900 border border-slate-800 rounded-lg pl-9 pr-4 py-1.5 text-xs font-mono text-white focus:outline-none focus:border-rose-500 placeholder-slate-500"
+                            class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg pl-9 pr-4 py-1.5 text-xs font-mono text-slate-900 dark:text-white focus:outline-none focus:border-rose-500 placeholder-slate-500"
                         >
                     </div>
 
                     <div class="flex items-center gap-1.5 font-mono text-xs w-full sm:w-auto">
-                        <button onclick="setTrafficFilter('all')" data-traffic-filter="all" class="traffic-filter-btn px-3 py-1 rounded bg-rose-600 text-white font-medium">All Traffic</button>
-                        <button onclick="setTrafficFilter('blocked')" data-traffic-filter="blocked" class="traffic-filter-btn px-3 py-1 rounded bg-slate-800 text-slate-400 hover:text-white">Blocked Ads</button>
-                        <button onclick="setTrafficFilter('allowed')" data-traffic-filter="allowed" class="traffic-filter-btn px-3 py-1 rounded bg-slate-800 text-slate-400 hover:text-white">Allowed Sites</button>
+                        <button onclick="setTrafficFilter('all')" data-traffic-filter="all" class="traffic-filter-btn px-3 py-1 rounded-lg bg-rose-600 text-white font-medium">All Traffic</button>
+                        <button onclick="setTrafficFilter('blocked')" data-traffic-filter="blocked" class="traffic-filter-btn px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-rose-600 dark:hover:text-white">Blocked Ads</button>
+                        <button onclick="setTrafficFilter('allowed')" data-traffic-filter="allowed" class="traffic-filter-btn px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-white">Allowed Sites</button>
                     </div>
                 </div>
 
-                <div class="overflow-x-auto max-h-[500px] overflow-y-auto">
+                <div class="shadcn-table-scroll">
                     <table class="w-full text-left text-xs font-mono">
                         <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400 sticky top-0 z-10">
                             <tr>
-                                <th class="p-3 w-44">Date & Time</th>
-                                <th class="p-3">Website / Target Domain</th>
-                                <th class="p-3 w-28">Method & Port</th>
-                                <th class="p-3 w-40">Category</th>
-                                <th class="p-3 w-28">Status</th>
-                                <th class="p-3 text-right w-36">Action</th>
+                                <th class="p-3.5 w-44">Date & Time</th>
+                                <th class="p-3.5">Website / Target Domain</th>
+                                <th class="p-3.5 w-28">Method & Port</th>
+                                <th class="p-3.5 w-40">Category</th>
+                                <th class="p-3.5 w-28">Status</th>
+                                <th class="p-3.5 text-right w-36">Action</th>
                             </tr>
                         </thead>
                         <tbody id="traffic-table-body">
@@ -1037,18 +1047,18 @@
                 </div>
             </div>
 
-            <!-- Active RMM Sessions Container -->
-            <div id="rmm-active-container" class="cyber-card overflow-hidden">
-                <div class="overflow-x-auto">
+            <!-- Active RMM Sessions Container (Expanded Shadcn Card) -->
+            <div id="rmm-active-container" class="shadcn-table-card">
+                <div class="shadcn-table-scroll" style="min-height: 480px; max-height: 720px;">
                     <table class="w-full text-left text-xs font-mono">
-                        <thead class="bg-slate-900/80 border-b border-slate-800 text-slate-400">
+                        <thead class="bg-slate-900/80 border-b border-slate-800 text-slate-400 sticky top-0 z-10">
                             <tr>
-                                <th class="p-3">Software / Tool</th>
-                                <th class="p-3">PID</th>
-                                <th class="p-3">Category</th>
-                                <th class="p-3">Executable Path</th>
-                                <th class="p-3">Network Sockets / Ports</th>
-                                <th class="p-3 text-right">Action</th>
+                                <th class="p-3.5 w-44">Software / Tool</th>
+                                <th class="p-3.5 w-24">PID</th>
+                                <th class="p-3.5 w-36">Category</th>
+                                <th class="p-3.5">Executable Path</th>
+                                <th class="p-3.5 w-44">Network Sockets / Ports</th>
+                                <th class="p-3.5 w-32 text-right">Action</th>
                             </tr>
                         </thead>
                         <tbody id="rmm-table-body">
@@ -1066,22 +1076,24 @@
                     </h3>
                     <p class="text-xs text-slate-400">Audit trail of remote control and tunneling binaries terminated or blocked by AegisShield.</p>
                 </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs font-mono">
-                        <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400">
-                            <tr>
-                                <th class="p-3">Termination Time</th>
-                                <th class="p-3">Tool / Target</th>
-                                <th class="p-3">PID</th>
-                                <th class="p-3">Remediation Action</th>
-                                <th class="p-3">Audit Details</th>
-                                <th class="p-3 text-right">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="rmm-history-table-body">
-                            <!-- Populated dynamically -->
-                        </tbody>
-                    </table>
+                <div class="shadcn-table-card">
+                    <div class="shadcn-table-scroll" style="min-height: 420px; max-height: 650px;">
+                        <table class="w-full text-left text-xs font-mono">
+                            <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400 sticky top-0 z-10">
+                                <tr>
+                                    <th class="p-3.5 w-44">Termination Time</th>
+                                    <th class="p-3.5 w-40">Tool / Target</th>
+                                    <th class="p-3.5 w-24">PID</th>
+                                    <th class="p-3.5 w-40">Remediation Action</th>
+                                    <th class="p-3.5">Audit Details</th>
+                                    <th class="p-3.5 w-28 text-right">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rmm-history-table-body">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1120,19 +1132,19 @@
                 </div>
             </div>
 
-            <!-- Active Process Explorer Table -->
-            <div id="procs-active-container" class="cyber-card overflow-hidden">
-                <div class="overflow-x-auto max-h-[550px] overflow-y-auto">
+            <!-- Active Process Explorer Table (Expanded Shadcn Card) -->
+            <div id="procs-active-container" class="shadcn-table-card">
+                <div class="shadcn-table-scroll" style="min-height: 560px; max-height: 780px;">
                     <table class="w-full text-left text-xs">
                         <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400 font-mono sticky top-0 z-10">
                             <tr>
-                                <th class="p-3 w-16">PID</th>
-                                <th class="p-3">Process Name & Path</th>
-                                <th class="p-3 w-28">Threat Level</th>
-                                <th class="p-3 w-20">CPU</th>
-                                <th class="p-3 w-24">Memory</th>
-                                <th class="p-3 w-36">User</th>
-                                <th class="p-3 text-right w-48">Actions</th>
+                                <th class="p-3.5 w-20">PID</th>
+                                <th class="p-3.5">Process Name & Path</th>
+                                <th class="p-3.5 w-32">Threat Level</th>
+                                <th class="p-3.5 w-24">CPU</th>
+                                <th class="p-3.5 w-28">Memory</th>
+                                <th class="p-3.5 w-40">User</th>
+                                <th class="p-3.5 text-right w-52">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="process-table-body">
@@ -1152,22 +1164,24 @@
                         <p class="text-xs text-slate-400">Complete historical record of all processes terminated, force-killed, or quarantined with exit receipts.</p>
                     </div>
                 </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs font-mono">
-                        <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400">
-                            <tr>
-                                <th class="p-3">Termination Time</th>
-                                <th class="p-3">Process Name</th>
-                                <th class="p-3">PID</th>
-                                <th class="p-3">Action Type</th>
-                                <th class="p-3">Remediation Details</th>
-                                <th class="p-3 text-right">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="procs-history-table-body">
-                            <!-- Populated dynamically -->
-                        </tbody>
-                    </table>
+                <div class="shadcn-table-card">
+                    <div class="shadcn-table-scroll" style="min-height: 420px; max-height: 650px;">
+                        <table class="w-full text-left text-xs font-mono">
+                            <thead class="bg-slate-900/90 border-b border-slate-800 text-slate-400 sticky top-0 z-10">
+                                <tr>
+                                    <th class="p-3.5 w-44">Termination Time</th>
+                                    <th class="p-3.5 w-44">Process Name</th>
+                                    <th class="p-3.5 w-24">PID</th>
+                                    <th class="p-3.5 w-36">Action Type</th>
+                                    <th class="p-3.5">Remediation Details</th>
+                                    <th class="p-3.5 w-28 text-right">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="procs-history-table-body">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1197,7 +1211,7 @@
                             <span id="policy-count-allowed" class="text-slate-400">0 rules</span>
                         </div>
                         <p class="text-[11px] text-slate-400 mb-3">Processes that bypass all heuristics and are never terminated.</p>
-                        <div id="policy-list-allowed" class="space-y-2 max-h-72 overflow-y-auto">
+                        <div id="policy-list-allowed" class="space-y-2 min-h-[380px] max-h-[580px] overflow-y-auto">
                             <!-- Populated dynamically -->
                         </div>
                     </div>
@@ -1213,7 +1227,7 @@
                             <span id="policy-count-blocked" class="text-slate-400">0 rules</span>
                         </div>
                         <p class="text-[11px] text-slate-400 mb-3">Processes banned by policy, flagged as Critical on sight.</p>
-                        <div id="policy-list-blocked" class="space-y-2 max-h-72 overflow-y-auto">
+                        <div id="policy-list-blocked" class="space-y-2 min-h-[380px] max-h-[580px] overflow-y-auto">
                             <!-- Populated dynamically -->
                         </div>
                     </div>
@@ -1229,7 +1243,7 @@
                             <span id="policy-count-ips" class="text-slate-400">0 rules</span>
                         </div>
                         <p class="text-[11px] text-slate-400 mb-3">Remote IPs blocked via Windows Firewall & active connection bans.</p>
-                        <div id="policy-list-ips" class="space-y-2 max-h-72 overflow-y-auto">
+                        <div id="policy-list-ips" class="space-y-2 min-h-[380px] max-h-[580px] overflow-y-auto">
                             <!-- Populated dynamically -->
                         </div>
                     </div>
@@ -1251,16 +1265,16 @@
                 </button>
             </div>
 
-            <div class="cyber-card overflow-hidden">
-                <div class="overflow-x-auto">
+            <div class="shadcn-table-card">
+                <div class="shadcn-table-scroll" style="min-height: 480px; max-height: 720px;">
                     <table class="w-full text-left text-xs font-mono">
-                        <thead class="bg-slate-900/80 border-b border-slate-800 text-slate-400">
+                        <thead class="bg-slate-900/80 border-b border-slate-800 text-slate-400 sticky top-0 z-10">
                             <tr>
-                                <th class="p-3">Entry Name</th>
-                                <th class="p-3">Location Vector</th>
-                                <th class="p-3">Target Command / Path</th>
-                                <th class="p-3">Status</th>
-                                <th class="p-3 text-right">Action</th>
+                                <th class="p-3.5 w-48">Entry Name</th>
+                                <th class="p-3.5 w-44">Location Vector</th>
+                                <th class="p-3.5">Target Command / Path</th>
+                                <th class="p-3.5 w-28">Status</th>
+                                <th class="p-3.5 w-32 text-right">Action</th>
                             </tr>
                         </thead>
                         <tbody id="persistence-table-body">
@@ -1416,7 +1430,7 @@
             </div>
 
             <div class="cyber-card p-4">
-                <div id="audit-log-container" class="space-y-2 max-h-[500px] overflow-y-auto">
+                <div id="audit-log-container" class="space-y-2 min-h-[520px] max-h-[750px] overflow-y-auto">
                     <!-- Populated dynamically -->
                 </div>
             </div>

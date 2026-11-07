@@ -461,37 +461,33 @@ This document records the exact chronological sequence of user prompts, engineer
 
 #### Engineering Response & Systematic Execution:
 1. **Regeneration of High-Definition Screenshots:**
-   - Executed [`tools/screenshot_engine.py`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/tools/screenshot_engine.py) to regenerate all 18 HD (1600x1000) operational dashboard views reflecting:
-     - Two-Level Navigation layout (Level 1 Categories &rarr; Level 2 Sub-Nav strips).
-     - Default Light Clean SOC mode with high-contrast typography and subtle glassmorphic card borders.
-     - Windows Services Control Panel (`services.msc` integration with 331+ service catalog).
-     - Modern 6px rounded scrollbars, sticky table headers, and tabular monospace numbers.
+   - Executed [`tools/screenshot_engine.py`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/tools/screenshot_engine.py) to regenerate all 18 HD (1600x1000) operational dashboard views reflecting Two-Level Navigation, Light Clean SOC mode, and Windows Services control.
 2. **Synchronization of Documentation Suite:**
-   - Synchronized [`README.md`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/README.md) with updated 67/67 automated test badges, verified screenshot matrix, and comprehensive feature breakdowns.
-   - Updated [`frontend/docs.html`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/frontend/docs.html) documentation portal with prompt history, command runbook (67 tests across 21 subsystems), and verified 18-screenshot gallery.
-   - Synchronized [`docs/SESSION_INFO.md`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/docs/SESSION_INFO.md), [`docs/SESSION_PROMPTS_AND_RESPONSES.md`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/docs/SESSION_PROMPTS_AND_RESPONSES.md), and all brain archives.
+   - Synchronized [`README.md`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/README.md), [`frontend/docs.html`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/frontend/docs.html), [`docs/SESSION_INFO.md`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/docs/SESSION_INFO.md), and [`docs/SESSION_PROMPTS_AND_RESPONSES.md`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/docs/SESSION_PROMPTS_AND_RESPONSES.md).
 3. **Automated Test Validation:**
    - Executed [`tools/test_engine.py`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/tools/test_engine.py) confirming **67/67 passed checks (100.0% success rate)** across all 21 subsystems.
 4. **Git Version Control Upstream Sync:**
    - Staged, committed, and pushed clean changes to upstream GitHub repository `origin/main`.
+
 ---
 
-### 2.17 User Request 24: Latest Screenshots, Readme & Documentation Suite Final Synchronization
+### 2.18 User Request 25: Table Size Expansion & Advanced CSS Modernization
 > **User Prompt:**  
-> *"take latest screenshots and update readme and all other places accordingly"*  
+> *"EXPAND table size , improve css."*  
 
 #### Engineering Response & Systematic Execution:
-1. **Regeneration of High-Definition Screenshots:**
-   - Executed [`tools/screenshot_engine.py`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/tools/screenshot_engine.py) to regenerate all 18 HD (1600x1000) operational dashboard views reflecting:
-     - Two-Level Navigation layout (Level 1 Categories &rarr; Level 2 Sub-Nav strips).
-     - Default Light Clean SOC mode with high-contrast typography and subtle glassmorphic card borders.
-     - Windows Services Control Panel (`services.msc` integration with 331+ service catalog).
-     - Modern 6px rounded scrollbars, sticky table headers, and tabular monospace numbers.
-2. **Synchronization of Documentation Suite:**
-   - Synchronized [`README.md`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/README.md) with updated 67/67 automated test badges, verified screenshot matrix, and comprehensive feature breakdowns.
-   - Updated [`frontend/docs.html`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/frontend/docs.html) documentation portal with prompt history, command runbook (67 tests across 21 subsystems), and verified 18-screenshot gallery.
-   - Synchronized [`docs/SESSION_INFO.md`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/docs/SESSION_INFO.md), [`docs/SESSION_PROMPTS_AND_RESPONSES.md`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/docs/SESSION_PROMPTS_AND_RESPONSES.md), and all brain archives.
-3. **Automated Test Validation:**
-   - Executed [`tools/test_engine.py`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/tools/test_engine.py) confirming **67/67 passed checks (100.0% success rate)** across all 21 subsystems.
-4. **Git Version Control Upstream Sync:**
-   - Staged, committed, and pushed clean changes to upstream GitHub repository `origin/main`.
+1. **Expanded Table Viewports & Spacious Dimensions:**
+   - Standardized all tables onto the modern `.shadcn-table-card` and `.shadcn-table-scroll` architecture.
+   - Expanded scroll container heights to `min-height: 520px; max-height: calc(100vh - 240px);` (allowing 20+ live processes, 30+ services, and dozens of network sockets and traffic logs in full view).
+   - Expanded cell padding across all tables to `13px 18px` (`py-3.5 px-4.5`), eliminating cramped tables.
+2. **Advanced Enterprise CSS Styling:**
+   - **Frosted Glass Sticky Headers:** Configured `backdrop-filter: blur(12px)` with anchored position `sticky top-0 z-20`, high-contrast text, and 2px structural borders.
+   - **Alternating Zebra Striping & Hover States:** Applied subtle alternating even-row background tints with smooth 0.15s transitions on hover for both Light Clean SOC and Dark Cyber SOC modes.
+   - **Custom 8px Ultra-Smooth Rounded Scrollbars:** Designed 8px custom pill scrollbars with border-radius `9999px` specifically tailored for table scroll containers.
+   - **Tabular Monospace Figures:** Configured `tabular-nums` on all numerical data (PIDs, ports, memory metrics, frequencies, timestamps).
+3. **Automated Verification:**
+   - Expanded [`tools/test_engine.py`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/tools/test_engine.py) with Test Suite 22 to **72 automated tests across 22 subsystems** (**100.0% pass rate**).
+   - Re-generated all **18 HD 1600x1000 screenshots** via [`tools/screenshot_engine.py`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/tools/screenshot_engine.py).
+4. **Continuous Sync & Brain Mirroring:**
+   - Created and mirrored [`brain_archive/table_expansion_and_css_enhancement_plan.md`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/brain_archive/table_expansion_and_css_enhancement_plan.md).
+

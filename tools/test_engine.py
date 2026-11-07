@@ -412,13 +412,23 @@ def run_all_tests():
     # ==============================================================
     # Test Suite 21: Two-Level Navigation & Dark Mode Toggle Resilience
     # ==============================================================
-    print(f"\n{BOLD}[21/21] Testing Two-Level Navigation & Dark Mode Toggle Resilience...{RESET}")
+    print(f"\n{BOLD}[21/22] Testing Two-Level Navigation & Dark Mode Toggle Resilience...{RESET}")
     runner.record("Level 1 Category Navigation Buttons", "category-btn" in index_content and "data-category=\"threats\"" in index_content, "Level 1 Category buttons mounted")
     runner.record("Level 2 Sub-Nav Containers", "level2-subnav" in index_content and "id=\"subnav-endpoint\"" in index_content, "Level 2 Sub-Nav containers mounted for each category")
     runner.record("Two-Level JavaScript Controller", "function switchCategory" in app_js_content and "TAB_TO_CATEGORY" in app_js_content, "switchCategory & TAB_TO_CATEGORY active in app.js")
     runner.record("Dark Mode Class Switching", "html.classList.add('dark', 'theme-dark')" in app_js_content, "setTheme correctly adds dark/theme-dark classes")
     runner.record("Dark Mode Strict CSS Priority", "html.dark body" in css_content and "body.theme-dark" in css_content, "Strict .dark overrides present in CSS")
     runner.record("Custom Table Scrollbars & Styling", ".shadcn-table-scroll" in css_content and "position: sticky" in css_content, "Custom thin scrollbars & sticky headers active")
+
+    # ==============================================================
+    # Test Suite 22: Expanded Table Architecture & Modern CSS Engine
+    # ==============================================================
+    print(f"\n{BOLD}[22/22] Testing Expanded Table Architecture & Modern CSS Engine...{RESET}")
+    runner.record("Expanded Table Viewport Heights", "min-height: 520px" in css_content and "calc(100vh - 240px)" in css_content, "Generous table viewport heights active (520px+)")
+    runner.record("Frosted Glass Sticky Headers", "backdrop-filter: blur(12px)" in css_content and "position: sticky" in css_content, "Frosted glassmorphism sticky headers configured")
+    runner.record("Alternating Zebra Striping", "tbody tr:nth-child(even)" in css_content and "hover:bg-slate-100" or "transition: background-color" in css_content, "Subtle zebra striping and hover transitions active")
+    runner.record("Universal Shadcn Table Cards in HTML", "procs-active-container\" class=\"shadcn-table-card" in index_content and "net-active-container\" class=\"shadcn-table-card" in index_content, "All major tables standardized on shadcn-table-card")
+    runner.record("Custom 8px Rounded Table Scrollbars", "width: 8px" in css_content and "border-radius: 9999px" in css_content, "Custom 8px ultra-smooth pill scrollbars active on table containers")
 
     # ==============================================================
     # Final Executive Summary

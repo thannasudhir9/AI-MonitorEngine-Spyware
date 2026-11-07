@@ -13,7 +13,7 @@
 **Upstream GitHub Remote:** `https://github.com/thannasudhir9/AI-MonitorEngine-Spyware.git` (Branch: `main`)  
 **Lead Security Engineer & Author:** Sudhir Kumar Thanna  
 **Author Attribution:** `Support with ❤️ - Sudhir Kumar Thanna`  
-**Current Deployed Version:** `v2.8.0-Enterprise-TwoLevelNav (Build 2026.11.07-STABLE)`  
+**Current Deployed Version:** `v2.9.0-Enterprise-ExpandedTables (Build 2026.11.07-STABLE)`  
 **Operating Policy:** `create, update, append - always`  
 
 ---
@@ -54,7 +54,7 @@
 
 ## 3. Automated Verification & Artifact Metrics
 
-- **Diagnostic Test Engine (`tools/test_engine.py`):** **67/67 Passed (100.0% Success Rate)** across 21 distinct subsystem test suites.
+- **Diagnostic Test Engine (`tools/test_engine.py`):** **72/72 Passed (100.0% Success Rate)** across 22 distinct subsystem test suites.
 - **High-Definition Screenshot Engine (`tools/screenshot_engine.py`):** **18 HD 1600x1000 PNG screenshots** generated in `screenshots/`.
 - **Integrated External Repositories:**
   1. `https://github.com/thannasudhir9/SystemInfoCheck` (Hardware telemetry, 24 CPU cores, RAM/swap, NIC adapters, security baseline).
