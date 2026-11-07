@@ -61,3 +61,4 @@ This plan details the systematic expansion of all tables across the application,
 5. **Screenshot Regeneration:** Execute [`tools/screenshot_engine.py`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/tools/screenshot_engine.py) for all 18 views.
 6. **Documentation Suite:** Update [`README.md`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/README.md), [`frontend/docs.html`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/frontend/docs.html), [`docs/SESSION_INFO.md`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/docs/SESSION_INFO.md), and [`docs/SESSION_PROMPTS_AND_RESPONSES.md`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/docs/SESSION_PROMPTS_AND_RESPONSES.md).
 7. **Git Push:** Stage, commit, and push upstream to `origin/main`.
+

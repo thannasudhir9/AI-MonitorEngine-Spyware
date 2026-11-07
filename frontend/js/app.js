@@ -2781,9 +2781,9 @@ function initTheme() {
 }
 
 function toggleTheme() {
-    const isDark = document.documentElement.classList.contains('dark') || 
-                   document.body.classList.contains('dark') ||
-                   document.body.classList.contains('theme-dark');
+    const isDark = document.documentElement.classList.contains('dark') ||
+        document.body.classList.contains('dark') ||
+        document.body.classList.contains('theme-dark');
     const newTheme = isDark ? 'light' : 'dark';
     setTheme(newTheme, true);
 }

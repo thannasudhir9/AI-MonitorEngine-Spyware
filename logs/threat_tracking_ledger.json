@@ -4,8 +4,8 @@
     "key": "exe_c:\\users\\temp\\suspicious_test_agent.exe",
     "first_seen": "2026-11-07T09:57:47.818831",
     "first_seen_display": "2026-11-07 09:57:47",
-    "last_seen": "2026-11-07T10:08:18.283176",
-    "last_seen_display": "2026-11-07 10:08:18",
+    "last_seen": "2026-11-07T11:37:12.431341",
+    "last_seen_display": "2026-11-07 11:37:12",
     "pid": 999999,
     "name": "suspicious_test_agent.exe",
     "exe": "C:\\Users\\Temp\\suspicious_test_agent.exe",
@@ -20,7 +20,7 @@
       }
     ],
     "status": "ERADICATED",
-    "times_observed": 4,
+    "times_observed": 5,
     "history": [
       {
         "timestamp": "2026-11-07T09:57:47.818831",
@@ -51,6 +51,12 @@
         "time_display": "2026-11-07 10:08:18",
         "action": "UNIT_TEST_KILL",
         "details": "Terminated via testing suite"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.436359",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "UNIT_TEST_KILL",
+        "details": "Terminated via testing suite"
       }
     ]
   },
@@ -59,8 +65,8 @@
     "key": "exe_c:\\program files (x86)\\anydesk\\anydesk.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T11:25:57.195539",
-    "last_seen_display": "2026-11-07 11:25:57",
+    "last_seen": "2026-11-07T11:36:32.102497",
+    "last_seen_display": "2026-11-07 11:36:32",
     "pid": 5824,
     "name": "AnyDesk.exe",
     "exe": "C:\\Program Files (x86)\\AnyDesk\\AnyDesk.exe",
@@ -88,14 +94,20 @@
         "detail": "Simultaneous listening server and public outbound connection"
       }
     ],
-    "status": "ACTIVE",
-    "times_observed": 220,
+    "status": "INACTIVE",
+    "times_observed": 255,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 100 [CRITICAL] (REMOTE CONTROL)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 5824) no longer present in process table."
       }
     ]
   },
@@ -104,8 +116,8 @@
     "key": "exe_c:\\windows\\system32\\cmd.exe",
     "first_seen": "2026-11-07T10:19:25.538882",
     "first_seen_display": "2026-11-07 10:19:25",
-    "last_seen": "2026-11-07T11:25:57.195539",
-    "last_seen_display": "2026-11-07 11:25:57",
+    "last_seen": "2026-11-07T11:36:32.102497",
+    "last_seen_display": "2026-11-07 11:36:32",
     "pid": 22948,
     "name": "cmd.exe",
     "exe": "C:\\Windows\\System32\\cmd.exe",
@@ -121,14 +133,20 @@
         "detail": "Parent process 'chrome.exe' spawned anomalous shell 'cmd.exe'."
       }
     ],
-    "status": "ACTIVE",
-    "times_observed": 230,
+    "status": "INACTIVE",
+    "times_observed": 265,
     "history": [
       {
         "timestamp": "2026-11-07T10:19:25.538882",
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 95 [CRITICAL] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 22948) no longer present in process table."
       }
     ]
   },
@@ -154,7 +172,7 @@
         "detail": "Binary imports dangerous APIs (CreateRemoteThread, GetAsyncKeyState, AdjustTokenPrivileges, OpenProcessToken)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -162,6 +180,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 60 [MEDIUM] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 1840) no longer present in process table."
       }
     ]
   },
@@ -187,7 +211,7 @@
         "detail": "Binary imports dangerous APIs (NtUnmapViewOfSection, AdjustTokenPrivileges, OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -195,6 +219,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 60 [MEDIUM] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 1892) no longer present in process table."
       }
     ]
   },
@@ -220,7 +250,7 @@
         "detail": "Binary imports dangerous APIs (CreateRemoteThread, AdjustTokenPrivileges, OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -228,6 +258,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 60 [MEDIUM] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 5480) no longer present in process table."
       }
     ]
   },
@@ -253,7 +289,7 @@
         "detail": "Binary imports dangerous APIs (SetWindowsHookExW, GetKeyboardState, BitBlt, GetDC)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 45,
     "history": [
       {
@@ -261,6 +297,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 60 [MEDIUM] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:28:40.220885",
+        "time_display": "2026-11-07 11:28:40",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 90788) no longer present in process table."
       }
     ]
   },
@@ -286,7 +328,7 @@
         "detail": "Binary imports dangerous APIs (VirtualAllocEx, WriteProcessMemory, CreateRemoteThread, GetKeyboardState)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -294,6 +336,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 60 [MEDIUM] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 17300) no longer present in process table."
       }
     ]
   },
@@ -319,7 +367,7 @@
         "detail": "Binary imports dangerous APIs (QueueUserAPC, GetAsyncKeyState, BitBlt, GetDC)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -327,6 +375,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 60 [MEDIUM] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 21168) no longer present in process table."
       }
     ]
   },
@@ -409,7 +463,7 @@
         "detail": "Binary imports dangerous APIs (CreateRemoteThread, GetAsyncKeyState, AdjustTokenPrivileges, OpenProcessToken)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -417,6 +471,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 60 [MEDIUM] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 45284) no longer present in process table."
       }
     ]
   },
@@ -442,7 +502,7 @@
         "detail": "Binary imports dangerous APIs (CreateRemoteThread, OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -450,6 +510,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 50 [MEDIUM] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 23132) no longer present in process table."
       }
     ]
   },
@@ -475,7 +541,7 @@
         "detail": "Binary imports dangerous APIs (GetAsyncKeyState, GetDC, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -483,6 +549,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 40 [LOW] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 23528) no longer present in process table."
       }
     ]
   },
@@ -508,7 +580,7 @@
         "detail": "Binary imports dangerous APIs (QueueUserAPC, OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -516,6 +588,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 40 [LOW] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 65544) no longer present in process table."
       }
     ]
   },
@@ -541,7 +619,7 @@
         "detail": "Binary imports dangerous APIs (NtUnmapViewOfSection)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -549,6 +627,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 35 [LOW] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 992) no longer present in process table."
       }
     ]
   },
@@ -574,7 +658,7 @@
         "detail": "Binary imports dangerous APIs (AdjustTokenPrivileges, OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -582,6 +666,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 35 [LOW] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 2772) no longer present in process table."
       }
     ]
   },
@@ -607,7 +697,7 @@
         "detail": "Binary imports dangerous APIs (AdjustTokenPrivileges, OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -615,6 +705,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 35 [LOW] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 5252) no longer present in process table."
       }
     ]
   },
@@ -646,7 +742,7 @@
         "detail": "Binary imports dangerous APIs (IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -654,6 +750,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 35 [LOW] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 5812) no longer present in process table."
       }
     ]
   },
@@ -679,7 +781,7 @@
         "detail": "Binary imports dangerous APIs (AdjustTokenPrivileges, OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -687,6 +789,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 35 [LOW] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 5876) no longer present in process table."
       }
     ]
   },
@@ -718,7 +826,7 @@
         "detail": "Binary imports dangerous APIs (IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -726,6 +834,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 35 [LOW] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 5904) no longer present in process table."
       }
     ]
   },
@@ -751,7 +865,7 @@
         "detail": "Binary imports dangerous APIs (AdjustTokenPrivileges, OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -759,6 +873,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 35 [LOW] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 6012) no longer present in process table."
       }
     ]
   },
@@ -784,7 +904,7 @@
         "detail": "Binary imports dangerous APIs (AdjustTokenPrivileges, OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 10,
     "history": [
       {
@@ -792,6 +912,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 35 [LOW] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 12144) no longer present in process table."
       }
     ]
   },
@@ -817,7 +943,7 @@
         "detail": "Binary imports dangerous APIs (BitBlt, GetDC, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -825,6 +951,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 35 [LOW] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 22376) no longer present in process table."
       }
     ]
   },
@@ -850,7 +982,7 @@
         "detail": "Binary imports dangerous APIs (AdjustTokenPrivileges, OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -858,6 +990,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 35 [LOW] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 30700) no longer present in process table."
       }
     ]
   },
@@ -889,7 +1027,7 @@
         "detail": "Binary imports dangerous APIs (IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -897,6 +1035,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 35 [LOW] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:28:40.220885",
+        "time_display": "2026-11-07 11:28:40",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 43880) no longer present in process table."
       }
     ]
   },
@@ -922,7 +1066,7 @@
         "detail": "Binary imports dangerous APIs (AdjustTokenPrivileges, OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -930,6 +1074,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 35 [LOW] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 80140) no longer present in process table."
       }
     ]
   },
@@ -955,7 +1105,7 @@
         "detail": "Binary imports dangerous APIs (OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 10,
     "history": [
       {
@@ -963,6 +1113,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 20 [SAFE] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 35384) no longer present in process table."
       }
     ]
   },
@@ -988,7 +1144,7 @@
         "detail": "Binary imports dangerous APIs (OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 487,
     "history": [
       {
@@ -1002,6 +1158,12 @@
         "time_display": "2026-11-07 10:43:35",
         "action": "PROCESS_TERMINATED",
         "details": "Process (PID: 92964) no longer present in process table."
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 102244) no longer present in process table."
       }
     ]
   },
@@ -1027,7 +1189,7 @@
         "detail": "Binary imports dangerous APIs (OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -1035,6 +1197,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 20 [SAFE] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 4396) no longer present in process table."
       }
     ]
   },
@@ -1060,7 +1228,7 @@
         "detail": "Binary imports dangerous APIs (OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -1068,6 +1236,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 20 [SAFE] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 6020) no longer present in process table."
       }
     ]
   },
@@ -1093,7 +1267,7 @@
         "detail": "Binary imports dangerous APIs (OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 20,
     "history": [
       {
@@ -1101,6 +1275,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 20 [SAFE] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 17568) no longer present in process table."
       }
     ]
   },
@@ -1126,7 +1306,7 @@
         "detail": "Binary imports dangerous APIs (OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -1134,6 +1314,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 20 [SAFE] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 6212) no longer present in process table."
       }
     ]
   },
@@ -1159,7 +1345,7 @@
         "detail": "Binary imports dangerous APIs (OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -1167,6 +1353,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 20 [SAFE] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 7564) no longer present in process table."
       }
     ]
   },
@@ -1192,7 +1384,7 @@
         "detail": "Binary imports dangerous APIs (OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -1200,6 +1392,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 20 [SAFE] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 7568) no longer present in process table."
       }
     ]
   },
@@ -1225,7 +1423,7 @@
         "detail": "Binary imports dangerous APIs (OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 10,
     "history": [
       {
@@ -1245,6 +1443,12 @@
         "time_display": "2026-11-07 11:08:53",
         "action": "PROCESS_TERMINATED",
         "details": "Process (PID: 96144) no longer present in process table."
+      },
+      {
+        "timestamp": "2026-11-07T11:27:08.220204",
+        "time_display": "2026-11-07 11:27:08",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 95448) no longer present in process table."
       }
     ]
   },
@@ -1270,7 +1474,7 @@
         "detail": "Binary imports dangerous APIs (OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -1278,6 +1482,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 20 [SAFE] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 21328) no longer present in process table."
       }
     ]
   },
@@ -1303,7 +1513,7 @@
         "detail": "Binary imports dangerous APIs (OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -1311,6 +1521,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 20 [SAFE] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 23920) no longer present in process table."
       }
     ]
   },
@@ -1336,7 +1552,7 @@
         "detail": "Binary imports dangerous APIs (OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -1344,6 +1560,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 20 [SAFE] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 26072) no longer present in process table."
       }
     ]
   },
@@ -1369,7 +1591,7 @@
         "detail": "Binary imports dangerous APIs (OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -1377,6 +1599,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 20 [SAFE] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 35388) no longer present in process table."
       }
     ]
   },
@@ -1402,7 +1630,7 @@
         "detail": "Binary imports dangerous APIs (OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -1410,6 +1638,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 20 [SAFE] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 66140) no longer present in process table."
       }
     ]
   },
@@ -1435,7 +1669,7 @@
         "detail": "Binary imports dangerous APIs (OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -1443,6 +1677,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 20 [SAFE] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 68128) no longer present in process table."
       }
     ]
   },
@@ -1468,7 +1708,7 @@
         "detail": "Binary imports dangerous APIs (OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -1476,6 +1716,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 20 [SAFE] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 70572) no longer present in process table."
       }
     ]
   },
@@ -1501,7 +1747,7 @@
         "detail": "Binary imports dangerous APIs (OpenProcessToken, IsDebuggerPresent)."
       }
     ],
-    "status": "ACTIVE",
+    "status": "INACTIVE",
     "times_observed": 5,
     "history": [
       {
@@ -1509,6 +1755,12 @@
         "time_display": "2026-11-07 10:19:25",
         "action": "FLAGGED",
         "details": "First detected with risk score 20 [SAFE] (SUSPICIOUS PROCESS)"
+      },
+      {
+        "timestamp": "2026-11-07T11:37:12.431341",
+        "time_display": "2026-11-07 11:37:12",
+        "action": "PROCESS_TERMINATED",
+        "details": "Process (PID: 81932) no longer present in process table."
       }
     ]
   },
