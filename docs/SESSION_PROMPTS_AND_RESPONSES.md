@@ -302,6 +302,35 @@ This document records the exact chronological sequence of user prompts, engineer
    - Mirrored updated protocols to [`brain_archive/`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/brain_archive).
    - Appended technical documentation across all files in [`docs/`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/docs) and [`README.md`](file:///c:/Users/thann/Downloads/AntiGravity/SpywareProcessMon/README.md).
 
+---
+
+### 2.12 User Request 12: Tree Kill Failure Handling (PID 5824 AnyDesk.exe) & Admin Mode Launch
+> **User Prompt:**  
+> *"Tree Kill Failed*  
+> *Failed to kill process tree: (pid=5824, name='AnyDesk.exe')*  
+> *stop and start the web app in admin mode with full prviliges"*
+
+#### Engineering Response & Systematic Execution:
+1. **Root Cause Analysis:**
+   - `AnyDesk.exe` operates as a registered Windows Service under `NT AUTHORITY\SYSTEM` token.
+   - The original `kill_process_tree` method relied solely on `psutil.Process.kill()`, which throws `psutil.AccessDenied` when standard user processes attempt to terminate SYSTEM tokens without debug privileges or service control disarming.
+   - Furthermore, `killTree` in `app.js` lacked the fallback call to `showElevatedKillModal()`.
+2. **Multi-Tier Process Tree Remediation Pipeline:**
+   - Upgraded `remediator.kill_process_tree(pid)` with a 5-tier escalation ladder:
+     1. Service detection via `get_service_for_pid(pid)` with CIM/WMI and native `tasklist /svc` fallback $\to$ `sc stop <svc>`.
+     2. Standard `psutil` child and parent termination.
+     3. Native Windows `taskkill /F /T /PID <pid>` (recursively terminating process tree).
+     4. PowerShell `Stop-Process -Id <pid> -Force`.
+     5. Elevated UAC prompt with `-Wait`: `Start-Process taskkill -ArgumentList '/F /T /PID <pid>' -Verb RunAs -Wait`.
+   - Wired `killTree()` in `frontend/js/app.js` to trigger `#elevated-kill-modal` upon encountering access denial.
+3. **Admin Launchers & Server Cycle:**
+   - Cancelled background daemon task `task-926` (PID 69360) and released ports 8888 & 8080.
+   - Updated `start_all_admin.bat` and `start_dashboard_admin.bat` with `/k` interactive elevated launchers.
+   - Restarted AegisShield server daemon `task-1403` (PID 88904) on `http://127.0.0.1:8888`.
+4. **Subsystem Validation:**
+   - Verified all 33 diagnostic tests pass (100% success rate).
+
+
 
 
 

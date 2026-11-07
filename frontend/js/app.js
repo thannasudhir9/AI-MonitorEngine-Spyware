@@ -1488,6 +1488,9 @@ async function killTree(pid, name) {
             if (state.activeTab === 'network') loadNetworkTracer();
         } else {
             showToast('Tree Kill Failed', data.message, 'danger');
+            if (data.requires_admin || (data.message && (data.message.includes('Access denied') || data.message.includes('rights required')))) {
+                showElevatedKillModal(pid, name, data.service_name, data.message);
+            }
         }
     } catch (e) {
         showToast('Error', 'Communication error', 'danger');

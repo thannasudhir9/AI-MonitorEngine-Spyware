@@ -147,9 +147,20 @@ class ThreatRemediator:
         """Detect if target PID belongs to a registered Windows Service."""
         try:
             cmd = f"Get-CimInstance Win32_Service | Where-Object {{ $_.ProcessId -eq {pid} }} | Select-Object -ExpandProperty Name"
-            res = subprocess.run(["powershell", "-NoProfile", "-Command", cmd], capture_output=True, text=True, timeout=2.5)
+            res = subprocess.run(["powershell", "-NoProfile", "-Command", cmd], capture_output=True, text=True, timeout=2.0)
             svc = res.stdout.strip()
-            return svc if svc else None
+            if svc:
+                return svc
+
+            # Fallback: query via native tasklist /svc
+            tk = subprocess.run(["tasklist", "/svc", "/fi", f"PID eq {pid}", "/fo", "csv", "/nh"], capture_output=True, text=True, timeout=2.0)
+            if tk.stdout:
+                parts = tk.stdout.strip().replace('"', '').split(',')
+                if len(parts) >= 3:
+                    candidate = parts[2].strip()
+                    if candidate.lower() not in ["n/a", "none", ""]:
+                        return candidate
+            return None
         except Exception:
             return None
 
@@ -291,47 +302,124 @@ class ThreatRemediator:
 
     def kill_process_tree(self, pid: int, reason: str = "Tree Eradication") -> Dict[str, Any]:
         """
-        Recursively discover and terminate a parent process and all its children.
+        Recursively discover and terminate a parent process and all its children
+        with multi-tier failover (sc stop, taskkill /F /T, PowerShell, UAC elevation).
         """
         try:
             if not psutil.pid_exists(pid):
                 return {"success": False, "message": f"Process PID {pid} does not exist."}
 
-            parent = psutil.Process(pid)
-            parent_name = parent.name()
+            try:
+                parent = psutil.Process(pid)
+                parent_name = parent.name()
+            except (psutil.NoSuchProcess, psutil.AccessDenied):
+                parent_name = f"PID:{pid}"
 
-            if self.is_protected(parent):
-                return {"success": False, "message": f"Process '{parent_name}' is a protected core system component."}
-
-            # Gather all children recursively
-            children = parent.children(recursive=True)
-            killed_list = []
-
-            # Kill children first
-            for child in children:
+            if psutil.pid_exists(pid):
                 try:
-                    c_name = child.name()
-                    c_pid = child.pid
-                    if not self.is_protected(child):
-                        child.kill()
-                        killed_list.append(f"{c_name} (PID: {c_pid})")
+                    proc_check = psutil.Process(pid)
+                    if self.is_protected(proc_check):
+                        return {"success": False, "message": f"Process '{parent_name}' is a protected core system component."}
                 except (psutil.NoSuchProcess, psutil.AccessDenied):
-                    continue
+                    pass
 
-            # Kill parent
-            parent.kill()
-            killed_list.append(f"{parent_name} (PID: {pid})")
+            # Tier 1: Check if this PID is managed by a Windows Service (e.g., AnyDesk, TeamViewer)
+            svc_name = self.get_service_for_pid(pid)
+            if svc_name:
+                try:
+                    subprocess.run(["sc", "stop", svc_name], capture_output=True, text=True, timeout=2.5)
+                    time.sleep(0.4)
+                    if not psutil.pid_exists(pid):
+                        details = f"{reason}. Stopped host Windows Service '{svc_name}'."
+                        self.log_event("PROCESS_TREE_KILLED", parent_name, pid, details, "SUCCESS")
+                        return {
+                            "success": True,
+                            "message": f"Successfully stopped Windows Service '{svc_name}' hosting process tree for '{parent_name}' (PID: {pid}).",
+                            "killed_processes": [f"{parent_name} (Service: {svc_name})"],
+                            "service_name": svc_name
+                        }
+                except Exception:
+                    pass
 
-            details = f"Terminated tree of {len(killed_list)} processes: {', '.join(killed_list)}"
-            self.log_event("PROCESS_TREE_KILLED", parent_name, pid, details, "SUCCESS")
+            killed_list = []
+            # Tier 2: Attempt standard psutil child + parent kill
+            try:
+                parent = psutil.Process(pid)
+                children = parent.children(recursive=True)
+                for child in children:
+                    try:
+                        c_name = child.name()
+                        c_pid = child.pid
+                        if not self.is_protected(child):
+                            child.kill()
+                            killed_list.append(f"{c_name} (PID: {c_pid})")
+                    except (psutil.NoSuchProcess, psutil.AccessDenied):
+                        continue
+                parent.kill()
+                killed_list.append(f"{parent_name} (PID: {pid})")
+            except (psutil.NoSuchProcess, psutil.AccessDenied):
+                pass
 
+            time.sleep(0.3)
+            if not psutil.pid_exists(pid):
+                details = f"Terminated tree of {len(killed_list)} processes: {', '.join(killed_list)}"
+                self.log_event("PROCESS_TREE_KILLED", parent_name, pid, details, "SUCCESS")
+                return {
+                    "success": True,
+                    "message": f"Successfully eradicated process tree ({len(killed_list)} processes killed).",
+                    "killed_processes": killed_list
+                }
+
+            # Tier 3: Native Windows taskkill with /T (Tree) and /F (Force)
+            tk_res = subprocess.run(["taskkill", "/F", "/T", "/PID", str(pid)], capture_output=True, text=True)
+            time.sleep(0.3)
+            if not psutil.pid_exists(pid) or tk_res.returncode == 0:
+                self.log_event("PROCESS_TREE_KILLED", parent_name, pid, f"{reason}. Eradicated via native taskkill /F /T.", "SUCCESS")
+                return {
+                    "success": True,
+                    "message": f"Successfully eradicated process tree for '{parent_name}' (PID: {pid}) via native taskkill.",
+                    "killed_processes": [f"{parent_name} (PID: {pid})"]
+                }
+
+            # Tier 4: PowerShell Stop-Process -Force
+            ps_cmd = f"Stop-Process -Id {pid} -Force -ErrorAction SilentlyContinue"
+            subprocess.run(["powershell", "-NoProfile", "-Command", ps_cmd], capture_output=True, text=True)
+            time.sleep(0.3)
+            if not psutil.pid_exists(pid):
+                self.log_event("PROCESS_TREE_KILLED", parent_name, pid, f"{reason}. Eradicated via PowerShell force.", "SUCCESS")
+                return {
+                    "success": True,
+                    "message": f"Successfully eradicated process tree for '{parent_name}' (PID: {pid}) via PowerShell force.",
+                    "killed_processes": [f"{parent_name} (PID: {pid})"]
+                }
+
+            # Tier 5: Interactive UAC Elevation with -Wait
+            uac_cmd = f"Start-Process taskkill -ArgumentList '/F /T /PID {pid}' -Verb RunAs -Wait -WindowStyle Hidden"
+            subprocess.run(["powershell", "-NoProfile", "-Command", uac_cmd], capture_output=True, text=True)
+            time.sleep(0.8)
+            if not psutil.pid_exists(pid):
+                self.log_event("PROCESS_TREE_KILLED", parent_name, pid, f"{reason}. Eradicated via Administrator UAC.", "SUCCESS")
+                return {
+                    "success": True,
+                    "message": f"Successfully eradicated process tree for '{parent_name}' (PID: {pid}) via Administrator UAC.",
+                    "killed_processes": [f"{parent_name} (PID: {pid})"]
+                }
+
+            # If still alive, report elevation guidance & service name
+            details_msg = f"Access denied. Process tree '{parent_name}' (PID: {pid}) is protected by Windows SYSTEM/Service token."
+            if svc_name:
+                details_msg += f" Hosted in Windows Service: '{svc_name}'."
+            self.log_event("KILL_FAILED", parent_name, pid, details_msg, "FAILED")
             return {
-                "success": True,
-                "message": f"Successfully eradicated process tree ({len(killed_list)} processes killed).",
-                "killed_processes": killed_list
+                "success": False,
+                "message": f"Access denied for process tree '{parent_name}' (PID: {pid}). Elevated administrator rights required.",
+                "requires_admin": True,
+                "pid": pid,
+                "name": parent_name,
+                "service_name": svc_name
             }
 
-        except (psutil.NoSuchProcess, psutil.AccessDenied) as e:
+        except Exception as e:
             return {"success": False, "message": f"Failed to kill process tree: {str(e)}"}
 
     def kill_all_threats(self, detected_threats: List[Dict[str, Any]], min_score: int = SCORE_MEDIUM) -> Dict[str, Any]:
