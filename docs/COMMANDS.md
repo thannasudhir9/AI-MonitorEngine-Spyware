@@ -172,3 +172,25 @@ netsh advfirewall firewall show rule name=all | Select-String "AegisShield" -Con
 netstat -ano | findstr "8888 8080"
 ```
 
+---
+
+## 6. Git Version Control & Upstream Sync Commands
+
+```bash
+# Check repository status
+git status
+
+# Stage all files, documentation, and brain archives
+git add .
+
+# Create a timestamped synchronization commit
+git commit -m "Update & sync: AegisShield EDR and AdBlocker suite"
+
+# Push updates to upstream main branch on GitHub
+git push origin main
+
+# Pull latest changes from upstream
+git pull origin main
+```
+
+

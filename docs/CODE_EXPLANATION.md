@@ -224,3 +224,44 @@ Allows operators and evaluators to safely test AegisShield's detection, alerting
 2. **`encoded_cmdline`:** Spawns a background process with `-enc` and `-w hidden` parameters.
 3. **`rmm_beacon`:** Spawns a benign local loopback listener on port `5900` mimicking a VNC server.
 
+---
+
+## 11. Master Diagnostic & Testing Engine (`tools/test_engine.py`)
+
+### 11.1 TestRunner Architecture
+The `TestRunner` class provides an isolated, assertions-based verification harness executing sequential unit, integration, and E2E checks:
+- Tracks total passed and failed checks.
+- Formats terminal output with ANSI color codes (`\033[92m` for PASS, `\033[91m` for FAIL).
+- Exits with returncode `0` on 100% pass, or `1` on any failure for CI/CD integration.
+
+### 11.2 The 9 Diagnostic Suites
+1. **Threat Detection & Heuristics:** Enumerates running processes and evaluates masquerading rules.
+2. **Process Eradication:** Spawns a simulated threat and executes forced kernel-level termination, verifying PID cleanup.
+3. **Access Control Policy:** Adds and tests Allowlist (whitelist) and Blocklist (blacklist) rules, verifying in-memory set matching and persistent cleanup.
+4. **Network Origin Tracer:** Validates RFC 1918 private LAN classification and verified Cloud CDN classification (Google DNS `8.8.8.8`).
+5. **AdBlock Rules:** Evaluates commercial ad domains (`adservice.google.com`, `ad.doubleclick.net`, `criteo.com`) and clean domains (`github.com`).
+6. **Intercepting Proxy Socket Test:** Starts `AdBlockProxyServer` on `127.0.0.1:8080`, probes listener socket, and checks domain interception.
+7. **Web Traffic Logging & Analytics:** Simulates request logging, timestamp recording, and verifies analytics metrics calculation.
+8. **Email Report Generation:** Validates HTML compilation and presence of executive headers.
+9. **UI Screenshot Verification:** Confirms all 10 visual PNG captures exist in `screenshots/` and have valid file sizes (>10 KB).
+
+---
+
+## 12. High-Definition Screenshot Engine (`tools/screenshot_engine.py`)
+
+### 12.1 Purpose & Sandbox Immunity
+Automated browser screenshot utilities (Puppeteer, Playwright, Selenium, Headless Chrome) frequently fail inside restricted Windows sandbox environments due to rendering pipe and process isolation limits.
+`tools/screenshot_engine.py` circumvents this limitation entirely by utilizing Pillow (`PIL`) to programmatically render 1600x1000 pixel high-definition visual representations of all 10 dashboard states:
+- Employs dark cyber SOC color palettes (`(8, 12, 20)` deep obsidian background, `(6, 182, 212)` neon cyan accents, `(239, 68, 68)` critical red badges, `(16, 185, 129)` emerald safe indicators).
+- Draws HUD headers, active view tabs, live KPI metrics cards, and structured tables with telemetry badges.
+- Exports production-ready PNGs directly into `screenshots/`.
+
+---
+
+## 13. Persistent Synchronization Policy
+
+In accordance with the "Update & Append Always" directive:
+- Every execution cycle preserves agent state and session artifacts into `brain_archive/`.
+- All architectural updates, CLI commands, and database structures are maintained across `docs/` and synced upstream to GitHub.
+
+

@@ -1,0 +1,5 @@
+Command exited with code 0.
+
+Command output:
+origin	https://github.com/thannasudhir9/AI-MonitorEngine-Spyware.git (fetch)
+origin	https://github.com/thannasudhir9/AI-MonitorEngine-Spyware.git (push)

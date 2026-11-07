@@ -184,3 +184,20 @@ SpywareProcessMon/
 }
 ```
 
+---
+
+## 4. Version Control & Continuous Maintenance Assets
+
+### 4.1 Git & Upstream Repository
+- **Remote URL:** `https://github.com/thannasudhir9/AI-MonitorEngine-Spyware.git`
+- **Tracked Branch:** `main`
+- **Protection File (`.gitignore`):** Excludes Python bytecode caches (`__pycache__`), quarantine files (`quarantine/*` except `.gitkeep`), and OS artifacts, ensuring clean repository clones across development environments.
+
+### 4.2 Batch Automation Suite
+- `start_all.bat`: Concurrently initializes both the EDR web server (`:8888`) and the AdBlock proxy (`:8080`).
+- `start_dashboard.bat`: Starts the backend server and opens the SOC cyber console.
+- `start_adblocker.bat`: Runs the high-performance intercepting web proxy.
+- `run_tests.bat`: Executes the 22-step master diagnostic test runner.
+- `generate_screenshots.bat`: Renders fresh 1600x1000 UI state captures into `screenshots/`.
+
+

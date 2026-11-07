@@ -1,0 +1,13 @@
+Command exited with code 0.
+
+Command output:
+
+
+    Directory: C:\Users\thann\Downloads\AntiGravity\SpywareProcessMon
+
+
+Mode                 LastWriteTime         Length Name                                                                 
+----                 -------------         ------ ----                                                                 
+-a----        07-11-2026     07:07            621 start_dashboard.bat                                                  
+
+

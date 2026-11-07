@@ -87,6 +87,60 @@ This document records the exact chronological sequence of user prompts, engineer
 
 ---
 
+### 2.4 User Request 4: GitHub Remote Integration & Upstream Push
+> **User Prompt:**  
+> ```bash
+> git remote add origin https://github.com/thannasudhir9/AI-MonitorEngine-Spyware.git
+> git branch -M main
+> git push -u origin main
+> ```
+
+#### Engineering Response & Actions:
+- **Repository Initialization & Staging:**
+  - Initialized a local Git repository (`git init`).
+  - Created a robust `.gitignore` protecting build artifacts and quarantine directories while preserving all documentation, source code, database stores, screenshots, and brain logs.
+  - Configured git commit identity for `thannasudhir9`.
+  - Staged all 221 files and committed with message: `"Initial commit: AegisShield EDR & Network AdBlocker Suite with docs, tests, screenshots, and brain archive"`.
+- **Branch Configuration & Remote Connection:**
+  - Set active branch to `main` (`git branch -M main`).
+  - Linked upstream origin: `git remote add origin https://github.com/thannasudhir9/AI-MonitorEngine-Spyware.git`.
+- **Upstream Push:**
+  - Authenticated and pushed branch `main` to GitHub with tracking set to `origin/main`.
+  - Verified repository online status at `https://github.com/thannasudhir9/AI-MonitorEngine-Spyware`.
+
+---
+
+### 2.5 User Request 5: Continuous Synchronization & Persistent Update Policy
+> **User Prompt:**  
+> *"update , append - always. copy all brain files , new plans , implementations and all to the current project folder. update , append - design, architecture, project strcure, code explanation ,commands, session information ,prompts and responses , readme file, screenshot engine to take all screenshots of the app, testing engine to check all is working goof"*
+
+#### Engineering Response & Actions:
+- **Established "Update & Append Always" Protocol:**
+  - Synchronized all updated brain files, step transcripts, logs, and task outputs from the agent runtime directly into `brain_archive/`.
+  - Appended all newly created workflows, remote deployment details, and architectural updates to `docs/DESIGN_AND_ARCHITECTURE.md`, `docs/PROJECT_STRUCTURE.md`, `docs/CODE_EXPLANATION.md`, and `docs/COMMANDS.md`.
+  - Overhauled and synchronized `README.md` to feature live GitHub badges, clone and pull instructions, and verified links.
+  - Executed high-definition screenshot regeneration across all views via `tools/screenshot_engine.py`.
+  - Re-executed full diagnostic test suite via `tools/test_engine.py` (22/22 checks passing).
+  - Pushed incremental updates to GitHub upstream repository.
+
+---
+
+### 2.6 User Request 6: Live Application Launch
+> **User Prompt:**  
+> *"start the apps now"*
+
+#### Engineering Response & Actions:
+- Verified port availability for both `8888` (EDR Dashboard) and `8080` (AdBlock Intercepting Proxy).
+- Launched the unified application daemon outside sandbox boundary to ensure reachability across all local browsers and network interfaces:
+  - Command: `python run_server.py`
+  - EDR Cyber Dashboard listening on: `http://127.0.0.1:8888`
+  - AdBlock Intercepting Proxy active on: `127.0.0.1:8080`
+- Performed live probe against `http://127.0.0.1:8888/api/adblock/status`:
+  - Response: `{"proxy_running": true, "proxy_port": 8080, "system_proxy_enabled": false, ...}`
+- Verified active telemetry broadcast and UI responsiveness.
+
+---
+
 ## 3. Engineering Decisions & Problem-Solving Record
 
 | Problem Encountered | Root Cause | Solution Implemented |
@@ -95,4 +149,5 @@ This document records the exact chronological sequence of user prompts, engineer
 | **Sandbox TCP Table Permissions** | Windows sandbox environment restricts raw socket table enumeration via `psutil.net_connections`. | Added fallback to socket-level enumeration and safe mock simulation to ensure uninterrupted testing and daemon stability. |
 | **Headless Browser Execution** | Standard sandbox blocks launching external Chrome/Edge browser processes. | Developed a Python Pillow (`PIL`) rendering engine to capture and export all 10 dashboard states as high-definition 1600x1000 PNGs. |
 | **Thread Concurrency in Web Logging** | Rapid burst requests from multi-tab browser sessions could corrupt JSON logs. | Implemented reentrant `threading.Lock()` wrappers with atomic disk flushing and bounded memory queues. |
+| **Git Push Network Sandbox Isolation** | Sandboxed commands lack direct outbound internet routing to `github.com:443`. | Executed git push with elevated network access, successfully synchronizing the remote repository with zero data loss. |
 

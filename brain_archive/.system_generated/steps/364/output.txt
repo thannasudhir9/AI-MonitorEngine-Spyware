@@ -1,0 +1,21 @@
+Command exited with code 0.
+
+Command output:
+
+
+    Directory: C:\Users\thann\Downloads\AntiGravity\SpywareProcessMon
+
+
+Mode                 LastWriteTime         Length Name                                                                 
+----                 -------------         ------ ----                                                                 
+d-----        07-11-2026     07:23                backend                                                              
+d-----        07-11-2026     07:32                brain_archive                                                        
+d-----        07-11-2026     07:24                database                                                             
+d-----        07-11-2026     07:34                docs                                                                 
+d-----        07-11-2026     07:04                frontend                                                             
+d-----        07-11-2026     07:04                logs                                                                 
+d-----        07-11-2026     07:04                quarantine                                                           
+d-----        07-11-2026     07:31                screenshots                                                          
+d-----        07-11-2026     07:26                tools                                                                
+
+

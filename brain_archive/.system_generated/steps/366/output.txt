@@ -1,0 +1,21 @@
+Command exited with code 0.
+
+Command output:
+
+
+    Directory: C:\Users\thann\Downloads\AntiGravity\SpywareProcessMon
+
+
+Mode                 LastWriteTime         Length Name                                                                 
+----                 -------------         ------ ----                                                                 
+-a----        07-11-2026     07:15          11536 cli_scanner.py                                                       
+-a----        07-11-2026     07:36            342 generate_screenshots.bat                                             
+-a----        07-11-2026     07:35          10441 README.md                                                            
+-a----        07-11-2026     07:07             92 requirements.txt                                                     
+-a----        07-11-2026     07:07           1353 run_server.py                                                        
+-a----        07-11-2026     07:36            325 run_tests.bat                                                        
+-a----        07-11-2026     07:36            716 start_adblocker.bat                                                  
+-a----        07-11-2026     07:36            769 start_all.bat                                                        
+-a----        07-11-2026     07:07            621 start_dashboard.bat                                                  
+
+

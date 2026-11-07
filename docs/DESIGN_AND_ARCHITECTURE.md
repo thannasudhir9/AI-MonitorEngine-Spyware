@@ -244,3 +244,26 @@ sequenceDiagram
 - **Screenshots Directory:** `screenshots/` (Visual captures).
 - **Brain Archive:** `brain_archive/` (Full conversation, transcript, plan preservation).
 
+---
+
+## 6. Continuous Synchronization & Upstream Architecture
+
+```mermaid
+flowchart LR
+    DevSession["AI Coding Session\n(Runtime Agent)"] -->|Transcripts & Logs| Brain["Agent Brain\n(.gemini/antigravity/brain)"]
+    Brain -->|Auto Sync & Mirror| Archive["brain_archive/\n(Project Folder)"]
+    DevSession -->|Generate & Verify| TestEngine["tools/test_engine.py\n(22/22 Automated Tests)"]
+    DevSession -->|Render 1600x1000 PNGs| ScreenEngine["tools/screenshot_engine.py\n(screenshots/)"]
+    TestEngine --> GitCommit["Git Staging & Commit"]
+    ScreenEngine --> GitCommit
+    Archive --> GitCommit
+    GitCommit -->|Push main| GitHub["GitHub Remote Repository\nthannasudhir9/AI-MonitorEngine-Spyware"]
+```
+
+### 6.1 Persistent Update & Append Policy
+- **Bidirectional Integrity:** Any modified or new feature is subjected to automated validation by `tools/test_engine.py` before inclusion.
+- **Brain Mirroring:** High-resolution logs, session metadata, subagent interactions, and planning artifacts are preserved inside `brain_archive/`.
+- **Visual Evidence Pipeline:** All frontend UI views are rendered into static, high-resolution PNG captures in `screenshots/` for instant visual inspection without headless browser dependency.
+- **Upstream Synchronization:** All commits, documentation revisions, and architecture updates are pushed to the official repository at `https://github.com/thannasudhir9/AI-MonitorEngine-Spyware.git`.
+
+

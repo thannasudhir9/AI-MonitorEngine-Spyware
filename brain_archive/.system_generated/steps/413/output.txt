@@ -1,0 +1,19 @@
+Command exited with code 0.
+
+Command output:
+
+
+    Directory: C:\Users\thann\Downloads\AntiGravity\SpywareProcessMon\brain_archive
+
+
+Mode                 LastWriteTime         Length Name                                                                 
+----                 -------------         ------ ----                                                                 
+d-----        07-11-2026     07:21                .system_generated                                                    
+d-----        07-11-2026     07:21                .user_uploaded                                                       
+d-----        07-11-2026     07:21                scratch                                                              
+-a----        07-11-2026     07:21           8263 adblocker_plan.md                                                    
+-a----        07-11-2026     07:21            592 adblocker_plan.md.metadata.json                                      
+-a----        07-11-2026     07:07           9989 plan.md                                                              
+-a----        07-11-2026     07:07            542 plan.md.metadata.json                                                
+
+

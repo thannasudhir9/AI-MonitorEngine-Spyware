@@ -1,5 +1,15 @@
 [
   {
+    "id": "evt_1794034101486",
+    "timestamp": "2026-11-07T07:48:21.486613",
+    "time_display": "2026-11-07 07:48:21",
+    "action": "PROCESS_KILLED",
+    "target": "python.exe",
+    "pid": 7136,
+    "details": "Test Engine Kill. Successfully terminated.",
+    "status": "SUCCESS"
+  },
+  {
     "id": "evt_1794033363252",
     "timestamp": "2026-11-07T07:36:03.252408",
     "time_display": "2026-11-07 07:36:03",

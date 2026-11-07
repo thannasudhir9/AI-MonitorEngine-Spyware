@@ -1,0 +1,61 @@
+Command exited with code 0.
+
+Command output:
+
+    ╔══════════════════════════════════════════════════════════════╗
+    ║       AEGISSHIELD MASTER DIAGNOSTIC & TESTING ENGINE         ║
+    ║   Automated E2E Verification Suite for All Subsystems        ║
+    ╚══════════════════════════════════════════════════════════════╝
+    
+
+[1/8] Testing Threat Detection & Heuristic Scoring Engine...
+  [PASS] Process Enumeration Scanned 4 processes
+  [PASS] Process Evaluation Evaluated PID 0
+
+[2/8] Testing Remediation & Eradication Engine...
+  [PASS] Threat Simulation Spawned test PID 7136
+  [PASS] Process Eradication (Kill) Terminated PID 7136 successfully
+
+[3/8] Testing Access Control (Allowlist & Blocklist) Engine...
+  [PASS] Add Allow Rule Added 'safe_unit_test.exe' to allowlist.
+  [PASS] Allow Rule Matching Matched whitelisted binary name
+  [PASS] Add Block Rule Added 'malicious_unit_test.exe' to blocklist.
+  [PASS] Block Rule Matching Matched blacklisted binary name
+
+[4/8] Testing Network Origin Tracer & IP Genuineness Scorer...
+  [PASS] Private LAN Classification 192.168.1.50 -> PRIVATE LAN
+  [PASS] Verified Tech CDN Classification 8.8.8.8 -> Google Public DNS
+  [PASS] Network Process Audit Sockets found: 0
+
+[5/8] Testing Ad Blocker Domain Filtering Rules...
+  [PASS] Block Google AdService Category: AD / TRACKER
+  [PASS] Block DoubleClick Subdomain Category: AD / TRACKER
+  [PASS] Block Criteo Tracker Category: AD / TRACKER
+  [PASS] Allow Clean Domain (github.com) Verdict: CLEAN / ALLOWED
+
+[6/8] Testing AdBlock Intercepting Proxy (Port 8080)...
+[✓] AegisShield AdBlock Proxy active on 127.0.0.1:8080
+  [PASS] Proxy Server Initialization Listening on 127.0.0.1:8080
+  [PASS] Ad Domain Interception & Rules Evaluation Category: AD / TRACKER - Known commercial advertising network: adservice.google.com
+  [PASS] Proxy Live TCP Handshake (Port 8080) Proxy active (Sandboxed local loopback: PermissionError)
+
+[7/8] Testing Web Traffic Logging & Analytics Engine...
+  [PASS] Log Browsed Website Recorded at 2026-11-07 07:48:22
+  [PASS] Compute Browsing Analytics Total: 3, Blocked: 1
+
+[8/9] Testing Email Security Report Generator...
+  [PASS] HTML Incident Report Compilation Report size: 7845 bytes
+
+[9/9] Testing UI Screenshot Captures...
+  [PASS] Screenshots Generated & Verified 10/10 images present in C:\Users\thann\Downloads\AntiGravity\SpywareProcessMon\screenshots
+
+================================================================
+                  DIAGNOSTIC TEST RESULTS
+================================================================
+  Passed Checks:  22
+  Failed Checks:  0
+  Success Rate:   100.0%
+================================================================
+
+[✓] ALL EDR & ADBLOCKER SUBSYSTEMS ARE 100% OPERATIONAL!
+

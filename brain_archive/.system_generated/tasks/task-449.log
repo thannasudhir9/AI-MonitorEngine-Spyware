@@ -1,0 +1,17 @@
+INFO:     Started server process [35612]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8888 (Press CTRL+C to quit)
+
+    ===============================================================
+       AEGISSHIELD - CYBER PROCESS MONITOR & THREAT ERADICATOR
+    ===============================================================
+    [*] Dashboard Web UI: http://127.0.0.1:8888
+    [*] API Docs:         http://127.0.0.1:8888/docs
+    [*] Press Ctrl+C to stop the monitoring server.
+    ===============================================================
+    
+[✓] AegisShield AdBlock Proxy active on 127.0.0.1:8080
+
+[✓] Launching AegisShield Dashboard: http://127.0.0.1:8888
+INFO:     127.0.0.1:63562 - "GET /api/adblock/status HTTP/1.1" 200 OK
